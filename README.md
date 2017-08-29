@@ -1,6 +1,8 @@
 # JsonToKotlinClass
 A plugin for Kotlin generate Kotlin data class code from a json string
 
+A plugin for Kotlin to convert Json String into Kotlin data class code 
+
 ### How to use
 * Search 'JsonToKotlin' in Intellij Idea Plugin Repositroy Or AndroidStudio Repository And Install it.
 * Restart your Develop tools 
