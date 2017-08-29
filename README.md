@@ -11,3 +11,6 @@ A plugin for Kotlin generate Kotlin data class code from a json string
 
 ### More Detail Document
 http://blog.csdn.net/wuseal/article/details/77508585
+
+### Others
+Welcome anyone to push a pull request to improve the plugin.
