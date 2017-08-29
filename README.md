@@ -4,7 +4,7 @@ A plugin for Kotlin generate Kotlin data class code from a json string
 ### How to use
 * Search 'JsonToKotlin' in Intellij Idea Plugin Repositroy Or AndroidStudio Repository And Install it.
 * Restart your Develop tools 
-* Press ALT + Key And Then you will know how to use
+* Press short key ALT + K And Then you will know how to use
 
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17276.png)
 
