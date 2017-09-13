@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by Seal.Wu on 2017/8/18.
@@ -79,8 +80,22 @@ public class MakeKotlinClassAction extends AnAction {
                 }
 
                 myField = createTextFieldComponent();
-                messagePanel.add(createScrollableTextComponent(), BorderLayout.SOUTH);
 
+
+                messagePanel.add(createScrollableTextComponent(), BorderLayout.CENTER);
+                JButton settingButton = new JButton("Config Settings");
+                settingButton.addActionListener(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        new ConfigSettingDialog(false).show();
+                    }
+                });
+                JPanel settingContainer = new JPanel();
+                BoxLayout boxLayout = new BoxLayout(settingContainer, BoxLayout.LINE_AXIS);
+                settingContainer.setLayout(boxLayout);
+                settingButton.setHorizontalAlignment(SwingConstants.RIGHT);
+                settingContainer.add(settingButton);
+                messagePanel.add(settingContainer, BorderLayout.SOUTH);
                 return messagePanel;
             }
 

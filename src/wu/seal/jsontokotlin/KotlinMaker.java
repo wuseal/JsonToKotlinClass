@@ -144,7 +144,8 @@ public class KotlinMaker {
     }
 
     private void addProperty(StringBuilder stringBuilder, String property, String type, String value) {
-        stringBuilder.append("\t\tvar ").append(property).append(": ").append(type).append(",");
+        String propertyKeyword = PropertyKeyword.INSTANCE.get();
+        stringBuilder.append("\t\t" + propertyKeyword + " ").append(property).append(": ").append(type).append(",");
         if (value != null) {
             stringBuilder.append("// ").append(value).append("\n");
         } else {
