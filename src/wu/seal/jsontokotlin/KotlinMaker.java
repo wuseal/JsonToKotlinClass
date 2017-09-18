@@ -4,6 +4,7 @@ import com.google.gson.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,7 +65,7 @@ public class KotlinMaker {
             String type = "String";
             if (jsonElementValue.isJsonArray()) {
                 type = getArrayType(property, (JsonArray) jsonElementValue);
-                addProperty(stringBuilder, property, type, null);
+                addProperty(stringBuilder, property, type, "");
             } else if (jsonElementValue.isJsonPrimitive()) {
                 type = getPrimitiveType(jsonElementValue);
                 addProperty(stringBuilder, property, type, jsonElementValue.getAsString());
@@ -87,28 +88,35 @@ public class KotlinMaker {
 
     @NotNull
     private String getArrayType(String property, JsonArray jsonElementValue) {
-        String type = "String";
+        String type = "List<String>";
         JsonArray jsonArray = jsonElementValue;
-        JsonElement next = jsonArray.iterator().next();
-        if (next.isJsonPrimitive()) {
-            String subType = getPrimitiveType(next);
-            type = "List" + "<" + subType + ">";
 
-        } else if (next.isJsonObject()) {
-            property = modifyPropertyForArrayObjType(property);
-            String subType = getJsonObjectType(property, (JsonObject) next);
-            type = "List" + "<" + subType + ">";
-            /**
-             * 处理子类
-             */
-            toBeAppend.add(new KotlinMaker(subType, next).makeKotlinData());
-        } else if (next.isJsonArray()) {
-            property = modifyPropertyForArrayObjType(property);
-            String subType = getArrayType(property, (JsonArray) next);
-            type = "List" + "<" + subType + ">";
+        Iterator<JsonElement> iterator = jsonArray.iterator();
+        if (iterator.hasNext()) {
+            JsonElement next = iterator.next();
+            if (next.isJsonPrimitive()) {
+                String subType = getPrimitiveType(next);
+                type = "List" + "<" + subType + ">";
 
-        } else if (next.isJsonNull()) {
-            type = "List" + "<" + "String" + ">";
+            } else if (next.isJsonObject()) {
+                property = modifyPropertyForArrayObjType(property);
+                String subType = getJsonObjectType(property, (JsonObject) next);
+                type = "List" + "<" + subType + ">";
+                /**
+                 * 处理子类
+                 */
+                toBeAppend.add(new KotlinMaker(subType, next).makeKotlinData());
+            } else if (next.isJsonArray()) {
+                property = modifyPropertyForArrayObjType(property);
+                String subType = getArrayType(property, (JsonArray) next);
+                type = "List" + "<" + subType + ">";
+
+            } else if (next.isJsonNull()) {
+                type = "List" + "<" + "String" + ">";
+
+            }
+        } else {
+            type = "List<Any>";
 
         }
         return type;
@@ -144,14 +152,13 @@ public class KotlinMaker {
     }
 
     private void addProperty(StringBuilder stringBuilder, String property, String type, String value) {
-        String propertyKeyword = PropertyKeyword.INSTANCE.get();
-        stringBuilder.append("\t\t" + propertyKeyword + " ").append(property).append(": ").append(type).append(",");
-        if (value != null) {
-            stringBuilder.append("// ").append(value).append("\n");
-        } else {
-            stringBuilder.append("\n");
+        if (value == null) {
+            value = "null";
         }
+        stringBuilder.append(new KProperty(property, type, value).getPropertyStringBlock());
+        stringBuilder.append("\n");
     }
+
 
     @NotNull
     private String getPrimitiveType(JsonElement next) {

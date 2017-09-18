@@ -15,9 +15,18 @@ interface IConfigManager {
     private val TARGET_JSON_CONVERTER_LIB_KEY: String
         get() = "target_json_converter_lib_key"
 
+    private val IS_COMMENT_OFF: String
+        get() = "need comment_key"
+
+
     var isPropertiesVar: Boolean
         get() = PropertiesComponent.getInstance().isTrueValue(IS_PROPERTIES_VAR_KEY)
         set(value) = PropertiesComponent.getInstance().setValue(IS_PROPERTIES_VAR_KEY, value)
+
+
+    var isCommentOff: Boolean
+        get() = PropertiesComponent.getInstance().isTrueValue(IS_COMMENT_OFF)
+        set(value) = PropertiesComponent.getInstance().setValue(IS_COMMENT_OFF, value)
 
 
     var targetJsonConverterLib: TargetJsonConverter

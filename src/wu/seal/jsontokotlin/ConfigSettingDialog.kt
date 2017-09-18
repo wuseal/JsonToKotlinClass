@@ -2,13 +2,14 @@ package wu.seal.jsontokotlin
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.util.ui.JBDimension
-import java.awt.BorderLayout
-import java.awt.ComponentOrientation
-import javax.swing.*
+import javax.swing.Action
+import javax.swing.JComponent
+import javax.swing.JPanel
+import javax.swing.JTabbedPane
 
 /**
  *
- * Created by LENOVO on 2017/9/13.
+ * Created by Seal.Wu on 2017/9/13.
  */
 
 interface IConfigSettingDialog {
@@ -29,38 +30,34 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
 
 
     override fun createCenterPanel(): JComponent? {
+
         val tabbedPane = JTabbedPane()
 
-        val propertyPane = JPanel(BorderLayout(5, 5))
-        propertyPane.componentOrientation = ComponentOrientation.LEFT_TO_RIGHT
-        val radioButtonVal = JRadioButton("Val")
+        val propertyPanel = createPropertyPane()
 
-        radioButtonVal.addActionListener {
-            ConfigManager.isPropertiesVar = false
-        }
-        val radioButtonVar = JRadioButton("Var")
-        radioButtonVar.addActionListener {
-            ConfigManager.isPropertiesVar = true
-        }
+        val commentConfigPanel = createCommentConfigPanel()
 
-        if (ConfigManager.isPropertiesVar) {
+        val targetJsonLibConfigPanel = createTargetJsonLibConfigPanel()
 
-            radioButtonVar.isSelected = true
-        } else {
-            radioButtonVal.isSelected = true
-        }
+        tabbedPane.add("Property Keyword", propertyPanel)
 
-        val buttonGroupProperty = ButtonGroup()
-        buttonGroupProperty.add(radioButtonVal)
-        buttonGroupProperty.add(radioButtonVar)
+        tabbedPane.add("Comment Config", commentConfigPanel)
 
-        propertyPane.add(radioButtonVal, BorderLayout.NORTH)
-        propertyPane.add(radioButtonVar, BorderLayout.CENTER)
-        tabbedPane.add("Property Keyword", propertyPane)
+        tabbedPane.add("Target Json Lib", targetJsonLibConfigPanel)
 
         tabbedPane.minimumSize = JBDimension(300, 180)
 
         return tabbedPane
+    }
+
+    private fun createTargetJsonLibConfigPanel() = TargetJsonLibConfigPanel(true)
+
+    private fun createCommentConfigPanel() = CommentConfigPanel(true)
+
+    private fun createPropertyPane(): JPanel {
+
+
+        return PropertyPanel(true)
     }
 
 
