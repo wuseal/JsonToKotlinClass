@@ -120,9 +120,10 @@ public class MakeKotlinClassAction extends AnAction {
         if (jsonString == null || jsonString.isEmpty()) {
             return;
         }
-        final KotlinMaker maker = new KotlinMaker(className, jsonString);
-
         final Document document = editor.getDocument();
+        ImportClassWriter.INSTANCE.insertImportClassCode(project, document);
+
+        final KotlinMaker maker = new KotlinMaker(className, jsonString);
         final VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
 
         CommandProcessor.getInstance().executeCommand(project, new Runnable() {
@@ -137,6 +138,9 @@ public class MakeKotlinClassAction extends AnAction {
                         if (caret != null) {
 
                             offset = caret.getOffset();
+                            if (offset == 0) {
+                                offset = document.getTextLength() - 1;
+                            }
                         } else {
                             offset = document.getTextLength() - 1;
                         }
@@ -145,7 +149,7 @@ public class MakeKotlinClassAction extends AnAction {
                     }
                 });
             }
-        }, "insertKotlin", null);
+        }, "insertKotlin", "JsonToKotlin");
         Messages.showMessageDialog(project, "Kotlin Code insert successfully!", "Information", Messages.getInformationIcon());
     }
 }

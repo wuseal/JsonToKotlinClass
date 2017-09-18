@@ -45,7 +45,7 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
 
         tabbedPane.add("Target Json Lib", targetJsonLibConfigPanel)
 
-        tabbedPane.minimumSize = JBDimension(300, 180)
+        tabbedPane.minimumSize = JBDimension(500, 300)
 
         return tabbedPane
     }
