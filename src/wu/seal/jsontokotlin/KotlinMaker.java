@@ -82,6 +82,7 @@ public class KotlinMaker {
     private String getJsonObjectType(String property, JsonObject jsonElementValue) {
         String type;
         type = property.subSequence(0, 1).toString().toUpperCase() + property.subSequence(1, property.length());
+        type = KClassName.INSTANCE.getLegalClassName(type);
         toBeAppend.add(new KotlinMaker(type, jsonElementValue).makeKotlinData());
         return type;
     }
