@@ -6,6 +6,10 @@ I am a plugin for Kotlin generate Kotlin data class code from a json string
 I am a plugin for Kotlin to convert Json String into Kotlin data class code (Json to Kotlin)
 
 ### Update Log
+#### 1.2
+* Add support for generate anotations for target json lib --gson
+* Add Comment option to switch the comment content to append
+
 #### 1.1
 * Add property keyword config setting like ('var' or 'val'),the default keyword changed to 'val'.
 
@@ -48,7 +52,6 @@ I am a plugin for Kotlin to convert Json String into Kotlin data class code (Jso
 * example with gson option on
 
     ```kotlin
-
         data class FD(
         		@SerializedName("214123addre++/-*ssbook") val addressbook: List<addressbook>
         )
@@ -64,7 +67,6 @@ I am a plugin for Kotlin to convert Json String into Kotlin data class code (Jso
         		@SerializedName("*-/32432-*/4street") val street: List<String>,
         		@SerializedName("zip") val zip: List<Int>
         )
-
     ```
 
 ### More Detail Document
