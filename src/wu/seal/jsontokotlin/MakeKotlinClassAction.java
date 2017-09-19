@@ -1,9 +1,6 @@
 package wu.seal.jsontokotlin;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -25,6 +22,7 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.IllegalFormatFlagsException;
 
 /**
  * Created by Seal.Wu on 2017/8/18.
@@ -54,13 +52,11 @@ public class MakeKotlinClassAction extends AnAction {
         }
         final Messages.InputDialog inputDialog = new Messages.InputDialog(project, "Please input the Json Data", "Input Json"
                 , Messages.getInformationIcon(), "", new InputValidator() {
-            private final Gson gson = new Gson();
-
             @Override
             public boolean checkInput(String inputString) {
                 try {
-                    JsonElement jsonElement = gson.fromJson(inputString, JsonObject.class);
-                    return true;
+                    JsonElement jsonElement = new JsonParser().parse(inputString);
+                    return jsonElement.isJsonObject() || jsonElement.isJsonArray();
                 } catch (JsonSyntaxException e) {
                     return false;
                 }
@@ -123,8 +119,14 @@ public class MakeKotlinClassAction extends AnAction {
         final Document document = editor.getDocument();
         ImportClassWriter.INSTANCE.insertImportClassCode(project, document);
 
-        final KotlinMaker maker = new KotlinMaker(className, jsonString);
-        final VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
+        final KotlinMaker maker;
+        try {
+            maker = new KotlinMaker(className, jsonString);
+        } catch (IllegalFormatFlagsException e) {
+            e.printStackTrace();
+            Messages.showErrorDialog(e.getMessage(), "Unsupport Json");
+            return;
+        }
 
         CommandProcessor.getInstance().executeCommand(project, new Runnable() {
             @Override
@@ -144,7 +146,7 @@ public class MakeKotlinClassAction extends AnAction {
                         } else {
                             offset = document.getTextLength() - 1;
                         }
-                        document.insertString(offset, maker.makeKotlinData());
+                        document.insertString(Math.max(offset, 0), maker.makeKotlinData());
 
                     }
                 });

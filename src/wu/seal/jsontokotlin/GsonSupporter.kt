@@ -1,13 +1,14 @@
 package wu.seal.jsontokotlin
 
 /**
+ * Gson Support about
  * Created by Sea.Wu on 2017/9/18.
  */
 
 /**
  * When target Json lib is Gson, this prove fun to create Last Property String block
  */
-interface IGsonSupportor {
+interface IGsonSupporter {
     /**
      * create property String block to fit Gson at most
      */
@@ -16,7 +17,7 @@ interface IGsonSupportor {
 }
 
 
-object GsonSupportor : IGsonSupportor {
+object GsonSupporter : IGsonSupporter {
 
     /**
      * When adapter Gson lib at most ,We should import the Anotation Class

@@ -20,12 +20,12 @@ public class KotlinMaker {
     private Set<String> toBeAppend = new HashSet<String>();
 
     public KotlinMaker(String className, String inputText) {
-        this.inputElement = gson.fromJson(inputText, JsonElement.class);
+        this.inputElement = new TargetJsonElement(inputText).getTargetJsonElementForGeneratingCode();
         this.className = className;
     }
 
     public KotlinMaker(String className, JsonElement jsonElement) {
-        this.inputElement = jsonElement;
+        this.inputElement = new TargetJsonElement(jsonElement).getTargetJsonElementForGeneratingCode();
         this.className = className;
     }
 
@@ -71,7 +71,7 @@ public class KotlinMaker {
                 addProperty(stringBuilder, property, type, jsonElementValue.getAsString());
             } else if (jsonElementValue.isJsonObject()) {
                 type = getJsonObjectType(property, (JsonObject) jsonElementValue);
-                addProperty(stringBuilder, property, type, null);
+                addProperty(stringBuilder, property, type, "");
             } else if (jsonElementValue.isJsonNull()) {
                 addProperty(stringBuilder, property, type, null);
             }

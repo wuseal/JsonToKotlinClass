@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin
 
 /**
- * Created by LENOVO on 2017/9/13.
+ * Created by Seal.Wu on 2017/9/13.
  */
 
 interface IPropertyKeyword {

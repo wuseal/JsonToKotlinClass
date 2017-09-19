@@ -20,7 +20,7 @@ object KClassName : IKClassName {
 
     private val ilegalCharactor = listOf<String>(
             "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)"
-            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";","'", "\\`","\\~" ,"\\$", "^", "#", "\\", "/", " "
+            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/", " "
     )
 
     private val suffix = "X"
@@ -30,12 +30,29 @@ object KClassName : IKClassName {
 
         val pattern = "${ilegalCharactor}"
 
-        val temp = rawClassName.replace(Regex(pattern), "")
+        val temp = rawClassName.replace(Regex(pattern), "").let {
+
+            return@let removeStartNumber(it)
+
+        }
 
         return if (temp in ilegalClassNameList) {
             return temp + suffix
         } else {
             temp
+        }
+    }
+
+    /**
+     * remove the start number characters in this string
+     */
+    private fun removeStartNumber(it: String): String {
+        return if (it.indexOfFirst {
+            return@indexOfFirst it in '0'..'9'
+        } == 0) {
+            it.replaceFirst(Regex("\\d{1,}"), "")
+        } else {
+            it
         }
     }
 }

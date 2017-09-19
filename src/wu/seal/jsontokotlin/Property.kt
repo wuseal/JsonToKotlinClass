@@ -27,10 +27,10 @@ class KProperty(val rawPropertyName: String, val propertyType: String, val prope
 
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
 
-            blockBulder.append(GsonSupportor.getGsonSupportorProperty(rawPropertyName, propertyType))
+            blockBulder.append(GsonSupporter.getGsonSupportorProperty(rawPropertyName, propertyType))
         }
 
-        if (!ConfigManager.isCommentOff) {
+        if (!ConfigManager.isCommentOff && propertyValue.isNotBlank()) {
             blockBulder.append(" //").append(propertyValue)
         }
 

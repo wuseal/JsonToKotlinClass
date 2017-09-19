@@ -6,7 +6,7 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
 
 /**
- * to be Import class declare code insert helper
+ * to be a helper to insert Import class declare code
  * Created by Seal.Wu on 2017/9/18.
  */
 
@@ -52,7 +52,7 @@ object ImportClassWriter : IImportClassWriter {
 
     override fun insertGsonImportClass(project: Project, editFile: Document) {
         val text = editFile.text
-        if (GsonSupportor.gsonAnotationImportString !in text) {
+        if (GsonSupporter.gsonAnotationImportString !in text) {
 
             val index = Math.max(text.lastIndexOf("import"), 0)
             val tobeInsertEndline = editFile.getLineNumber(index)
@@ -60,7 +60,7 @@ object ImportClassWriter : IImportClassWriter {
 
             CommandProcessor.getInstance().executeCommand(project, {
                 ApplicationManager.getApplication().runWriteAction {
-                    editFile.insertString(insertIndex, "\n" + GsonSupportor.gsonAnotationImportString + "\n")
+                    editFile.insertString(insertIndex, "\n" + GsonSupporter.gsonAnotationImportString + "\n")
 
                 }
             }, "insertKotlin", "JsonToKotlin")

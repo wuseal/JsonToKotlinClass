@@ -51,6 +51,9 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
 }
 
 
+/**
+ * Comment Config Panel
+ */
 class CommentConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(layout: LayoutManager?) : this(layout, false)
@@ -88,7 +91,9 @@ class CommentConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JP
 
 }
 
-
+/**
+ * Target JsonLib ConfigPanel
+ */
 class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(layout: LayoutManager?) : this(layout, false)
