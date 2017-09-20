@@ -18,7 +18,12 @@ I am a plugin for Kotlin to convert Json String into Kotlin data class code (Jso
 * Restart your Develop tools 
 * Press short key ALT + K And Then you will know how to use
 
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17276.png)
+#### Default:
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17340.png)
+
+#### Config with gson support on
+
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17341.png)
 
 ### Generate Example
 * example with none json lib support and comment option on
