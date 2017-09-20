@@ -54,9 +54,9 @@ object ImportClassWriter : IImportClassWriter {
         val text = editFile.text
         if (GsonSupporter.gsonAnotationImportString !in text) {
 
-            val index = Math.max(text.lastIndexOf("import"), 0)
-            val tobeInsertEndline = editFile.getLineNumber(index)
-            val insertIndex = if (index == 0) index else editFile.getLineEndOffset(tobeInsertEndline)
+            val packageIndex = text.indexOf("package ")
+            val importIndex = Math.max(text.lastIndexOf("import"), packageIndex)
+            val insertIndex = if (importIndex == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(importIndex))
 
             CommandProcessor.getInstance().executeCommand(project, {
                 ApplicationManager.getApplication().runWriteAction {

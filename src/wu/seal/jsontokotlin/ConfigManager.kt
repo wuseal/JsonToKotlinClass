@@ -5,7 +5,7 @@ import com.intellij.ide.util.PropertiesComponent
 /**
  * ConfigManager
  * main purpose to obtain the detail corresponding config And the entry of modify
- * Created by LENOVO on 2017/9/13.
+ * Created by Seal.Wu on 2017/9/13.
  */
 interface IConfigManager {
 
@@ -16,7 +16,7 @@ interface IConfigManager {
         get() = "target_json_converter_lib_key"
 
     private val IS_COMMENT_OFF: String
-        get() = "need comment_key"
+        get() = "need_comment_key"
 
 
     var isPropertiesVar: Boolean

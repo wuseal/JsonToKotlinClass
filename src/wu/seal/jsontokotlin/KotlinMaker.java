@@ -12,7 +12,6 @@ import java.util.Set;
  * Created by seal.wu on 2017/8/21.
  */
 public class KotlinMaker {
-    private final static Gson gson = new Gson();
 
     private String className;
     private JsonElement inputElement;

@@ -20,7 +20,7 @@ object KClassName : IKClassName {
 
     private val ilegalCharactor = listOf<String>(
             "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)"
-            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/", " "
+            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/"
     )
 
     private val suffix = "X"
@@ -28,7 +28,10 @@ object KClassName : IKClassName {
 
     override fun getLegalClassName(rawClassName: String): String {
 
-        val pattern = "${ilegalCharactor}"
+        /**
+         * keep " " character
+         */
+        val pattern = "$ilegalCharactor".replace(" ", "")
 
         val temp = rawClassName.replace(Regex(pattern), "").let {
 
@@ -36,11 +39,36 @@ object KClassName : IKClassName {
 
         }
 
-        return if (temp in ilegalClassNameList) {
-            return temp + suffix
+        val upperCamelCase = toUpperCamelCase(temp)
+
+        val legalName = toBeLegalName(upperCamelCase)
+
+        return legalName
+    }
+
+    private fun toBeLegalName(name: String): String {
+        val legalName = if (name in ilegalClassNameList) {
+            name + suffix
         } else {
-            temp
+            name
         }
+        return legalName
+    }
+
+    private fun toUpperCamelCase(temp: String): String {
+
+        val stringBuilder = StringBuilder()
+
+        temp.split(Regex("[_ ]")).forEach {
+            if (it.isNotBlank()) {
+                stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
+            }
+        }
+
+        val upperCamelCaseName = stringBuilder.toString()
+
+        return upperCamelCaseName
+
     }
 
     /**

@@ -10,10 +10,17 @@ interface INoneLibSupporter {
      * create property String block
      */
     fun getNoneLibSupporterProperty(rawPropertyName: String, propertyType: String): String
+
+
+    fun getNoneLibSupporterClassName(rawClassName: String)
+
 }
 
 
 object NoneSupporter : INoneLibSupporter {
+
+    override fun getNoneLibSupporterClassName(rawClassName: String) {
+    }
 
 
     override fun getNoneLibSupporterProperty(rawPropertyName: String, propertyType: String): String {

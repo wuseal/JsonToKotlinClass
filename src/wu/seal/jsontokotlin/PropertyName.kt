@@ -15,11 +15,10 @@ interface IPropertyNameMaker {
     /**
      * make legal property name from a input raw string
      */
-    fun makePropertyName(rawString: String, needTransformtToIlegalNameMaker: Boolean): String
+    fun makePropertyName(rawString: String, needTransformToLegalName: Boolean): String
 
 
 }
-
 
 object PropertyNameMaker : IPropertyNameMaker {
 
@@ -32,8 +31,13 @@ object PropertyNameMaker : IPropertyNameMaker {
 
     private val ilegalCharactor = listOf<String>(
             "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)"
-            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/", " "
+            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/"
     )
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        println(PropertyNameMaker.ilegalCharactor)
+    }
 
     private val suffix = "X"
 
@@ -42,23 +46,58 @@ object PropertyNameMaker : IPropertyNameMaker {
         return rawString
     }
 
-    override fun makePropertyName(rawString: String, needTransformtToIlegalNameMaker: Boolean): String {
+    override fun makePropertyName(rawString: String, needTransformToLegalName: Boolean): String {
 
+        if (needTransformToLegalName) {
 
-        val pattern = "$ilegalCharactor"
+            /**
+             * keep character " "
+             */
+            val pattern = "$ilegalCharactor".replace(" ", "")
 
-        val temp = rawString.replace(Regex(pattern), "").let {
+            val temp = rawString.replace(Regex(pattern), "").let {
 
-            return@let removeStartNumber(it)
+                return@let removeStartNumber(it)
 
-        }
+            }
 
+            val lowerCamelCaseName = toLowerCamelCase(temp)
 
-        return if (temp in ilegalPropertyNameList) {
-            return temp + suffix
+            val legalName = toBeLegalName(lowerCamelCaseName)
+
+            return legalName
+
         } else {
-            temp
+            return rawString
         }
+
+    }
+
+    private fun toBeLegalName(name: String): String {
+        val legalName = if (name in ilegalPropertyNameList) {
+            name + suffix
+        } else {
+            name
+        }
+        return legalName
+    }
+
+    private fun toLowerCamelCase(temp: String): String {
+
+        val stringBuilder = StringBuilder()
+
+        temp.split(Regex("[_ ]")).forEach {
+            if (it.isNotBlank()) {
+                stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
+            }
+        }
+
+        val camelCaseName = stringBuilder.toString()
+
+        val lowerCamelCaseName = camelCaseName.substring(0, 1).toLowerCase().plus(camelCaseName.substring(1))
+
+        return lowerCamelCaseName
+
     }
 
     /**

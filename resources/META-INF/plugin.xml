@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.2</version>
+  <version>1.2.1</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -11,6 +11,10 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    1.2.1:
+      * Fix insert improt class code upon package declare
+      * Format property name and class name to camelcase name
+    1.2:
       * Add support for generate anotations for target json lib --gson<br>
       * Add Comment option to switch the comment content to append<br>
     ]]>
