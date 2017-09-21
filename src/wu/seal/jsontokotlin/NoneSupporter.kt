@@ -16,6 +16,12 @@ interface INoneLibSupporter {
 
 }
 
+fun main(args: Array<String>) {
+
+    isTestModel = true
+    println("getNoneLibSupporterProperty:\n ${NoneSupporter.getNoneLibSupporterProperty("seal is **() good_man ","Boy")}")
+}
+
 
 object NoneSupporter : INoneLibSupporter {
 
@@ -29,10 +35,11 @@ object NoneSupporter : INoneLibSupporter {
 
         blockBulder.append(PropertyKeyword.get())
         blockBulder.append(" ")
-        blockBulder.append(PropertyNameMaker.makePropertyName(rawPropertyName, false))
+        blockBulder.append(KPropertyName.getName(rawPropertyName))
         blockBulder.append(": ").append(propertyType).append(",")
 
         return blockBulder.toString()
     }
 
 }
+

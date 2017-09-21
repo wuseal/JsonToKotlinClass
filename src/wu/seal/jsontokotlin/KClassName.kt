@@ -10,18 +10,16 @@ interface IKClassName {
 
 }
 
-object KClassName : IKClassName {
+fun main(args: Array<String>) {
+    val name1 = """
+                !@3214 12#$%n^&*(a)_+-=m12335e43{}|[]\\;':1",./<>?/*-+`
+                """
+    println("orginal name is |$name1|")
+    println("Name1 is :   |${KClassName.getName(name1)}|")
+}
 
-    private val ilegalClassNameList = listOf<String>(
-            "as", "break", "class", "continue", "do", "else", "false", "for", "fun", "if", "in", "interface", "is", "null"
-            , "object", "package", "return", "super", "this", "throw", "true", "try", "typealias", "val", "var", "when", "while"
-    )
+object KClassName : KName(), IKClassName {
 
-
-    private val ilegalCharactor = listOf<String>(
-            "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)"
-            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/"
-    )
 
     private val suffix = "X"
 
@@ -31,11 +29,11 @@ object KClassName : IKClassName {
         /**
          * keep " " character
          */
-        val pattern = "$ilegalCharactor".replace(" ", "")
+        val pattern = "$illegalCharacter".replace(" ", "")
 
         val temp = rawClassName.replace(Regex(pattern), "").let {
 
-            return@let removeStartNumber(it)
+            return@let removeStartNumberAndWhiteSpace(it)
 
         }
 
@@ -46,8 +44,15 @@ object KClassName : IKClassName {
         return legalName
     }
 
+
+    override fun getName(rawName: String): String {
+
+        return getLegalClassName(rawName)
+    }
+
+
     private fun toBeLegalName(name: String): String {
-        val legalName = if (name in ilegalClassNameList) {
+        val legalName = if (name in illegalNameList) {
             name + suffix
         } else {
             name
@@ -55,6 +60,9 @@ object KClassName : IKClassName {
         return legalName
     }
 
+    /**
+     * this function can remove the rest white space
+     */
     private fun toUpperCamelCase(temp: String): String {
 
         val stringBuilder = StringBuilder()
@@ -74,13 +82,15 @@ object KClassName : IKClassName {
     /**
      * remove the start number characters in this string
      */
-    private fun removeStartNumber(it: String): String {
-        return if (it.indexOfFirst {
+    private fun removeStartNumberAndWhiteSpace(it: String): String {
+        return if (it.trim().indexOfFirst {
             return@indexOfFirst it in '0'..'9'
         } == 0) {
-            it.replaceFirst(Regex("\\d{1,}"), "")
+            it.trim().replaceFirst(Regex("[ \\d]{1,}"), "")
         } else {
             it
         }
     }
 }
+
+

@@ -1,7 +1,5 @@
 package wu.seal.jsontokotlin
 
-import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
 
@@ -13,23 +11,23 @@ import com.intellij.openapi.project.Project
 
 interface IImportClassWriter {
 
-    fun insertGsonImportClass(project: Project, editFile: Document)
+    fun insertGsonImportClass(project: Project?, editFile: Document)
 
 
-    fun insertJackSonImportClass(project: Project, editFile: Document)
+    fun insertJackSonImportClass(project: Project?, editFile: Document)
 
 
-    fun insertFastJsonImportClass(project: Project, editFile: Document)
+    fun insertFastJsonImportClass(project: Project?, editFile: Document)
 
 
-    fun insertImportClassCode(project: Project, editFile: Document)
+    fun insertImportClassCode(project: Project?, editFile: Document)
 
 
 }
 
 
 object ImportClassWriter : IImportClassWriter {
-    override fun insertImportClassCode(project: Project, editFile: Document) {
+    override fun insertImportClassCode(project: Project?, editFile: Document) {
 
         when (ConfigManager.targetJsonConverterLib) {
 
@@ -44,13 +42,13 @@ object ImportClassWriter : IImportClassWriter {
     }
 
 
-    override fun insertFastJsonImportClass(project: Project, editFile: Document) {
+    override fun insertFastJsonImportClass(project: Project?, editFile: Document) {
     }
 
-    override fun insertJackSonImportClass(project: Project, editFile: Document) {
+    override fun insertJackSonImportClass(project: Project?, editFile: Document) {
     }
 
-    override fun insertGsonImportClass(project: Project, editFile: Document) {
+    override fun insertGsonImportClass(project: Project?, editFile: Document) {
         val text = editFile.text
         if (GsonSupporter.gsonAnotationImportString !in text) {
 
@@ -58,12 +56,10 @@ object ImportClassWriter : IImportClassWriter {
             val importIndex = Math.max(text.lastIndexOf("import"), packageIndex)
             val insertIndex = if (importIndex == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(importIndex))
 
-            CommandProcessor.getInstance().executeCommand(project, {
-                ApplicationManager.getApplication().runWriteAction {
-                    editFile.insertString(insertIndex, "\n" + GsonSupporter.gsonAnotationImportString + "\n")
 
-                }
-            }, "insertKotlin", "JsonToKotlin")
+            executeCouldRollBackAction(project) {
+                editFile.insertString(insertIndex, "\n" + GsonSupporter.gsonAnotationImportString + "\n")
+            }
 
         }
     }

@@ -12,7 +12,15 @@ interface IProperty {
 
 }
 
-class KProperty(val rawPropertyName: String, val propertyType: String, val propertyValue: String) : IProperty {
+fun main(args: Array<String>) {
+    isTestModel = true
+
+    val property = KProperty("seal is a *() good_man", "Boolean", "true")
+
+    println("getPropertyStringBlock:\n${property.getPropertyStringBlock()}")
+}
+
+class KProperty(private val rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
 
 
     override fun getPropertyStringBlock(): String {
@@ -27,7 +35,7 @@ class KProperty(val rawPropertyName: String, val propertyType: String, val prope
 
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
 
-            blockBulder.append(GsonSupporter.getGsonSupportorProperty(rawPropertyName, propertyType))
+            blockBulder.append(GsonSupporter.getGsonSupporterProperty(rawPropertyName, propertyType))
         }
 
         if (!ConfigManager.isCommentOff && propertyValue.isNotBlank()) {

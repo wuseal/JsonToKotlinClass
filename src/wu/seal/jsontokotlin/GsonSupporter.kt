@@ -12,10 +12,15 @@ interface IGsonSupporter {
     /**
      * create property String block to fit Gson at most
      */
-    fun getGsonSupportorProperty(rawPropertyName: String, propertyType: String): String
+    fun getGsonSupporterProperty(rawPropertyName: String, propertyType: String): String
 
 }
 
+
+fun main(args: Array<String>) {
+    isTestModel = true
+    println("getGsonSupporterProperty:\n ${GsonSupporter.getGsonSupporterProperty("seal is **() good_man ","Boy")}")
+}
 
 object GsonSupporter : IGsonSupporter {
 
@@ -26,7 +31,7 @@ object GsonSupporter : IGsonSupporter {
 
     private val anotaionOnProperty = "@SerializedName(\"%s\")"
 
-    override fun getGsonSupportorProperty(rawPropertyName: String, propertyType: String): String {
+    override fun getGsonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 
         val gsonSupportPropertyBuilder = StringBuilder()
 
@@ -38,7 +43,7 @@ object GsonSupporter : IGsonSupporter {
 
         gsonSupportPropertyBuilder.append(" ")
 
-        gsonSupportPropertyBuilder.append(PropertyNameMaker.makePropertyName(rawPropertyName, true))
+        gsonSupportPropertyBuilder.append(KPropertyName.getName(rawPropertyName))
 
         gsonSupportPropertyBuilder.append(": ")
 

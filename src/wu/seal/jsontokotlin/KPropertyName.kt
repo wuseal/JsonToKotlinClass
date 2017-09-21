@@ -20,26 +20,31 @@ interface IPropertyNameMaker {
 
 }
 
-object PropertyNameMaker : IPropertyNameMaker {
+fun main(args: Array<String>) {
+    val name1 = """
+                !@#$ 32322 3 32%N^&*(a)_+-=m12335e43{}|[]\\;':1",./<>?/*-+`
+                """
 
+    println("orginal name is |$name1|")
+    println("Name1 is :   |${KPropertyName.getName(name1)}|")
 
-    private val ilegalPropertyNameList = listOf<String>(
-            "as", "break", "class", "continue", "do", "else", "false", "for", "fun", "if", "in", "interface", "is", "null"
-            , "object", "package", "return", "super", "this", "throw", "true", "try", "typealias", "val", "var", "when", "while"
-    )
+}
 
+object KPropertyName : KName(), IPropertyNameMaker {
 
-    private val ilegalCharactor = listOf<String>(
-            "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)"
-            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/"
-    )
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println(PropertyNameMaker.ilegalCharactor)
+        println(KPropertyName.illegalCharacter)
     }
 
     private val suffix = "X"
+
+
+    override fun getName(rawName: String): String {
+
+        return makePropertyName(rawName, true)
+    }
 
     override fun makePropertyName(rawString: String): String {
 
@@ -53,11 +58,11 @@ object PropertyNameMaker : IPropertyNameMaker {
             /**
              * keep character " "
              */
-            val pattern = "$ilegalCharactor".replace(" ", "")
+            val pattern = "$illegalCharacter".replace(" ", "")
 
             val temp = rawString.replace(Regex(pattern), "").let {
 
-                return@let removeStartNumber(it)
+                return@let removeStartNumberAndWhiteSpace(it)
 
             }
 
@@ -74,7 +79,7 @@ object PropertyNameMaker : IPropertyNameMaker {
     }
 
     private fun toBeLegalName(name: String): String {
-        val legalName = if (name in ilegalPropertyNameList) {
+        val legalName = if (name in illegalNameList) {
             name + suffix
         } else {
             name
@@ -82,6 +87,9 @@ object PropertyNameMaker : IPropertyNameMaker {
         return legalName
     }
 
+    /**
+     * this function can remove the rest white space
+     */
     private fun toLowerCamelCase(temp: String): String {
 
         val stringBuilder = StringBuilder()
@@ -101,13 +109,13 @@ object PropertyNameMaker : IPropertyNameMaker {
     }
 
     /**
-     * remove the start number characters in this string
+     * remove the start number or whiteSpace characters in this string
      */
-    private fun removeStartNumber(it: String): String {
-        return if (it.indexOfFirst {
+    private fun removeStartNumberAndWhiteSpace(it: String): String {
+        return if (it.trim().indexOfFirst {
             return@indexOfFirst it in '0'..'9'
         } == 0) {
-            it.replaceFirst(Regex("\\d{1,}"), "")
+            it.trim().replaceFirst(Regex("[ \\d]{1,}"), "")
         } else {
             it
         }

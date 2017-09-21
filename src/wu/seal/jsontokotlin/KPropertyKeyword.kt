@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 /**
+ * keyword relative
  * Created by Seal.Wu on 2017/9/13.
  */
 
