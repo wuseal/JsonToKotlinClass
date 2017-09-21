@@ -32,7 +32,7 @@ class KotlinMaker {
         val jsonElement = inputElement
         if (jsonElement!!.isJsonObject) {
             appClassName(stringBuilder)
-            appendJsonObject(stringBuilder, jsonElement.asJsonObject)
+            appendCodeMember(stringBuilder, jsonElement.asJsonObject)
         } else {
             throw IllegalArgumentException("UnSupport")
         }
@@ -54,7 +54,7 @@ class KotlinMaker {
     }
 
 
-    private fun appendJsonObject(stringBuilder: StringBuilder, jsonObject: JsonObject) {
+    private fun appendCodeMember(stringBuilder: StringBuilder, jsonObject: JsonObject) {
 
         for ((property, jsonElementValue) in jsonObject.entrySet()) {
 
