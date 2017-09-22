@@ -58,27 +58,25 @@ class KotlinMaker {
 
         for ((property, jsonElementValue) in jsonObject.entrySet()) {
 
-            var type = "String"
             if (jsonElementValue.isJsonArray) {
-
-                type = getArrayType(property, jsonElementValue.asJsonArray)
+                val type = getArrayType(property, jsonElementValue.asJsonArray)
 
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray)) {
-                    toBeAppend.add(KotlinMaker(type, jsonElementValue.asJsonArray.first()).makeKotlinData())
+                    toBeAppend.add(KotlinMaker(getChildType(getRawType(type)), jsonElementValue.asJsonArray.first()).makeKotlinData())
                 }
                 addProperty(stringBuilder, property, type, "")
 
             } else if (jsonElementValue.isJsonPrimitive) {
-                type = getPrimitiveType(jsonElementValue.asJsonPrimitive)
+                val type = getPrimitiveType(jsonElementValue.asJsonPrimitive)
                 addProperty(stringBuilder, property, type, jsonElementValue.asString)
 
             } else if (jsonElementValue.isJsonObject) {
-                type = getJsonObjectType(property)
-                toBeAppend.add(KotlinMaker(type, jsonElementValue).makeKotlinData())
+                val type = getJsonObjectType(property)
+                toBeAppend.add(KotlinMaker(getRawType(type), jsonElementValue).makeKotlinData())
                 addProperty(stringBuilder, property, type, "")
 
             } else if (jsonElementValue.isJsonNull) {
-                addProperty(stringBuilder, property, type, null)
+                addProperty(stringBuilder, property, DEFAULT_TYPE, null)
             }
         }
     }
@@ -89,7 +87,7 @@ class KotlinMaker {
         if (innerValue == null) {
             innerValue = "null"
         }
-        stringBuilder.append(KProperty(property, type, innerValue).getPropertyStringBlock())
+        stringBuilder.append(KProperty(property, getOutType(type), innerValue).getPropertyStringBlock())
         stringBuilder.append("\n")
     }
 
@@ -129,6 +127,7 @@ fun main(args: Array<String>) {
     TestConfig.targetJsonConvertLib = TargetJsonConverter.None
     TestConfig.isCommentOff = true
     TestConfig.isPropertiesVar = true
+    TestConfig.isPropertyNullable = false
 
     println("===========================================Change to none json lib support========================================= ")
 

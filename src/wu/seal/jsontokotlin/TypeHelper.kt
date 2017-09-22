@@ -9,6 +9,14 @@ import com.google.gson.JsonPrimitive
  */
 
 
+/**
+ * the default type
+ */
+const val DEFAULT_TYPE = "Any"
+
+val DEFAULT_OUTPUT_TYPE = getOutType(DEFAULT_TYPE)
+
+
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     var subType = "String"
     if (jsonPrimitive.isBoolean) {
@@ -29,19 +37,48 @@ fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
 
 
 fun getJsonObjectType(type: String): String {
+
     return KClassName.getName(type)
 }
 
 
+/**
+ * get the inmost child type of array type
+ */
+fun getChildType(arrayType: String): String {
+
+    return arrayType.replace(Regex("[<,>,List]"), "")
+}
+
+/**
+ * get the type output to the edit file
+ */
+fun getOutType(rawType: String): String {
+    if (ConfigManager.isPropertyNullable) {
+        val innerRawType = rawType.replace("?", "").replace(">", "?>")
+        val outputType = innerRawType.plus("?")
+        return outputType
+    }
+    return rawType
+}
+
+/**
+ * get the type string without '?' character
+ */
+fun getRawType(outputType: String): String {
+
+    return outputType.replace("?", "")
+}
+
 fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
-    var innerPropertyName = propertyName
-    var type = "List<String>"
+    val innerPropertyName = adjustPropertyNameForGettingArrayChildType(propertyName)
+    var subType = DEFAULT_TYPE
     val jsonArray = jsonElementValue
 
     val iterator = jsonArray.iterator()
     if (iterator.hasNext()) {
         val next = iterator.next()
-        val subType =
+        subType =
                 if (next.isJsonPrimitive) {
                     getPrimitiveType(next.asJsonPrimitive)
 
@@ -49,29 +86,25 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
                     getJsonObjectType(innerPropertyName)
 
                 } else if (next.isJsonArray) {
-                    innerPropertyName = modifyPropertyForArrayObjType(innerPropertyName)
-                    getArrayType(innerPropertyName, next as JsonArray)
-
-                } else if (next.isJsonNull) {
-                    "Any"
-
+                    getArrayType(innerPropertyName, next.asJsonArray)
                 } else {
-                    "String"
+                    DEFAULT_TYPE
                 }
-
-        type = "List<$subType>"
-    } else {
-        type = "List<Any>"
-
     }
-    return type
+    return "List<$subType>"
 }
 
 fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
     return jsonElementArray.firstOrNull()?.isJsonObject ?: false
 }
 
-private fun modifyPropertyForArrayObjType(property: String): String {
+/**
+ * when get the child type in an array
+ * ,we need to modify the property name to make it's type name looks like a child type.
+ * filter the sequence as 'list' ,"List'
+ * and remove the last character 's' to make it like a child rather than a list
+ */
+fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     var innerProperty = property
     if (innerProperty.endsWith("ies")) {
         innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"

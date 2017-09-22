@@ -1,11 +1,11 @@
 package wu.seal.jsontokotlin
 
-import java.awt.BorderLayout
-import java.awt.FlowLayout
-import java.awt.LayoutManager
+import java.awt.*
 import javax.swing.ButtonGroup
+import javax.swing.JCheckBox
 import javax.swing.JPanel
 import javax.swing.JRadioButton
+import javax.swing.border.EmptyBorder
 
 /**
  * todo //beautify  interface
@@ -21,7 +21,8 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
 
     init {
 
-        setLayout(BorderLayout(5, 5))
+        border = EmptyBorder(10, 10, 10, 10)
+        setLayout(GridLayout(5, 1, 10, 10))
 
         val radioButtonVal = JRadioButton("Val")
 
@@ -44,11 +45,28 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
         buttonGroupProperty.add(radioButtonVal)
         buttonGroupProperty.add(radioButtonVar)
 
-        add(radioButtonVal, BorderLayout.NORTH)
-        add(radioButtonVar, BorderLayout.CENTER)
+        add(radioButtonVal)
+        add(radioButtonVar)
+
+        val nullableConatainer = JPanel(BorderLayout(10, 10))
+        val line = JPanel()
+        line.preferredSize = Dimension(500, 1)
+        line.background = Color.BLACK
+        nullableConatainer.add(line, BorderLayout.NORTH)
+
+        val nullAbleCheck = JCheckBox("Property to be Nullable?")
+        if (ConfigManager.isPropertyNullable) {
+            nullAbleCheck.isSelected = true
+        }
+
+        nullAbleCheck.addChangeListener {
+            ConfigManager.isPropertyNullable = nullAbleCheck.isSelected
+        }
+        nullableConatainer.add(nullAbleCheck, BorderLayout.CENTER)
+
+        add(nullableConatainer)
+
     }
-
-
 }
 
 
@@ -63,9 +81,11 @@ class CommentConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JP
 
     init {
 
-        setLayout(BorderLayout(5, 5))
+        border = EmptyBorder(10, 10, 10, 10)
 
-        val radioButtonOpen = JRadioButton("Open")
+        setLayout(GridLayout(5, 1, 10, 10))
+
+        val radioButtonOpen = JRadioButton("On")
 
         radioButtonOpen.addActionListener {
             ConfigManager.isCommentOff = false
@@ -86,8 +106,8 @@ class CommentConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JP
         buttonGroupProperty.add(radioButtonOpen)
         buttonGroupProperty.add(radioButtonOff)
 
-        add(radioButtonOpen, BorderLayout.NORTH)
-        add(radioButtonOff, BorderLayout.CENTER)
+        add(radioButtonOpen)
+        add(radioButtonOff)
     }
 
 }
@@ -103,7 +123,9 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
 
     init {
 
-        setLayout(BorderLayout(5, 5))
+        border = EmptyBorder(10, 10, 10, 10)
+
+        setLayout(GridLayout(5, 1, 10, 10))
 
         val radioButtonNone = JRadioButton("None")
 
@@ -126,8 +148,8 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
         buttonGroupProperty.add(radioButtonNone)
         buttonGroupProperty.add(radioButtonGson)
 
-        add(radioButtonNone, BorderLayout.NORTH)
-        add(radioButtonGson, BorderLayout.CENTER)
+        add(radioButtonNone)
+        add(radioButtonGson)
     }
 
 }

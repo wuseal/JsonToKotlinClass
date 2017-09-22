@@ -18,6 +18,8 @@ interface IConfigManager {
     private val IS_COMMENT_OFF: String
         get() = "need_comment_key"
 
+    private val IS_PROPERTY_NULLABLE_KEY: String
+        get() = "jsonToKotlin_is_property_nullable_key"
 
     var isPropertiesVar: Boolean
         get() = if (isTestModel) TestConfig.isPropertiesVar else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTIES_VAR_KEY)
@@ -35,6 +37,11 @@ interface IConfigManager {
         get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY) ?: TargetJsonConverter.None.name)
         set(value) = if (isTestModel) {
         } else PropertiesComponent.getInstance().setValue(TARGET_JSON_CONVERTER_LIB_KEY, value.name)
+
+    var isPropertyNullable: Boolean
+        get() = if (isTestModel) TestConfig.isPropertyNullable else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTY_NULLABLE_KEY)
+        set(value) = if (isTestModel) {
+        } else PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
 }
 
 
@@ -60,4 +67,5 @@ object TestConfig {
     var isCommentOff = false
     var isPropertiesVar = false
     var targetJsonConvertLib = TargetJsonConverter.Gson
+    var isPropertyNullable = true
 }
