@@ -6,6 +6,11 @@ I am a plugin for Kotlin generate Kotlin data class code from a json string
 I am a plugin for Kotlin to convert Json String into Kotlin data class code (Json to Kotlin)
 
 ### Update Log
+
+#### 1.2.1
+* Fix insert improt class code upon package declare
+* Format property name and class name to camelcase name
+
 #### 1.2
 * Add support for generate anotations for target json lib --gson
 * Add Comment option to switch the comment content to append
