@@ -69,7 +69,7 @@ class KotlinMaker {
                 addProperty(stringBuilder, property, type, "")
 
             } else if (jsonElementValue.isJsonPrimitive) {
-                type = getPrimitiveType(jsonElementValue)
+                type = getPrimitiveType(jsonElementValue.asJsonPrimitive)
                 addProperty(stringBuilder, property, type, jsonElementValue.asString)
 
             } else if (jsonElementValue.isJsonObject) {

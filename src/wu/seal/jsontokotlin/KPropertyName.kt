@@ -22,7 +22,7 @@ interface IPropertyNameMaker {
 
 fun main(args: Array<String>) {
     val name1 = """
-                !@#$ 32322 3 32%N^&*(a)_+-=m12335e43{}|[]\\;':1",./<>?/*-+`
+                !@#$ -_32322 3 32%N^&*(-a)_+-=m123-35 e43{}|[]\\;':1",./<>?/*-+`
                 """
 
     println("orginal name is |$name1|")
@@ -58,11 +58,11 @@ object KPropertyName : KName(), IPropertyNameMaker {
             /**
              * keep character " "
              */
-            val pattern = "$illegalCharacter".replace(" ", "")
+            val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
 
             val temp = rawString.replace(Regex(pattern), "").let {
 
-                return@let removeStartNumberAndWhiteSpace(it)
+                return@let removeStartNumberAndIllegalCharacter(it)
 
             }
 
@@ -94,7 +94,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         val stringBuilder = StringBuilder()
 
-        temp.split(Regex("[_ ]")).forEach {
+        temp.split(Regex(nameSeparator.toString())).forEach {
             if (it.isNotBlank()) {
                 stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
             }
@@ -111,11 +111,15 @@ object KPropertyName : KName(), IPropertyNameMaker {
     /**
      * remove the start number or whiteSpace characters in this string
      */
-    private fun removeStartNumberAndWhiteSpace(it: String): String {
-        return if (it.trim().indexOfFirst {
+    private fun removeStartNumberAndIllegalCharacter(it: String): String {
+
+        return if (it.replace(Regex(illegalCharacter.toString()), "").indexOfFirst {
             return@indexOfFirst it in '0'..'9'
         } == 0) {
-            it.trim().replaceFirst(Regex("[ \\d]{1,}"), "")
+
+            val numberAndIllegalCharacters = listOf<String>(*illegalCharacter.toTypedArray(), "\\d")
+
+            it.trim().replaceFirst(Regex("${numberAndIllegalCharacters.toString().trim()}{1,}"), "")
         } else {
             it
         }

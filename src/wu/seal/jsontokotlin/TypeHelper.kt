@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
 
 /**
  * Type helper deal with type string
@@ -9,20 +9,19 @@ import com.google.gson.JsonElement
  */
 
 
-fun getPrimitiveType(next: JsonElement): String {
+fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     var subType = "String"
-    val asJsonPrimitive = next.asJsonPrimitive
-    if (asJsonPrimitive.isBoolean) {
+    if (jsonPrimitive.isBoolean) {
         subType = "Boolean"
-    } else if (asJsonPrimitive.isNumber) {
-        if (asJsonPrimitive.asString.contains(".")) {
+    } else if (jsonPrimitive.isNumber) {
+        if (jsonPrimitive.asString.contains(".")) {
             subType = "Double"
-        } else if (asJsonPrimitive.asLong > Integer.MAX_VALUE) {
+        } else if (jsonPrimitive.asLong > Integer.MAX_VALUE) {
             subType = "Long"
         } else {
             subType = "Int"
         }
-    } else if (asJsonPrimitive.isString) {
+    } else if (jsonPrimitive.isString) {
         subType = "String"
     }
     return subType
@@ -44,10 +43,9 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
         val next = iterator.next()
         val subType =
                 if (next.isJsonPrimitive) {
-                    getPrimitiveType(next)
+                    getPrimitiveType(next.asJsonPrimitive)
 
                 } else if (next.isJsonObject) {
-                    innerPropertyName = modifyPropertyForArrayObjType(innerPropertyName)
                     getJsonObjectType(innerPropertyName)
 
                 } else if (next.isJsonArray) {
@@ -71,7 +69,6 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
 
 fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
     return jsonElementArray.firstOrNull()?.isJsonObject ?: false
-
 }
 
 private fun modifyPropertyForArrayObjType(property: String): String {
