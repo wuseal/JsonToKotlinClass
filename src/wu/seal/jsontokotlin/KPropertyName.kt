@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 /**
+ * make name to be camel case
  * Created by Sealwu on 2017/9/18.
  */
 
@@ -33,14 +34,6 @@ fun main(args: Array<String>) {
 object KPropertyName : KName(), IPropertyNameMaker {
 
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        println(KPropertyName.illegalCharacter)
-    }
-
-    private val suffix = "X"
-
-
     override fun getName(rawName: String): String {
 
         return makePropertyName(rawName, true)
@@ -55,22 +48,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         if (needTransformToLegalName) {
 
-            /**
-             * keep character " "
-             */
-            val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
-
-            val temp = rawString.replace(Regex(pattern), "").let {
-
-                return@let removeStartNumberAndIllegalCharacter(it)
-
-            }
-
-            val lowerCamelCaseName = toLowerCamelCase(temp)
-
-            val legalName = toBeLegalName(lowerCamelCaseName)
-
-            return legalName
+            return makeCamelCaseLegalName(rawString)
 
         } else {
             return rawString
@@ -78,14 +56,25 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
     }
 
-    private fun toBeLegalName(name: String): String {
-        val legalName = if (name in illegalNameList) {
-            name + suffix
-        } else {
-            name
+    private fun makeCamelCaseLegalName(rawString: String): String {
+        /**
+         * keep nameSeparator character
+         */
+        val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
+
+        val temp = rawString.replace(Regex(pattern), "").let {
+
+            return@let removeStartNumberAndIllegalCharacter(it)
+
         }
+
+        val lowerCamelCaseName = toLowerCamelCase(temp)
+
+        val legalName = toBeLegalName(lowerCamelCaseName)
+
         return legalName
     }
+
 
     /**
      * this function can remove the rest white space
@@ -108,21 +97,6 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
     }
 
-    /**
-     * remove the start number or whiteSpace characters in this string
-     */
-    private fun removeStartNumberAndIllegalCharacter(it: String): String {
 
-        return if (it.replace(Regex(illegalCharacter.toString()), "").indexOfFirst {
-            return@indexOfFirst it in '0'..'9'
-        } == 0) {
-
-            val numberAndIllegalCharacters = listOf<String>(*illegalCharacter.toTypedArray(), "\\d")
-
-            it.trim().replaceFirst(Regex("${numberAndIllegalCharacters.toString().trim()}{1,}"), "")
-        } else {
-            it
-        }
-    }
 
 }

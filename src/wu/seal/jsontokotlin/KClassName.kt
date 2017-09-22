@@ -20,12 +20,12 @@ fun main(args: Array<String>) {
 
 object KClassName : KName(), IKClassName {
 
-
-    private val suffix = "X"
-
-
     override fun getLegalClassName(rawClassName: String): String {
 
+        return getUpperCamelCaseLegalName(rawClassName)
+    }
+
+    private fun getUpperCamelCaseLegalName(rawClassName: String): String {
         /**
          * keep " " character
          */
@@ -51,15 +51,6 @@ object KClassName : KName(), IKClassName {
     }
 
 
-    private fun toBeLegalName(name: String): String {
-        val legalName = if (name in illegalNameList) {
-            name + suffix
-        } else {
-            name
-        }
-        return legalName
-    }
-
     /**
      * this function can remove the rest white space
      */
@@ -79,22 +70,7 @@ object KClassName : KName(), IKClassName {
 
     }
 
-    /**
-     * remove the start number or whiteSpace characters in this string
-     */
-    private fun removeStartNumberAndIllegalCharacter(it: String): String {
 
-        return if (it.replace(Regex(illegalCharacter.toString()), "").indexOfFirst {
-            return@indexOfFirst it in '0'..'9'
-        } == 0) {
-
-            val numberAndIllegalCharacters = listOf<String>(*illegalCharacter.toTypedArray(), "\\d")
-
-            it.trim().replaceFirst(Regex("${numberAndIllegalCharacters.toString().trim()}{1,}"), "")
-        } else {
-            it
-        }
-    }
 }
 
 

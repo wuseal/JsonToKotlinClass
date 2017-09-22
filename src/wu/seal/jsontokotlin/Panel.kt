@@ -8,8 +8,9 @@ import javax.swing.JPanel
 import javax.swing.JRadioButton
 
 /**
+ * todo //beautify  interface
  * property config panel
- * Created by sealwu on 2017/9/18.
+ * Created by seal wu on 2017/9/18.
  */
 class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
