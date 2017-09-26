@@ -16,6 +16,7 @@ import java.util.*
  */
 fun handlerException(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { t, e ->
     val logBuilder = StringBuilder()
+    logBuilder.append("PluginVersion:1.3\n")
     logBuilder.append("user: $UUID").append("\n")
     val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss E", Locale.CHINA).format(Date())
     logBuilder.append("createTime: $time").append("\n")
