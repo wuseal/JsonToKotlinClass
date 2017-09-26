@@ -20,7 +20,7 @@ interface IConfigSettingDialog {
 
 }
 
-
+//todo : change the tab of TargetJson Lib postion to make it more pre
 class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IConfigSettingDialog {
 
     init {
@@ -39,11 +39,11 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
 
         val targetJsonLibConfigPanel = createTargetJsonLibConfigPanel()
 
-        tabbedPane.add("Property Keyword", propertyPanel)
-
-        tabbedPane.add("Comment Config", commentConfigPanel)
+        tabbedPane.add("Property", propertyPanel)
 
         tabbedPane.add("Target Json Lib", targetJsonLibConfigPanel)
+
+        tabbedPane.add("Comment", commentConfigPanel)
 
         tabbedPane.minimumSize = JBDimension(500, 300)
 

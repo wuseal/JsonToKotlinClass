@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
+import java.util.*
 
 /**
  * Type helper deal with type string
@@ -9,13 +10,17 @@ import com.google.gson.JsonPrimitive
  */
 
 
+const val TYPE_STRING = "String"
+const val TYPE_INT = "Int"
+const val TYPE_LONG = "Long"
+const val TYPE_DOUBLE = "Double"
+const val TYPE_ANY = "Any"
+const val TYPE_BOOLEAN = "Boolean"
+
 /**
  * the default type
  */
-const val DEFAULT_TYPE = "Any"
-
-val DEFAULT_OUTPUT_TYPE = getOutType(DEFAULT_TYPE)
-
+const val DEFAULT_TYPE = TYPE_ANY
 
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     var subType = "String"
@@ -47,7 +52,9 @@ fun getJsonObjectType(type: String): String {
  */
 fun getChildType(arrayType: String): String {
 
-    return arrayType.replace(Regex("[<,>,List]"), "")
+    val tempType = arrayType.replace(Regex("<|>|List"), "")
+
+    return tempType
 }
 
 /**
@@ -71,7 +78,7 @@ fun getRawType(outputType: String): String {
 }
 
 fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
-    val innerPropertyName = adjustPropertyNameForGettingArrayChildType(propertyName)
+    val preSubType = adjustPropertyNameForGettingArrayChildType(propertyName)
     var subType = DEFAULT_TYPE
     val jsonArray = jsonElementValue
 
@@ -83,10 +90,10 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
                     getPrimitiveType(next.asJsonPrimitive)
 
                 } else if (next.isJsonObject) {
-                    getJsonObjectType(innerPropertyName)
+                    getJsonObjectType(preSubType)
 
                 } else if (next.isJsonArray) {
-                    getArrayType(innerPropertyName, next.asJsonArray)
+                    getArrayType(preSubType, next.asJsonArray)
                 } else {
                     DEFAULT_TYPE
                 }
@@ -121,7 +128,9 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
             innerProperty = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
         }
     } else if (innerProperty.contains("list")) {
-        if (innerProperty.indexOf("list") == 0) {
+        if (innerProperty == "list") {
+            innerProperty = "Item${Date().time.toString().last()}"
+        } else if (innerProperty.indexOf("list") == 0 && innerProperty.length >= 5) {
             val end = innerProperty.substring(5)
             val pre = (innerProperty[4] + "").toLowerCase()
             innerProperty = pre + end
@@ -131,4 +140,10 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     }
 
     return innerProperty
+}
+
+
+fun main(args: Array<String>) {
+    isTestModel = true
+    println(getChildType("List<Item>"))
 }

@@ -17,13 +17,12 @@ import javax.swing.text.JTextComponent
  * Created by Seal.wu on 2017/9/21.
  */
 
-/**
- * Json input Dialog
- */
-class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the Json Data", "Input Json", Messages.getInformationIcon(), "", object : InputValidator {
+
+class MyInputValidator : InputValidator {
     override fun checkInput(inputString: String): Boolean {
         try {
             val jsonElement = JsonParser().parse(inputString)
+
             return jsonElement.isJsonObject || jsonElement.isJsonArray
         } catch (e: JsonSyntaxException) {
             return false
@@ -34,7 +33,13 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
     override fun canClose(inputString: String): Boolean {
         return true
     }
-}) {
+}
+
+/**
+ * Json input Dialog
+ */
+class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the Json Data", "Input Json", Messages.getInformationIcon(), "", MyInputValidator()) {
+
     override fun createMessagePanel(): JPanel {
         val messagePanel = JPanel(BorderLayout())
         if (myMessage != null) {
@@ -43,7 +48,6 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
         }
 
         myField = createTextFieldComponent()
-
 
         messagePanel.add(createScrollableTextComponent(), BorderLayout.CENTER)
         val settingButton = JButton("Config Settings")

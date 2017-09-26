@@ -21,6 +21,15 @@ interface IConfigManager {
     private val IS_PROPERTY_NULLABLE_KEY: String
         get() = "jsonToKotlin_is_property_nullable_key"
 
+
+    private val INIT_WITH_DEFAULT_VALUE_KEY: String
+        get() = "jsonToKotlin_init_with_default_value_key"
+
+
+    private val USER_UUID_KEY: String
+        get() = "jsonToKotlin_user_uuid_value_key"
+
+
     var isPropertiesVar: Boolean
         get() = if (isTestModel) TestConfig.isPropertiesVar else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTIES_VAR_KEY)
         set(value) = if (isTestModel) {
@@ -42,8 +51,19 @@ interface IConfigManager {
         get() = if (isTestModel) TestConfig.isPropertyNullable else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTY_NULLABLE_KEY)
         set(value) = if (isTestModel) {
         } else PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
-}
 
+
+    var initWithDefaultValue: Boolean
+        get() = if (isTestModel) TestConfig.initWithDefaultValue else PropertiesComponent.getInstance().getBoolean(INIT_WITH_DEFAULT_VALUE_KEY)
+        set(value) = if (isTestModel) {
+        } else PropertiesComponent.getInstance().setValue(INIT_WITH_DEFAULT_VALUE_KEY, value)
+
+    var userUUID: String
+        get() = if (isTestModel) "" else PropertiesComponent.getInstance().getValue(USER_UUID_KEY, "")
+        set(value) = if (isTestModel) {
+        } else PropertiesComponent.getInstance().setValue(USER_UUID_KEY, value)
+
+}
 
 /**
  * This means which Json convert library you are using in you project
@@ -68,4 +88,5 @@ object TestConfig {
     var isPropertiesVar = false
     var targetJsonConvertLib = TargetJsonConverter.Gson
     var isPropertyNullable = true
+    var initWithDefaultValue = true
 }

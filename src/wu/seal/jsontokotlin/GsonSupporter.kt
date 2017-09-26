@@ -49,6 +49,10 @@ object GsonSupporter : IGsonSupporter {
 
         gsonSupportPropertyBuilder.append(propertyType)
 
+        if (ConfigManager.initWithDefaultValue) {
+            gsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
+        }
+
         gsonSupportPropertyBuilder.append(",")
 
         return gsonSupportPropertyBuilder.toString()

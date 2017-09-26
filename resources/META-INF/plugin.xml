@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.2.1</version>
+  <version>1.3</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -41,7 +41,7 @@
 
   <application-components>
     <component>
-      <implementation-class>wu.seal.jsontokotlin.TestApplication</implementation-class>
+      <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
     </component>
   </application-components>
 </idea-plugin>

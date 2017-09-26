@@ -1,10 +1,7 @@
 package wu.seal.jsontokotlin
 
 import java.awt.*
-import javax.swing.ButtonGroup
-import javax.swing.JCheckBox
-import javax.swing.JPanel
-import javax.swing.JRadioButton
+import javax.swing.*
 import javax.swing.border.EmptyBorder
 
 /**
@@ -21,8 +18,12 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
 
     init {
 
+
+        val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+        setLayout(boxLayout)
         border = EmptyBorder(10, 10, 10, 10)
-        setLayout(GridLayout(5, 1, 10, 10))
+
+        val keywordLable = JLabel("Keyword")
 
         val radioButtonVal = JRadioButton("Val")
 
@@ -30,6 +31,7 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
             ConfigManager.isPropertiesVar = false
         }
         val radioButtonVar = JRadioButton("Var")
+
         radioButtonVar.addActionListener {
             ConfigManager.isPropertiesVar = true
         }
@@ -40,31 +42,51 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
         } else {
             radioButtonVal.isSelected = true
         }
-
         val buttonGroupProperty = ButtonGroup()
         buttonGroupProperty.add(radioButtonVal)
         buttonGroupProperty.add(radioButtonVar)
 
-        add(radioButtonVal)
-        add(radioButtonVar)
+        addComponentIntoVerticalBoxAlignmentLeft(keywordLable)
+        add(Box.createVerticalStrut(20))
+        addComponentIntoVerticalBoxAlignmentLeft(radioButtonVal)
+        add(Box.createVerticalStrut(20))
 
-        val nullableConatainer = JPanel(BorderLayout(10, 10))
+        addComponentIntoVerticalBoxAlignmentLeft(radioButtonVar)
+
+        add(Box.createVerticalStrut(20))
+
+
         val line = JPanel()
-        line.preferredSize = Dimension(500, 1)
+        line.maximumSize = Dimension(1000, 1)
+        line.minimumSize = Dimension(500, 1)
+        line.preferredSize = Dimension(800, 1)
         line.background = Color.BLACK
-        nullableConatainer.add(line, BorderLayout.NORTH)
 
-        val nullAbleCheck = JCheckBox("Property to be Nullable?")
+        add(line)
+
+        val nullAbleCheck = JCheckBox("Property type be Nullable(?)")
         if (ConfigManager.isPropertyNullable) {
             nullAbleCheck.isSelected = true
+        }
+
+        val initWithDefaultValueCheck = JCheckBox("Init with default value (avoid null)")
+        initWithDefaultValueCheck.isSelected = ConfigManager.initWithDefaultValue
+
+        initWithDefaultValueCheck.addChangeListener {
+            ConfigManager.initWithDefaultValue = initWithDefaultValueCheck.isSelected
         }
 
         nullAbleCheck.addChangeListener {
             ConfigManager.isPropertyNullable = nullAbleCheck.isSelected
         }
-        nullableConatainer.add(nullAbleCheck, BorderLayout.CENTER)
 
-        add(nullableConatainer)
+        add(Box.createVerticalStrut(20))
+
+        addComponentIntoVerticalBoxAlignmentLeft(initWithDefaultValueCheck)
+        add(Box.createVerticalStrut(20))
+
+        addComponentIntoVerticalBoxAlignmentLeft(nullAbleCheck)
+
 
     }
 }
