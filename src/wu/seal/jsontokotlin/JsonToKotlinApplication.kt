@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.intellij.openapi.components.ApplicationComponent
+import wu.seal.jsontokotlin.statistics.sendConfigInfo
 import wu.seal.jsontokotlin.statistics.sendHistoryExceptionInfo
 import wu.seal.jsontokotlin.statistics.sendHistoryActionInfo
 
@@ -17,6 +18,7 @@ class JsonToKotlinApplication : ApplicationComponent {
 
         println("init json to kotlin ")
         Thread() {
+            sendConfigInfo()
             sendHistoryExceptionInfo()
             sendHistoryActionInfo()
         }.start()
