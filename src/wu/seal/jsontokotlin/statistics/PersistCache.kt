@@ -57,7 +57,9 @@ object PersistCache : IPersistCache {
     override fun readAllCachedExceptionInfo(): String {
         val builder = StringBuilder()
         exceptionDir.listFiles().forEach {
-            builder.append(it.readText()).append("#")
+            if (it.exists()) {
+                builder.append(it.readText()).append("#")
+            }
         }
         return builder.toString()
     }
@@ -73,12 +75,15 @@ object PersistCache : IPersistCache {
     override fun readAllCachedActionInfo(): String {
         val builder = StringBuilder()
         actionDir.listFiles().forEach {
-            builder.append(it.readText()).append("#")
+            if (it.exists()) {
+                builder.append(it.readText()).append("#")
+            }
         }
         return builder.toString()
     }
 
     override fun deleteAllActionInfo() {
+        actionDir.listFiles().forEach { it.delete() }
     }
 
 }

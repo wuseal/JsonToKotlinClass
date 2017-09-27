@@ -1,8 +1,6 @@
 package wu.seal.jsontokotlin
 
 import com.intellij.openapi.components.ApplicationComponent
-import com.intellij.openapi.ui.Messages
-import wu.seal.jsontokotlin.statistics.handlerException
 import wu.seal.jsontokotlin.statistics.sendHistoryExceptionInfo
 import wu.seal.jsontokotlin.statistics.sendHistoryActionInfo
 

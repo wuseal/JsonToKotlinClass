@@ -57,7 +57,7 @@ fun sendHistoryExceptionInfo() {
         PersistCache.readAllCachedExceptionInfo().split("#").filter { it.isNotBlank() }.forEach {
             sendExceptionLog(it)
         }
-    }
+    }.start()
     PersistCache.deleteAllExceptionInfoCache()
 }
 

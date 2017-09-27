@@ -10,7 +10,7 @@ import java.util.*
  */
 
 const val ACTION_START = "action_start"
-const val ACTION_SUCCESS_COMPLETE = "action_sucess_complete"
+const val ACTION_SUCCESS_COMPLETE = "action_success_complete"
 
 data class StartAction(
         val uuid: String = UUID,

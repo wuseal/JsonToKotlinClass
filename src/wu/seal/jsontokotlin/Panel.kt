@@ -1,5 +1,8 @@
 package wu.seal.jsontokotlin
 
+import com.intellij.util.ui.JBDimension
+import com.intellij.util.ui.JBUI
+import com.intellij.util.xml.ui.TextPanel
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
@@ -21,7 +24,8 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
 
         val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
         setLayout(boxLayout)
-        border = EmptyBorder(10, 10, 10, 10)
+        val bordWidth = JBUI.scale(10)
+        border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
 
         val keywordLable = JLabel("Keyword")
 
@@ -56,11 +60,10 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
         add(Box.createVerticalStrut(20))
 
 
-        val line = JPanel()
-        line.maximumSize = Dimension(1000, 1)
-        line.minimumSize = Dimension(500, 1)
-        line.preferredSize = Dimension(800, 1)
-        line.background = Color.BLACK
+        val line = TextPanel()
+        line.maximumSize = JBDimension(480, 1)
+        line.minimumSize = JBDimension(480, 1)
+        line.background = Color.GRAY
 
         add(line)
 
@@ -103,9 +106,9 @@ class CommentConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JP
 
     init {
 
-        border = EmptyBorder(10, 10, 10, 10)
-
-        setLayout(GridLayout(5, 1, 10, 10))
+        val bordWidth = JBUI.scale(10)
+        border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
+        setLayout(GridLayout(6, 1, 10, 10))
 
         val radioButtonOpen = JRadioButton("On")
 
@@ -145,9 +148,10 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
 
     init {
 
-        border = EmptyBorder(10, 10, 10, 10)
+        val bordWidth = JBUI.scale(10)
+        border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
 
-        setLayout(GridLayout(5, 1, 10, 10))
+        setLayout(GridLayout(6, 1, 10, 10))
 
         val radioButtonNone = JRadioButton("None")
 

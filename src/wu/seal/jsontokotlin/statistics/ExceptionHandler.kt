@@ -15,7 +15,7 @@ import java.util.*
 /**
  * handler the exception
  */
-fun handlerException(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { t, e ->
+fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, e ->
     val logBuilder = StringBuilder()
     logBuilder.append("PluginVersion:$PLUGIN_VERSION\n")
     logBuilder.append("user: $UUID").append("\n")

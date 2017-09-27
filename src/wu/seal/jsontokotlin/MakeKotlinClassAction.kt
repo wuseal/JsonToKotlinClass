@@ -10,7 +10,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import wu.seal.jsontokotlin.statistics.StartAction
 import wu.seal.jsontokotlin.statistics.SuccessCompleteAction
-import wu.seal.jsontokotlin.statistics.handlerException
+import wu.seal.jsontokotlin.statistics.getUncaughtExceptionHandler
 import wu.seal.jsontokotlin.statistics.sendActionInfo
 
 import java.util.IllegalFormatFlagsException
@@ -60,7 +60,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
 
             executeCouldRollBackAction(project) {
-                var offset = 0
+                var offset: Int
 
                 if (caret != null) {
 
@@ -77,7 +77,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             Messages.showMessageDialog(project, "Kotlin Code insert successfully!", "Information", Messages.getInformationIcon())
             sendActionInfo(gson.toJson(SuccessCompleteAction()))
         } catch(e: Exception) {
-            handlerException(jsonString) {
+            getUncaughtExceptionHandler(jsonString) {
                 Messages.showErrorDialog("I am sorry,JsonToKotlin may occur a RuntimeException,You could try again later or recover to the old version", "Occur a fatal error")
             }.uncaughtException(Thread.currentThread(), e)
         }

@@ -20,7 +20,6 @@ interface IConfigSettingDialog {
 
 }
 
-//todo : change the tab of TargetJson Lib postion to make it more pre
 class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IConfigSettingDialog {
 
     init {
