@@ -24,7 +24,7 @@ I am a plugin for Kotlin to convert Json String into Kotlin data class code (Jso
 * Add property keyword config setting like ('var' or 'val'),the default keyword changed to 'val'.
 
 ### How to use
-* Search 'JsonToKotlin' in Intellij Idea Plugin Repositroy Or AndroidStudio Repository And Install it.
+* Search 'JsonToKotlin' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.
 * Restart your Develop tools 
 * Press short key ALT + K And Then you will know how to use
 
