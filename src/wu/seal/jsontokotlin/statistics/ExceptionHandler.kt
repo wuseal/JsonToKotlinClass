@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.statistics
 
+import wu.seal.jsontokotlin.PLUGIN_VERSION
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.text.SimpleDateFormat
@@ -16,7 +17,7 @@ import java.util.*
  */
 fun handlerException(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { t, e ->
     val logBuilder = StringBuilder()
-    logBuilder.append("PluginVersion:1.3\n")
+    logBuilder.append("PluginVersion:$PLUGIN_VERSION\n")
     logBuilder.append("user: $UUID").append("\n")
     val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss E", Locale.CHINA).format(Date())
     logBuilder.append("createTime: $time").append("\n")

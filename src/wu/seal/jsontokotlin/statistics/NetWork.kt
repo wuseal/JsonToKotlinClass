@@ -8,8 +8,8 @@ import java.net.URL
  * Created by Seal.Wu on 2017/9/25.
  */
 
-const val actionInfoUrl = "http://localhost:8080/sendActionInfo"
-const val exceptionLogUrl = "http://localhost:8080/sendExceptionInfo"
+const val actionInfoUrl = "http://jsontokotlin.sealwu.com:8008/sendActionInfo"
+const val exceptionLogUrl = "http://jsontokotlin.sealwu.com:8008/sendExceptionInfo"
 
 fun sendExceptionLog(log: String) {
     try {
@@ -73,7 +73,7 @@ fun sendHistoryActionInfo() {
 
 
 fun main(args: Array<String>) {
-    val demeoActionInfo ="""{"id":12,"uuid":"fdsafds","actionType":"start","time":"1234231434124324"}"""
+    val demeoActionInfo =""" {"id":0,"uuid":"214fdsafsafafsdf","pluginVersion":"1.2.1","actionType":"start","time":"1234231434124324","daytime":"2017-09-27"}"""
 
     sendExceptionLog("hello,I am exception")
     sendActionInfo(demeoActionInfo)
