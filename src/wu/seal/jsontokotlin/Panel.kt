@@ -154,28 +154,41 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
         setLayout(GridLayout(6, 1, 10, 10))
 
         val radioButtonNone = JRadioButton("None")
+        val radioButtonGson = JRadioButton("Gson")
+        val radioButtonJackson = JRadioButton("Jackson")
 
         radioButtonNone.addActionListener {
             ConfigManager.targetJsonConverterLib = TargetJsonConverter.None
         }
-        val radioButtonGson = JRadioButton("Gson")
         radioButtonGson.addActionListener {
             ConfigManager.targetJsonConverterLib = TargetJsonConverter.Gson
+        }
+        radioButtonJackson.addActionListener {
+
+            ConfigManager.targetJsonConverterLib = TargetJsonConverter.Jackson
         }
 
         if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.None) {
 
             radioButtonNone.isSelected = true
+
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
+
             radioButtonGson.isSelected = true
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson) {
+
+            radioButtonJackson.isSelected = true
         }
 
         val buttonGroupProperty = ButtonGroup()
         buttonGroupProperty.add(radioButtonNone)
         buttonGroupProperty.add(radioButtonGson)
+        buttonGroupProperty.add(radioButtonJackson)
 
         add(radioButtonNone)
         add(radioButtonGson)
+        add(radioButtonJackson)
     }
 
 }

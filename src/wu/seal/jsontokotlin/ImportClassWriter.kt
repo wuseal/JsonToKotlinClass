@@ -33,7 +33,7 @@ object ImportClassWriter : IImportClassWriter {
 
             TargetJsonConverter.Gson -> insertGsonImportClass(project, editFile)
             TargetJsonConverter.FastJson -> insertFastJsonImportClass(project, editFile)
-            TargetJsonConverter.Jackson -> insertFastJsonImportClass(project, editFile)
+            TargetJsonConverter.Jackson -> insertJackSonImportClass(project, editFile)
 
             else -> {
                 println("No need to import any Class code")
@@ -43,14 +43,23 @@ object ImportClassWriter : IImportClassWriter {
 
 
     override fun insertFastJsonImportClass(project: Project?, editFile: Document) {
+
     }
 
     override fun insertJackSonImportClass(project: Project?, editFile: Document) {
+        val importClassString = JacksonSupporter.jacksonAnnotationImportClassString
+        insertImportClassString(editFile, importClassString, project)
     }
 
     override fun insertGsonImportClass(project: Project?, editFile: Document) {
+
+        val importClassString = GsonSupporter.gsonAnotationImportString
+        insertImportClassString(editFile, importClassString, project)
+    }
+
+    private fun insertImportClassString(editFile: Document, importClassString: String, project: Project?) {
         val text = editFile.text
-        if (GsonSupporter.gsonAnotationImportString !in text) {
+        if (importClassString !in text) {
 
             val packageIndex = text.indexOf("package ")
             val importIndex = Math.max(text.lastIndexOf("import"), packageIndex)
@@ -58,7 +67,7 @@ object ImportClassWriter : IImportClassWriter {
 
 
             executeCouldRollBackAction(project) {
-                editFile.insertString(insertIndex, "\n" + GsonSupporter.gsonAnotationImportString + "\n")
+                editFile.insertString(insertIndex, "\n" + importClassString + "\n")
             }
 
         }

@@ -124,7 +124,7 @@ fun main(args: Array<String>) {
     println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
     println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
 
-    TestConfig.targetJsonConvertLib = TargetJsonConverter.None
+    TestConfig.targetJsonConvertLib = TargetJsonConverter.Jackson
     TestConfig.isCommentOff = true
     TestConfig.isPropertiesVar = true
     TestConfig.isPropertyNullable = false

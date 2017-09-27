@@ -36,6 +36,10 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
 
             blockBulder.append(GsonSupporter.getGsonSupporterProperty(rawPropertyName, propertyType))
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson) {
+
+            blockBulder.append(JacksonSupporter.getJacksonSupporterProperty(rawPropertyName, propertyType))
         }
 
         if (!ConfigManager.isCommentOff && propertyValue.isNotBlank()) {
