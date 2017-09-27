@@ -26,7 +26,9 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     override fun actionPerformed(event: AnActionEvent) {
         var jsonString: String = ""
         try {
-            sendActionInfo(gson.toJson(StartAction()))
+            Thread() {
+                sendActionInfo(gson.toJson(StartAction()))
+            }.start()
             val project = event.getData(PlatformDataKeys.PROJECT)
             val caret = event.getData(PlatformDataKeys.CARET)
             val editor = event.getData(PlatformDataKeys.EDITOR_EVEN_IF_INACTIVE)
