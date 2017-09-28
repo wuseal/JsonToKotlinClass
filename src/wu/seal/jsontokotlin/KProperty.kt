@@ -40,6 +40,11 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson) {
 
             blockBulder.append(JacksonSupporter.getJacksonSupporterProperty(rawPropertyName, propertyType))
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson) {
+
+            blockBulder.append(FastjsonSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+
         }
 
         if (!ConfigManager.isCommentOff && propertyValue.isNotBlank()) {

@@ -75,11 +75,11 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
         val initWithDefaultValueCheck = JCheckBox("Init with default value (avoid null)")
         initWithDefaultValueCheck.isSelected = ConfigManager.initWithDefaultValue
 
-        initWithDefaultValueCheck.addChangeListener {
+        initWithDefaultValueCheck.addActionListener {
             ConfigManager.initWithDefaultValue = initWithDefaultValueCheck.isSelected
         }
 
-        nullAbleCheck.addChangeListener {
+        nullAbleCheck.addActionListener {
             ConfigManager.isPropertyNullable = nullAbleCheck.isSelected
         }
 
@@ -156,6 +156,7 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
         val radioButtonNone = JRadioButton("None")
         val radioButtonGson = JRadioButton("Gson")
         val radioButtonJackson = JRadioButton("Jackson")
+        val radioButtonFastjson = JRadioButton("Fastjson")
 
         radioButtonNone.addActionListener {
             ConfigManager.targetJsonConverterLib = TargetJsonConverter.None
@@ -166,6 +167,10 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
         radioButtonJackson.addActionListener {
 
             ConfigManager.targetJsonConverterLib = TargetJsonConverter.Jackson
+        }
+        radioButtonFastjson.addActionListener {
+
+            ConfigManager.targetJsonConverterLib = TargetJsonConverter.FastJson
         }
 
         if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.None) {
@@ -179,16 +184,21 @@ class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson) {
 
             radioButtonJackson.isSelected = true
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson) {
+
+            radioButtonFastjson.isSelected = true
         }
 
         val buttonGroupProperty = ButtonGroup()
         buttonGroupProperty.add(radioButtonNone)
         buttonGroupProperty.add(radioButtonGson)
         buttonGroupProperty.add(radioButtonJackson)
+        buttonGroupProperty.add(radioButtonFastjson)
 
         add(radioButtonNone)
         add(radioButtonGson)
         add(radioButtonJackson)
+        add(radioButtonFastjson)
     }
 
 }

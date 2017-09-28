@@ -116,7 +116,7 @@ var isTestModel = false
 object TestConfig {
     var isCommentOff = false
     var isPropertiesVar = false
-    var targetJsonConvertLib = TargetJsonConverter.Gson
+    var targetJsonConvertLib = TargetJsonConverter.None
     var isPropertyNullable = true
     var initWithDefaultValue = true
 }

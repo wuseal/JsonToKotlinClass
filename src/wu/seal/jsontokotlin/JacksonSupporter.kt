@@ -7,7 +7,7 @@ package wu.seal.jsontokotlin
 
 interface IJacksonSupporter {
 
-    val jacksonAnnotationImportClassString: String
+    val annotationImportClassString: String
         get() = "import com.fasterxml.jackson.annotation.JsonProperty"
 
     /**

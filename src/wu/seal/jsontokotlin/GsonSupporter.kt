@@ -27,7 +27,7 @@ object GsonSupporter : IGsonSupporter {
     /**
      * When adapter Gson lib at most ,We should import the Anotation Class
      */
-    val gsonAnotationImportString = "import com.google.gson.annotations.SerializedName"
+    val annotationImportClassString = "import com.google.gson.annotations.SerializedName"
 
     private val anotaionOnProperty = "@SerializedName(\"%s\")"
 

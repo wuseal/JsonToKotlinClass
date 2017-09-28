@@ -43,17 +43,18 @@ object ImportClassWriter : IImportClassWriter {
 
 
     override fun insertFastJsonImportClass(project: Project?, editFile: Document) {
-
+        val importClassString = FastjsonSupporter.annotationImportClassString
+        insertImportClassString(editFile, importClassString, project)
     }
 
     override fun insertJackSonImportClass(project: Project?, editFile: Document) {
-        val importClassString = JacksonSupporter.jacksonAnnotationImportClassString
+        val importClassString = JacksonSupporter.annotationImportClassString
         insertImportClassString(editFile, importClassString, project)
     }
 
     override fun insertGsonImportClass(project: Project?, editFile: Document) {
 
-        val importClassString = GsonSupporter.gsonAnotationImportString
+        val importClassString = GsonSupporter.annotationImportClassString
         insertImportClassString(editFile, importClassString, project)
     }
 

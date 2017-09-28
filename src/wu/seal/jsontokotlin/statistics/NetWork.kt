@@ -99,7 +99,7 @@ fun sendConfigInfo() {
 fun main(args: Array<String>) {
     isTestModel = true
 
-    val demeoActionInfo = """ {"id":0,"uuid":"214fdsafsafafsdf","pluginVersion":"1.2.1","actionType":"start","time":"1234231434124324","daytime":"2017-09-27"}"""
+    val demeoActionInfo = Gson().toJson(StartAction())
     sendExceptionLog("hello,I am exception")
     sendActionInfo(demeoActionInfo)
 

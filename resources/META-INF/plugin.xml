@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.4-alpha</version>
+  <version>1.4</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -12,8 +12,9 @@
 
   <change-notes><![CDATA[
     1.4:<br>
-      * Add supporter for Jackson annotation generate,supporter json lib --Jackson
-      * Beautify the config settings dialog
+      * Add supporter for Jackson annotation generate,supporter json lib --Jackson.<br>
+      * Add supporter for Fastjson annotation generate,supporter json lib --Fastjson.<br>
+      * Beautify the config settings dialog.<br>
     1.3:<br>
       * add property init with default value option in property tab.<br>
       * add property could be nullable option in property tab.<br>

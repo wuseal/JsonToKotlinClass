@@ -129,7 +129,30 @@ fun main(args: Array<String>) {
     TestConfig.isPropertiesVar = true
     TestConfig.isPropertyNullable = false
 
-    println("===========================================Change to none json lib support========================================= ")
+    println("===========================================Change to Jackson json lib support========================================= ")
+
+    println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
+    println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
+
+
+    TestConfig.targetJsonConvertLib = TargetJsonConverter.FastJson
+    TestConfig.isCommentOff = true
+    TestConfig.isPropertiesVar = true
+    TestConfig.isPropertyNullable = false
+
+    println("===========================================Change to FastJson json lib support========================================= ")
+
+    println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
+    println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
+
+
+
+    TestConfig.targetJsonConvertLib = TargetJsonConverter.Gson
+    TestConfig.isCommentOff = false
+    TestConfig.isPropertiesVar = false
+    TestConfig.isPropertyNullable = true
+
+    println("===========================================Change to Gson json lib support========================================= ")
 
     println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
     println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
