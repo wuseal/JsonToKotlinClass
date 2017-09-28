@@ -6,6 +6,10 @@ I am a plugin for Kotlin generate Kotlin data class code from a json string
 I am a plugin for Kotlin to convert Json String into Kotlin data class code (Json to Kotlin)
 
 ### Update Log
+#### 1.4
+ * Add supporter for Jackson annotation generate,supporter json lib --Jackson.
+ * Add supporter for Fastjson annotation generate,supporter json lib --Fastjson.
+ * Beautify the config settings dialog.
 #### 1.3
  * Add property init with default value option in property tab.(Recommend to select,with this selected you can avoid NullPointException in the following time,You can also unSelect the nullable option to avoid null check when use the data value).
  * Add property could be nullable option in property tab.
@@ -30,6 +34,9 @@ I am a plugin for Kotlin to convert Json String into Kotlin data class code (Jso
 
 #### Default:
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17340.png)
+
+### Configure with Jackson support on and init with deault value on and comment off
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17362.png)
 
 #### Config with Gson support on and init with deault value on
 
