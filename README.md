@@ -95,7 +95,7 @@ I am a plugin for Kotlin to convert Json String into Kotlin data class code (Jso
   
     ```
 
-### More Detail Document
+### Chinese Detail Document (中文文档)
 * http://blog.csdn.net/wuseal/article/details/77508585
 
 ### Others
