@@ -3,14 +3,13 @@
 [![GitHub issues](https://img.shields.io/github/issues/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub contributors](https://img.shields.io/github/contributors/wuseal/JsonToKotlinClass.svg)]()
-[![Github search hit counter](https://img.shields.io/github/search/torvalds/wuseal/JsonToKotlinClass.svg)]()
+[![license](https://img.shields.io/github/license/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/blob/master/LICENSE)
 
 [![Kotlin](https://img.shields.io/badge/%20language-Kotlin-red.svg)](https://kotlinlang.org/)
 [![IntelliJ Idea Plugin](https://img.shields.io/badge/plugin-IntelliJ%20%20Idea-blue.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 [![Android Studio Plugin](https://img.shields.io/badge/plugin-AndroidStudio-green.svg)](
 https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 
-[![license](https://img.shields.io/github/license/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/blob/master/LICENSE)
 # JsonToKotlinClass
 
 Hi,Welcome to come to see me!
