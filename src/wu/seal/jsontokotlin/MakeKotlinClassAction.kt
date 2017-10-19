@@ -75,7 +75,9 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
 
             Messages.showMessageDialog(project, "Kotlin Code insert successfully!", "Information", Messages.getInformationIcon())
-            sendActionInfo(gson.toJson(SuccessCompleteAction()))
+            Thread {
+                sendActionInfo(gson.toJson(SuccessCompleteAction()))
+            }.start()
         } catch(e: Exception) {
             getUncaughtExceptionHandler(jsonString) {
                 Messages.showErrorDialog("I am sorry,JsonToKotlin may occur a RuntimeException,You could try again later or recover to the old version", "Occur a fatal error")

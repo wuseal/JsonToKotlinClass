@@ -25,7 +25,7 @@ object FastjsonSupporter:IJsonLibSupporter {
 
         fastjsonSupportPropertyBuilder.append(" ")
 
-        fastjsonSupportPropertyBuilder.append(KPropertyName.getName(rawPropertyName))
+        fastjsonSupportPropertyBuilder.append(KPropertyName.getName(removeStartIsCharactors(rawPropertyName)))
 
         fastjsonSupportPropertyBuilder.append(": ")
 
@@ -40,5 +40,16 @@ object FastjsonSupporter:IJsonLibSupporter {
         return fastjsonSupportPropertyBuilder.toString()
     }
 
+    private fun removeStartIsCharactors(rawPropertyName: String): String {
+        if (rawPropertyName.startsWith("is")) {
 
+            var modifyPropertyName = rawPropertyName.removePrefix("is")
+            while (modifyPropertyName.startsWith("is")) {
+                modifyPropertyName = modifyPropertyName.removePrefix("is")
+            }
+            return modifyPropertyName
+        } else {
+            return rawPropertyName
+        }
+    }
 }

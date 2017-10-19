@@ -96,7 +96,7 @@ class KotlinMaker {
 fun main(args: Array<String>) {
     isTestModel = true
     val json1 = """{ "progr ammers": [
-                { "FirstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
+                { "isFirstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
                 { "firstName": "Jason", "lastName":"Hunter", "email": "bbbb" },
                 { "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
                 ],

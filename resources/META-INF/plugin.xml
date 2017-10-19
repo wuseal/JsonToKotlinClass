@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.4</version>
+  <version>1.4.1</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -11,6 +11,9 @@
     ]]></description>
 
   <change-notes><![CDATA[
+    1.4.1:<br>
+      * Fix an issue about Fastjson property name [#ISSUE9](https://github.com/wuseal/JsonToKotlinClass/issues/9)<br>
+      * Fix an issue about using in none network condition it will be stuck [#ISSUE10](https://github.com/wuseal/JsonToKotlinClass/issues/10)<br>
     1.4:<br>
       * Add supporter for Jackson annotation generate,supporter json lib --Jackson.<br>
       * Add supporter for Fastjson annotation generate,supporter json lib --Fastjson.<br>
