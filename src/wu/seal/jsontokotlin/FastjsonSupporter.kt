@@ -40,6 +40,9 @@ object FastjsonSupporter:IJsonLibSupporter {
         return fastjsonSupportPropertyBuilder.toString()
     }
 
+    /**
+     * todo // the logic also has problem ,remove 'is' when it end with uppercase,or don't do anything
+     */
     private fun removeStartIsCharactors(rawPropertyName: String): String {
         if (rawPropertyName.startsWith("is")) {
 
