@@ -25,6 +25,9 @@ object FastjsonSupporter:IJsonLibSupporter {
 
         fastjsonSupportPropertyBuilder.append(" ")
 
+        /**
+         * todo // the logic below also has problem ,remove 'is' when it end with uppercase,or don't do anything
+         */
         fastjsonSupportPropertyBuilder.append(KPropertyName.getName(removeStartIsCharactors(rawPropertyName)))
 
         fastjsonSupportPropertyBuilder.append(": ")
@@ -40,9 +43,7 @@ object FastjsonSupporter:IJsonLibSupporter {
         return fastjsonSupportPropertyBuilder.toString()
     }
 
-    /**
-     * todo // the logic also has problem ,remove 'is' when it end with uppercase,or don't do anything
-     */
+
     private fun removeStartIsCharactors(rawPropertyName: String): String {
         if (rawPropertyName.startsWith("is")) {
 
