@@ -19,7 +19,7 @@ also as say a plugin for Kotlin to convert JSON String into Kotlin data class co
 ### Overview
 Hi,This is a very cool tool for Kotlin developers ,It can convert the Json String into Kotlin Data Class code ,and paste it into your editor file ,The tool could recognize the Primitive Type of Json String and make Type Identifier respectively ,It taste easily ,Just have test,guys! Just press short key ALT + K ,And then,start your Kotlin program travel ! JsonToKotlin make program more happy!
 
-### Function
+### Functions
 * Generate Kotlin data class from any legal JSON text.
 * Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)
 * Support customize your own Annotation
