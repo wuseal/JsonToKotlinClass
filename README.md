@@ -13,49 +13,29 @@ https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 # JsonToKotlinClass
 
 Hi,Welcome to come to see me!
-I am a plugin for Kotlin generate Kotlin data class code from a json string
-
-I am a plugin for Kotlin to convert Json String into Kotlin data class code (Json to Kotlin)
+I am a plugin for Kotlin generate Kotlin data class code from a JSON string
+also as say a plugin for Kotlin to convert JSON String into Kotlin data class code (Json to Kotlin)
 
 ### Overview
 Hi,This is a very cool tool for Kotlin developers ,It can convert the Json String into Kotlin Data Class code ,and paste it into your editor file ,The tool could recognize the Primitive Type of Json String and make Type Identifier respectively ,It taste easily ,Just have test,guys! Just press short key ALT + K ,And then,start your Kotlin program travel ! JsonToKotlin make program more happy!
-### Update Log
-#### 1.4.1
-  * Fix an issue about Fastjson property name [#Issue9](https://github.com/wuseal/JsonToKotlinClass/issues/9)
-  * Fix an issue about using in none network condition it will be stuck [#Issue10](https://github.com/wuseal/JsonToKotlinClass/issues/10) 
-#### 1.4
- * Add supporter for Jackson annotation generate,supporter json lib --Jackson.
- * Add supporter for Fastjson annotation generate,supporter json lib --Fastjson.
- * Beautify the config settings dialog.
-#### 1.3
- * Add property init with default value option in property tab.(Recommend to select,with this selected you can avoid NullPointException in the following time,You can also unSelect the nullable option to avoid null check when use the data value).
- * Add property could be nullable option in property tab.
- * Fix a bug when the property name is 'list' and it's type is array then the plugin will broken.
- * Beautify dialog layout.
 
-#### 1.2.1
-* Fix insert improt class code upon package declare
-* Format property name and class name to camelcase name
-
-#### 1.2
-* Add support for generate anotations for target json lib --gson
-* Add Comment option to switch the comment content to append
-
-#### 1.1
-* Add property keyword config setting like ('var' or 'val'),the default keyword changed to 'val'.
+### Function
+* Generate Kotlin data class from any legal JSON text.
+* Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)
+* Support customize your own Annotation
 
 ### How to use
 * Search 'JsonToKotlin' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.
 * Restart your Develop tools 
 * Press short key ALT + K And Then you will know how to use
 
-#### Default:
+#### Default :
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17340.png)
 
 ### Configure with Jackson support on and init with deault value on and comment off
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17362.png)
 
-#### Config with Gson support on and init with deault value on
+### Config with Gson support on and init with deault value on
 
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17359.png)
 
@@ -122,7 +102,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 ### Thanks
 * Thank [@davidbilik](https://github.com/davidbilik) give me first awesome advice.
 * Thank [@cgoodroe](https://github.com/cgoodroe) raise many awesome issues for me,Help me improve myself
-* Thank [@wangzhenguang](https://github.com/wangzhenguang) remaining the details of the problem
+* Thank [@wangzhenguang](https://github.com/wangzhenguang) remains me the details of problem
 
 ### Find me useful ? :heart:
 * Support me by clicking the :star: button on the upper right of this page. :v:
