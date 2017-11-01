@@ -1,4 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
+
+import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
+import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.codeelements.getDefaultValue
 
 /**
  * Gson Support about
@@ -18,28 +22,28 @@ interface IGsonSupporter {
 
 
 fun main(args: Array<String>) {
-    isTestModel = true
-    println("getGsonSupporterProperty:\n ${GsonSupporter.getGsonSupporterProperty("seal is **() good_man ","Boy")}")
+    wu.seal.jsontokotlin.isTestModel = true
+    println("getGsonSupporterProperty:\n ${wu.seal.jsontokotlin.supporter.GsonSupporter.getGsonSupporterProperty("seal is **() good_man ", "Boy")}")
 }
 
-object GsonSupporter : IGsonSupporter {
+object GsonSupporter : wu.seal.jsontokotlin.supporter.IGsonSupporter {
 
     /**
      * When adapter Gson lib at most ,We should import the Anotation Class
      */
     val annotationImportClassString = "import com.google.gson.annotations.SerializedName"
 
-    private val anotaionOnProperty = "@SerializedName(\"%s\")"
+    internal val anotaionOnProperty = "@SerializedName(\"%s\")"
 
     override fun getGsonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 
         val gsonSupportPropertyBuilder = StringBuilder()
 
-        gsonSupportPropertyBuilder.append(anotaionOnProperty.format(rawPropertyName))
+        gsonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.GsonSupporter.anotaionOnProperty.format(rawPropertyName))
 
         gsonSupportPropertyBuilder.append(" ")
 
-        gsonSupportPropertyBuilder.append(PropertyKeyword.get())
+        gsonSupportPropertyBuilder.append(KPropertyKeyword.get())
 
         gsonSupportPropertyBuilder.append(" ")
 
@@ -49,7 +53,7 @@ object GsonSupporter : IGsonSupporter {
 
         gsonSupportPropertyBuilder.append(propertyType)
 
-        if (ConfigManager.initWithDefaultValue) {
+        if (wu.seal.jsontokotlin.ConfigManager.initWithDefaultValue) {
             gsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 

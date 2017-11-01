@@ -1,6 +1,8 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.*
+import wu.seal.jsontokotlin.codeelements.KClassAnnotation
+import wu.seal.jsontokotlin.codeelements.KProperty
 
 import java.util.HashSet
 
@@ -50,6 +52,9 @@ class KotlinMaker {
     }
 
     private fun appClassName(stringBuilder: StringBuilder) {
+        val classAnnotation = KClassAnnotation.getClassAnnotation()
+        stringBuilder.append(classAnnotation)
+        if (classAnnotation.isNotBlank()) stringBuilder.append("\n")
         stringBuilder.append("data class ").append(className).append("(\n")
     }
 

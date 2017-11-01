@@ -12,6 +12,7 @@ import wu.seal.jsontokotlin.statistics.StartAction
 import wu.seal.jsontokotlin.statistics.SuccessCompleteAction
 import wu.seal.jsontokotlin.statistics.getUncaughtExceptionHandler
 import wu.seal.jsontokotlin.statistics.sendActionInfo
+import wu.seal.jsontokotlin.ui.JsonInputDialog
 
 import java.util.IllegalFormatFlagsException
 
@@ -36,12 +37,10 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 Messages.showWarningDialog("Please open a file in editor state for insert Kotlin code!", "No Editor File")
                 return
             }
-            val className = Messages.showInputDialog(project, "Please input the Class Name for Insert", "Input ClassName", Messages.getInformationIcon())
-            if (className == null || className.isEmpty()) {
-                return
-            }
+
             val inputDialog = JsonInputDialog(project!!)
             inputDialog.show()
+            val className = inputDialog.getClassName()
             val json = inputDialog.inputString
             if (json == null || json.isEmpty()) {
                 return
@@ -74,14 +73,16 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 document.insertString(Math.max(offset, 0), maker.makeKotlinData())
             }
 
-            Messages.showMessageDialog(project, "Kotlin Code insert successfully!", "Information", Messages.getInformationIcon())
+//            Messages.showMessageDialog(project, "Kotlin Code insert successfully!", "Information", Messages.getInformationIcon())
             Thread {
                 sendActionInfo(gson.toJson(SuccessCompleteAction()))
             }.start()
         } catch(e: Exception) {
             getUncaughtExceptionHandler(jsonString) {
-                Messages.showErrorDialog("I am sorry,JsonToKotlin may occur a RuntimeException,You could try again later or recover to the old version", "Occur a fatal error")
+                Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again later or recover to the old version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass", "Occur a fatal error")
             }.uncaughtException(Thread.currentThread(), e)
+
+            throw e
         }
     }
 }

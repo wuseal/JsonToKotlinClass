@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.codeelements
 
 /**
  * make name to be camel case
@@ -27,16 +27,16 @@ fun main(args: Array<String>) {
                 """
 
     println("orginal name is |$name1|")
-    println("Name1 is :   |${KPropertyName.getName(name1)}|")
+    println("Name1 is :   |${wu.seal.jsontokotlin.codeelements.KPropertyName.getName(name1)}|")
 
 }
 
-object KPropertyName : KName(), IPropertyNameMaker {
+object KPropertyName : KName(), wu.seal.jsontokotlin.codeelements.IPropertyNameMaker {
 
 
     override fun getName(rawName: String): String {
 
-        return makePropertyName(rawName, true)
+        return wu.seal.jsontokotlin.codeelements.KPropertyName.makePropertyName(rawName, true)
     }
 
     override fun makePropertyName(rawString: String): String {
@@ -48,7 +48,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         if (needTransformToLegalName) {
 
-            return makeCamelCaseLegalName(rawString)
+            return wu.seal.jsontokotlin.codeelements.KPropertyName.makeCamelCaseLegalName(rawString)
 
         } else {
             return rawString
@@ -60,17 +60,17 @@ object KPropertyName : KName(), IPropertyNameMaker {
         /**
          * keep nameSeparator character
          */
-        val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
+        val pattern = "${wu.seal.jsontokotlin.codeelements.KPropertyName.illegalCharacter}".replace(Regex(wu.seal.jsontokotlin.codeelements.KPropertyName.nameSeparator.toString()), "")
 
         val temp = rawString.replace(Regex(pattern), "").let {
 
-            return@let removeStartNumberAndIllegalCharacter(it)
+            return@let wu.seal.jsontokotlin.codeelements.KPropertyName.removeStartNumberAndIllegalCharacter(it)
 
         }
 
-        val lowerCamelCaseName = toLowerCamelCase(temp)
+        val lowerCamelCaseName = wu.seal.jsontokotlin.codeelements.KPropertyName.toLowerCamelCase(temp)
 
-        val legalName = toBeLegalName(lowerCamelCaseName)
+        val legalName = wu.seal.jsontokotlin.codeelements.KPropertyName.toBeLegalName(lowerCamelCaseName)
 
         return legalName
     }
@@ -83,7 +83,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         val stringBuilder = StringBuilder()
 
-        temp.split(Regex(nameSeparator.toString())).forEach {
+        temp.split(Regex(wu.seal.jsontokotlin.codeelements.KPropertyName.nameSeparator.toString())).forEach {
             if (it.isNotBlank()) {
                 stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
             }

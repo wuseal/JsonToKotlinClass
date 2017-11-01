@@ -1,4 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
+
+import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
+import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.codeelements.getDefaultValue
 
 /**
  * Jackson json lib supporter
@@ -17,11 +21,11 @@ interface IJacksonSupporter {
 }
 
 fun main(args: Array<String>) {
-    isTestModel = true
-    println("getGsonSupporterProperty:\n ${JacksonSupporter.getJacksonSupporterProperty("seal is **() good_man ","Boy")}")
+    wu.seal.jsontokotlin.isTestModel = true
+    println("getGsonSupporterProperty:\n ${wu.seal.jsontokotlin.supporter.JacksonSupporter.getJacksonSupporterProperty("seal is **() good_man ", "Boy")}")
 }
 
-object JacksonSupporter : IJacksonSupporter {
+object JacksonSupporter : wu.seal.jsontokotlin.supporter.IJacksonSupporter {
 
     private val anotaionOnProperty = "@JsonProperty(\"%s\")"
 
@@ -29,11 +33,11 @@ object JacksonSupporter : IJacksonSupporter {
 
         val jacksonSupportPropertyBuilder = StringBuilder()
 
-        jacksonSupportPropertyBuilder.append(anotaionOnProperty.format(rawPropertyName))
+        jacksonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.JacksonSupporter.anotaionOnProperty.format(rawPropertyName))
 
         jacksonSupportPropertyBuilder.append(" ")
 
-        jacksonSupportPropertyBuilder.append(PropertyKeyword.get())
+        jacksonSupportPropertyBuilder.append(KPropertyKeyword.get())
 
         jacksonSupportPropertyBuilder.append(" ")
 
@@ -43,7 +47,7 @@ object JacksonSupporter : IJacksonSupporter {
 
         jacksonSupportPropertyBuilder.append(propertyType)
 
-        if (ConfigManager.initWithDefaultValue) {
+        if (wu.seal.jsontokotlin.ConfigManager.initWithDefaultValue) {
             jacksonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 

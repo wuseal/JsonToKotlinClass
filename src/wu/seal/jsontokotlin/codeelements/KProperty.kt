@@ -1,4 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.codeelements
+
+import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.supporter.*
 
 /**
  * Created by Seal.Wu on 2017/9/18.
@@ -10,14 +14,6 @@ interface IProperty {
      */
     fun getPropertyStringBlock(): String
 
-}
-
-fun main(args: Array<String>) {
-    isTestModel = true
-
-    val property = KProperty("seal is a *() good_man", "Boolean", "true")
-
-    println("getPropertyStringBlock:\n${property.getPropertyStringBlock()}")
 }
 
 class KProperty(private val rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
@@ -44,6 +40,18 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson) {
 
             blockBulder.append(FastjsonSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoShi) {
+
+            blockBulder.append(MoShiSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.LoganSquare) {
+
+            blockBulder.append(LoganSquareSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
+
+            blockBulder.append(CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
 
         }
 

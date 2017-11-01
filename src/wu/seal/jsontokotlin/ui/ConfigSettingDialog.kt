@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.ui
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.util.ui.JBDimension
@@ -49,7 +49,7 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
         return tabbedPane
     }
 
-    private fun createTargetJsonLibConfigPanel() = TargetJsonLibConfigPanel(true)
+    private fun createTargetJsonLibConfigPanel() = TargetJsonLibConfigPanelContainer(true)
 
     private fun createCommentConfigPanel() = CommentConfigPanel(true)
 

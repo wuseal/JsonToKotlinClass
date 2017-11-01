@@ -1,7 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.codeelements
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import wu.seal.jsontokotlin.*
 
 /**
  * Default Value relative

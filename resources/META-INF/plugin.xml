@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.4.1</version>
+  <version>1.5</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -11,24 +11,9 @@
     ]]></description>
 
   <change-notes><![CDATA[
-    1.4.1:<br>
-      * Fix an issue about Fastjson property name [#ISSUE9](https://github.com/wuseal/JsonToKotlinClass/issues/9)<br>
-      * Fix an issue about using in none network condition it will be stuck [#ISSUE10](https://github.com/wuseal/JsonToKotlinClass/issues/10)<br>
-    1.4:<br>
-      * Add supporter for Jackson annotation generate,supporter json lib --Jackson.<br>
-      * Add supporter for Fastjson annotation generate,supporter json lib --Fastjson.<br>
-      * Beautify the config settings dialog.<br>
-    1.3:<br>
-      * add property init with default value option in property tab.<br>
-      * add property could be nullable option in property tab.<br>
-      * fix a bug when the property name is 'list' and it's type is array then the plugin will broken.<br>
-      * beautify dialog layout.<br>
-    1.2.1:<br>
-      * Fix insert improt class code upon package declare<br>
-      * Format property name and class name to camelcase name<br>
-    1.2:<br>
-      * Add support for generate anotations for target json lib --gson<br>
-      * Add Comment option to switch the comment content to append<br>
+    1.support for LoganSquare and Moshi.<br>
+    2.support for cutomize annotation.<br>
+    3.simply usage steps.
     ]]>
   </change-notes>
 

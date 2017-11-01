@@ -1,8 +1,7 @@
 package wu.seal.jsontokotlin
 
-import org.junit.*
-
 import org.junit.Assert.*
+import wu.seal.jsontokotlin.supporter.FastjsonSupporter
 
 /**
  * Created by Seal.Wu on 2017/10/19.

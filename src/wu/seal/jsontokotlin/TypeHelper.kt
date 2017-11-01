@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
+import wu.seal.jsontokotlin.codeelements.KClassName
 import java.util.*
 
 /**

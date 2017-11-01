@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.codeelements
 
 /**
  * Name class
@@ -12,7 +12,7 @@ interface IKName {
 
 }
 
-abstract class KName : IKName {
+abstract class KName : wu.seal.jsontokotlin.codeelements.IKName {
 
     private val suffix = "X"
 

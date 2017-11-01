@@ -1,4 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
+
+import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
+import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.codeelements.getDefaultValue
 
 /**
  * supporter for alibaba fastjson
@@ -6,22 +10,23 @@ package wu.seal.jsontokotlin
  */
 
 
-object FastjsonSupporter:IJsonLibSupporter {
+object FastjsonSupporter : IJsonLibSupporter {
 
-   internal val annotationImportClassString = "import com.alibaba.fastjson.annotation.JSONField"
+    override val annotationImportClassString: String
+        get() = "import com.alibaba.fastjson.annotation.JSONField"
 
-   private val propertyAnnotation ="@JSONField(name = \"%s\")"
+    private val propertyAnnotation = "@JSONField(name = \"%s\")"
 
 
-    override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String):String {
+    override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
 
         val fastjsonSupportPropertyBuilder = StringBuilder()
 
-        fastjsonSupportPropertyBuilder.append(propertyAnnotation.format(rawPropertyName))
+        fastjsonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.FastjsonSupporter.propertyAnnotation.format(rawPropertyName))
 
         fastjsonSupportPropertyBuilder.append(" ")
 
-        fastjsonSupportPropertyBuilder.append(PropertyKeyword.get())
+        fastjsonSupportPropertyBuilder.append(KPropertyKeyword.get())
 
         fastjsonSupportPropertyBuilder.append(" ")
 
@@ -34,7 +39,7 @@ object FastjsonSupporter:IJsonLibSupporter {
 
         fastjsonSupportPropertyBuilder.append(propertyType)
 
-        if (ConfigManager.initWithDefaultValue) {
+        if (wu.seal.jsontokotlin.ConfigManager.initWithDefaultValue) {
             fastjsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
