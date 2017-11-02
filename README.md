@@ -28,14 +28,14 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Search 'JsonToKotlin' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.
 * Restart your Develop tools 
 * Press short key ALT + K And Then you will know how to use
-
-### Default :
+### Demos
+#### Default :
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17340.png)
 
-### Configure with Jackson support on and init with deault value on and comment off
+#### Configure with Jackson support on and init with deault value on and comment off
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17362.png)
 
-### Config with Gson support on and init with deault value on
+#### Config with Gson support on and init with deault value on
 
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17359.png)
 
@@ -106,3 +106,4 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 
 ### Find me useful ? :heart:
 * Support me by clicking the :star: button on the upper right of this page. :v:
+* Spread to others to let more people have a good develope expierience :heart:
