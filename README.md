@@ -2,7 +2,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/issues?q=is%3Aissue+is%3Aclosed)
-[![GitHub contributors](https://img.shields.io/github/contributors/wuseal/JsonToKotlinClass.svg)]()
 [![license](https://img.shields.io/github/license/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/blob/master/LICENSE)
 
 [![Kotlin](https://img.shields.io/badge/%20language-Kotlin-red.svg)](https://kotlinlang.org/)
@@ -106,4 +105,4 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 
 ### Find me useful ? :heart:
 * Support me by clicking the :star: button on the upper right of this page. :v:
-* Spread to others to let more people have a good develope expierience :heart:
+* Spread to others to let more people have a better develope expierience :heart:
