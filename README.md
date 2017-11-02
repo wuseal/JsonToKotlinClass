@@ -29,14 +29,14 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Press short key ALT + K And Then you will know how to use
 ### Demos
 #### Default :
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17340.png)
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17468.png)
 
-#### Configure with Jackson support on and init with deault value on and comment off
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17362.png)
+#### Configure with Gson support on and init with deault value on and comment off
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17469.png)
 
-#### Config with Gson support on and init with deault value on
+#### Config with custome your own annotations support on and init with deault value on
 
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17359.png)
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17470.png)
 
 ### Generate Example
 * Example with none json lib support and comment option on
