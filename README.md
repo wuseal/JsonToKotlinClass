@@ -22,6 +22,8 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Generate Kotlin data class from any legal JSON text.
 * Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)
 * Support customize your own Annotation
+* Support init property with default value
+* Support make property type to be nullable(?)
 
 ### How to use
 * Search 'JsonToKotlinClass' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.</br>
