@@ -21,22 +21,12 @@ interface IPropertyNameMaker {
 
 }
 
-fun main(args: Array<String>) {
-    val name1 = """
-                !@#$ -_32322 3 32%N^&*(-a)_+-=m123-35 e43{}|[]\\;':1",./<>?/*-+`
-                """
-
-    println("orginal name is |$name1|")
-    println("Name1 is :   |${wu.seal.jsontokotlin.codeelements.KPropertyName.getName(name1)}|")
-
-}
-
-object KPropertyName : KName(), wu.seal.jsontokotlin.codeelements.IPropertyNameMaker {
+object KPropertyName : KName(), IPropertyNameMaker {
 
 
     override fun getName(rawName: String): String {
 
-        return wu.seal.jsontokotlin.codeelements.KPropertyName.makePropertyName(rawName, true)
+        return makePropertyName(rawName, true)
     }
 
     override fun makePropertyName(rawString: String): String {
@@ -48,7 +38,8 @@ object KPropertyName : KName(), wu.seal.jsontokotlin.codeelements.IPropertyNameM
 
         if (needTransformToLegalName) {
 
-            return wu.seal.jsontokotlin.codeelements.KPropertyName.makeCamelCaseLegalName(rawString)
+            val camelCaseLegalName = makeCamelCaseLegalName(rawString)
+            return if (camelCaseLegalName.isEmpty()) KPropertyName.makeCamelCaseLegalName("x-" + rawString) else camelCaseLegalName
 
         } else {
             return rawString
@@ -56,21 +47,24 @@ object KPropertyName : KName(), wu.seal.jsontokotlin.codeelements.IPropertyNameM
 
     }
 
+    /**
+     * this function may return empty string when the raw string is only make of number and illegal character
+     */
     private fun makeCamelCaseLegalName(rawString: String): String {
         /**
          * keep nameSeparator character
          */
-        val pattern = "${wu.seal.jsontokotlin.codeelements.KPropertyName.illegalCharacter}".replace(Regex(wu.seal.jsontokotlin.codeelements.KPropertyName.nameSeparator.toString()), "")
+        val pattern = "${illegalCharacter}".replace(Regex(nameSeparator.toString()), "")
 
         val temp = rawString.replace(Regex(pattern), "").let {
 
-            return@let wu.seal.jsontokotlin.codeelements.KPropertyName.removeStartNumberAndIllegalCharacter(it)
+            return@let removeStartNumberAndIllegalCharacter(it)
 
         }
 
-        val lowerCamelCaseName = wu.seal.jsontokotlin.codeelements.KPropertyName.toLowerCamelCase(temp)
+        val lowerCamelCaseName = toLowerCamelCase(temp)
 
-        val legalName = wu.seal.jsontokotlin.codeelements.KPropertyName.toBeLegalName(lowerCamelCaseName)
+        val legalName = toBeLegalName(lowerCamelCaseName)
 
         return legalName
     }
@@ -83,7 +77,7 @@ object KPropertyName : KName(), wu.seal.jsontokotlin.codeelements.IPropertyNameM
 
         val stringBuilder = StringBuilder()
 
-        temp.split(Regex(wu.seal.jsontokotlin.codeelements.KPropertyName.nameSeparator.toString())).forEach {
+        temp.split(Regex(nameSeparator.toString())).forEach {
             if (it.isNotBlank()) {
                 stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
             }
@@ -91,12 +85,18 @@ object KPropertyName : KName(), wu.seal.jsontokotlin.codeelements.IPropertyNameM
 
         val camelCaseName = stringBuilder.toString()
 
-        val lowerCamelCaseName = camelCaseName.substring(0, 1).toLowerCase().plus(camelCaseName.substring(1))
+        if (camelCaseName.isNotEmpty()) {
 
-        return lowerCamelCaseName
+            val lowerCamelCaseName = camelCaseName.substring(0, 1).toLowerCase().plus(camelCaseName.substring(1))
+
+            return lowerCamelCaseName
+        } else {
+
+            return camelCaseName
+        }
+
 
     }
-
 
 
 }

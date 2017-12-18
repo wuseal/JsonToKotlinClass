@@ -12,7 +12,7 @@ interface IKName {
 
 }
 
-abstract class KName : wu.seal.jsontokotlin.codeelements.IKName {
+abstract class KName : IKName {
 
     private val suffix = "X"
 

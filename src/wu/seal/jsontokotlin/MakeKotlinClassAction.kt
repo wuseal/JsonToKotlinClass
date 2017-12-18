@@ -77,9 +77,15 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             Thread {
                 sendActionInfo(gson.toJson(SuccessCompleteAction()))
             }.start()
+
         } catch(e: Exception) {
+
+            val yes = Messages.showYesNoDialog("Some thing execute wrong.\nAgree with publishing your JSON text to help us to solve the problem?", "Excuse me", Messages.getQuestionIcon())
+            if (yes != Messages.YES) {
+                jsonString = "User keep private about JSON text"
+            }
             getUncaughtExceptionHandler(jsonString) {
-                Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again later or recover to the old version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass", "Occur a fatal error")
+                Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again later or recover to the old version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass\nWe will fixed it soon!", "Occur a fatal error")
             }.uncaughtException(Thread.currentThread(), e)
 
             throw e

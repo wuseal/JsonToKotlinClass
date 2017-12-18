@@ -10,7 +10,7 @@ import wu.seal.jsontokotlin.statistics.sendHistoryActionInfo
  * Created by Seal.wu on 2017/8/21.
  */
 
-const val PLUGIN_VERSION = "1.5"
+const val PLUGIN_VERSION = "1.5.1"
 
 class JsonToKotlinApplication : ApplicationComponent {
 
@@ -27,6 +27,6 @@ class JsonToKotlinApplication : ApplicationComponent {
     override fun disposeComponent() {}
 
     override fun getComponentName(): String {
-        return "wu.seal.wu.seal.jsontokotlin.JsonToKotlinApplication"
+        return "wu.seal.jsontokotlin.JsonToKotlinApplication"
     }
 }

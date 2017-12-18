@@ -32,9 +32,12 @@ fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Threa
     }
     printWriter.close()
     logBuilder.append(stringWriter.toString())
+
     logBuilder.append("Error Json String:\n")
     logBuilder.append(jsonString)
-    sendExceptionLog(logBuilder.toString())
+    Thread {
+        sendExceptionLog(logBuilder.toString())
+    }.start()
 
     callBack.invoke()
 }

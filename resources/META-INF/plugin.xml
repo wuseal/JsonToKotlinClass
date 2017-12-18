@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.5</version>
+  <version>1.5.1</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -11,9 +11,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-    1.support for LoganSquare and Moshi.<br>
-    2.support for cutomize annotation.<br>
-    3.simply usage steps.
+    1.Fix a bug about only number json property.<br>
     ]]>
   </change-notes>
 
