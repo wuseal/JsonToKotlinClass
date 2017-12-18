@@ -1,4 +1,6 @@
 ### Update Log
+#### 1.5.1
+* Fix a bug about only number property name [#15](https://github.com/wuseal/JsonToKotlinClass/issues/15)
 #### 1.5
 * support for LoganSquare and Moshi. 
 * support for cutomize annotation. 
