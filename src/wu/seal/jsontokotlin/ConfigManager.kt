@@ -43,9 +43,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(IS_PROPERTIES_VAR_KEY, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
 
@@ -54,9 +51,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(IS_COMMENT_OFF, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
 
@@ -66,9 +60,6 @@ interface IConfigManager {
             TestConfig.targetJsonConvertLib = value
         } else {
             PropertiesComponent.getInstance().setValue(TARGET_JSON_CONVERTER_LIB_KEY, value.name)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
     var isPropertyNullable: Boolean
@@ -76,9 +67,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
 
@@ -87,9 +75,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(INIT_WITH_DEFAULT_VALUE_KEY, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
     var userUUID: String
@@ -97,9 +82,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_UUID_KEY, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
     var customAnnotaionImportClassString:String
@@ -107,9 +89,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 
     var customAnnotaionFormatString:String
@@ -117,9 +96,6 @@ interface IConfigManager {
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, value)
-            Thread() {
-                sendConfigInfo()
-            }.start()
         }
 }
 
@@ -138,7 +114,7 @@ object ConfigManager : IConfigManager
  */
 var isTestModel = false
 
-/**
+/** 
  * config for test unit
  */
 object TestConfig {

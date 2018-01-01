@@ -117,7 +117,7 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
     }
 
 
-    protected fun createScrollableTextComponent(): javax.swing.JComponent {
+    protected override fun createScrollableTextComponent(): javax.swing.JComponent {
         return com.intellij.ui.components.JBScrollPane(myField)
     }
 
