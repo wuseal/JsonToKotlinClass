@@ -24,6 +24,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Support customize your own Annotation
 * Support init property with default value
 * Support make property type to be nullable(?)
+* Support auto rename property name to be legal when select a target JSON lib.[See demo](#configure-with-gson-support-on-and-init-with-deault-value-on-and-comment-off)
 
 ### How to use
 * Search 'JsonToKotlinClass' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.</br>
