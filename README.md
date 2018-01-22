@@ -8,6 +8,7 @@
 [![IntelliJ Idea Plugin](https://img.shields.io/badge/plugin-IntelliJ%20%20Idea-blue.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 [![Android Studio Plugin](https://img.shields.io/badge/plugin-AndroidStudio-green.svg)](
 https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
+![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/%E5%AE%89%E5%8D%93.png)
 
 # JsonToKotlinClass
 
