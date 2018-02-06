@@ -22,10 +22,10 @@ interface IJacksonSupporter {
 
 fun main(args: Array<String>) {
     wu.seal.jsontokotlin.isTestModel = true
-    println("getGsonSupporterProperty:\n ${wu.seal.jsontokotlin.supporter.JacksonSupporter.getJacksonSupporterProperty("seal is **() good_man ", "Boy")}")
+    println("getGsonSupporterProperty:\n ${JacksonSupporter.getJacksonSupporterProperty("seal is **() good_man ", "Boy")}")
 }
 
-object JacksonSupporter : wu.seal.jsontokotlin.supporter.IJacksonSupporter {
+object JacksonSupporter : IJacksonSupporter {
 
     private val anotaionOnProperty = "@JsonProperty(\"%s\")"
 
@@ -33,7 +33,7 @@ object JacksonSupporter : wu.seal.jsontokotlin.supporter.IJacksonSupporter {
 
         val jacksonSupportPropertyBuilder = StringBuilder()
 
-        jacksonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.JacksonSupporter.anotaionOnProperty.format(rawPropertyName))
+        jacksonSupportPropertyBuilder.append(JacksonSupporter.anotaionOnProperty.format(rawPropertyName))
 
         jacksonSupportPropertyBuilder.append(" ")
 

@@ -20,7 +20,7 @@ object MoShiSupporter : IJsonLibSupporter {
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
         val moShijsonSupportPropertyBuilder = StringBuilder()
 
-        moShijsonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.MoShiSupporter.propertyAnnotation.format(rawPropertyName))
+        moShijsonSupportPropertyBuilder.append(MoShiSupporter.propertyAnnotation.format(rawPropertyName))
 
         moShijsonSupportPropertyBuilder.append(" ")
 
