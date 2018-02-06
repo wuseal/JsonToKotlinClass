@@ -1,4 +1,4 @@
-![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/%E5%AE%89%E5%8D%93.png)
+![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/title.png)
 
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
