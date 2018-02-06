@@ -7,6 +7,12 @@ import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.addComponentIntoVerticalBoxAlignmentLeft
+import java.awt.Color
+import java.awt.FlowLayout
+import java.awt.GridLayout
+import java.awt.LayoutManager
+import java.awt.event.FocusEvent
+import java.awt.event.FocusListener
 import javax.swing.*
 import javax.swing.border.EmptyBorder
 
@@ -16,11 +22,11 @@ import javax.swing.border.EmptyBorder
  * property config panel
  * Created by seal wu on 2017/9/18.
  */
-class PropertyPanel(layout: java.awt.LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: java.awt.LayoutManager?) : this(layout, false)
+    constructor(layout: LayoutManager?) : this(layout, false)
 
-    constructor(isDoubleBuffered: Boolean) : this(java.awt.FlowLayout(), isDoubleBuffered)
+    constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
 
     init {
@@ -67,7 +73,7 @@ class PropertyPanel(layout: java.awt.LayoutManager?, isDoubleBuffered: Boolean) 
         val line = com.intellij.util.xml.ui.TextPanel()
         line.maximumSize = JBDimension(480, 1)
         line.minimumSize = JBDimension(480, 1)
-        line.background = java.awt.Color.GRAY
+        line.background = Color.GRAY
 
         add(line)
 
@@ -102,17 +108,17 @@ class PropertyPanel(layout: java.awt.LayoutManager?, isDoubleBuffered: Boolean) 
 /**
  * Comment Config Panel
  */
-class CommentConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class CommentConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: java.awt.LayoutManager?) : this(layout, false)
+    constructor(layout: LayoutManager?) : this(layout, false)
 
-    constructor(isDoubleBuffered: Boolean) : this(java.awt.FlowLayout(), isDoubleBuffered)
+    constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
 
         val bordWidth = JBUI.scale(10)
         border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
-        setLayout(java.awt.GridLayout(6, 1, 10, 10))
+        setLayout(GridLayout(6, 1, 10, 10))
 
         val radioButtonOpen = JRadioButton("On")
 
@@ -144,11 +150,11 @@ class CommentConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered: Bool
 /**
  * Target JsonLib ConfigPanel container
  */
-class TargetJsonLibConfigPanelContainer(layout: java.awt.LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class TargetJsonLibConfigPanelContainer(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: java.awt.LayoutManager?) : this(layout, false)
+    constructor(layout: LayoutManager?) : this(layout, false)
 
-    constructor(isDoubleBuffered: Boolean) : this(java.awt.FlowLayout(), isDoubleBuffered)
+    constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
         val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
@@ -164,37 +170,37 @@ class TargetJsonLibConfigPanelContainer(layout: java.awt.LayoutManager?, isDoubl
         subBoxPanel.layout = subBoxLayout
         val annotationStringPanel = JPanel(true)
         annotationStringPanel.maximumSize = JBDimension(480, 30)
-        annotationStringPanel.layout = java.awt.FlowLayout(java.awt.FlowLayout.LEFT)
+        annotationStringPanel.layout = FlowLayout(FlowLayout.LEFT)
         annotationStringPanel.add(JBLabel("Property Annotation Format: "))
         val annotationFormatField = JTextField(ConfigManager.customAnnotaionFormatString)
         val fieldDefaultFont = annotationFormatField.font
-        annotationFormatField.addFocusListener(object : java.awt.event.FocusListener {
-            override fun focusLost(e: java.awt.event.FocusEvent?) {
+        annotationFormatField.addFocusListener(object : FocusListener {
+            override fun focusLost(e: FocusEvent?) {
                 ConfigManager.customAnnotaionFormatString = annotationFormatField.text
             }
 
-            override fun focusGained(e: java.awt.event.FocusEvent?) {
+            override fun focusGained(e: FocusEvent?) {
             }
 
         })
-        annotationStringPanel.add(annotationFormatField, java.awt.FlowLayout.CENTER)
+        annotationStringPanel.add(annotationFormatField, FlowLayout.CENTER)
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationStringPanel)
 
         val annotationImportClass = JPanel(true)
-        annotationImportClass.layout = java.awt.FlowLayout(java.awt.FlowLayout.LEFT)
+        annotationImportClass.layout = FlowLayout(FlowLayout.LEFT)
         val importClassLable = JBLabel("Property Annotation Import Class : ")
-        importClassLable.border = JBEmptyBorder(3,0,3,0)
+        importClassLable.border = JBEmptyBorder(3, 0, 3, 0)
         annotationImportClass.add(importClassLable)
         val annotationImportClassTextArea = JTextArea(ConfigManager.customAnnotaionImportClassString)
         annotationImportClassTextArea.font = fieldDefaultFont
         annotationImportClassTextArea.preferredSize = JBDimension(480, 30)
-        annotationImportClassTextArea.addFocusListener(object : java.awt.event.FocusListener {
-            override fun focusLost(e: java.awt.event.FocusEvent?) {
+        annotationImportClassTextArea.addFocusListener(object : FocusListener {
+            override fun focusLost(e: FocusEvent?) {
                 ConfigManager.customAnnotaionImportClassString = annotationImportClassTextArea.text
 
             }
 
-            override fun focusGained(e: java.awt.event.FocusEvent?) {
+            override fun focusGained(e: FocusEvent?) {
             }
 
         })
@@ -217,16 +223,17 @@ class TargetJsonLibConfigPanelContainer(layout: java.awt.LayoutManager?, isDoubl
 /**
  * Target JsonLib ConfigPanel
  */
-class TargetJsonLibConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : JPanel(layout, isDoubleBuffered) {
+class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: java.awt.LayoutManager?, callBack: (selected: Boolean) -> Unit) : this(layout, false, callBack)
+    constructor(layout: LayoutManager?, callBack: (selected: Boolean) -> Unit) : this(layout, false, callBack)
 
-    constructor(isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : this(java.awt.FlowLayout(), isDoubleBuffered, callBack)
+    constructor(isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : this(FlowLayout(), isDoubleBuffered, callBack)
 
     init {
-        setLayout(java.awt.GridLayout(4, 2, 10, 10))
+        setLayout(GridLayout(4, 2, 10, 10))
 
         val radioButtonNone = JRadioButton("None")
+        val radioButtonNoneWithCamelCase = JRadioButton("None (Camel Case)")
         val radioButtonGson = JRadioButton("Gson")
         val radioButtonJackson = JRadioButton("Jackson")
         val radioButtonFastjson = JRadioButton("Fastjson")
@@ -236,6 +243,11 @@ class TargetJsonLibConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered
 
         radioButtonNone.addActionListener {
             ConfigManager.targetJsonConverterLib = TargetJsonConverter.None
+            callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
+
+        }
+        radioButtonNoneWithCamelCase.addActionListener {
+            ConfigManager.targetJsonConverterLib = TargetJsonConverter.NoneWithCamelCase
             callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
 
         }
@@ -271,6 +283,10 @@ class TargetJsonLibConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered
 
             radioButtonNone.isSelected = true
 
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.NoneWithCamelCase) {
+
+            radioButtonNoneWithCamelCase.isSelected = true
+
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
 
             radioButtonGson.isSelected = true
@@ -295,6 +311,7 @@ class TargetJsonLibConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered
 
         val buttonGroupProperty = ButtonGroup()
         buttonGroupProperty.add(radioButtonNone)
+        buttonGroupProperty.add(radioButtonNoneWithCamelCase)
         buttonGroupProperty.add(radioButtonGson)
         buttonGroupProperty.add(radioButtonJackson)
         buttonGroupProperty.add(radioButtonFastjson)
@@ -303,6 +320,7 @@ class TargetJsonLibConfigPanel(layout: java.awt.LayoutManager?, isDoubleBuffered
         buttonGroupProperty.add(radioButtonCustom)
 
         add(radioButtonNone)
+        add(radioButtonNoneWithCamelCase)
         add(radioButtonGson)
         add(radioButtonJackson)
         add(radioButtonFastjson)
