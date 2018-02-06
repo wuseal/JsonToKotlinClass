@@ -66,7 +66,7 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         classNameTitle.border = JBEmptyBorder(5, 0, 5, 0)
         classNameInputContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameTitle)
         classNameInput = JTextField()
-        classNameInput.preferredSize = JBDimension(400, 30)
+        classNameInput.preferredSize = JBDimension(400, 40)
         myInputValidator.classNameField = classNameInput
 
         classNameInput.document.addDocumentListener(object : DocumentAdapter() {
@@ -76,7 +76,7 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         })
 
         classNameInputContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameInput)
-        classNameInputContainer.preferredSize = JBDimension(500, 50)
+        classNameInputContainer.preferredSize = JBDimension(500, 56)
 
 
         val createScrollableTextComponent = createMyScrollableTextComponent()
@@ -103,7 +103,6 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         val settingContainer = javax.swing.JPanel()
         val boxLayout = javax.swing.BoxLayout(settingContainer, BoxLayout.LINE_AXIS)
         settingContainer.layout = boxLayout
-        settingButton.horizontalAlignment = javax.swing.SwingConstants.RIGHT
         settingContainer.add(settingButton)
         messagePanel.add(settingContainer, java.awt.BorderLayout.SOUTH)
 
@@ -127,9 +126,9 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
     fun getClassName(): String {
         if (exitCode == 0) {
-            return classNameInput.text.trim();
+            return classNameInput.text.trim()
         }
-        return "";
+        return ""
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
