@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.ui
 
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBLabel
@@ -17,7 +18,7 @@ import javax.swing.event.DocumentEvent
  */
 
 
-class MyInputValidator : com.intellij.openapi.ui.InputValidator {
+class MyInputValidator : InputValidator {
 
     lateinit var classNameField: JTextField
     override fun checkInput(inputString: String): Boolean {
@@ -42,7 +43,7 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the class name and JSON data for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
+class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the class name and JSON text for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
 
     private lateinit var classNameInput: JTextField
 
@@ -76,7 +77,7 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
         classNameInputContainer.preferredSize = JBDimension(500, 50)
 
 
-        val createScrollableTextComponent = createScrollableTextComponent()
+        val createScrollableTextComponent = createMyScrollableTextComponent()
         val jsonInputContainer = createLinearLayoutVertical()
         val jsonTitle = JBLabel("JSON Text:")
         jsonTitle.border = JBEmptyBorder(5, 0, 5, 0)
@@ -117,7 +118,7 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
     }
 
 
-    protected override fun createScrollableTextComponent(): javax.swing.JComponent {
+    protected  fun createMyScrollableTextComponent(): javax.swing.JComponent {
         return com.intellij.ui.components.JBScrollPane(myField)
     }
 

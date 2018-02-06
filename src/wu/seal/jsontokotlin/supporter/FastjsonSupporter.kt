@@ -22,7 +22,7 @@ object FastjsonSupporter : IJsonLibSupporter {
 
         val fastjsonSupportPropertyBuilder = StringBuilder()
 
-        fastjsonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.FastjsonSupporter.propertyAnnotation.format(rawPropertyName))
+        fastjsonSupportPropertyBuilder.append(FastjsonSupporter.propertyAnnotation.format(rawPropertyName))
 
         fastjsonSupportPropertyBuilder.append(" ")
 

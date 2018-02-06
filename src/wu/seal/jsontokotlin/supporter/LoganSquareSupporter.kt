@@ -22,7 +22,7 @@ object LoganSquareSupporter : IJsonLibSupporter {
 
         val loganSquareSupportPropertyBuilder = StringBuilder()
 
-        loganSquareSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.LoganSquareSupporter.propertyAnnotation.format(rawPropertyName))
+        loganSquareSupportPropertyBuilder.append(LoganSquareSupporter.propertyAnnotation.format(rawPropertyName))
 
         loganSquareSupportPropertyBuilder.append(" ")
 

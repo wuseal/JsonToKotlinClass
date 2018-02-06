@@ -23,10 +23,10 @@ interface IGsonSupporter {
 
 fun main(args: Array<String>) {
     wu.seal.jsontokotlin.isTestModel = true
-    println("getGsonSupporterProperty:\n ${wu.seal.jsontokotlin.supporter.GsonSupporter.getGsonSupporterProperty("seal is **() good_man ", "Boy")}")
+    println("getGsonSupporterProperty:\n ${GsonSupporter.getGsonSupporterProperty("seal is **() good_man ", "Boy")}")
 }
 
-object GsonSupporter : wu.seal.jsontokotlin.supporter.IGsonSupporter {
+object GsonSupporter : IGsonSupporter {
 
     /**
      * When adapter Gson lib at most ,We should import the Anotation Class
@@ -39,7 +39,7 @@ object GsonSupporter : wu.seal.jsontokotlin.supporter.IGsonSupporter {
 
         val gsonSupportPropertyBuilder = StringBuilder()
 
-        gsonSupportPropertyBuilder.append(wu.seal.jsontokotlin.supporter.GsonSupporter.anotaionOnProperty.format(rawPropertyName))
+        gsonSupportPropertyBuilder.append(GsonSupporter.anotaionOnProperty.format(rawPropertyName))
 
         gsonSupportPropertyBuilder.append(" ")
 
