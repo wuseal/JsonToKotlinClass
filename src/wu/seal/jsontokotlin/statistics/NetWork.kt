@@ -95,13 +95,3 @@ fun sendConfigInfo() {
         e.printStackTrace()
     }
 }
-
-fun main(args: Array<String>) {
-    isTestModel = true
-
-    val demeoActionInfo = Gson().toJson(StartAction())
-    sendExceptionLog("hello,I am exception")
-    sendActionInfo(demeoActionInfo)
-
-    sendConfigInfo()
-}

@@ -31,22 +31,3 @@ fun getDefaultValue(propertyType: String): String {
         return "$rawType()"
     }
 }
-
-data class Test(
-        val a: String = "A"
-)
-
-fun main(args: Array<String>) {
-
-    isTestModel = true
-
-    val json = """{"a":null} """
-
-    val gson = Gson()
-
-    val newJson = gson.toJson(JsonParser().parse(json))
-
-    val obj = gson.fromJson(newJson, Test::class.java)
-
-    println(obj)
-}

@@ -1,9 +1,8 @@
 package wu.seal.jsontokotlin.codeelements
 
-import org.junit.*
+import com.winterbe.expekt.should
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Created by Seal.Wu on 2017/12/18.
@@ -66,4 +65,17 @@ class KPropertyNameTest {
         assertTrue(legalName.startsWith("x"))
     }
 
+    @Test
+    fun makePropertyNameWithCamelCase() {
+
+        val rawNameWithSpace = "abc abc"
+        val rawNameWithUnderScore = "abc_abc"
+        val rawNameWithHyphen = "abc-abc"
+        val resultCamelCaseNameWithSpace = KPropertyName.makePropertyName(rawNameWithSpace, true)
+        val resultCamelCaseNameUnderScore = KPropertyName.makePropertyName(rawNameWithUnderScore, true)
+        val resultCamelCaseNameWithMiddleScore = KPropertyName.makePropertyName(rawNameWithHyphen, true)
+        resultCamelCaseNameWithSpace.should.be.equal("abcAbc")
+        resultCamelCaseNameUnderScore.should.be.equal("abcAbc")
+        resultCamelCaseNameWithMiddleScore.should.be.equal("abcAbc")
+    }
 }

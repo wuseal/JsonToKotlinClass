@@ -60,8 +60,3 @@ abstract class KName : IKName {
     }
 
 }
-
-
-fun main(args: Array<String>) {
-    println("\\")
-}
