@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin
 
 import com.intellij.ide.util.PropertiesComponent
-import wu.seal.jsontokotlin.statistics.sendConfigInfo
 import wu.seal.jsontokotlin.supporter.GsonSupporter
 
 /**
@@ -47,7 +46,7 @@ interface IConfigManager {
 
 
     var isCommentOff: Boolean
-        get() = if (isTestModel) TestConfig.isCommentOff else PropertiesComponent.getInstance().isTrueValue(IS_COMMENT_OFF)
+        get() = if (isTestModel) TestConfig.isCommentOff else PropertiesComponent.getInstance().getBoolean(IS_COMMENT_OFF, true)
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(IS_COMMENT_OFF, value)
@@ -84,14 +83,14 @@ interface IConfigManager {
             PropertiesComponent.getInstance().setValue(USER_UUID_KEY, value)
         }
 
-    var customAnnotaionImportClassString:String
+    var customAnnotaionImportClassString: String
         get() = if (isTestModel) GsonSupporter.annotationImportClassString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, GsonSupporter.annotationImportClassString)
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, value)
         }
 
-    var customAnnotaionFormatString:String
+    var customAnnotaionFormatString: String
         get() = if (isTestModel) GsonSupporter.anotaionOnProperty else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, GsonSupporter.anotaionOnProperty)
         set(value) = if (isTestModel) {
         } else {
@@ -103,7 +102,7 @@ interface IConfigManager {
  * This means which Json convert library you are using in you project
  */
 enum class TargetJsonConverter {
-    None, Gson, FastJson, Jackson, MoShi, LoganSquare, Custom
+    None, NoneWithCamelCase, Gson, FastJson, Jackson, MoShi, LoganSquare, Custom
 }
 
 

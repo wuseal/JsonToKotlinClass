@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.supporter
 
+import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
@@ -18,12 +19,6 @@ interface IGsonSupporter {
      */
     fun getGsonSupporterProperty(rawPropertyName: String, propertyType: String): String
 
-}
-
-
-fun main(args: Array<String>) {
-    wu.seal.jsontokotlin.isTestModel = true
-    println("getGsonSupporterProperty:\n ${GsonSupporter.getGsonSupporterProperty("seal is **() good_man ", "Boy")}")
 }
 
 object GsonSupporter : IGsonSupporter {
@@ -53,7 +48,7 @@ object GsonSupporter : IGsonSupporter {
 
         gsonSupportPropertyBuilder.append(propertyType)
 
-        if (wu.seal.jsontokotlin.ConfigManager.initWithDefaultValue) {
+        if (ConfigManager.initWithDefaultValue) {
             gsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 

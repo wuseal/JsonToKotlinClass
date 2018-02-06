@@ -43,7 +43,7 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the class name and JSON text for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
+class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
 
     private lateinit var classNameInput: JTextField
 
@@ -91,7 +91,8 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameInputContainer)
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonInputContainer)
         messagePanel.add(centerContainer, java.awt.BorderLayout.CENTER)
-        val settingButton = javax.swing.JButton("Config Settings")
+        val settingButton = JButton("Config Settings")
+        settingButton.horizontalAlignment = SwingConstants.CENTER
         settingButton.addActionListener(object : AbstractAction() {
             override fun actionPerformed(e: ActionEvent) {
                 ConfigSettingDialog(false).show()

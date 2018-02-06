@@ -5,6 +5,7 @@ import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.supporter.*
 
 /**
+ *
  * Created by Seal.Wu on 2017/9/18.
  */
 
@@ -28,6 +29,10 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
         if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.None) {
 
             blockBulder.append(NoneSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
+
+        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.NoneWithCamelCase) {
+
+            blockBulder.append(NoneWithCamelCaseSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
 
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
 
@@ -54,6 +59,7 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
             blockBulder.append(CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
 
         }
+
 
         if (!ConfigManager.isCommentOff && propertyValue.isNotBlank()) {
             blockBulder.append(" //").append(propertyValue)

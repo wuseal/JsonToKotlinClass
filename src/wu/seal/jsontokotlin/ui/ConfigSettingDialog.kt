@@ -40,7 +40,7 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
 
         tabbedPane.add("Property", propertyPanel)
 
-        tabbedPane.add("Target Json Lib", targetJsonLibConfigPanel)
+        tabbedPane.add("JSON Converter", targetJsonLibConfigPanel)
 
         tabbedPane.add("Comment", commentConfigPanel)
 

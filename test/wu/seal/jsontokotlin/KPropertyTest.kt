@@ -28,6 +28,7 @@ class KPropertyTest {
 
             when(ConfigManager.targetJsonConverterLib){
                 TargetJsonConverter.None-> assert(propertyStringBlock.contains("@").not())
+                TargetJsonConverter.NoneWithCamelCase-> assert(propertyStringBlock.contains("@").not())
                 TargetJsonConverter.Gson-> assert(propertyStringBlock.contains("@SerializedName"))
                 TargetJsonConverter.Jackson-> assert(propertyStringBlock.contains("@JsonProperty"))
                 TargetJsonConverter.FastJson-> assert(propertyStringBlock.contains("@JSONField(name"))
