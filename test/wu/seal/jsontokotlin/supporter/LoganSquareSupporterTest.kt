@@ -1,11 +1,12 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
 
-import org.junit.*
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
-
-import wu.seal.jsontokotlin.supporter.LoganSquareSupporter
+import wu.seal.jsontokotlin.isTestModel
 
 /**
+ *
  * Created by Seal.Wu on 2017/11/1.
  */
 class LoganSquareSupporterTest {
@@ -18,7 +19,7 @@ class LoganSquareSupporterTest {
     fun tearDown() {
     }
 
-    @org.junit.Test
+    @Test
     fun getClassAnnotation() {
         assert(LoganSquareSupporter.classAnnotation.isNotEmpty())
     }

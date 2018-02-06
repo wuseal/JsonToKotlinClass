@@ -1,23 +1,23 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
 
-import org.junit.Test
-import wu.seal.jsontokotlin.supporter.CustomJsonLibSupporter
+import wu.seal.jsontokotlin.ConfigManager
 
 /**
+ * 
  * Created by Seal.Wu on 2017/11/1.
  */
 class CustomJsonLibSupporterTest {
 
-    @Test
+    @org.junit.Test
     fun testAnnotationImportClass() {
-        isTestModel = true
-        println(ConfigManager.customAnnotaionImportClassString)
+        wu.seal.jsontokotlin.isTestModel = true
+        println(wu.seal.jsontokotlin.ConfigManager.customAnnotaionImportClassString)
     }
 
     @org.junit.Test
     fun getJsonLibSupportPropertyBlockString() {
 
-        isTestModel =true
+        wu.seal.jsontokotlin.isTestModel =true
         val rawPropertyName = "seal_ wu"
         val propertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, "String")
 

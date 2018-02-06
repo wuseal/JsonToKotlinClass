@@ -1,16 +1,16 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
 
-import org.junit.Assert.*
-import wu.seal.jsontokotlin.supporter.FastjsonSupporter
+import org.junit.Assert.assertFalse
 
 /**
+ *
  * Created by Seal.Wu on 2017/10/19.
  */
 class FastjsonSupporterTest {
     @org.junit.Test
     fun getJsonLibSupportPropertyBlockString() {
 
-        isTestModel = true
+        wu.seal.jsontokotlin.isTestModel = true
 
         val propertyStringBlock1 = FastjsonSupporter.getJsonLibSupportPropertyBlockString("ABC", "String")
         val propertyStringBlock2 = FastjsonSupporter.getJsonLibSupportPropertyBlockString("isABC", "String")

@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.supporter
 
 import org.junit.*
 import org.junit.Test
@@ -6,12 +6,13 @@ import org.junit.Test
 import wu.seal.jsontokotlin.supporter.MoShiSupporter
 
 /**
+ * 
  * Created by Seal.Wu on 2017/11/1.
  */
 class MoShiSupporterTest {
-    @Before
+    @org.junit.Before
     fun setUp() {
-        isTestModel = true
+        wu.seal.jsontokotlin.isTestModel = true
     }
 
     @org.junit.Test
@@ -20,7 +21,7 @@ class MoShiSupporterTest {
         assert(MoShiSupporter.annotationImportClassString.split("\n").size ==1)
     }
 
-    @Test
+    @org.junit.Test
     fun getJsonLibSupportPropertyBlockString() {
         val rawPropertyName = "seal is **() good_man "
         val type = "Boy"

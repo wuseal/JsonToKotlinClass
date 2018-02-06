@@ -23,9 +23,3 @@ data class ConfigInfo(
         val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 
 )
-
-
-fun main(args: Array<String>) {
-    isTestModel = true
-    println(Gson().toJson(ConfigInfo()))
-}

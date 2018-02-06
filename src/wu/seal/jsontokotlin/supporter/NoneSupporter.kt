@@ -17,20 +17,15 @@ interface INoneLibSupporter {
     fun getNoneLibSupporterProperty(rawPropertyName: String, propertyType: String): String
 
 
-    fun getNoneLibSupporterClassName(rawClassName: String)
+    fun getNoneLibSupporterClassName(rawClassName: String):String
 
-}
-
-fun main(args: Array<String>) {
-
-    isTestModel = true
-    println("getNoneLibSupporterProperty:\n ${NoneSupporter.getNoneLibSupporterProperty("seal is **() good_man ", "Boy")}")
 }
 
 
 object NoneSupporter : INoneLibSupporter {
 
-    override fun getNoneLibSupporterClassName(rawClassName: String) {
+    override fun getNoneLibSupporterClassName(rawClassName: String):String {
+        return ""
     }
 
 

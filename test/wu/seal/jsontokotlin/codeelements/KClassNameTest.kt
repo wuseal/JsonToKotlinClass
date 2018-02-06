@@ -1,11 +1,10 @@
 package wu.seal.jsontokotlin.codeelements
 
-import org.junit.*
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
-import org.junit.Assert.*
-
 /**
+ *
  * Created by Seal.Wu on 2017/12/18.
  */
 class KClassNameTest {
