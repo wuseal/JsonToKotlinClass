@@ -10,7 +10,7 @@ import java.util.HashSet
  * Kotlin code maker
  * Created by seal.wu on 2017/8/21.
  */
-class KotlinMaker {
+class KotlinCodeMaker {
 
     private var className: String? = null
     private var inputElement: JsonElement? = null
@@ -44,11 +44,39 @@ class KotlinMaker {
             stringBuilder.deleteCharAt(index)
         }
         stringBuilder.append(")")
+        if (toBeAppend.isNotEmpty()) {
+            appendSubClassCode(stringBuilder)
+        }
+
+        return stringBuilder.toString()
+    }
+
+    private fun appendSubClassCode(stringBuilder: StringBuilder) {
+        if (ConfigManager.isInnerClassModel) {
+            appendInnerClassModelSubClassCode(stringBuilder)
+        } else {
+            appendNormalSubClassCode(stringBuilder)
+        }
+    }
+
+    private fun appendInnerClassModelSubClassCode(stringBuilder: StringBuilder) {
+        stringBuilder.append(" {")
+        for (append in toBeAppend) {
+            stringBuilder.append("\n")
+            append.split("\n").filter { it.isNotEmpty() }.forEach {
+                stringBuilder.append("\t")
+                stringBuilder.append(it)
+                stringBuilder.append("\n")
+            }
+        }
+        stringBuilder.append("}")
+    }
+
+    private fun appendNormalSubClassCode(stringBuilder: StringBuilder) {
         for (append in toBeAppend) {
             stringBuilder.append("\n")
             stringBuilder.append(append)
         }
-        return stringBuilder.toString()
     }
 
     private fun appClassName(stringBuilder: StringBuilder) {
@@ -67,7 +95,7 @@ class KotlinMaker {
                 val type = getArrayType(property, jsonElementValue.asJsonArray)
 
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray)) {
-                    toBeAppend.add(KotlinMaker(getChildType(getRawType(type)), jsonElementValue.asJsonArray.first()).makeKotlinData())
+                    toBeAppend.add(KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue.asJsonArray.first()).makeKotlinData())
                 }
                 addProperty(stringBuilder, property, type, "")
 
@@ -77,7 +105,7 @@ class KotlinMaker {
 
             } else if (jsonElementValue.isJsonObject) {
                 val type = getJsonObjectType(property)
-                toBeAppend.add(KotlinMaker(getRawType(type), jsonElementValue).makeKotlinData())
+                toBeAppend.add(KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData())
                 addProperty(stringBuilder, property, type, "")
 
             } else if (jsonElementValue.isJsonNull) {

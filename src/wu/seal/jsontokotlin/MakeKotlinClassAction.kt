@@ -27,7 +27,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     override fun actionPerformed(event: AnActionEvent) {
         var jsonString: String = ""
         try {
-            Thread() {
+            Thread {
                 sendActionInfo(gson.toJson(StartAction()))
             }.start()
             val project = event.getData(PlatformDataKeys.PROJECT)
@@ -37,8 +37,15 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 Messages.showWarningDialog("Please open a file in editor state for insert Kotlin code!", "No Editor File")
                 return
             }
-
-            val inputDialog = JsonInputDialog(project!!)
+            var tempClassName = ""
+            val document = editor.document
+            val editorText = document.text
+            var needRewriteRootClassName = false
+            if (editorText.indexOf("class") == editorText.lastIndexOf("class") && editorText.substringAfter("class").contains("(").not()) {
+                tempClassName = editorText.substringAfter("class").substringBefore("{").trim()
+                needRewriteRootClassName = true
+            }
+            val inputDialog = JsonInputDialog(tempClassName, project!!)
             inputDialog.show()
             val className = inputDialog.getClassName()
             val json = inputDialog.inputString
@@ -46,12 +53,17 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 return
             }
             jsonString = json
-            val document = editor.document
+
+            if (needRewriteRootClassName) {
+                executeCouldRollBackAction(project) {
+                    document.setText(editorText.substringBefore("class"))
+                }
+            }
             ImportClassWriter.insertImportClassCode(project, document)
 
-            val maker: KotlinMaker
+            val codeMaker: KotlinCodeMaker
             try {
-                maker = KotlinMaker(className, jsonString)
+                codeMaker = KotlinCodeMaker(className, jsonString)
             } catch (e: IllegalFormatFlagsException) {
                 e.printStackTrace()
                 Messages.showErrorDialog(e.message, "UnSupport Json")
@@ -70,10 +82,9 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 } else {
                     offset = document.textLength - 1
                 }
-                document.insertString(Math.max(offset, 0), maker.makeKotlinData())
+                document.insertString(Math.max(offset, 0), codeMaker.makeKotlinData())
             }
 
-//            Messages.showMessageDialog(project, "Kotlin Code insert successfully!", "Information", Messages.getInformationIcon())
             Thread {
                 sendActionInfo(gson.toJson(SuccessCompleteAction()))
             }.start()

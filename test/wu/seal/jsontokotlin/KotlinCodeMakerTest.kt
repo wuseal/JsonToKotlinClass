@@ -3,13 +3,11 @@ package wu.seal.jsontokotlin
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
-
 /**
  *
  * Created by Seal.Wu on 2018/2/6.
  */
-class KotlinMakerTest {
+class KotlinCodeMakerTest {
     @Before
     fun setUp() {
         isTestModel = true
@@ -43,8 +41,8 @@ class KotlinMakerTest {
                 ]}
                 }}"""
 
-        println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
-        println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
+        println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
+        println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
         TestConfig.targetJsonConvertLib = TargetJsonConverter.Jackson
         TestConfig.isCommentOff = true
@@ -53,8 +51,8 @@ class KotlinMakerTest {
 
         println("===========================================Change to Jackson json lib support========================================= ")
 
-        println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
-        println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
+        println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
+        println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
 
         TestConfig.targetJsonConvertLib = TargetJsonConverter.FastJson
@@ -64,8 +62,8 @@ class KotlinMakerTest {
 
         println("===========================================Change to FastJson json lib support========================================= ")
 
-        println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
-        println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
+        println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
+        println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
 
 
@@ -76,8 +74,17 @@ class KotlinMakerTest {
 
         println("===========================================Change to Gson json lib support========================================= ")
 
-        println("json1 ====>\n${KotlinMaker("Class1", json1).makeKotlinData()}")
-        println("json2 ====>\n${KotlinMaker("Class2", json2).makeKotlinData()}")
+        println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
+        println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
+
+
+        TestConfig.isInnerClassModel = true
+
+        println("===========================================Change to Gson json lib support And inner class model========================================= ")
+
+        println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
+        println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
+
     }
 
 }

@@ -43,13 +43,15 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
+class JsonInputDialog(private val classsName: String, project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
 
     private lateinit var classNameInput: JTextField
 
     init {
         setOKButtonText("Make")
+        classNameInput.text = classsName
     }
+
     override fun createMessagePanel(): javax.swing.JPanel {
         val messagePanel = javax.swing.JPanel(java.awt.BorderLayout())
         if (myMessage != null) {
@@ -119,7 +121,7 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
     }
 
 
-    protected  fun createMyScrollableTextComponent(): javax.swing.JComponent {
+    protected fun createMyScrollableTextComponent(): javax.swing.JComponent {
         return com.intellij.ui.components.JBScrollPane(myField)
     }
 
@@ -131,7 +133,11 @@ class JsonInputDialog(project: Project) : Messages.InputDialog(project, "Please 
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return classNameInput
+        if (classNameInput.text?.isEmpty() ?: true) {
+            return classNameInput
+        } else {
+            return myField
+        }
     }
 }
 
