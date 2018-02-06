@@ -19,6 +19,7 @@ data class ConfigInfo(
         val isPropertyNullable: Boolean = ConfigManager.isPropertyNullable,
         val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
         val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
+        val isInnerClassMode:Boolean = ConfigManager.isInnerClassModel,
         val timeStamp: String = Date().time.toString(),
         val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 

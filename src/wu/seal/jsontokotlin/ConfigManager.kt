@@ -37,6 +37,10 @@ interface IConfigManager {
     private val USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING: String
         get() = "jsontokotlin_user_custom_json_lib_annotation_format_string"
 
+    private val INNER_CLASS_MODEL_KEY: String
+        get() = "jsontokotlin_inner_class_model_key"
+
+
     var isPropertiesVar: Boolean
         get() = if (isTestModel) TestConfig.isPropertiesVar else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTIES_VAR_KEY)
         set(value) = if (isTestModel) {
@@ -96,6 +100,12 @@ interface IConfigManager {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, value)
         }
+    var isInnerClassModel: Boolean
+        get() = if (isTestModel) TestConfig.isInnerClassModel else PropertiesComponent.getInstance().getBoolean(INNER_CLASS_MODEL_KEY, false)
+        set(value) = if (isTestModel) {
+        } else {
+            PropertiesComponent.getInstance().setValue(INNER_CLASS_MODEL_KEY, value)
+        }
 }
 
 /**
@@ -122,4 +132,5 @@ object TestConfig {
     var targetJsonConvertLib = TargetJsonConverter.Gson
     var isPropertyNullable = true
     var initWithDefaultValue = true
+    var isInnerClassModel = true
 }

@@ -93,16 +93,17 @@ class PropertyPanel(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
             ConfigManager.isPropertyNullable = nullAbleCheck.isSelected
         }
 
-        add(Box.createVerticalStrut(20))
+        add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(initWithDefaultValueCheck)
-        add(Box.createVerticalStrut(20))
+        add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(nullAbleCheck)
 
 
     }
 }
+
 
 
 /**

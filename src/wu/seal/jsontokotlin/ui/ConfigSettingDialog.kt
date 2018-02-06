@@ -32,22 +32,24 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
 
         val tabbedPane = JTabbedPane()
 
-        val propertyPanel = createPropertyPane()
+        val propertyPanelTab = createPropertyPane()
 
-        val commentConfigPanel = createCommentConfigPanel()
+        val otherConfigTab = createOtherSettingTab()
 
-        val targetJsonLibConfigPanel = createTargetJsonLibConfigPanel()
+        val JSONconverterTab = createTargetJsonLibConfigPanel()
 
-        tabbedPane.add("Property", propertyPanel)
+        tabbedPane.add("Property", propertyPanelTab)
 
-        tabbedPane.add("JSON Converter", targetJsonLibConfigPanel)
+        tabbedPane.add("JSON Converter", JSONconverterTab)
 
-        tabbedPane.add("Comment", commentConfigPanel)
+        tabbedPane.add("Other", otherConfigTab)
 
         tabbedPane.minimumSize = JBDimension(500, 300)
 
         return tabbedPane
     }
+
+    private fun createOtherSettingTab() = ConfigSettingsOthersTab(true)
 
     private fun createTargetJsonLibConfigPanel() = TargetJsonLibConfigPanelContainer(true)
 
