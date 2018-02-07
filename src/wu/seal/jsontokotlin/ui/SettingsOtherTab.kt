@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder
  * others settings tab in config settings dialog
  * Created by Seal.Wu on 2018/2/6.
  */
-class ConfigSettingsOthersTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(layout: LayoutManager?) : this(layout, false)
 
@@ -27,13 +27,13 @@ class ConfigSettingsOthersTab(layout: LayoutManager?, isDoubleBuffered: Boolean)
         val bordWidth = JBUI.scale(10)
         border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
 
-        val enableComment = JBCheckBox("enable comment")
+        val enableComment = JBCheckBox("Enable Comment")
         enableComment.isSelected = ConfigManager.isCommentOff.not()
         enableComment.addActionListener { ConfigManager.isCommentOff = enableComment.isSelected.not() }
 
 
 
-        val enableInnerClassModel = JBCheckBox("enable inner class model")
+        val enableInnerClassModel = JBCheckBox("Enable Inner Class Model")
         enableInnerClassModel.isSelected = ConfigManager.isInnerClassModel
         enableInnerClassModel.addActionListener { ConfigManager.isInnerClassModel = enableInnerClassModel.isSelected }
 
