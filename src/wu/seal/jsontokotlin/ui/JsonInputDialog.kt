@@ -1,5 +1,7 @@
 package wu.seal.jsontokotlin.ui
 
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
@@ -8,6 +10,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
 import wu.seal.jsontokotlin.addComponentIntoVerticalBoxAlignmentLeft
+import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.*
 import javax.swing.event.DocumentEvent
@@ -24,10 +27,10 @@ class MyInputValidator : InputValidator {
     override fun checkInput(inputString: String): Boolean {
         try {
             val classNameLegal = classNameField.text.trim().isNotBlank()
-            val jsonElement = com.google.gson.JsonParser().parse(inputString)
+            val jsonElement = JsonParser().parse(inputString)
 
             return (jsonElement.isJsonObject || jsonElement.isJsonArray) && classNameLegal
-        } catch (e: com.google.gson.JsonSyntaxException) {
+        } catch (e: JsonSyntaxException) {
             return false
         }
 
@@ -53,10 +56,10 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
     }
 
     override fun createMessagePanel(): javax.swing.JPanel {
-        val messagePanel = javax.swing.JPanel(java.awt.BorderLayout())
+        val messagePanel = javax.swing.JPanel(BorderLayout())
         if (myMessage != null) {
             val textComponent = createTextComponent()
-            messagePanel.add(textComponent, java.awt.BorderLayout.NORTH)
+            messagePanel.add(textComponent, BorderLayout.NORTH)
         }
         myField = createTextFieldComponent()
 
@@ -92,19 +95,19 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         centerContainer.layout = centerBoxLayout
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameInputContainer)
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonInputContainer)
-        messagePanel.add(centerContainer, java.awt.BorderLayout.CENTER)
-        val settingButton = JButton("Config Settings")
+        messagePanel.add(centerContainer, BorderLayout.CENTER)
+        val settingButton = JButton("Settings")
         settingButton.horizontalAlignment = SwingConstants.CENTER
         settingButton.addActionListener(object : AbstractAction() {
             override fun actionPerformed(e: ActionEvent) {
-                ConfigSettingDialog(false).show()
+                SettingsDialog(false).show()
             }
         })
-        val settingContainer = javax.swing.JPanel()
+        val settingContainer = JPanel()
         val boxLayout = javax.swing.BoxLayout(settingContainer, BoxLayout.LINE_AXIS)
         settingContainer.layout = boxLayout
         settingContainer.add(settingButton)
-        messagePanel.add(settingContainer, java.awt.BorderLayout.SOUTH)
+        messagePanel.add(settingContainer, BorderLayout.SOUTH)
 
         return messagePanel
     }

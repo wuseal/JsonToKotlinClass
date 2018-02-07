@@ -20,11 +20,6 @@ interface IJacksonSupporter {
     fun getJacksonSupporterProperty(rawPropertyName: String, propertyType: String): String
 }
 
-fun main(args: Array<String>) {
-    wu.seal.jsontokotlin.isTestModel = true
-    println("getGsonSupporterProperty:\n ${JacksonSupporter.getJacksonSupporterProperty("seal is **() good_man ", "Boy")}")
-}
-
 object JacksonSupporter : IJacksonSupporter {
 
     private val anotaionOnProperty = "@JsonProperty(\"%s\")"

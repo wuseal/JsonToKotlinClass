@@ -12,7 +12,7 @@ import javax.swing.JTabbedPane
  * Created by Seal.Wu on 2017/9/13.
  */
 
-interface IConfigSettingDialog {
+interface ISettingsDialog {
 
     fun show()
 
@@ -20,11 +20,11 @@ interface IConfigSettingDialog {
 
 }
 
-class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IConfigSettingDialog {
+class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), ISettingsDialog {
 
     init {
         init()
-        title = "Config Settings"
+        title = "Settings"
     }
 
 
@@ -32,15 +32,15 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
 
         val tabbedPane = JTabbedPane()
 
-        val propertyPanelTab = createPropertyPane()
+        val propertyPanelTab = createPropertyTab()
 
         val otherConfigTab = createOtherSettingTab()
 
-        val JSONconverterTab = createTargetJsonLibConfigPanel()
+        val jSONConverterTab = createJSONConverterTab()
 
         tabbedPane.add("Property", propertyPanelTab)
 
-        tabbedPane.add("JSON Converter", JSONconverterTab)
+        tabbedPane.add("JSON Converter", jSONConverterTab)
 
         tabbedPane.add("Other", otherConfigTab)
 
@@ -49,16 +49,15 @@ class ConfigSettingDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), IC
         return tabbedPane
     }
 
-    private fun createOtherSettingTab() = ConfigSettingsOthersTab(true)
+    private fun createOtherSettingTab() = SettingsOtherTab(true)
 
-    private fun createTargetJsonLibConfigPanel() = TargetJsonLibConfigPanelContainer(true)
-
-    private fun createCommentConfigPanel() = CommentConfigPanel(true)
-
-    private fun createPropertyPane(): JPanel {
+    private fun createJSONConverterTab() = SettingsJSONConverterTab(true)
 
 
-        return PropertyPanel(true)
+    private fun createPropertyTab(): JPanel {
+
+
+        return SettingsPropertyTab(true)
     }
 
 
