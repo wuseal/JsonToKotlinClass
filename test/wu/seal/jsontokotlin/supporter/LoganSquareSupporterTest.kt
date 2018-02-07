@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin.supporter
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.isTestModel
+import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
 /**
  *

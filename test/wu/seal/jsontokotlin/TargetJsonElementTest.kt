@@ -6,6 +6,7 @@ import com.google.gson.JsonElement
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
 /**
  *

@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin.statistics
 
 import com.google.gson.Gson
-import wu.seal.jsontokotlin.isTestModel
 import java.net.HttpURLConnection
 import java.net.URL
 

@@ -12,15 +12,7 @@ import javax.swing.JTabbedPane
  * Created by Seal.Wu on 2017/9/13.
  */
 
-interface ISettingsDialog {
-
-    fun show()
-
-    fun dismiss()
-
-}
-
-class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), ISettingsDialog {
+class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
     init {
         init()
@@ -61,7 +53,7 @@ class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent), ISettin
     }
 
 
-    override fun dismiss() {
+    fun dismiss() {
         close(CANCEL_EXIT_CODE)
     }
 

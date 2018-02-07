@@ -2,6 +2,8 @@ package wu.seal.jsontokotlin
 
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
 /**
  *

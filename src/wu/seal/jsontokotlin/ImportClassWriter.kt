@@ -3,32 +3,12 @@ package wu.seal.jsontokotlin
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
 import wu.seal.jsontokotlin.supporter.*
+import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 
 /**
  * to be a helper to insert Import class declare code
  * Created by Seal.Wu on 2017/9/18.
  */
-
-
-interface IImportClassWriter {
-
-    fun insertGsonImportClass(project: Project?, editFile: Document)
-
-
-    fun insertJackSonImportClass(project: Project?, editFile: Document)
-
-
-    fun insertFastJsonImportClass(project: Project?, editFile: Document)
-
-
-    fun insertImportClassCode(project: Project?, editFile: Document)
-
-    fun insertMoShiImportClass(project: Project?, editFile: Document)
-
-    fun insertLoganSquareImportClass(project: Project?, editFile: Document)
-
-    fun insertCustomImportClass(project: Project?, editFile: Document)
-}
 
 
 object ImportClassWriter : IImportClassWriter {

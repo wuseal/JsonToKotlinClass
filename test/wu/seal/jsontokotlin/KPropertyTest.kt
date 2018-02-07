@@ -1,10 +1,11 @@
 package wu.seal.jsontokotlin
 
-import org.junit.*
-
+import org.junit.Before
 import wu.seal.jsontokotlin.codeelements.KProperty
+import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
 /**
+ *
  * Created by Seal.Wu on 2017/11/1.
  */
 class KPropertyTest {

@@ -6,7 +6,7 @@ import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.TargetJsonConverter
-import wu.seal.jsontokotlin.addComponentIntoVerticalBoxAlignmentLeft
+import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.FlowLayout
 import java.awt.GridLayout
 import java.awt.LayoutManager
