@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.6</version>
+  <version>1.6.1</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -14,8 +14,8 @@
     ]]></description>
 
   <change-notes><![CDATA[
-    1.Add new converter option :None (camel case) in converter tab.<br>
-    2.Add new inner class model generation in other tab.<br>
+     1.Beautify UI for Mac OS </br>
+     2.Fixed a bug with comment option</br>
     ]]>
   </change-notes>
 
