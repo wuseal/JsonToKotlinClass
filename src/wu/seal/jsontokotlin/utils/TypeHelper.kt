@@ -1,7 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
+import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KClassName
 import java.util.*
 
@@ -141,10 +142,4 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     }
 
     return innerProperty
-}
-
-
-fun main(args: Array<String>) {
-    isTestModel = true
-    println(getChildType("List<Item>"))
 }

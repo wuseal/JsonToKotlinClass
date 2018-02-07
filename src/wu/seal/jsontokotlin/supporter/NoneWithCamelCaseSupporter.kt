@@ -4,7 +4,6 @@ import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
-import wu.seal.jsontokotlin.isTestModel
 
 /**
  *

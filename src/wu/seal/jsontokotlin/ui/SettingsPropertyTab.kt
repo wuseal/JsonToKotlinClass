@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin.ui
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.addComponentIntoVerticalBoxAlignmentLeft
+import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.Color
 import java.awt.FlowLayout
 import java.awt.LayoutManager

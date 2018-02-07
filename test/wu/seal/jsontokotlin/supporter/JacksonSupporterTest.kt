@@ -4,7 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
-import wu.seal.jsontokotlin.isTestModel
+import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
 /**
  *

@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin
 import com.google.gson.*
 import wu.seal.jsontokotlin.codeelements.KClassAnnotation
 import wu.seal.jsontokotlin.codeelements.KProperty
+import wu.seal.jsontokotlin.utils.*
 
 import java.util.HashSet
 

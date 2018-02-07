@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
 import java.awt.Component
 import java.awt.Container
@@ -21,7 +21,7 @@ fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component) {
 
 }
 
-fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component,leftMargin:Int) {
+fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component, leftMargin:Int) {
     if (layout is BoxLayout) {
 
         val hBox = Box.createHorizontalBox()

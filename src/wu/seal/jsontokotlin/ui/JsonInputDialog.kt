@@ -9,7 +9,7 @@ import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
-import wu.seal.jsontokotlin.addComponentIntoVerticalBoxAlignmentLeft
+import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.*

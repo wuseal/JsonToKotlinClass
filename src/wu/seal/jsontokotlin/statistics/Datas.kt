@@ -1,9 +1,7 @@
 package wu.seal.jsontokotlin.statistics
 
-import com.google.gson.Gson
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.PLUGIN_VERSION
-import wu.seal.jsontokotlin.isTestModel
 import java.text.SimpleDateFormat
 import java.util.*
 
