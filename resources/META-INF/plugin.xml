@@ -5,13 +5,17 @@
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
-      An plugin for Kotlin to convert Json String into Kotlin data class code<br>
-      <em>Kotlin</em>
+      Plugin for Kotlin to convert Json String into Kotlin data class code quickly<br>
+      <em>kotlin</em>
       <em>Json</em>
+      <em>Gson</em>
+      <em>Fastjson</em>
+      <em>Moshi</em>
     ]]></description>
 
   <change-notes><![CDATA[
-    1.Fix a bug about only number json property.<br>
+    1.Add new converter option :None (camel case) in converter tab.<br>
+    2.Add new inner class model generation in other tab.<br>
     ]]>
   </change-notes>
 
