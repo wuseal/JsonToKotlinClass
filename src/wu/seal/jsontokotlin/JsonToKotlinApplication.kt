@@ -1,9 +1,9 @@
 package wu.seal.jsontokotlin
 
 import com.intellij.openapi.components.ApplicationComponent
-import wu.seal.jsontokotlin.statistics.sendConfigInfo
-import wu.seal.jsontokotlin.statistics.sendHistoryExceptionInfo
-import wu.seal.jsontokotlin.statistics.sendHistoryActionInfo
+import wu.seal.jsontokotlin.feedback.sendConfigInfo
+import wu.seal.jsontokotlin.feedback.sendHistoryExceptionInfo
+import wu.seal.jsontokotlin.feedback.sendHistoryActionInfo
 
 /**
  *

@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin.statistics
+package wu.seal.jsontokotlin.feedback
 
 import wu.seal.jsontokotlin.PLUGIN_VERSION
 import java.io.PrintWriter

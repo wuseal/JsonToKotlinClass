@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin.statistics
+package wu.seal.jsontokotlin.feedback
 
 import com.google.gson.Gson
 import org.junit.Before
