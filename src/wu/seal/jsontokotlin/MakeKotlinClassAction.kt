@@ -9,10 +9,10 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import wu.seal.jsontokotlin.statistics.StartAction
-import wu.seal.jsontokotlin.statistics.SuccessCompleteAction
-import wu.seal.jsontokotlin.statistics.getUncaughtExceptionHandler
-import wu.seal.jsontokotlin.statistics.sendActionInfo
+import wu.seal.jsontokotlin.feedback.StartAction
+import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
+import wu.seal.jsontokotlin.feedback.getUncaughtExceptionHandler
+import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 
