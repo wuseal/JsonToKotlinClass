@@ -7,6 +7,7 @@ import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
 import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
@@ -14,6 +15,7 @@ import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.*
 import javax.swing.event.DocumentEvent
+import javax.swing.text.JTextComponent
 
 /**
  * Dialog widget relative
@@ -55,8 +57,8 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         classNameInput.text = classsName
     }
 
-    override fun createMessagePanel(): javax.swing.JPanel {
-        val messagePanel = javax.swing.JPanel(BorderLayout())
+    override fun createMessagePanel(): JPanel {
+        val messagePanel = JPanel(BorderLayout())
         if (myMessage != null) {
             val textComponent = createTextComponent()
             messagePanel.add(textComponent, BorderLayout.NORTH)
@@ -112,7 +114,7 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         return messagePanel
     }
 
-    override fun createTextFieldComponent(): javax.swing.text.JTextComponent {
+    override fun createTextFieldComponent(): JTextComponent {
         val jTextArea = javax.swing.JTextArea(15, 100)
         jTextArea.minimumSize = JBDimension(800, 450)
         jTextArea.maximumSize = JBDimension(1000, 700)
@@ -123,8 +125,8 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
     }
 
 
-    protected fun createMyScrollableTextComponent(): javax.swing.JComponent {
-        return com.intellij.ui.components.JBScrollPane(myField)
+    protected fun createMyScrollableTextComponent(): JComponent {
+        return JBScrollPane(myField)
     }
 
     fun getClassName(): String {

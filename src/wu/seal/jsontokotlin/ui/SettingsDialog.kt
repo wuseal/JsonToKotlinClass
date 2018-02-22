@@ -1,11 +1,11 @@
 package wu.seal.jsontokotlin.ui
 
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.ui.components.JBTabbedPane
 import com.intellij.util.ui.JBDimension
 import javax.swing.Action
 import javax.swing.JComponent
 import javax.swing.JPanel
-import javax.swing.JTabbedPane
 
 /**
  *
@@ -22,17 +22,17 @@ class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
     override fun createCenterPanel(): JComponent? {
 
-        val tabbedPane = JTabbedPane()
+        val tabbedPane = JBTabbedPane()
 
         val propertyPanelTab = createPropertyTab()
 
         val otherConfigTab = createOtherSettingTab()
 
-        val jSONConverterTab = createJSONConverterTab()
+        val annotationTab = createAnnotationTab()
 
         tabbedPane.add("Property", propertyPanelTab)
 
-        tabbedPane.add("JSON Converter", jSONConverterTab)
+        tabbedPane.add("Annotation", annotationTab)
 
         tabbedPane.add("Other", otherConfigTab)
 
@@ -43,7 +43,7 @@ class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
     private fun createOtherSettingTab() = SettingsOtherTab(true)
 
-    private fun createJSONConverterTab() = SettingsJSONConverterTab(true)
+    private fun createAnnotationTab() = SettingsAnnotationTab(true)
 
 
     private fun createPropertyTab(): JPanel {
