@@ -20,9 +20,9 @@ import javax.swing.border.EmptyBorder
  * Created by Seal.Wu on 2018/2/7.
  */
 /**
- * JSON Converter Tab View
+ * JSON Converter Annotation Tab View
  */
-class SettingsJSONConverterTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(layout: LayoutManager?) : this(layout, false)
 
