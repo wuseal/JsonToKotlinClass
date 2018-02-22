@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin.ui
 
-import com.google.gson.JsonParser
-import com.google.gson.JsonSyntaxException
+import com.google.gson.*
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
@@ -52,6 +51,8 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
     private lateinit var classNameInput: JTextField
 
+    private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().create()
+
     init {
         setOKButtonText("Make")
         classNameInput.text = classsName
@@ -86,6 +87,8 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
         val createScrollableTextComponent = createMyScrollableTextComponent()
         val jsonInputContainer = createLinearLayoutVertical()
+        jsonInputContainer.preferredSize =  JBDimension(700, 400)
+        jsonInputContainer.border = JBEmptyBorder(5,0,5,5)
         val jsonTitle = JBLabel("JSON Text:")
         jsonTitle.border = JBEmptyBorder(5, 0, 5, 0)
         jsonInputContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonTitle)
@@ -105,19 +108,29 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
                 SettingsDialog(false).show()
             }
         })
+        val formatButton = JButton("Format")
+        formatButton.horizontalAlignment = SwingConstants.CENTER
+        formatButton.addActionListener(object : AbstractAction() {
+            override fun actionPerformed(p0: ActionEvent?) {
+                handleFormatJSONString()
+            }
+
+        })
         val settingContainer = JPanel()
-        val boxLayout = javax.swing.BoxLayout(settingContainer, BoxLayout.LINE_AXIS)
+        settingContainer.border = JBEmptyBorder(0,5,5,7)
+        val boxLayout = BoxLayout(settingContainer, BoxLayout.LINE_AXIS)
         settingContainer.layout = boxLayout
         settingContainer.add(settingButton)
+        settingContainer.add(Box.createHorizontalGlue())
+        settingContainer.add(formatButton)
         messagePanel.add(settingContainer, BorderLayout.SOUTH)
 
         return messagePanel
     }
 
     override fun createTextFieldComponent(): JTextComponent {
-        val jTextArea = javax.swing.JTextArea(15, 100)
-        jTextArea.minimumSize = JBDimension(800, 450)
-        jTextArea.maximumSize = JBDimension(1000, 700)
+        val jTextArea = JTextArea(15, 100)
+        jTextArea.preferredSize = JBDimension(700, 350)
         jTextArea.lineWrap = true
         jTextArea.wrapStyleWord = true
         jTextArea.autoscrolls = true
@@ -126,7 +139,9 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
 
     protected fun createMyScrollableTextComponent(): JComponent {
-        return JBScrollPane(myField)
+        val jbScrollPane = JBScrollPane(myField)
+        jbScrollPane.preferredSize = JBDimension(700, 350)
+        return jbScrollPane
     }
 
     fun getClassName(): String {
@@ -142,6 +157,19 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         } else {
             return myField
         }
+    }
+
+    fun handleFormatJSONString() {
+        val currentText = myField.text ?: ""
+        if (currentText.isNotEmpty()) {
+            try {
+                val jsonElement = prettyGson.fromJson<JsonElement>(currentText, JsonElement::class.java)
+                val formatJSON = prettyGson.toJson(jsonElement)
+                myField.text = formatJSON
+            } catch (e: Exception) {
+            }
+        }
+
     }
 }
 
