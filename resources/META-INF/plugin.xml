@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.6.1</version>
+  <version>1.6.2-beta</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -11,11 +11,12 @@
       <em>Gson</em>
       <em>Fastjson</em>
       <em>Moshi</em>
+      <em>LoganSquare</em>
     ]]></description>
 
   <change-notes><![CDATA[
-     1.Beautify UI for Mac OS </br>
-     2.Fixed a bug with comment option</br>
+     1.Add support for formatting JSON String </br>
+     2.Rename tab name `JSON Converter` to `Annotation` </br>
     ]]>
   </change-notes>
 
