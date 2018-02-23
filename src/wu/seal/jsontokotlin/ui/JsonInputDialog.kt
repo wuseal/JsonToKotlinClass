@@ -9,6 +9,8 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
+import wu.seal.jsontokotlin.feedback.FormatJSONAction
+import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
@@ -87,8 +89,8 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
         val createScrollableTextComponent = createMyScrollableTextComponent()
         val jsonInputContainer = createLinearLayoutVertical()
-        jsonInputContainer.preferredSize =  JBDimension(700, 400)
-        jsonInputContainer.border = JBEmptyBorder(5,0,5,5)
+        jsonInputContainer.preferredSize = JBDimension(700, 400)
+        jsonInputContainer.border = JBEmptyBorder(5, 0, 5, 5)
         val jsonTitle = JBLabel("JSON Text:")
         jsonTitle.border = JBEmptyBorder(5, 0, 5, 0)
         jsonInputContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonTitle)
@@ -117,7 +119,7 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
         })
         val settingContainer = JPanel()
-        settingContainer.border = JBEmptyBorder(0,5,5,7)
+        settingContainer.border = JBEmptyBorder(0, 5, 5, 7)
         val boxLayout = BoxLayout(settingContainer, BoxLayout.LINE_AXIS)
         settingContainer.layout = boxLayout
         settingContainer.add(settingButton)
@@ -129,11 +131,11 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
     }
 
     override fun createTextFieldComponent(): JTextComponent {
-        val jTextArea = JTextArea(15, 100)
-        jTextArea.preferredSize = JBDimension(700, 350)
-        jTextArea.lineWrap = true
-        jTextArea.wrapStyleWord = true
-        jTextArea.autoscrolls = true
+        val jTextArea = JTextArea(15, 50)
+        jTextArea.minimumSize = JBDimension(750, 400)
+//        jTextArea.lineWrap = true
+//        jTextArea.wrapStyleWord = true
+//        jTextArea.autoscrolls = true
         return jTextArea
     }
 
@@ -141,6 +143,9 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
     protected fun createMyScrollableTextComponent(): JComponent {
         val jbScrollPane = JBScrollPane(myField)
         jbScrollPane.preferredSize = JBDimension(700, 350)
+        jbScrollPane.autoscrolls = true
+        jbScrollPane.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        jbScrollPane.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         return jbScrollPane
     }
 
@@ -170,6 +175,12 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
             }
         }
 
+        feedBackFormatJSONActionInfo()
+
+    }
+
+    private fun feedBackFormatJSONActionInfo() {
+        Thread { sendActionInfo(prettyGson.toJson(FormatJSONAction())) }.start()
     }
 }
 

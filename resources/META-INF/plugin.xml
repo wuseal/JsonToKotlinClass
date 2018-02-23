@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JsonToKotlinClass</name>
-  <version>1.6.2-beta</version>
+  <version>1.6.2</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -32,7 +32,7 @@
   </extensions>
 
   <actions>
-    <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction" text="Convert Json Into Kotlin Class" description="convert a json string data into kotlin data class" >
+    <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction" text="Convert Json Into Kotlin Class" description="convert a json string data into kotlin data class code" >
       <add-to-group group-id="GenerateGroup" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="alt k"/>
     </action>
