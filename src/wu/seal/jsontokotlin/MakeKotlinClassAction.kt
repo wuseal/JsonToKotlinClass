@@ -145,7 +145,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
     internal fun getCleanText(editorText: String): String {
         val tempCleanText = editorText.substringBeforeLast("class")
-        val cleanText = if (tempCleanText.trim().endsWith("data")) tempCleanText.removeSuffix("data") else tempCleanText
+        val cleanText = if (tempCleanText.trim().endsWith("data")) tempCleanText.trim().removeSuffix("data") else tempCleanText
         return cleanText
     }
 
@@ -160,11 +160,15 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
         val removeCommentEditorText = editorText.replace(Regex("/*\\*(.|\n)*\\*/"),"")
                 .replace(Regex("^(?:\\s*package |\\s*import ).*$",RegexOption.MULTILINE),"")
-        if (removeCommentEditorText.indexOf("class") == removeCommentEditorText.lastIndexOf("class")
+        if ((removeCommentEditorText.indexOf("class") == removeCommentEditorText.lastIndexOf("class")
                 && removeCommentEditorText.indexOf("class") != -1
                 && removeCommentEditorText.substringAfter("class").contains("(").not()
                 && removeCommentEditorText.substringAfter("class").contains(":").not()
-                && removeCommentEditorText.substringAfter("class").contains("=").not()) {
+                && removeCommentEditorText.substringAfter("class").contains("=").not())
+                ||(removeCommentEditorText.indexOf("class") == removeCommentEditorText.lastIndexOf("class")
+                && removeCommentEditorText.indexOf("class") != -1
+                &&removeCommentEditorText.substringAfter("class").substringAfter("(")
+                .replace(Regex("\\s"),"").let { it.equals(")")||it.equals("){}") })) {
             couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
         }
         return couldGetAndReuseClassNameInCurrentEditFileForInsertCode

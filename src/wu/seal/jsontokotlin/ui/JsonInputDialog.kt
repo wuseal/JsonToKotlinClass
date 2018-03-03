@@ -49,7 +49,7 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(private val classsName: String, project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class", Messages.getInformationIcon(), "", myInputValidator) {
+class JsonInputDialog(private val classsName: String, project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class Code", Messages.getInformationIcon(), "", myInputValidator) {
 
     private lateinit var classNameInput: JTextField
 
