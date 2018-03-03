@@ -70,7 +70,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
 
 
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             dealWithException(jsonString, e)
             throw e
         }
@@ -139,21 +139,32 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     }
 
     private fun cleanCurrentEditFile(document: Document, editorText: String = document.text) {
-        document.setText(editorText.substringBefore("class"))
+        val cleanText = getCleanText(editorText)
+        document.setText(cleanText)
     }
 
-    private fun getCurrentEditFileTemClassName(editorText: String) = editorText.substringAfter("class").substringBefore("{").trim()
+    internal fun getCleanText(editorText: String): String {
+        val tempCleanText = editorText.substringBeforeLast("class")
+        val cleanText = if (tempCleanText.trim().endsWith("data")) tempCleanText.removeSuffix("data") else tempCleanText
+        return cleanText
+    }
+
+    internal fun getCurrentEditFileTemClassName(editorText: String) = editorText.substringAfterLast("class")
+            .substringBefore("(").substringBefore("{").trim()
 
     /**
      * whether we could reuse current class name declared in the edit file for inserting data class code
      * if we could use it,then we would clean the kotlin file as it was new file without any class code .
      */
-    private fun couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText: String): Boolean {
+    internal fun couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText: String): Boolean {
         var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
-        if (editorText.indexOf("class") == editorText.lastIndexOf("class")
-                && editorText.substringAfter("class").contains("(").not()
-                && editorText.substringAfter("class").contains(":").not()
-                && editorText.substringAfter("class").contains("=").not()) {
+        val removeCommentEditorText = editorText.replace(Regex("/*\\*(.|\n)*\\*/"),"")
+                .replace(Regex("^(?:\\s*package |\\s*import ).*$",RegexOption.MULTILINE),"")
+        if (removeCommentEditorText.indexOf("class") == removeCommentEditorText.lastIndexOf("class")
+                && removeCommentEditorText.indexOf("class") != -1
+                && removeCommentEditorText.substringAfter("class").contains("(").not()
+                && removeCommentEditorText.substringAfter("class").contains(":").not()
+                && removeCommentEditorText.substringAfter("class").contains("=").not()) {
             couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
         }
         return couldGetAndReuseClassNameInCurrentEditFileForInsertCode
