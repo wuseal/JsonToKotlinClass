@@ -102,7 +102,7 @@ interface IConfigManager {
         }
 
     var customPropertyAnnotationFormatString: String
-        get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, GsonSupporter.propertyAnnotationFormat)
+        get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, "@Optional\n@SerialName(\"%s\")")
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, value)

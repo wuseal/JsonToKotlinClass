@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.ui
 
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
@@ -29,42 +30,48 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
-        val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
-        setLayout(boxLayout)
+        val boxPanel = JPanel()
+        boxPanel.layout = BoxLayout(boxPanel, BoxLayout.PAGE_AXIS)
         val bordWidth = JBUI.scale(10)
-        border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
-
+        boxPanel.border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
         val subBoxPanel = JPanel()
-        subBoxPanel.preferredSize = JBDimension(480, 90)
-        subBoxPanel.maximumSize = JBDimension(480, 90)
+        subBoxPanel.minimumSize = JBDimension(480, 120)
         val subBoxLayout = BoxLayout(subBoxPanel, BoxLayout.PAGE_AXIS)
 
         subBoxPanel.layout = subBoxLayout
-        val annotationStringPanel = JPanel(true)
-        annotationStringPanel.maximumSize = JBDimension(480, 30)
-        annotationStringPanel.layout = FlowLayout(FlowLayout.LEFT)
-        annotationStringPanel.add(JBLabel("Property Annotation Format: "))
-        val annotationFormatField = JTextField(ConfigManager.customPropertyAnnotationFormatString)
-        val fieldDefaultFont = annotationFormatField.font
-        annotationFormatField.addFocusListener(object : FocusListener {
-            override fun focusLost(e: FocusEvent?) {
-                ConfigManager.customPropertyAnnotationFormatString = annotationFormatField.text
-            }
 
-            override fun focusGained(e: FocusEvent?) {
-            }
 
+        addAnnotationClassImportCodeSettingPanel(subBoxPanel)
+
+        addClassAnnotationFormatSettingPanel(subBoxPanel)
+
+        addPropertyAnnotationFormatSettingPanel(subBoxPanel)
+
+        val annotationSelectPanel = TargetJsonLibConfigPanel(true, {
+            subBoxPanel.isVisible = it
         })
-        annotationStringPanel.add(annotationFormatField, FlowLayout.CENTER)
-        subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationStringPanel)
 
+        annotationSelectPanel.minimumSize = JBDimension(480, 180)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationSelectPanel)
+
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(subBoxPanel)
+
+        subBoxPanel.isVisible = ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom
+
+
+        setLayout(BoxLayout(this,BoxLayout.PAGE_AXIS))
+        border = JBEmptyBorder(0)
+        add(JBScrollPane(boxPanel))
+
+    }
+
+    private fun addAnnotationClassImportCodeSettingPanel(subBoxPanel: JPanel): JPanel {
         val annotationImportClass = JPanel(true)
+        annotationImportClass.preferredSize = JBDimension(480, 60)
         annotationImportClass.layout = FlowLayout(FlowLayout.LEFT)
-        val importClassLable = JBLabel("Property Annotation Import Class : ")
-        importClassLable.border = JBEmptyBorder(3, 0, 3, 0)
+        val importClassLable = JBLabel("Annotation Import Class : ")
         annotationImportClass.add(importClassLable)
         val annotationImportClassTextArea = JTextArea(ConfigManager.customAnnotaionImportClassString)
-        annotationImportClassTextArea.font = fieldDefaultFont
         annotationImportClassTextArea.preferredSize = JBDimension(480, 40)
         annotationImportClassTextArea.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
@@ -76,19 +83,70 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             }
 
         })
-        annotationImportClass.add(annotationImportClassTextArea)
+        val jbScrollPaneClassFormat = JBScrollPane(annotationImportClassTextArea)
+        jbScrollPaneClassFormat.preferredSize = JBDimension(480, 40)
+        jbScrollPaneClassFormat.autoscrolls = true
+        jbScrollPaneClassFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        jbScrollPaneClassFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        annotationImportClass.add(jbScrollPaneClassFormat)
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationImportClass)
+        return annotationImportClass
+    }
 
-        addComponentIntoVerticalBoxAlignmentLeft(TargetJsonLibConfigPanel(true, {
-            annotationStringPanel.isVisible = it
-            annotationImportClass.isVisible = it
-        }))
+    private fun addPropertyAnnotationFormatSettingPanel(subBoxPanel: JPanel) {
+        val annotationStringPanel = JPanel(true)
+        annotationStringPanel.preferredSize = JBDimension(480, 60)
+        annotationStringPanel.layout = FlowLayout(FlowLayout.LEFT)
+        annotationStringPanel.add(JBLabel("Property Annotation Format: "))
+        val annotationFormatField = JTextArea(ConfigManager.customPropertyAnnotationFormatString)
 
-        addComponentIntoVerticalBoxAlignmentLeft(subBoxPanel)
+        annotationFormatField.preferredSize = JBDimension(480, 40)
+        annotationFormatField.addFocusListener(object : FocusListener {
+            override fun focusLost(e: FocusEvent?) {
+                ConfigManager.customPropertyAnnotationFormatString = annotationFormatField.text
+            }
 
-        annotationStringPanel.isVisible = ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom
-        annotationImportClass.isVisible = ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom
+            override fun focusGained(e: FocusEvent?) {
+            }
 
+        })
+
+        val jbScrollPanePropertyFormat = JBScrollPane(annotationFormatField)
+        jbScrollPanePropertyFormat.preferredSize = JBDimension(480, 40)
+        jbScrollPanePropertyFormat.autoscrolls = true
+        jbScrollPanePropertyFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        jbScrollPanePropertyFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        annotationStringPanel.add(jbScrollPanePropertyFormat)
+
+        subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationStringPanel)
+    }
+
+    private fun addClassAnnotationFormatSettingPanel(subBoxPanel: JPanel) {
+        val annotationClasssFormatStringPanel = JPanel(true)
+        annotationClasssFormatStringPanel.preferredSize = JBDimension(480, 60)
+        annotationClasssFormatStringPanel.layout = FlowLayout(FlowLayout.LEFT)
+        annotationClasssFormatStringPanel.add(JBLabel("Class Annotation Format: "))
+        val annotationClassFormatField = JTextArea(ConfigManager.customPropertyAnnotationFormatString)
+
+        annotationClassFormatField.preferredSize = JBDimension(480, 40)
+        annotationClassFormatField.addFocusListener(object : FocusListener {
+            override fun focusLost(e: FocusEvent?) {
+                ConfigManager.customClassAnnotationFormatString = annotationClassFormatField.text
+            }
+
+            override fun focusGained(e: FocusEvent?) {
+            }
+
+        })
+
+        val jbScrollPaneClassAnnotationFormat = JBScrollPane(annotationClassFormatField)
+        jbScrollPaneClassAnnotationFormat.preferredSize = JBDimension(480, 40)
+        jbScrollPaneClassAnnotationFormat.autoscrolls = true
+        jbScrollPaneClassAnnotationFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        jbScrollPaneClassAnnotationFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        annotationClasssFormatStringPanel.add(jbScrollPaneClassAnnotationFormat)
+
+        subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationClasssFormatStringPanel)
     }
 
 
