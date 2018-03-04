@@ -44,11 +44,11 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         annotationStringPanel.maximumSize = JBDimension(480, 30)
         annotationStringPanel.layout = FlowLayout(FlowLayout.LEFT)
         annotationStringPanel.add(JBLabel("Property Annotation Format: "))
-        val annotationFormatField = JTextField(ConfigManager.customAnnotaionFormatString)
+        val annotationFormatField = JTextField(ConfigManager.customPropertyAnnotationFormatString)
         val fieldDefaultFont = annotationFormatField.font
         annotationFormatField.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
-                ConfigManager.customAnnotaionFormatString = annotationFormatField.text
+                ConfigManager.customPropertyAnnotationFormatString = annotationFormatField.text
             }
 
             override fun focusGained(e: FocusEvent?) {

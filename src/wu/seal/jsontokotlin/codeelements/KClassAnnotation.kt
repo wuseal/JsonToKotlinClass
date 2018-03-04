@@ -1,5 +1,10 @@
 package wu.seal.jsontokotlin.codeelements
 
+import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.supporter.CustomJsonLibSupporter
+import wu.seal.jsontokotlin.supporter.LoganSquareSupporter
+
 /**
  * class annotation for json lib
  * Created by Seal.Wu on 2017/11/1.
@@ -12,14 +17,21 @@ interface IClassAnnotation {
     /**
      * get the annotation string be in append before the class name
      */
-    fun getClassAnnotation():String
+    fun getClassAnnotation(rawClassName:String):String
 }
 
 
-object KClassAnnotation : wu.seal.jsontokotlin.codeelements.IClassAnnotation {
-    override fun getClassAnnotation(): String {
-        if (wu.seal.jsontokotlin.ConfigManager.targetJsonConverterLib == wu.seal.jsontokotlin.TargetJsonConverter.LoganSquare) {
-            return wu.seal.jsontokotlin.supporter.LoganSquareSupporter.classAnnotation
+object KClassAnnotation : IClassAnnotation {
+
+    override fun getClassAnnotation(rawClassName: String): String {
+
+        if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.LoganSquare) {
+
+            return LoganSquareSupporter.getClassAnnotationBlockString(rawClassName)
+
+        }else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
+
+            return CustomJsonLibSupporter.getClassAnnotationBlockString(rawClassName)
         }
 
         return ""

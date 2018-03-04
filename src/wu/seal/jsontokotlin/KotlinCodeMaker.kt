@@ -81,7 +81,7 @@ class KotlinCodeMaker {
     }
 
     private fun appClassName(stringBuilder: StringBuilder) {
-        val classAnnotation = KClassAnnotation.getClassAnnotation()
+        val classAnnotation = KClassAnnotation.getClassAnnotation(className.toString())
         stringBuilder.append(classAnnotation)
         if (classAnnotation.isNotBlank()) stringBuilder.append("\n")
         stringBuilder.append("data class ").append(className).append("(\n")
