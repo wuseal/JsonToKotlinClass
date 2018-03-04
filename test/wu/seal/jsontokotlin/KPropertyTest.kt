@@ -35,7 +35,7 @@ class KPropertyTest {
                 TargetJsonConverter.FastJson-> assert(propertyStringBlock.contains("@JSONField(name"))
                 TargetJsonConverter.MoShi-> assert(propertyStringBlock.contains("@Json(name"))
                 TargetJsonConverter.LoganSquare-> assert(propertyStringBlock.contains("@JsonField(name = arrayOf"))
-                TargetJsonConverter.Custom-> assert(propertyStringBlock.contains(ConfigManager.customAnnotaionFormatString.substring(0..1)))
+                TargetJsonConverter.Custom-> assert(propertyStringBlock.contains(ConfigManager.customPropertyAnnotationFormatString.substring(0..1)))
             }
 
             println("getPropertyStringBlock:\n$propertyStringBlock")

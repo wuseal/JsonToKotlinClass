@@ -40,6 +40,9 @@ interface IConfigManager {
     private val USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING: String
         get() = "jsontokotlin_user_custom_json_lib_annotation_format_string"
 
+    private val USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING: String
+        get() = "jsontokotlin_user_custom_json_lib_class_annotation_format_string"
+
     private val INNER_CLASS_MODEL_KEY: String
         get() = "jsontokotlin_inner_class_model_key"
 
@@ -91,18 +94,27 @@ interface IConfigManager {
         }
 
     var customAnnotaionImportClassString: String
-        get() = if (isTestModel) GsonSupporter.annotationImportClassString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, GsonSupporter.annotationImportClassString)
+        get() = if (isTestModel) TestConfig.customAnnotaionImportClassString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
+                "import kotlinx.serialization.Serializable")
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, value)
         }
 
-    var customAnnotaionFormatString: String
-        get() = if (isTestModel) GsonSupporter.anotaionOnProperty else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, GsonSupporter.anotaionOnProperty)
+    var customPropertyAnnotationFormatString: String
+        get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, GsonSupporter.propertyAnnotationFormat)
         set(value) = if (isTestModel) {
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, value)
         }
+
+    var customClassAnnotationFormatString: String
+        get() = if (isTestModel) TestConfig.customClassAnnotationFormatString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING, "@Serializable")
+        set(value) = if (isTestModel) {
+        } else {
+            PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING, value)
+        }
+
     var isInnerClassModel: Boolean
         get() = if (isTestModel) TestConfig.isInnerClassModel else PropertiesComponent.getInstance().getBoolean(INNER_CLASS_MODEL_KEY, false)
         set(value) = if (isTestModel) {

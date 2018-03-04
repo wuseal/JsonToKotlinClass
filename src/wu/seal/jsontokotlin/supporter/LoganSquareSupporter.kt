@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.supporter
 
+import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
@@ -11,13 +12,16 @@ import wu.seal.jsontokotlin.codeelements.getDefaultValue
 
 object LoganSquareSupporter : IJsonLibSupporter {
 
-    val classAnnotation = "@JsonObject"
+    private val classAnnotation = "@JsonObject"
     private val propertyAnnotation = "@JsonField(name = arrayOf(\"%s\"))"
 
     override val annotationImportClassString: String
         get() = "import com.bluelinelabs.logansquare.annotation.JsonField\nimport com.bluelinelabs.logansquare.annotation.JsonObject"
 
 
+    override fun getClassAnnotationBlockString(rawClassName: String): String {
+        return classAnnotation
+    }
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
 
         val loganSquareSupportPropertyBuilder = StringBuilder()
@@ -36,7 +40,7 @@ object LoganSquareSupporter : IJsonLibSupporter {
 
         loganSquareSupportPropertyBuilder.append(propertyType)
 
-        if (wu.seal.jsontokotlin.ConfigManager.initWithDefaultValue) {
+        if (ConfigManager.initWithDefaultValue) {
             loganSquareSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 

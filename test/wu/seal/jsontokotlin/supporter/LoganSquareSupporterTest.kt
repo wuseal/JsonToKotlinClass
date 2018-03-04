@@ -21,7 +21,7 @@ class LoganSquareSupporterTest {
 
     @Test
     fun getClassAnnotation() {
-        assert(LoganSquareSupporter.classAnnotation.isNotEmpty())
+        assert(LoganSquareSupporter.getClassAnnotationBlockString("TestClass").isNotEmpty())
     }
 
     @Test
