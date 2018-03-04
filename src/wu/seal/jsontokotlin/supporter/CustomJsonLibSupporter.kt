@@ -41,8 +41,6 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
 
         customJsonLibSupportPropertyBuilder.append(getPropertyAnnotationString(rawPropertyName))
 
-        customJsonLibSupportPropertyBuilder.append(" ")
-
         customJsonLibSupportPropertyBuilder.append(KPropertyKeyword.get())
 
         customJsonLibSupportPropertyBuilder.append(" ")
