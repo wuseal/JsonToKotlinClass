@@ -13,7 +13,7 @@ import wu.seal.jsontokotlin.test.TestConfig
 class CustomJsonLibSupporterTest {
     @Before
     fun before() {
-        TestConfig.resetToTestInitState()
+        TestConfig.setToTestInitState()
     }
 
     @org.junit.Test

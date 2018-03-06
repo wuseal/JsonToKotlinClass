@@ -33,9 +33,16 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         val boxPanel = JPanel()
         boxPanel.layout = BoxLayout(boxPanel, BoxLayout.PAGE_AXIS)
         val bordWidth = JBUI.scale(10)
+
         boxPanel.border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
+
+        boxPanel.size = JBDimension(480, 320)
+        boxPanel.minimumSize = JBDimension(480, 320)
+
         val subBoxPanel = JPanel()
-        subBoxPanel.minimumSize = JBDimension(480, 120)
+
+        subBoxPanel.minimumSize = JBDimension(480, 150)
+
         val subBoxLayout = BoxLayout(subBoxPanel, BoxLayout.PAGE_AXIS)
 
         subBoxPanel.layout = subBoxLayout
@@ -51,28 +58,38 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             subBoxPanel.isVisible = it
         })
 
-        annotationSelectPanel.minimumSize = JBDimension(480, 180)
-        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationSelectPanel)
+        boxPanel.add(annotationSelectPanel)
 
-        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(subBoxPanel)
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
+        boxPanel.add(Box.createHorizontalStrut(JBUI.scale(10)))
+        boxPanel.add(subBoxPanel)
 
         subBoxPanel.isVisible = ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom
 
 
-        setLayout(BoxLayout(this,BoxLayout.PAGE_AXIS))
+        setLayout(BoxLayout(this, BoxLayout.PAGE_AXIS))
+
         border = JBEmptyBorder(0)
-        add(JBScrollPane(boxPanel))
+
+//        val jbScrollPane = JBScrollPane(boxPanel)
+//
+//        jbScrollPane.size = JBDimension(500, 320)
+//        jbScrollPane.maximumSize = JBDimension(500, 320)
+//        jbScrollPane.maximumSize = JBDimension(500, 320)
+//
+//        jbScrollPane.border = null
+        addComponentIntoVerticalBoxAlignmentLeft(boxPanel)
 
     }
 
     private fun addAnnotationClassImportCodeSettingPanel(subBoxPanel: JPanel): JPanel {
         val annotationImportClass = JPanel(true)
-        annotationImportClass.preferredSize = JBDimension(480, 60)
-        annotationImportClass.layout = FlowLayout(FlowLayout.LEFT)
+        annotationImportClass.minimumSize = JBDimension(480, 60)
+        annotationImportClass.layout = BoxLayout(annotationImportClass, BoxLayout.PAGE_AXIS)
         val importClassLable = JBLabel("Annotation Import Class : ")
-        annotationImportClass.add(importClassLable)
+        annotationImportClass.addComponentIntoVerticalBoxAlignmentLeft(importClassLable)
         val annotationImportClassTextArea = JTextArea(ConfigManager.customAnnotaionImportClassString)
-        annotationImportClassTextArea.preferredSize = JBDimension(480, 40)
+        annotationImportClassTextArea.minimumSize = JBDimension(480, 40)
         annotationImportClassTextArea.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
                 ConfigManager.customAnnotaionImportClassString = annotationImportClassTextArea.text
@@ -88,19 +105,23 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         jbScrollPaneClassFormat.autoscrolls = true
         jbScrollPaneClassFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         jbScrollPaneClassFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        annotationImportClass.add(jbScrollPaneClassFormat)
+
+        annotationImportClass.add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        annotationImportClass.addComponentIntoVerticalBoxAlignmentLeft(jbScrollPaneClassFormat)
+
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationImportClass)
         return annotationImportClass
     }
 
     private fun addPropertyAnnotationFormatSettingPanel(subBoxPanel: JPanel) {
         val annotationStringPanel = JPanel(true)
-        annotationStringPanel.preferredSize = JBDimension(480, 60)
-        annotationStringPanel.layout = FlowLayout(FlowLayout.LEFT)
-        annotationStringPanel.add(JBLabel("Property Annotation Format: "))
+        annotationStringPanel.minimumSize = JBDimension(480, 60)
+        annotationStringPanel.layout = BoxLayout(annotationStringPanel, BoxLayout.PAGE_AXIS)
+        annotationStringPanel.addComponentIntoVerticalBoxAlignmentLeft(JBLabel("Property Annotation Format: "))
         val annotationFormatField = JTextArea(ConfigManager.customPropertyAnnotationFormatString)
 
-        annotationFormatField.preferredSize = JBDimension(480, 40)
+        annotationFormatField.minimumSize = JBDimension(480, 40)
         annotationFormatField.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
                 ConfigManager.customPropertyAnnotationFormatString = annotationFormatField.text
@@ -116,19 +137,22 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         jbScrollPanePropertyFormat.autoscrolls = true
         jbScrollPanePropertyFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         jbScrollPanePropertyFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        annotationStringPanel.add(jbScrollPanePropertyFormat)
+
+        annotationStringPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        annotationStringPanel.addComponentIntoVerticalBoxAlignmentLeft(jbScrollPanePropertyFormat)
 
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationStringPanel)
     }
 
     private fun addClassAnnotationFormatSettingPanel(subBoxPanel: JPanel) {
         val annotationClasssFormatStringPanel = JPanel(true)
-        annotationClasssFormatStringPanel.preferredSize = JBDimension(480, 60)
-        annotationClasssFormatStringPanel.layout = FlowLayout(FlowLayout.LEFT)
-        annotationClasssFormatStringPanel.add(JBLabel("Class Annotation Format: "))
-        val annotationClassFormatField = JTextArea(ConfigManager.customPropertyAnnotationFormatString)
+        annotationClasssFormatStringPanel.minimumSize = JBDimension(480, 60)
+        annotationClasssFormatStringPanel.layout = BoxLayout(annotationClasssFormatStringPanel, BoxLayout.PAGE_AXIS)
+        annotationClasssFormatStringPanel.addComponentIntoVerticalBoxAlignmentLeft(JBLabel("Class Annotation Format: "))
+        val annotationClassFormatField = JTextArea(ConfigManager.customClassAnnotationFormatString)
 
-        annotationClassFormatField.preferredSize = JBDimension(480, 40)
+        annotationClassFormatField.minimumSize = JBDimension(480, 40)
         annotationClassFormatField.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
                 ConfigManager.customClassAnnotationFormatString = annotationClassFormatField.text
@@ -144,7 +168,10 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         jbScrollPaneClassAnnotationFormat.autoscrolls = true
         jbScrollPaneClassAnnotationFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         jbScrollPaneClassAnnotationFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        annotationClasssFormatStringPanel.add(jbScrollPaneClassAnnotationFormat)
+
+        annotationClasssFormatStringPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        annotationClasssFormatStringPanel.addComponentIntoVerticalBoxAlignmentLeft(jbScrollPaneClassAnnotationFormat)
 
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationClasssFormatStringPanel)
     }
@@ -160,7 +187,11 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         constructor(isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : this(FlowLayout(), isDoubleBuffered, callBack)
 
         init {
-            setLayout(GridLayout(4, 2, 10, 10))
+            val gridLayout = JPanel()
+            gridLayout.layout = GridLayout(4, 2, 10, 10)
+
+            setLayout(BoxLayout(this, BoxLayout.PAGE_AXIS))
+
 
             val radioButtonNone = JRadioButton("None")
             val radioButtonNoneWithCamelCase = JRadioButton("None (Camel Case)")
@@ -249,14 +280,25 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             buttonGroupProperty.add(radioButtonLoganSquare)
             buttonGroupProperty.add(radioButtonCustom)
 
-            add(radioButtonNone)
-            add(radioButtonNoneWithCamelCase)
-            add(radioButtonGson)
-            add(radioButtonJackson)
-            add(radioButtonFastjson)
-            add(radioButtonMoShi)
-            add(radioButtonLoganSquare)
-            add(radioButtonCustom)
+            gridLayout.add(radioButtonNone)
+            gridLayout.add(radioButtonNoneWithCamelCase)
+            gridLayout.add(radioButtonGson)
+            gridLayout.add(radioButtonJackson)
+            gridLayout.add(radioButtonFastjson)
+            gridLayout.add(radioButtonMoShi)
+            gridLayout.add(radioButtonLoganSquare)
+            gridLayout.add(radioButtonCustom)
+
+            gridLayout.size = JBDimension(480, 180)
+            gridLayout.maximumSize = JBDimension(480, 180)
+            gridLayout.maximumSize = JBDimension(480, 180)
+
+
+            size = JBDimension(480, 180)
+            maximumSize = JBDimension(480, 180)
+            maximumSize = JBDimension(480, 180)
+
+            addComponentIntoVerticalBoxAlignmentLeft(gridLayout)
         }
 
     }
