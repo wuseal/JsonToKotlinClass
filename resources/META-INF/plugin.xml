@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-  <version>1.6.3</version>
+  <version>1.7-pre1</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
