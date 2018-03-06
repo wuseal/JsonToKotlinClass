@@ -26,7 +26,7 @@ object TestConfig {
     var customClassAnnotationFormatString = ""
     var customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
 
-    fun resetToTestInitState() {
+    fun setToTestInitState() {
         isTestModel = true
         isCommentOff = false
         isPropertiesVar = false

@@ -41,6 +41,8 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
 
         customJsonLibSupportPropertyBuilder.append(getPropertyAnnotationString(rawPropertyName))
 
+        customJsonLibSupportPropertyBuilder.append("\n")
+
         customJsonLibSupportPropertyBuilder.append(KPropertyKeyword.get())
 
         customJsonLibSupportPropertyBuilder.append(" ")
@@ -63,9 +65,12 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
     internal fun getPropertyAnnotationString(rawPropertyName: String):String{
 
         return if (propertyAnnotation.contains("%s")) {
+
             val count = propertyAnnotation.numberOf("%s")
             val args = arrayOfNulls<String>(count).apply { fill(rawPropertyName) }
+
             propertyAnnotation.format(*args)
+
         } else {
             propertyAnnotation
         }

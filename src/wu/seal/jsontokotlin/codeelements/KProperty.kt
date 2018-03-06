@@ -57,12 +57,18 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
         } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
 
             val jsonLibSupportPropertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType)
+
+            val stringBuilder = StringBuilder()
+
             jsonLibSupportPropertyBlockString.split("\n").forEach {
+
                 if (it.isNotEmpty()) {
-                    blockBulder.append(it)
-                    blockBulder.append("\n\t\t")
+                    stringBuilder.append(it)
+                    stringBuilder.append("\n\t\t")
                 }
             }
+            blockBulder.append(stringBuilder.toString().dropLast(3))
+
         }
 
 

@@ -3,7 +3,6 @@ package wu.seal.jsontokotlin
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
-import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
 /**
  *
@@ -12,7 +11,7 @@ import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 class KotlinCodeMakerTest {
     @Before
     fun setUp() {
-        isTestModel = true
+        TestConfig.setToTestInitState()
     }
 
     @Test
@@ -87,6 +86,32 @@ class KotlinCodeMakerTest {
         println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
         println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
+    }
+
+
+    @Test
+    fun makeKotlinDataWithCustomAnnotation() {
+        TestConfig.targetJsonConvertLib = TargetJsonConverter.Custom
+        TestConfig.customPropertyAnnotationFormatString ="@Optional\n@SerialName(\"%s\")"
+        TestConfig.customClassAnnotationFormatString = "@Serializable"
+        TestConfig.customAnnotaionImportClassString= "import kotlinx.serialization.SerialName\nimport kotlinx.serialization.Serializable"
+        val json = """{ "progr ammers": [
+                { "isFirstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
+                { "firstName": "Jason", "lastName":"Hunter", "email": "bbbb" },
+                { "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
+                ],
+                "aut_hors": [
+                { "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" },
+                { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
+                { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
+                ],
+                "musicians": [
+                { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },
+                { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
+                ] } """
+
+        val result = KotlinCodeMaker("TestData", json).makeKotlinData()
+        println(result)
     }
 
 }
