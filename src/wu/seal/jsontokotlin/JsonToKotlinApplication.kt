@@ -10,7 +10,7 @@ import wu.seal.jsontokotlin.feedback.sendHistoryActionInfo
  * Created by Seal.wu on 2017/8/21.
  */
 
-const val PLUGIN_VERSION = "1.6.3"
+const val PLUGIN_VERSION = "1.7-pre1"
 
 class JsonToKotlinApplication : ApplicationComponent {
 
