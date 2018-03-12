@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.feedback
 
-import wu.seal.jsontokotlin.PLUGIN_VERSION
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.text.SimpleDateFormat

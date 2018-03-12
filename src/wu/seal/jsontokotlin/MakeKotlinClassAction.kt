@@ -9,11 +9,9 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import wu.seal.jsontokotlin.feedback.StartAction
-import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
-import wu.seal.jsontokotlin.feedback.getUncaughtExceptionHandler
-import wu.seal.jsontokotlin.feedback.sendActionInfo
+import wu.seal.jsontokotlin.feedback.*
 import wu.seal.jsontokotlin.ui.JsonInputDialog
+import wu.seal.jsontokotlin.utils.LogUtil
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 
 import java.util.IllegalFormatFlagsException
@@ -70,7 +68,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
 
 
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             dealWithException(jsonString, e)
             throw e
         }
@@ -98,7 +96,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         }.start()
     }
 
-    private fun dealWithException(jsonString: String, e: Exception) {
+    private fun dealWithException(jsonString: String, e: Throwable) {
         var jsonString1 = jsonString
         val yes = Messages.showYesNoDialog("Some thing execute wrong.\nAgree with publishing your JSON text to help us to solve the problem?", "Excuse me", Messages.getQuestionIcon())
         if (yes != Messages.YES) {
@@ -157,20 +155,26 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
      * if we could use it,then we would clean the kotlin file as it was new file without any class code .
      */
     internal fun couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText: String): Boolean {
-        var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
-        val removeCommentEditorText = editorText.replace(Regex("/*\\*(.|\n)*\\*/"),"")
-                .replace(Regex("^(?:\\s*package |\\s*import ).*$",RegexOption.MULTILINE),"")
-        if ((removeCommentEditorText.indexOf("class") == removeCommentEditorText.lastIndexOf("class")
-                && removeCommentEditorText.indexOf("class") != -1
-                && removeCommentEditorText.substringAfter("class").contains("(").not()
-                && removeCommentEditorText.substringAfter("class").contains(":").not()
-                && removeCommentEditorText.substringAfter("class").contains("=").not())
-                ||(removeCommentEditorText.indexOf("class") == removeCommentEditorText.lastIndexOf("class")
-                && removeCommentEditorText.indexOf("class") != -1
-                &&removeCommentEditorText.substringAfter("class").substringAfter("(")
-                .replace(Regex("\\s"),"").let { it.equals(")")||it.equals("){}") })) {
-            couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
+        try {
+            var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
+            val removeDocComment = editorText.replace(Regex("/\\*\\*(.|\n)*\\*/",RegexOption.MULTILINE), "")
+            val removeDocCommentAndPackageDeclareText = removeDocComment
+                    .replace(Regex("^(?:\\s*package |\\s*import ).*$", RegexOption.MULTILINE), "")
+            if ((removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf("class")
+                    && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
+                    && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("(").not()
+                    && removeDocCommentAndPackageDeclareText.substringAfter("class").contains(":").not()
+                    && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("=").not())
+                    || (removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf("class")
+                    && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
+                    && removeDocCommentAndPackageDeclareText.substringAfter("class").substringAfter("(")
+                    .replace(Regex("\\s"), "").let { it.equals(")") || it.equals("){}") })) {
+                couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
+            }
+            return couldGetAndReuseClassNameInCurrentEditFileForInsertCode
+        } catch (e:Throwable) {
+            LogUtil.e(e.message.toString(), e)
+            return false
         }
-        return couldGetAndReuseClassNameInCurrentEditFileForInsertCode
     }
 }
