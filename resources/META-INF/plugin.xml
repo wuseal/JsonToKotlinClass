@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
-  <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-  <version>1.7</version>
+  <name>JsonToKotlinClass</name>
+  <version>1.7.1</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -15,6 +15,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+     Rename back to JsonToKotlinClass for an Unknow exception cause the plugin unable to use on Android Studio.</br>
      1.Custom Annotation support multiple annotations on class and multiple annotations on property
      ,With this function you could add extract annotation on class like `@Parcelize`
      ,and also you could custom the annotation format to make it support `kotlinx.serializable`
