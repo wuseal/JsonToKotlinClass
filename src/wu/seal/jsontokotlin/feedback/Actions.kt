@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.feedback
 
-import wu.seal.jsontokotlin.PLUGIN_VERSION
 import java.text.SimpleDateFormat
 import java.util.*
 

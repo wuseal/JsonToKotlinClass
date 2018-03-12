@@ -39,6 +39,7 @@ class KPropertyTest {
             }
 
             println("getPropertyStringBlock:\n$propertyStringBlock")
+
         }
 
     }
