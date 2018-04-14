@@ -96,7 +96,7 @@ class KotlinCodeMaker {
                 val type = getArrayType(property, jsonElementValue.asJsonArray)
 
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray)) {
-                    toBeAppend.add(KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue.asJsonArray.first()).makeKotlinData())
+                    toBeAppend.add(KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData())
                 }
                 addProperty(stringBuilder, property, type, "")
 
