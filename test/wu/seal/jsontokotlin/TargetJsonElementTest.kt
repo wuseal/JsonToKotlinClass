@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.winterbe.expekt.should
@@ -45,7 +46,7 @@ class TargetJsonElementTest {
         targetElementJson1.should.be.equal(gson.toJson(gson.fromJson(text1, JsonElement::class.java)))
 
         val targetElementJson2 = getTargetElementJson(gson, text2)
-        targetElementJson2.should.be.equal(gson.toJson(gson.fromJson(text2, JsonArray::class.java)[0]))
+        targetElementJson2.should.be.equal(gson.toJson(gson.fromJson(text2, JsonArray::class.java)[2]))
 
         val targetElementJson3 = getTargetElementJson(gson, text3)
         targetElementJson3.should.be.equal(gson.toJson(Any()))
@@ -72,4 +73,29 @@ class TargetJsonElementTest {
         }
     }
 
+
+    @Test
+    fun testGetFullFieldElementFromInArrayElement() {
+        val json ="""[{"name":"MEDICAL CONDITION","show":true,"id":1},{"name":"LAB TEST REPORT","show":true,"id":9,"type":[{"id":21,"name":"CULTURE REPORT","show":true}]}]
+
+"""
+        val expectedResult = """{
+  "name": "LAB TEST REPORT",
+  "show": true,
+  "id": 9,
+  "type": [
+    {
+      "id": 21,
+      "name": "CULTURE REPORT",
+      "show": true
+    }
+  ]
+}"""
+        val gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
+        val fullFieldElement = TargetJsonElement.getFullFieldElementFromArrayElement(gson.fromJson(json, JsonArray::class.java))
+        val result = gson.toJson(fullFieldElement)
+        result.should.be.equal(expectedResult)
+        println(result)
+
+    }
 }

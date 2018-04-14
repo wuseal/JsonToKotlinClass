@@ -53,7 +53,7 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
 
     private lateinit var classNameInput: JTextField
 
-    private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().create()
+    private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
 
     init {
         setOKButtonText("Make")
