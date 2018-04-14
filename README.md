@@ -20,13 +20,16 @@ also as say a plugin for Kotlin to convert JSON String into Kotlin data class co
 ### Overview
 Hi,This is a very cool tool for Kotlin developers ,It can convert the Json String into Kotlin Data Class code ,and paste it into your editor file ,The tool could recognize the Primitive Type of Json String and make Type Identifier respectively ,It taste easily ,Just have test,guys! Just press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac,And then,start your Kotlin program travel ! JsonToKotlinClass make program more happy!
 
-### Functions
+### Features
 * Generate Kotlin data class from any legal JSON text.
 * Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)
 * Support customize your own Annotation
 * Support init property with default value
 * Support make property type to be nullable(?)
-* Support auto rename property name to be legal when select a target JSON lib.[See demo](#configure-with-gson-support-on-and-init-with-deault-value-on-and-comment-off)
+* Support auto rename property name to be camelCase when select a target JSON lib Annotation.[See demo](#configure-with-gson-support-on-and-init-with-deault-value-on-and-comment-off)
+* Support generate kotlin data class code in split model
+* Support generate kotlin data class code in inner class model
+* Support format any legal JSON string
 
 ### How to use
 * Search 'JsonToKotlinClass' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.</br>
