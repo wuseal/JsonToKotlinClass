@@ -47,7 +47,9 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
 
         customJsonLibSupportPropertyBuilder.append(" ")
 
-        customJsonLibSupportPropertyBuilder.append(KPropertyName.getName(rawPropertyName))
+        val propertyName = if (needRenamePropertyNameToCamelCase()) KPropertyName.getName(rawPropertyName) else rawPropertyName
+
+        customJsonLibSupportPropertyBuilder.append(propertyName)
 
         customJsonLibSupportPropertyBuilder.append(": ")
 
@@ -62,7 +64,7 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
         return customJsonLibSupportPropertyBuilder.toString()
     }
 
-    internal fun getPropertyAnnotationString(rawPropertyName: String):String{
+    internal fun getPropertyAnnotationString(rawPropertyName: String): String {
 
         return if (propertyAnnotation.contains("%s")) {
 
@@ -76,4 +78,6 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
         }
 
     }
+
+    private fun needRenamePropertyNameToCamelCase() = propertyAnnotation.contains("%s")
 }
