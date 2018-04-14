@@ -8,7 +8,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun before() {
-        TestConfig.isTestModel = true
+        TestConfig.setToTestInitState()
     }
 
     @Test
@@ -16,6 +16,15 @@ class MakeKotlinClassActionTest {
         val action = MakeKotlinClassAction()
         val emptyString = ""
         action.couldGetAndReuseClassNameInCurrentEditFileForInsertCode(emptyString).should.be.`false`
+
+    }
+
+    @Test
+    fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForSpecialString() {
+        TestConfig.setToTestInitState()
+        val action = MakeKotlinClassAction()
+
+        action.couldGetAndReuseClassNameInCurrentEditFileForInsertCode(specialString).should.be.`false`
 
     }
 
@@ -232,6 +241,7 @@ class MakeKotlinClassActionTest {
                             class Test(){     }"""
         action.getCleanText(emptyString).trim().should.be.equal("package wu.seal.jsontokotlin.supporter")
     }
+
     @Test
     fun getCleanTextForPackageAndOnlyOneClassNameWithCommentContainsClassStringDeclare() {
         val action = MakeKotlinClassAction()
@@ -244,7 +254,7 @@ class MakeKotlinClassActionTest {
                             class Test
                             """
         action.getCleanText(emptyString).trim().should.be.equal(
-                            """
+                """
                             package wu.seal.jsontokotlin.supporter
                             /**
                              *
@@ -291,4 +301,97 @@ class MakeKotlinClassActionTest {
                              */
                              import wu.seal.jsontokotlinclass.test.TestConfig.isTestModel""".trim())
     }
+
+    private val specialString = """package cn.com.iresearch.phonemonitor;
+
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.dh.foundation.utils.StringUtils;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.com.iresearch.phonemonitor.diaoyantong.R;
+
+/**
+ * 对话框碎片
+ * Created By: Seal.Wu
+ * Date: 2016/4/8
+ * Time: 14:32
+ */
+public class ViewDialogFragment extends DialogFragment {
+
+    @Bind(R.id.tv_tips)
+    TextView tvTips;
+    @Bind(R.id.btn_left)
+    Button btnLeft;
+    @Bind(R.id.btn_right)
+    Button btnRight;
+    @Bind(R.id.listView)
+    ListView listView;
+    @Bind(R.id.spacer)
+    View spacer;
+    @Bind(R.id.ll_btn_layout)
+    LinearLayout llBtnLayout;
+    @Bind(R.id.line_bt_btn)
+    ImageView line;
+    @Bind(R.id.fl_tips)
+    LinearLayout flTips;
+
+    private Runnable runnable;
+
+    private View customView;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (customView != null) {
+            return customView;
+        }
+        View view = inflater.inflate(R.layout.fragment_dialog, container, false);
+        ButterKnife.bind(this, view);
+        if (runnable != null) {
+            runnable.run();
+        }
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.btn_left, R.id.btn_right})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_left:
+                break;
+            case R.id.btn_right:
+                break;
+        }
+    }
+
+}
+
+
+"""
 }
