@@ -34,6 +34,25 @@ class CustomJsonLibSupporterTest {
 
     }
 
+    @org.junit.Test
+    fun getJsonLibSupportPropertyWithAnnotationWithoutPercentSBlockString() {
+
+        val rawPropertyName = "seal_ wu"
+        val s = "@yesAnnotaiont()"
+        TestConfig.customPropertyAnnotationFormatString = s
+
+        val propertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, "String")
+
+        println(propertyBlockString)
+
+        val expectedBlockString = """@yesAnnotaiont()
+val seal_ wu: String = "","""
+
+        propertyBlockString.should.be.equal(expectedBlockString)
+        assert(propertyBlockString.contains(CustomJsonLibSupporter.getPropertyAnnotationString(rawPropertyName)))
+
+    }
+
     @Test
     fun getPropertyAnnotationStringWithDoubleFillTest() {
         val s = "yes I am a %s  %s"
@@ -49,5 +68,6 @@ class CustomJsonLibSupporterTest {
         val result = CustomJsonLibSupporter.getClassAnnotationBlockString("Man")
         result.should.be.equal("yes I am a Man  Man  Class")
     }
+
 
 }
