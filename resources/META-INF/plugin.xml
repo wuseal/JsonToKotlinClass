@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>wu.seal.tool.jsontokotlin</id>
   <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-  <version>1.7.2</version>
+  <version>1.7.3</version>
   <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
   <description><![CDATA[
@@ -15,14 +15,17 @@
     ]]></description>
 
   <change-notes><![CDATA[
-     Fix a stack overflow bug</br>
-     1.Custom Annotation support multiple annotations on class and multiple annotations on property
-     ,With this function you could add extract annotation on class like `@Parcelize`
-     ,and also you could custom the annotation format to make it support `kotlinx.serializable`
-     ,the default value in custom option is set for `kotlinx.serializable` </br>
-     How to use `Custom Annotation`?</br>
-     `ALT`+`K`==>`Settings`==>`Annotation`==>Select `Others by customize`</br>
-     Ok! You Got It! Have a good travel.
+     Optimize plugin minutiae usage experience and fix a bug when generate no consistent json array</br>
+     <b>Features:</br></b>
+      Generate Kotlin data class from any legal JSON text.</br>
+      Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)</br>
+      Support customize your own Annotation</br>
+      Support init property with default value</br>
+      Support make property type to be nullable(?)</br>
+      Support auto rename property name to be camelCase when select a target JSON lib Annotation.See demo</br>
+      Support generate kotlin data class code in split model</br>
+      Support generate kotlin data class code in inner class model</br>
+      Support format any legal JSON string</br>
     ]]>
   </change-notes>
 
