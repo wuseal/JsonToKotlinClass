@@ -11,6 +11,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import wu.seal.jsontokotlin.feedback.*
 import wu.seal.jsontokotlin.ui.JsonInputDialog
+import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.LogUtil
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 
@@ -131,7 +132,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             } else {
                 offset = document.textLength - 1
             }
-            document.insertString(Math.max(offset, 0), codeMaker.makeKotlinData())
+            document.insertString(Math.max(offset, 0), ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData()))
         }
         return true
     }

@@ -54,7 +54,7 @@ fun getJsonObjectType(type: String): String {
  */
 fun getChildType(arrayType: String): String {
 
-    val tempType = arrayType.replace(Regex("<|>|List"), "")
+    val tempType = arrayType.replace(Regex("List<|>"), "")
 
     return tempType
 }
@@ -109,12 +109,12 @@ fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
 
 /**
  * when get the child type in an array
- * ,we need to modify the property name to make it's type name looks like a child type.
+ * ,we need to make the property name be legal and then modify the property name to make it's type name looks like a child type.
  * filter the sequence as 'list' ,"List'
  * and remove the last character 's' to make it like a child rather than a list
  */
-fun adjustPropertyNameForGettingArrayChildType(property: String): String {
-    var innerProperty = property
+internal fun adjustPropertyNameForGettingArrayChildType(property: String): String {
+    var innerProperty = KClassName.getLegalClassName(property)
     if (innerProperty.endsWith("ies")) {
         innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
     } else if (innerProperty.contains("List")) {
