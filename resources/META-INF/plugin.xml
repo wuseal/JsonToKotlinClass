@@ -1,10 +1,10 @@
 <idea-plugin>
-  <id>wu.seal.tool.jsontokotlin</id>
-  <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-  <version>1.7.3</version>
-  <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
+    <id>wu.seal.tool.jsontokotlin</id>
+    <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
+    <version>1.7.3</version>
+    <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       Plugin for Kotlin to convert Json String into Kotlin data class code quickly<br>
       <em>kotlin</em>
       <em>Json</em>
@@ -14,7 +14,7 @@
       <em>LoganSquare</em>
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
      Optimize plugin minutiae usage experience and fix a bug when generate no consistent json array</br>
      <b>Features:</br></b>
       Generate Kotlin data class from any legal JSON text.</br>
@@ -27,30 +27,40 @@
       Support generate kotlin data class code in inner class model</br>
       Support format any legal JSON string</br>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="145.0"/>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145.0"/>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-       on how to target different products -->
-  <depends>com.intellij.modules.lang</depends>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
 
-  <actions>
-    <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction" text="Convert Json Into Kotlin Class" description="convert a json string data into kotlin data class code" >
-      <add-to-group group-id="GenerateGroup" anchor="last"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="alt k"/>
-    </action>
-    <!--<action id="Myplugin.Dialogs" class="" text="Show _Dialog" description="A test menu item" />-->
-  </actions>
+    <actions>
+        <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction"
+                text="Convert Json Into Kotlin Class"
+                description="convert a json string data into kotlin data class code">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt k"/>
+        </action>
 
-  <application-components>
-    <component>
-      <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
-    </component>
-  </application-components>
+        <action id="wu.seal.wu.seal.jsontokotlin.GenerateKotlinFileAction"
+                class="wu.seal.jsontokotlin.GenerateKotlinFileAction"
+                text="Kotlin data class File from JSON"
+                icon="/icons/action.png"
+                description="Generate Kotlin data class File from JSON">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
+
+    </actions>
+
+    <application-components>
+        <component>
+            <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
+        </component>
+    </application-components>
 </idea-plugin>
