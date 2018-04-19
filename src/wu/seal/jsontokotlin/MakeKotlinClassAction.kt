@@ -97,17 +97,6 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         }.start()
     }
 
-    private fun dealWithException(jsonString: String, e: Throwable) {
-        var jsonString1 = jsonString
-        val yes = Messages.showYesNoDialog("Some thing execute wrong.\nAgree with publishing your JSON text to help us to solve the problem?", "Excuse me", Messages.getQuestionIcon())
-        if (yes != Messages.YES) {
-            jsonString1 = "User keep private about JSON text"
-        }
-        getUncaughtExceptionHandler(jsonString1) {
-            Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again later or recover to the old version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass\nWe will fixed it soon!", "Occur a fatal error")
-        }.uncaughtException(Thread.currentThread(), e)
-    }
-
     private fun insertKotlinCode(project: Project?, document: Document, className: String, jsonString: String, caret: Caret?): Boolean {
         ImportClassWriter.insertImportClassCode(project, document)
 
