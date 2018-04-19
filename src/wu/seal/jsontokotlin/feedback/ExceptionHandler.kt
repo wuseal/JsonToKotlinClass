@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.feedback
 
+import com.intellij.openapi.ui.Messages
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.text.SimpleDateFormat
@@ -39,4 +40,15 @@ fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Threa
     }.start()
 
     callBack.invoke()
+}
+
+fun dealWithException(jsonString: String, e: Throwable) {
+    var jsonString1 = jsonString
+    val yes = Messages.showYesNoDialog("Some thing execute wrong.\nAgree with publishing your JSON text to help us to solve the problem?", "Excuse me", Messages.getQuestionIcon())
+    if (yes != Messages.YES) {
+        jsonString1 = "User keep private about JSON text"
+    }
+    getUncaughtExceptionHandler(jsonString1) {
+        Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again later or recover to the old version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass\nWe will fixed it soon!", "Occur a fatal error")
+    }.uncaughtException(Thread.currentThread(), e)
 }
