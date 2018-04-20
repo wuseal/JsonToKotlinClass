@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.test
 
+import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.supporter.GsonSupporter
 
@@ -18,7 +19,7 @@ object TestConfig {
     var isCommentOff = false
     var isPropertiesVar = false
     var targetJsonConvertLib = TargetJsonConverter.Gson
-    var isPropertyNullable = true
+    var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
     var initWithDefaultValue = true
     var isInnerClassModel = true
 
@@ -31,7 +32,7 @@ object TestConfig {
         isCommentOff = false
         isPropertiesVar = false
         targetJsonConvertLib = TargetJsonConverter.Gson
-        isPropertyNullable = true
+        propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         initWithDefaultValue = true
         isInnerClassModel = true
         customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat

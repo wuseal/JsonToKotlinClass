@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.utils
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.codeelements.KClassName
 import java.util.*
 
@@ -62,11 +63,13 @@ fun getChildType(arrayType: String): String {
 /**
  * get the type output to the edit file
  */
-fun getOutType(rawType: String): String {
-    if (ConfigManager.isPropertyNullable) {
+fun getOutType(rawType: String, value: Any?): String {
+    if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable) {
         val innerRawType = rawType.replace("?", "").replace(">", "?>")
         val outputType = innerRawType.plus("?")
         return outputType
+    } else if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.AutoDeterMineNullableOrNot && value == null) {
+        return rawType.plus("?")
     }
     return rawType
 }

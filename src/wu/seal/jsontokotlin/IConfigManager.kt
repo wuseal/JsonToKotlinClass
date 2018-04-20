@@ -25,6 +25,8 @@ interface IConfigManager {
     private val IS_PROPERTY_NULLABLE_KEY: String
         get() = "jsonToKotlin_is_property_nullable_key"
 
+    private val PROPERTY_TYPE_STRATEGY_KEY: String
+        get() = "jsontokotlin_is_property_property_type_strategy_key"
 
     private val INIT_WITH_DEFAULT_VALUE_KEY: String
         get() = "jsonToKotlin_init_with_default_value_key"
@@ -64,20 +66,23 @@ interface IConfigManager {
 
 
     var targetJsonConverterLib: TargetJsonConverter
-        get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY) ?: TargetJsonConverter.None.name)
+        get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
+                ?: TargetJsonConverter.None.name)
         set(value) = if (isTestModel) {
             TestConfig.targetJsonConvertLib = value
         } else {
             PropertiesComponent.getInstance().setValue(TARGET_JSON_CONVERTER_LIB_KEY, value.name)
         }
 
+    @Deprecated("Not use since Version 2.0")
     var isPropertyNullable: Boolean
-        get() = if (isTestModel) TestConfig.isPropertyNullable else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTY_NULLABLE_KEY)
-        set(value) = if (isTestModel) {
-        } else {
-            PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
-        }
+        get() = PropertiesComponent.getInstance().isTrueValue(IS_PROPERTY_NULLABLE_KEY)
+        set(value) = PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
 
+    var propertyTypeStrategy: PropertyTypeStrategy
+        get() = if (TestConfig.isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(PropertiesComponent.getInstance().getValue(PROPERTY_TYPE_STRATEGY_KEY, PropertyTypeStrategy.NotNullable.name))
+        set(value) = if (TestConfig.isTestModel) {
+        } else PropertiesComponent.getInstance().setValue(PROPERTY_TYPE_STRATEGY_KEY, value.name)
 
     var initWithDefaultValue: Boolean
         get() = if (isTestModel) TestConfig.initWithDefaultValue else PropertiesComponent.getInstance().getBoolean(INIT_WITH_DEFAULT_VALUE_KEY)
