@@ -9,6 +9,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
@@ -60,29 +61,57 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                     }
                     jsonString = json
                     val codeMaker = KotlinCodeMaker(className, json)
-                    val kotlinFileContent = buildString {
-                        append(packageDeclare)
-                        append("\n\n")
-                        append(ImportClassDeclaration.getImportClassDeclaration())
-                        append("\n")
-                        append(ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData()))
+                    val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
+
+                    if (ConfigManager.isInnerClassModel) {
+
+                        generateKotlinDataClassFile(packageDeclare, removeDuplicateClassCode, project, psiFileFactory, className, directory)
+                        val notifyMessage = "Kotlin Data Class file generated successful"
+                        showNotify(notifyMessage, project)
+
+                    } else {
+                        var classCount = 0
+                        removeDuplicateClassCode.split("\n\n").forEach {
+                            if (it.contains("data class")) {
+                                classCount++
+                                val aClassName = it.substringAfter("data class").substringBefore("(").trim()
+                                generateKotlinDataClassFile(packageDeclare, it, project, psiFileFactory, aClassName, directory)
+                            }
+                        }
+                        val notifyMessage = "$classCount Kotlin Data Class file generated successfully"
+                        showNotify(notifyMessage, project)
+
                     }
 
-                    executeCouldRollBackAction(project) {
-                        val file = psiFileFactory.createFileFromText("$className.kt", KotlinFileType(), kotlinFileContent)
-                        directory.add(file)
-                        val notificationGroup = NotificationGroup("JSON to Kotlin Class", NotificationDisplayType.BALLOON, true)
-                        ApplicationManager.getApplication().invokeLater {
-                            val notification = notificationGroup.createNotification("Kotlin Data Class file generated successful", NotificationType.INFORMATION)
-                            Notifications.Bus.notify(notification, project)
-                        }
-                    }
 
                 }
             }
         } catch (e: Exception) {
             dealWithException(jsonString, e)
             throw e
+        }
+    }
+
+    private fun generateKotlinDataClassFile(packageDeclare: String, classCodeContent: String, project: Project?, psiFileFactory: PsiFileFactory, className: String, directory: PsiDirectory) {
+        val kotlinFileContent = buildString {
+            append(packageDeclare)
+            append("\n\n")
+            append(ImportClassDeclaration.getImportClassDeclaration())
+            append("\n")
+            append(classCodeContent)
+        }
+
+        executeCouldRollBackAction(project) {
+            val file = psiFileFactory.createFileFromText("$className.kt", KotlinFileType(), kotlinFileContent)
+            directory.add(file)
+        }
+    }
+
+    private fun showNotify(notifyMessage: String, project: Project?) {
+        val notificationGroup = NotificationGroup("JSON to Kotlin Class", NotificationDisplayType.BALLOON, true)
+        ApplicationManager.getApplication().invokeLater {
+            val notification = notificationGroup.createNotification(notifyMessage, NotificationType.INFORMATION)
+            Notifications.Bus.notify(notification, project)
         }
     }
 }
