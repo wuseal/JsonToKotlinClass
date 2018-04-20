@@ -1,12 +1,13 @@
 package wu.seal.jsontokotlin
 
 import com.winterbe.expekt.should
+import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
 
 class MakeKotlinClassActionTest {
 
-    @Test
+    @Before
     fun before() {
         TestConfig.setToTestInitState()
     }

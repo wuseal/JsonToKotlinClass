@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.ui
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.Color
 import java.awt.FlowLayout
@@ -25,7 +26,7 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
         val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
         setLayout(boxLayout)
         val bordWidth = JBUI.scale(10)
-        border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
+        border = EmptyBorder(bordWidth, bordWidth, 0, bordWidth)
 
         val keywordLable = JLabel("Keyword")
 
@@ -51,13 +52,13 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
         buttonGroupProperty.add(radioButtonVar)
 
         addComponentIntoVerticalBoxAlignmentLeft(keywordLable)
-        add(Box.createVerticalStrut(20))
+        add(Box.createVerticalStrut(JBUI.scale(10)))
         addComponentIntoVerticalBoxAlignmentLeft(radioButtonVal)
-        add(Box.createVerticalStrut(20))
+        add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(radioButtonVar)
 
-        add(Box.createVerticalStrut(20))
+        add(Box.createVerticalStrut(JBUI.scale(10)))
 
 
         val line = com.intellij.util.xml.ui.TextPanel()
@@ -67,10 +68,63 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
 
         add(line)
 
-        val nullAbleCheck = JCheckBox("Property type be Nullable(?)")
-        if (ConfigManager.isPropertyNullable) {
-            nullAbleCheck.isSelected = true
+
+        val typeLable = JLabel("Type")
+
+        val radioButtonNonNullable = JRadioButton("Not-Nullable")
+
+        radioButtonNonNullable.addActionListener {
+            ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         }
+        val radioButtonNullable = JRadioButton("Nullable")
+
+        radioButtonNullable.addActionListener {
+            ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.Nullable
+        }
+
+        val radioButtonAutoDetermineType = JRadioButton("Auto Determine Nullable Or Not From JSON Value")
+
+        radioButtonAutoDetermineType.addActionListener {
+            ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
+
+        }
+        if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.NotNullable) {
+
+            radioButtonNonNullable.isSelected = true
+
+        } else if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable) {
+
+            radioButtonNullable.isSelected = true
+        } else {
+
+            radioButtonAutoDetermineType.isSelected = true
+        }
+        val buttonGroupPropertyType = ButtonGroup()
+        buttonGroupPropertyType.add(radioButtonNonNullable)
+        buttonGroupPropertyType.add(radioButtonNullable)
+        buttonGroupPropertyType.add(radioButtonAutoDetermineType)
+
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+        addComponentIntoVerticalBoxAlignmentLeft(typeLable)
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+        addComponentIntoVerticalBoxAlignmentLeft(radioButtonNonNullable)
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(radioButtonNullable)
+
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(radioButtonAutoDetermineType)
+
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        val lineSecond = com.intellij.util.xml.ui.TextPanel()
+        lineSecond.maximumSize = JBDimension(480, 1)
+        lineSecond.minimumSize = JBDimension(480, 1)
+        lineSecond.background = Color.GRAY
+
+        add(lineSecond)
+
 
         val initWithDefaultValueCheck = JCheckBox("Init with default value (avoid null)")
         initWithDefaultValueCheck.isSelected = ConfigManager.initWithDefaultValue
@@ -79,17 +133,8 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
             ConfigManager.initWithDefaultValue = initWithDefaultValueCheck.isSelected
         }
 
-        nullAbleCheck.addActionListener {
-            ConfigManager.isPropertyNullable = nullAbleCheck.isSelected
-        }
-
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(initWithDefaultValueCheck)
-        add(Box.createVerticalStrut(JBUI.scale(20)))
-
-        addComponentIntoVerticalBoxAlignmentLeft(nullAbleCheck)
-
-
     }
 }

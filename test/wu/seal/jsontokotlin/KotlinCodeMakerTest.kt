@@ -48,7 +48,7 @@ class KotlinCodeMakerTest {
         TestConfig.targetJsonConvertLib = TargetJsonConverter.Jackson
         TestConfig.isCommentOff = true
         TestConfig.isPropertiesVar = true
-        TestConfig.isPropertyNullable = false
+        TestConfig.propertyTypeStrategy = PropertyTypeStrategy.NotNullable
 
         println("===========================================Change to Jackson json lib support========================================= ")
 
@@ -59,7 +59,7 @@ class KotlinCodeMakerTest {
         TestConfig.targetJsonConvertLib = TargetJsonConverter.FastJson
         TestConfig.isCommentOff = true
         TestConfig.isPropertiesVar = true
-        TestConfig.isPropertyNullable = false
+        TestConfig.propertyTypeStrategy = PropertyTypeStrategy.NotNullable
 
         println("===========================================Change to FastJson json lib support========================================= ")
 
@@ -71,7 +71,7 @@ class KotlinCodeMakerTest {
         TestConfig.targetJsonConvertLib = TargetJsonConverter.Gson
         TestConfig.isCommentOff = false
         TestConfig.isPropertiesVar = false
-        TestConfig.isPropertyNullable = true
+        TestConfig.propertyTypeStrategy = PropertyTypeStrategy.Nullable
 
         println("===========================================Change to Gson json lib support========================================= ")
 
