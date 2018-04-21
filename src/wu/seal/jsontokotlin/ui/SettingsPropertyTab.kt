@@ -71,7 +71,7 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
 
         val typeLable = JLabel("Type")
 
-        val radioButtonNonNullable = JRadioButton("Not-Nullable")
+        val radioButtonNonNullable = JRadioButton("Non-Nullable")
 
         radioButtonNonNullable.addActionListener {
             ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.NotNullable
@@ -126,7 +126,7 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
         add(lineSecond)
 
 
-        val initWithDefaultValueCheck = JCheckBox("Init with default value (avoid null)")
+        val initWithDefaultValueCheck = JCheckBox("Init With Default Value (Avoid Null)")
         initWithDefaultValueCheck.isSelected = ConfigManager.initWithDefaultValue
 
         initWithDefaultValueCheck.addActionListener {
