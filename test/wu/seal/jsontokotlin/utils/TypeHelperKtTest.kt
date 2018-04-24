@@ -81,4 +81,87 @@ class TypeHelperKtTest {
         adjustPropertyNameForGettingArrayChildType("Book_List").should.be.equal("Book")
         adjustPropertyNameForGettingArrayChildType("show_list").should.be.equal("Show")
     }
+
+    @Test
+    fun maybeJsonObjectBeMapTypeTest() {
+        val jsonObjectNotMap = JsonObject()
+        jsonObjectNotMap.addProperty("a", 1)
+        maybeJsonObjectBeMapType(jsonObjectNotMap).should.be.`false`
+
+        val jsonObjectMap = JsonObject()
+        jsonObjectMap.addProperty("1","d")
+        jsonObjectMap.addProperty("2","d")
+        jsonObjectMap.addProperty("3","d")
+        jsonObjectMap.addProperty("4","d")
+        jsonObjectMap.addProperty("5","d")
+        maybeJsonObjectBeMapType(jsonObjectMap).should.be.`true`
+
+
+        val jsonObjectNotMapOther = JsonObject()
+        jsonObjectNotMapOther.addProperty("1","d")
+        jsonObjectNotMapOther.addProperty("2","d")
+        jsonObjectNotMapOther.addProperty("a","d")
+        jsonObjectNotMapOther.addProperty("4","d")
+        jsonObjectNotMapOther.addProperty("5","d")
+        maybeJsonObjectBeMapType(jsonObjectNotMapOther).should.be.`false`
+    }
+
+    @Test
+    fun getMapKeyTypeConvertFromJsonObjectTest() {
+        val jsonObjectMapInt = JsonObject()
+        jsonObjectMapInt.addProperty("1","d")
+        jsonObjectMapInt.addProperty("2","d")
+        jsonObjectMapInt.addProperty("3","d")
+        jsonObjectMapInt.addProperty("4","d")
+        jsonObjectMapInt.addProperty("5","d")
+
+        getMapKeyTypeConvertFromJsonObject(jsonObjectMapInt).should.be.equal(TYPE_INT)
+    }
+
+    @Test
+    fun getMapValueTypeConvertFromJsonObjectTest() {
+        val jsonObjectMapValueString = JsonObject()
+        jsonObjectMapValueString.addProperty("1","d")
+        jsonObjectMapValueString.addProperty("2","d")
+        jsonObjectMapValueString.addProperty("3","d")
+        jsonObjectMapValueString.addProperty("4","d")
+        jsonObjectMapValueString.addProperty("5","d")
+
+        getMapValueTypeConvertFromJsonObject(jsonObjectMapValueString).should.be.equal("String")
+
+    }
+
+
+
+    @Test
+    fun getMapValueTypeObjectConvertFromJsonObjectTest() {
+        val jsonObjectMapValueObject = JsonObject()
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("a",324)
+        jsonObjectMapValueObject.add("1",jsonObject)
+        jsonObjectMapValueObject.add("2",jsonObject)
+        jsonObjectMapValueObject.add("3",jsonObject)
+        jsonObjectMapValueObject.add("4",jsonObject)
+        jsonObjectMapValueObject.add("5",jsonObject)
+
+        getMapValueTypeConvertFromJsonObject(jsonObjectMapValueObject).should.be.equal(MAP_DEFAULT_OBJECT_VALUE_TYPE)
+
+    }
+
+    @Test
+    fun getMapValueTypeArrayConvertFromJsonObjectTest() {
+        val jsonObjectMapValueArray = JsonObject()
+        val jsonObject = JsonObject()
+        jsonObject.addProperty("a",324)
+        val jsonArray = JsonArray()
+        jsonArray.add(jsonObject)
+        jsonObjectMapValueArray.add("1",jsonArray)
+        jsonObjectMapValueArray.add("2",jsonArray)
+        jsonObjectMapValueArray.add("3",jsonArray)
+        jsonObjectMapValueArray.add("4",jsonArray)
+        jsonObjectMapValueArray.add("5",jsonArray)
+
+        getMapValueTypeConvertFromJsonObject(jsonObjectMapValueArray).should.be.equal("List<$MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE>")
+
+    }
 }

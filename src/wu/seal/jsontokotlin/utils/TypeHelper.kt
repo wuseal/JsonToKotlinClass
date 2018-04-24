@@ -1,6 +1,8 @@
 package wu.seal.jsontokotlin.utils
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.PropertyTypeStrategy
@@ -19,6 +21,9 @@ const val TYPE_LONG = "Long"
 const val TYPE_DOUBLE = "Double"
 const val TYPE_ANY = "Any"
 const val TYPE_BOOLEAN = "Boolean"
+
+const val MAP_DEFAULT_OBJECT_VALUE_TYPE = "MapValue"
+const val MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE = "Item"
 
 /**
  * the default type
@@ -145,4 +150,69 @@ internal fun adjustPropertyNameForGettingArrayChildType(property: String): Strin
     }
 
     return innerProperty
+}
+
+/**
+ * if the jsonObject maybe a Map Instance
+ */
+fun maybeJsonObjectBeMapType(jsonObject: JsonObject): Boolean {
+    var maybeMapType = true
+    jsonObject.keySet().forEach {
+        val isPrimitiveNotStringType = try {
+            JsonParser().parse(it).asJsonPrimitive.isString.not()
+        } catch (e: Exception) {
+            false
+        }
+        maybeMapType = isPrimitiveNotStringType and maybeMapType
+    }
+    return maybeMapType
+}
+
+/**
+ * get the Key Type of Map type converted from jsonObject
+ */
+fun getMapKeyTypeConvertFromJsonObject(jsonObject: JsonObject): String {
+    val mapKey = getPrimitiveType(JsonParser().parse(jsonObject.keySet().first()).asJsonPrimitive)
+    return mapKey
+}
+
+/**
+ * get Map Type Value Type from JsonObject object struct
+ */
+fun getMapValueTypeConvertFromJsonObject(jsonObject: JsonObject): String {
+    var valueType: String = ""
+    jsonObject.keySet().forEach {
+        val jsonElement = jsonObject.get(it)
+        if (jsonElement.isJsonPrimitive) {
+            val currentValueType = getPrimitiveType(jsonElement.asJsonPrimitive)
+            if (valueType.isEmpty()) {
+                valueType = currentValueType
+            } else {
+                if (currentValueType != valueType) {
+                    return DEFAULT_TYPE
+                }
+            }
+        } else if (jsonElement.isJsonObject) {
+            if (valueType.isEmpty()) {
+                valueType = MAP_DEFAULT_OBJECT_VALUE_TYPE
+            } else {
+                if (valueType != MAP_DEFAULT_OBJECT_VALUE_TYPE) {
+                    return DEFAULT_TYPE
+                }
+            }
+        } else if (jsonElement.isJsonArray) {
+
+            if (valueType.isEmpty()) {
+                valueType = getArrayType(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE, jsonElement.asJsonArray)
+            } else {
+                if (valueType != getArrayType(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE, jsonElement.asJsonArray)) {
+                    return DEFAULT_TYPE
+                }
+            }
+        }
+    }
+    if (valueType.isEmpty()) {
+        valueType = DEFAULT_TYPE
+    }
+    return valueType
 }

@@ -27,6 +27,10 @@ object TestConfig {
     var customClassAnnotationFormatString = ""
     var customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
 
+    var indent: Int = 4
+
+    var enableMapType: Boolean = true
+
     fun setToTestInitState() {
         isTestModel = true
         isCommentOff = false

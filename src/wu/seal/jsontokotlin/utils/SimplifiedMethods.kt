@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.utils
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
+import wu.seal.jsontokotlin.ConfigManager
 
 /**
  * File contains functions which simply other functions's invoke
@@ -19,4 +20,17 @@ fun executeCouldRollBackAction(project: Project?, action: (Project?) -> Unit) {
             action.invoke(project)
         }
     }, "insertKotlin", "JsonToKotlin")
+}
+
+/**
+ * get the indent when generate kotlin class code
+ */
+fun getIndent() :String{
+
+    return buildString {
+
+        for (i in 1..ConfigManager.indent) {
+            append(" ")
+        }
+    }
 }

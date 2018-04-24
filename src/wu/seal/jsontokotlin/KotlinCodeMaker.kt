@@ -1,11 +1,11 @@
 package wu.seal.jsontokotlin
 
-import com.google.gson.*
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import wu.seal.jsontokotlin.codeelements.KClassAnnotation
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
-
-import java.util.HashSet
+import java.util.*
 
 /**
  * Kotlin code maker
@@ -15,6 +15,8 @@ class KotlinCodeMaker {
 
     private var className: String? = null
     private var inputElement: JsonElement? = null
+
+    private val indent = getIndent()
 
     private val toBeAppend = HashSet<String>()
 
@@ -65,7 +67,7 @@ class KotlinCodeMaker {
         for (append in toBeAppend) {
             stringBuilder.append("\n")
             append.split("\n").filter { it.isNotEmpty() }.forEach {
-                stringBuilder.append("\t")
+                stringBuilder.append(indent)
                 stringBuilder.append(it)
                 stringBuilder.append("\n")
             }
@@ -105,9 +107,27 @@ class KotlinCodeMaker {
                 addProperty(stringBuilder, property, type, jsonElementValue.asString)
 
             } else if (jsonElementValue.isJsonObject) {
-                val type = getJsonObjectType(property)
-                toBeAppend.add(KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData())
-                addProperty(stringBuilder, property, type, "")
+                if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(jsonElementValue.asJsonObject)) {
+                    val mapKeyType = getMapKeyTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
+                    val mapValueType = getMapValueTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
+                    if (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
+                        || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
+                    ) {
+                        toBeAppend.add(
+                            KotlinCodeMaker(
+                                getChildType(mapValueType),
+                                jsonElementValue.asJsonObject.entrySet().first().value
+                            ).makeKotlinData()
+                        )
+                    }
+                    val mapType = "Map<$mapKeyType,$mapValueType>"
+                    addProperty(stringBuilder, property, mapType, "")
+
+                } else {
+                    val type = getJsonObjectType(property)
+                    toBeAppend.add(KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData())
+                    addProperty(stringBuilder, property, type, "")
+                }
 
             } else if (jsonElementValue.isJsonNull) {
                 addProperty(stringBuilder, property, DEFAULT_TYPE, null)
