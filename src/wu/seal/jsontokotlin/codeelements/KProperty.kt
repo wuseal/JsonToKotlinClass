@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.codeelements
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.supporter.*
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  *
@@ -19,11 +20,12 @@ interface IProperty {
 
 class KProperty(private val rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
 
+    private val indent = getIndent()
 
     override fun getPropertyStringBlock(): String {
         val blockBulder = StringBuilder()
 
-        blockBulder.append("\t\t")
+        blockBulder.append(indent)
 
 
         if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.None) {
@@ -64,7 +66,7 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
 
                 if (it.isNotEmpty()) {
                     stringBuilder.append(it)
-                    stringBuilder.append("\n\t\t")
+                    stringBuilder.append("\n$indent")
                 }
             }
             blockBulder.append(stringBuilder.toString().dropLast(3))

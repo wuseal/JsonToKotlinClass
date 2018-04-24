@@ -23,6 +23,8 @@ fun getDefaultValue(propertyType: String): String {
         return false.toString()
     } else if (rawType.contains("List")) {
         return "listOf()"
+    } else if (rawType.contains("Map")) {
+        return "mapOf()"
     } else if (rawType == TYPE_ANY) {
         return "Any()"
     } else {

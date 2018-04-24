@@ -1,11 +1,17 @@
 package wu.seal.jsontokotlin.ui
 
 import com.intellij.ui.components.JBCheckBox
+import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.FlowLayout
 import java.awt.LayoutManager
+import java.awt.event.FocusEvent
+import java.awt.event.FocusListener
+import java.awt.event.KeyAdapter
+import java.awt.event.KeyEvent
 import javax.swing.Box
 import javax.swing.BoxLayout
 import javax.swing.JPanel
@@ -32,10 +38,46 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableComment.addActionListener { ConfigManager.isCommentOff = enableComment.isSelected.not() }
 
 
-
         val enableInnerClassModel = JBCheckBox("Enable Inner Class Model")
         enableInnerClassModel.isSelected = ConfigManager.isInnerClassModel
         enableInnerClassModel.addActionListener { ConfigManager.isInnerClassModel = enableInnerClassModel.isSelected }
+
+
+        val enableMapType = JBCheckBox("Enable Map Type when JSON Field Key Is Primitive Type")
+        enableMapType.isSelected = ConfigManager.enableMapType
+        enableMapType.addActionListener { ConfigManager.enableMapType = enableInnerClassModel.isSelected }
+
+        val indentJPanel = JPanel()
+        indentJPanel.layout = FlowLayout(FlowLayout.LEFT)
+        indentJPanel.add(JBLabel("Indent (number of space): "))
+        val indentField = JBTextField(2)
+        indentField.addFocusListener(object : FocusListener {
+            override fun focusGained(e: FocusEvent?) {
+            }
+
+            override fun focusLost(e: FocusEvent?) {
+                val number = try {
+                    indentField.text.toInt()
+                } catch (e: Exception) {
+                    indentField.text = ConfigManager.indent.toString()
+                    ConfigManager.indent
+                }
+                ConfigManager.indent = number
+            }
+
+        })
+        indentField.addKeyListener(object : KeyAdapter() {
+            override fun keyTyped(e: KeyEvent) {
+                val keyChar = e.keyChar;
+                if (keyChar.toInt() >= KeyEvent.VK_0 && keyChar.toInt() <= KeyEvent.VK_9) {
+
+                } else {
+                    e.consume()//ignore the input
+                }
+            }
+        })
+        indentField.text = ConfigManager.indent.toString()
+        indentJPanel.add(indentField)
 
         add(Box.createVerticalStrut(JBUI.scale(10)))
 
@@ -44,6 +86,14 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(enableInnerClassModel)
+
+        add(Box.createVerticalStrut(JBUI.scale(20)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(enableMapType)
+
+        add(Box.createVerticalStrut(JBUI.scale(20)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
     }
 
 }

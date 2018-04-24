@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin
 
 import com.intellij.ide.util.PropertiesComponent
-import wu.seal.jsontokotlin.supporter.GsonSupporter
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.test.TestConfig.isTestModel
 
@@ -50,24 +49,33 @@ interface IConfigManager {
 
 
     var isPropertiesVar: Boolean
-        get() = if (isTestModel) TestConfig.isPropertiesVar else PropertiesComponent.getInstance().isTrueValue(IS_PROPERTIES_VAR_KEY)
+        get() = if (isTestModel) TestConfig.isPropertiesVar else PropertiesComponent.getInstance().isTrueValue(
+            IS_PROPERTIES_VAR_KEY
+        )
         set(value) = if (isTestModel) {
+            TestConfig.isPropertiesVar = value
         } else {
             PropertiesComponent.getInstance().setValue(IS_PROPERTIES_VAR_KEY, value)
         }
 
 
     var isCommentOff: Boolean
-        get() = if (isTestModel) TestConfig.isCommentOff else PropertiesComponent.getInstance().getBoolean(IS_COMMENT_OFF, true)
+        get() = if (isTestModel) TestConfig.isCommentOff else PropertiesComponent.getInstance().getBoolean(
+            IS_COMMENT_OFF,
+            true
+        )
         set(value) = if (isTestModel) {
+            TestConfig.isCommentOff = value
         } else {
             PropertiesComponent.getInstance().setValue(IS_COMMENT_OFF, value, true)
         }
 
 
     var targetJsonConverterLib: TargetJsonConverter
-        get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
-                ?: TargetJsonConverter.None.name)
+        get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(
+            PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
+                    ?: TargetJsonConverter.None.name
+        )
         set(value) = if (isTestModel) {
             TestConfig.targetJsonConvertLib = value
         } else {
@@ -80,13 +88,22 @@ interface IConfigManager {
         set(value) = PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
 
     var propertyTypeStrategy: PropertyTypeStrategy
-        get() = if (TestConfig.isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(PropertiesComponent.getInstance().getValue(PROPERTY_TYPE_STRATEGY_KEY, PropertyTypeStrategy.NotNullable.name))
+        get() = if (TestConfig.isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(
+            PropertiesComponent.getInstance().getValue(
+                PROPERTY_TYPE_STRATEGY_KEY,
+                PropertyTypeStrategy.NotNullable.name
+            )
+        )
         set(value) = if (TestConfig.isTestModel) {
+            TestConfig.propertyTypeStrategy = value
         } else PropertiesComponent.getInstance().setValue(PROPERTY_TYPE_STRATEGY_KEY, value.name)
 
     var initWithDefaultValue: Boolean
-        get() = if (isTestModel) TestConfig.initWithDefaultValue else PropertiesComponent.getInstance().getBoolean(INIT_WITH_DEFAULT_VALUE_KEY)
+        get() = if (isTestModel) TestConfig.initWithDefaultValue else PropertiesComponent.getInstance().getBoolean(
+            INIT_WITH_DEFAULT_VALUE_KEY
+        )
         set(value) = if (isTestModel) {
+            TestConfig.initWithDefaultValue = value
         } else {
             PropertiesComponent.getInstance().setValue(INIT_WITH_DEFAULT_VALUE_KEY, value)
         }
@@ -99,30 +116,45 @@ interface IConfigManager {
         }
 
     var customAnnotaionImportClassString: String
-        get() = if (isTestModel) TestConfig.customAnnotaionImportClassString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
-                "import kotlinx.serialization.Serializable")
+        get() = if (isTestModel) TestConfig.customAnnotaionImportClassString else PropertiesComponent.getInstance().getValue(
+            USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
+                    "import kotlinx.serialization.Serializable"
+        )
         set(value) = if (isTestModel) {
+            TestConfig.customAnnotaionImportClassString = value
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, value)
         }
 
     var customPropertyAnnotationFormatString: String
-        get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, "@Optional\n@SerialName(\"%s\")")
+        get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(
+            USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING,
+            "@Optional\n@SerialName(\"%s\")"
+        )
         set(value) = if (isTestModel) {
+            TestConfig.customPropertyAnnotationFormatString = value
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING, value)
         }
 
     var customClassAnnotationFormatString: String
-        get() = if (isTestModel) TestConfig.customClassAnnotationFormatString else PropertiesComponent.getInstance().getValue(USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING, "@Serializable")
+        get() = if (isTestModel) TestConfig.customClassAnnotationFormatString else PropertiesComponent.getInstance().getValue(
+            USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING,
+            "@Serializable"
+        )
         set(value) = if (isTestModel) {
+            TestConfig.customClassAnnotationFormatString = value
         } else {
             PropertiesComponent.getInstance().setValue(USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING, value)
         }
 
     var isInnerClassModel: Boolean
-        get() = if (isTestModel) TestConfig.isInnerClassModel else PropertiesComponent.getInstance().getBoolean(INNER_CLASS_MODEL_KEY, false)
+        get() = if (isTestModel) TestConfig.isInnerClassModel else PropertiesComponent.getInstance().getBoolean(
+            INNER_CLASS_MODEL_KEY,
+            false
+        )
         set(value) = if (isTestModel) {
+            TestConfig.isInnerClassModel = value
         } else {
             PropertiesComponent.getInstance().setValue(INNER_CLASS_MODEL_KEY, value)
         }
