@@ -45,7 +45,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         val enableMapType = JBCheckBox("Enable Map Type when JSON Field Key Is Primitive Type")
         enableMapType.isSelected = ConfigManager.enableMapType
-        enableMapType.addActionListener { ConfigManager.enableMapType = enableInnerClassModel.isSelected }
+        enableMapType.addActionListener { ConfigManager.enableMapType = enableMapType.isSelected }
 
         val indentJPanel = JPanel()
         indentJPanel.layout = FlowLayout(FlowLayout.LEFT)
