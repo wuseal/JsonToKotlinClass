@@ -1,31 +1,64 @@
 <idea-plugin>
     <id>wu.seal.tool.jsontokotlin</id>
     <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-    <version>2.0-beta</version>
+    <version>2.0-Gamma</version>
     <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
     <description><![CDATA[
-      Plugin for Kotlin to convert Json String into Kotlin data class code quickly<br>
+      <br>Plugin for Kotlin to convert Json String into Kotlin data class code quickly</br>
+
+      <b><br>Features:</br></b>
+
+      <br>Generate Kotlin data class code from any legal JSON text.</br>
+
+      <br>Generate Kotlin data class File form any legal JSON text when right click on directory and select New->Kotlin data class File from JSON.</br>
+
+      <br>Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare,kotlinx.serialize(default custom value))</br>
+
+      <br>Support customize your own Annotation</br>
+
+      <br>Support init property with default value</br>
+
+      <br>Support make property type to be nullable(?)</br>
+
+      <br>Support auto make sure property type to be nullable(?) or not </br>
+
+      <br>Support auto rename property name to be camelCase when select a target JSON lib Annotation</br>
+
+      <br>Support generate kotlin data class code in split model</br>
+
+      <br>Support generate kotlin data class code in inner class model</br>
+
+      <br>Support generate kotlin data class File in inner class model</br>
+
+      <br>Support generate kotlin data class File in split files</br>
+
+      <br>Support format any legal JSON string</br>
+
+      <br>Support Generate Map Type</br>
+
       <em>kotlin</em>
       <em>Json</em>
       <em>Gson</em>
       <em>Fastjson</em>
       <em>Moshi</em>
       <em>LoganSquare</em>
+      <em>Kotlinx<em>
+
+      <br></br>
+     <a href="https://github.com/wuseal/JsonToKotlinClass"> Full Usage Documentation</a></br>
+
     ]]></description>
 
+
     <change-notes><![CDATA[
-     Optimize plugin minutiae usage experience and fix a bug when generate no consistent json array</br>
-     <b>Features:</br></b>
-      Generate Kotlin data class from any legal JSON text.</br>
-      Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)</br>
-      Support customize your own Annotation</br>
-      Support init property with default value</br>
-      Support make property type to be nullable(?)</br>
-      Support auto rename property name to be camelCase when select a target JSON lib Annotation.See demo</br>
-      Support generate kotlin data class code in split model</br>
-      Support generate kotlin data class code in inner class model</br>
-      Support format any legal JSON string</br>
+        <br>Add support for generating Kotlin data class file from JSON with click on the package directory</br>
+
+        <br>Add config option for auto make property type</br>
+
+        <br>Add support config for indent space number</br>
+
+        <br>Add support for generate Map type when json key is primitive type</br>
     ]]>
     </change-notes>
 

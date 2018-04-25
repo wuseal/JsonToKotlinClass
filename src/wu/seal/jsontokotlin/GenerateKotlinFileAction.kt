@@ -78,7 +78,7 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                                 generateKotlinDataClassFile(packageDeclare, it, project, psiFileFactory, aClassName, directory)
                             }
                         }
-                        val notifyMessage = "$classCount Kotlin Data Class file generated successfully"
+                        val notifyMessage = "$classCount Kotlin Data Class files generated successful"
                         showNotify(notifyMessage, project)
 
                     }
