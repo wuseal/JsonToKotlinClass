@@ -86,7 +86,7 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
 
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             dealWithException(jsonString, e)
             throw e
         }

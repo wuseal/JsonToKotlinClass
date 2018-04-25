@@ -157,9 +157,9 @@ internal fun adjustPropertyNameForGettingArrayChildType(property: String): Strin
  */
 fun maybeJsonObjectBeMapType(jsonObject: JsonObject): Boolean {
     var maybeMapType = true
-    jsonObject.keySet().forEach {
+    jsonObject.entrySet().forEach {
         val isPrimitiveNotStringType = try {
-            JsonParser().parse(it).asJsonPrimitive.isString.not()
+            JsonParser().parse(it.key).asJsonPrimitive.isString.not()
         } catch (e: Exception) {
             false
         }
@@ -172,7 +172,7 @@ fun maybeJsonObjectBeMapType(jsonObject: JsonObject): Boolean {
  * get the Key Type of Map type converted from jsonObject
  */
 fun getMapKeyTypeConvertFromJsonObject(jsonObject: JsonObject): String {
-    val mapKey = getPrimitiveType(JsonParser().parse(jsonObject.keySet().first()).asJsonPrimitive)
+    val mapKey = getPrimitiveType(JsonParser().parse(jsonObject.entrySet().first().key).asJsonPrimitive)
     return mapKey
 }
 
@@ -181,8 +181,8 @@ fun getMapKeyTypeConvertFromJsonObject(jsonObject: JsonObject): String {
  */
 fun getMapValueTypeConvertFromJsonObject(jsonObject: JsonObject): String {
     var valueType: String = ""
-    jsonObject.keySet().forEach {
-        val jsonElement = jsonObject.get(it)
+    jsonObject.entrySet().forEach {
+        val jsonElement = it.value
         if (jsonElement.isJsonPrimitive) {
             val currentValueType = getPrimitiveType(jsonElement.asJsonPrimitive)
             if (valueType.isEmpty()) {
