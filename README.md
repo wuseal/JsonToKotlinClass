@@ -41,7 +41,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 ### Features
 * Generate Kotlin data class from any legal JSON text.
 * Generate Kotlin data class File form any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`.
-* Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare,kotlinx.serialize(default custom value))
+* Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare,kotlinx.serialization(default custom value))
 * Support customize your own Annotation
 * Support init property with default value
 * Support make property type to be nullable(?)
