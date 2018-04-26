@@ -20,35 +20,42 @@ also as say a plugin for Kotlin to convert JSON String into Kotlin data class co
 ### Overview
 Hi,This is a very cool tool for Kotlin developers ,It can convert the Json String into Kotlin Data Class code ,and paste it into your editor file ,The tool could recognize the Primitive Type of Json String and make Type Identifier respectively ,It taste easily ,Just have test,guys! Just press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac,And then,start your Kotlin program travel ! JsonToKotlinClass make program more happy!
 
-### Features
-* Generate Kotlin data class from any legal JSON text.
-* Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare)
-* Support customize your own Annotation
-* Support init property with default value
-* Support make property type to be nullable(?)
-* Support auto rename property name to be camelCase when select a target JSON lib Annotation.[See demo](#configure-with-gson-support-on-and-init-with-deault-value-on-and-comment-off)
-* Support generate kotlin data class code in split model
-* Support generate kotlin data class code in inner class model
-* Support format any legal JSON string
+### Easy Use
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18032.png)
 
-### How to use
+#### Want to generate classes code in inner class model? Do like this.
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18031.png)
+
+#### Want to generate Kotlin data class file directory? Do like this.
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18030.png)
+
+#### Want to generate Kotlin data classes in single file directory? Do like this.
+![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18029.png)
+
+### Usage
 * Search 'JsonToKotlinClass' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.</br>
     File --> Settings --> Plugins --> Browse Repositories -->Search JsonToKotlinClass
 * Restart your Develop tools 
 * Press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac And Then you will know how to use
-### Demos
-#### Default :
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17468.png)
 
-#### Configure with Gson support on and init with deault value on and comment off
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17469.png)
+### Features
+* Generate Kotlin data class from any legal JSON text.
+* Generate Kotlin data class File form any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`.
+* Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare,kotlinx.serialize(default custom value))
+* Support customize your own Annotation
+* Support init property with default value
+* Support make property type to be nullable(?)
+* Support auto make sure property type to be nullable(?) or not 
+* Support auto rename property name to be camelCase when select a target JSON lib Annotation.[See demo](#configure-with-gson-support-on-and-init-with-deault-value-on-and-comment-off)
+* Support generate kotlin data class code in split model
+* Support generate kotlin data class code in inner class model
+* Support generate kotlin data class File in inner class model 
+* Support generate kotlin data class File in split files 
+* Support format any legal JSON string
+* Support Generate Map Type
 
-#### Config with custome your own annotations support on and init with deault value on
-
-![alt text](https://plugins.jetbrains.com/files/9960/screenshot_17470.png)
-
-### Generate Example
-* Example with none json lib support and comment option on
+### Generate Example 
+* Default
 
     ```kotlin
         data class FD(
@@ -58,25 +65,25 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
         )
         
         data class Musician(
-                val firstName: String, //Eric
-                val lastName: String, //Clapton
-                val instrument: String //guitar
+                val firstName: String, 
+                val lastName: String, 
+                val instrument: String 
         )
         
         data class Author(
-                val firstName: String, //Isaac
-                val lastName: String, //Asimov
-                val genre: String //science fiction
+                val firstName: String, 
+                val lastName: String, 
+                val genre: String 
         )
         
         data class Programmer(
-                val firstName: String, //Brett
-                val lastName: String, //McLaughlin
-                val email: String //aaaa
+                val firstName: String, 
+                val lastName: String, 
+                val email: String 
         )
 
     ```
-* Example with gson option on and init with default value option on
+* Example with gson option on and init with default value option on in settings
 
     ```kotlin
     
@@ -89,7 +96,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
        )
        
        data class TrainScheduleBody(
-       		@SerializedName("mxl") val mxl: Long = 0, //12490639969101
+       		@SerializedName("mxl") val mxl: Long = 0, 
        		@SerializedName("content") val content: List<Int> = listOf()
        )
        
