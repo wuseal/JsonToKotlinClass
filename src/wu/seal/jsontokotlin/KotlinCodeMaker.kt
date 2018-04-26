@@ -42,10 +42,6 @@ class KotlinCodeMaker {
             throw IllegalArgumentException("UnSupport")
         }
 
-        val index = stringBuilder.lastIndexOf(",")
-        if (index != -1) {
-            stringBuilder.deleteCharAt(index)
-        }
         stringBuilder.append(")")
         if (toBeAppend.isNotEmpty()) {
             appendSubClassCode(stringBuilder)
@@ -92,7 +88,10 @@ class KotlinCodeMaker {
 
     private fun appendCodeMember(stringBuilder: StringBuilder, jsonObject: JsonObject) {
 
-        for ((property, jsonElementValue) in jsonObject.entrySet()) {
+        val size = jsonObject.size()
+
+        jsonObject.entrySet().forEachIndexed { index, (property, jsonElementValue) ->
+            val isLast = (index == size - 1)
 
             if (jsonElementValue.isJsonArray) {
                 val type = getArrayType(property, jsonElementValue.asJsonArray)
@@ -100,49 +99,57 @@ class KotlinCodeMaker {
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray)) {
                     toBeAppend.add(KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData())
                 }
-                addProperty(stringBuilder, property, type, "")
+                addProperty(stringBuilder, property, type, "", isLast)
 
             } else if (jsonElementValue.isJsonPrimitive) {
                 val type = getPrimitiveType(jsonElementValue.asJsonPrimitive)
-                addProperty(stringBuilder, property, type, jsonElementValue.asString)
+                addProperty(stringBuilder, property, type, jsonElementValue.asString, isLast)
 
             } else if (jsonElementValue.isJsonObject) {
                 if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(jsonElementValue.asJsonObject)) {
                     val mapKeyType = getMapKeyTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
                     val mapValueType = getMapValueTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
                     if (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
-                        || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
+                            || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
                     ) {
                         toBeAppend.add(
-                            KotlinCodeMaker(
-                                getChildType(mapValueType),
-                                jsonElementValue.asJsonObject.entrySet().first().value
-                            ).makeKotlinData()
+                                KotlinCodeMaker(
+                                        getChildType(mapValueType),
+                                        jsonElementValue.asJsonObject.entrySet().first().value
+                                ).makeKotlinData()
                         )
                     }
                     val mapType = "Map<$mapKeyType,$mapValueType>"
-                    addProperty(stringBuilder, property, mapType, "")
+                    addProperty(stringBuilder, property, mapType, "", isLast)
 
                 } else {
                     val type = getJsonObjectType(property)
                     toBeAppend.add(KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData())
-                    addProperty(stringBuilder, property, type, "")
+                    addProperty(stringBuilder, property, type, "", isLast)
                 }
 
             } else if (jsonElementValue.isJsonNull) {
-                addProperty(stringBuilder, property, DEFAULT_TYPE, null)
+                addProperty(stringBuilder, property, DEFAULT_TYPE, null, isLast)
             }
         }
     }
 
 
-    private fun addProperty(stringBuilder: StringBuilder, property: String, type: String, value: String?) {
+    private fun addProperty(stringBuilder: StringBuilder, property: String, type: String, value: String?, isLast: Boolean = false) {
         var innerValue = value
         if (innerValue == null) {
             innerValue = "null"
         }
-        stringBuilder.append(KProperty(property, getOutType(type, value), innerValue).getPropertyStringBlock())
-        stringBuilder.append("\n")
+        val p = KProperty(property, getOutType(type, value), innerValue)
+
+        stringBuilder.append(p.getPropertyStringBlock())
+
+        if (!isLast)
+            stringBuilder.append(",")
+
+        stringBuilder.append(" // ")
+                .append(p.getPropertyComment())
+                .append("\n")
     }
 
 }
