@@ -52,7 +52,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Support generate kotlin data class File in inner class model 
 * Support generate kotlin data class File in split files 
 * Support format any legal JSON string
-* Support Generate Map Type
+* Support Generate Map Type when json key is primitive type
 
 ### Generate Example 
 * Default
