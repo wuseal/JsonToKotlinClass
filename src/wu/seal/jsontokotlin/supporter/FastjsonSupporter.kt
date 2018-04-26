@@ -43,8 +43,6 @@ object FastjsonSupporter : IJsonLibSupporter {
             fastjsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
-        fastjsonSupportPropertyBuilder.append(",")
-
         return fastjsonSupportPropertyBuilder.toString()
     }
 

@@ -59,8 +59,6 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
             customJsonLibSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
-        customJsonLibSupportPropertyBuilder.append(",")
-
         return customJsonLibSupportPropertyBuilder.toString()
     }
 

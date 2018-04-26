@@ -46,8 +46,6 @@ object JacksonSupporter : IJacksonSupporter {
             jacksonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
-        jacksonSupportPropertyBuilder.append(",")
-
         return jacksonSupportPropertyBuilder.toString()
     }
 

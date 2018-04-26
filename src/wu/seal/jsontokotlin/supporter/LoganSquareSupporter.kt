@@ -44,8 +44,6 @@ object LoganSquareSupporter : IJsonLibSupporter {
             loganSquareSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
-        loganSquareSupportPropertyBuilder.append(",")
-
         return loganSquareSupportPropertyBuilder.toString()
 
     }

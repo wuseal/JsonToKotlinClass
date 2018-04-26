@@ -16,6 +16,8 @@ interface IProperty {
      */
     fun getPropertyStringBlock(): String
 
+    fun getPropertyComment(): String
+
 }
 
 class KProperty(private val rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
@@ -23,62 +25,39 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
     private val indent = getIndent()
 
     override fun getPropertyStringBlock(): String {
-        val blockBulder = StringBuilder()
+        val blockBuilder = StringBuilder()
 
-        blockBulder.append(indent)
+        blockBuilder.append(indent)
 
 
-        if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.None) {
+        when (ConfigManager.targetJsonConverterLib) {
+            TargetJsonConverter.None -> blockBuilder.append(NoneSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
+            TargetJsonConverter.NoneWithCamelCase -> blockBuilder.append(NoneWithCamelCaseSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
+            TargetJsonConverter.Gson -> blockBuilder.append(GsonSupporter.getGsonSupporterProperty(rawPropertyName, propertyType))
+            TargetJsonConverter.Jackson -> blockBuilder.append(JacksonSupporter.getJacksonSupporterProperty(rawPropertyName, propertyType))
+            TargetJsonConverter.FastJson -> blockBuilder.append(FastjsonSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+            TargetJsonConverter.MoShi -> blockBuilder.append(MoShiSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+            TargetJsonConverter.LoganSquare -> blockBuilder.append(LoganSquareSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
+            TargetJsonConverter.Custom -> {
 
-            blockBulder.append(NoneSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
+                val jsonLibSupportPropertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType)
 
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.NoneWithCamelCase) {
+                val stringBuilder = StringBuilder()
 
-            blockBulder.append(NoneWithCamelCaseSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
+                jsonLibSupportPropertyBlockString.split("\n").forEach {
 
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
-
-            blockBulder.append(GsonSupporter.getGsonSupporterProperty(rawPropertyName, propertyType))
-
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson) {
-
-            blockBulder.append(JacksonSupporter.getJacksonSupporterProperty(rawPropertyName, propertyType))
-
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson) {
-
-            blockBulder.append(FastjsonSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
-
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoShi) {
-
-            blockBulder.append(MoShiSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
-
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.LoganSquare) {
-
-            blockBulder.append(LoganSquareSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType))
-
-        } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
-
-            val jsonLibSupportPropertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType)
-
-            val stringBuilder = StringBuilder()
-
-            jsonLibSupportPropertyBlockString.split("\n").forEach {
-
-                if (it.isNotEmpty()) {
-                    stringBuilder.append(it)
-                    stringBuilder.append("\n$indent")
+                    if (it.isNotEmpty()) {
+                        stringBuilder.append(it)
+                        stringBuilder.append("\n$indent")
+                    }
                 }
+                blockBuilder.append(stringBuilder.toString().dropLast(3))
+
             }
-            blockBulder.append(stringBuilder.toString().dropLast(3))
-
         }
 
-
-        if (!ConfigManager.isCommentOff && propertyValue.isNotBlank()) {
-            blockBulder.append(" //").append(propertyValue)
-        }
-
-        return blockBulder.toString()
+        return blockBuilder.toString()
     }
 
+    override fun getPropertyComment(): String = propertyValue
 }
