@@ -36,7 +36,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Search 'JsonToKotlinClass' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.</br>
     File --> Settings --> Plugins --> Browse Repositories -->Search JsonToKotlinClass
 * Restart your Develop tools 
-* Press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac And Then you will know how to use
+* Press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac Or right click on package -> `New`->`Kotlin data clas file from JSON`　And Then you will know how to use
 
 ### Features
 * Generate Kotlin data class from any legal JSON text.
@@ -46,7 +46,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Support init property with default value
 * Support make property type to be nullable(?)
 * Support auto make sure property type to be nullable(?) or not 
-* Support auto rename property name to be camelCase when select a target JSON lib Annotation.[See demo](#configure-with-gson-support-on-and-init-with-deault-value-on-and-comment-off)
+* Support auto rename property name to be camelCase when select a target JSON lib Annotation．
 * Support generate kotlin data class code in split model
 * Support generate kotlin data class code in inner class model
 * Support generate kotlin data class File in inner class model 
