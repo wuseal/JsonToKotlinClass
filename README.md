@@ -90,14 +90,14 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
        data class TestData(
            @SerializedName("ticketInfo") val ticketInfo: TicketInfo = TicketInfo(),
            @SerializedName("trainInfo") val trainInfo: TrainInfo = TrainInfo(),
-       	   @SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
-       	   @SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
-       	   @SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
+           @SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
+           @SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
+           @SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
        )
        
        data class TrainScheduleBody(
            @SerializedName("mxl") val mxl: Long = 0, 
-       	   @SerializedName("content") val content: List<Int> = listOf()
+           @SerializedName("content") val content: List<Int> = listOf()
        )
        
        data class TrainInfo(
