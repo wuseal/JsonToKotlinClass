@@ -38,6 +38,8 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 * Restart your Develop tools 
 * Press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac Or right click on package -> `New`->`Kotlin data clas file from JSON`　And Then you will know how to use
 
+### Advanced usage
+Have a try with the settings :stuck_out_tongue_winking_eye:
 ### Features
 * Generate Kotlin data class from any legal JSON text.
 * Generate Kotlin data class File form any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`.
