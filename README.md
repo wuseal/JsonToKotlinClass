@@ -59,27 +59,27 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 
     ```kotlin
         data class FD(
-                val programmers: List<Programmer>,
-                val authors: List<Author>,
-                val musicians: List<Musician>
+            val programmers: List<Programmer>,
+            val authors: List<Author>,
+            val musicians: List<Musician>
         )
         
         data class Musician(
-                val firstName: String, 
-                val lastName: String, 
-                val instrument: String 
+            val firstName: String, 
+            val lastName: String, 
+            val instrument: String 
         )
         
         data class Author(
-                val firstName: String, 
-                val lastName: String, 
-                val genre: String 
+            val firstName: String, 
+            val lastName: String, 
+            val genre: String 
         )
         
         data class Programmer(
-                val firstName: String, 
-                val lastName: String, 
-                val email: String 
+            val firstName: String, 
+            val lastName: String, 
+            val email: String 
         )
 
     ```
@@ -88,20 +88,20 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
     ```kotlin
     
        data class TestData(
-       		@SerializedName("ticketInfo") val ticketInfo: TicketInfo = TicketInfo(),
-       		@SerializedName("trainInfo") val trainInfo: TrainInfo = TrainInfo(),
-       		@SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
-       		@SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
-       		@SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
+           @SerializedName("ticketInfo") val ticketInfo: TicketInfo = TicketInfo(),
+           @SerializedName("trainInfo") val trainInfo: TrainInfo = TrainInfo(),
+       	   @SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
+       	   @SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
+       	   @SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
        )
        
        data class TrainScheduleBody(
-       		@SerializedName("mxl") val mxl: Long = 0, 
-       		@SerializedName("content") val content: List<Int> = listOf()
+           @SerializedName("mxl") val mxl: Long = 0, 
+       	   @SerializedName("content") val content: List<Int> = listOf()
        )
        
        data class TrainInfo(
-       		@SerializedName("T110") val t110: T110 = T110()
+           @SerializedName("T110") val t110: T110 = T110()
        )
      
   
