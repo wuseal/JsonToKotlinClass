@@ -38,15 +38,15 @@ class CustomJsonLibSupporterTest {
     fun getJsonLibSupportPropertyWithAnnotationWithoutPercentSBlockString() {
 
         val rawPropertyName = "seal_ wu"
-        val s = "@yesAnnotaiont()"
+        val s = "@yesAnnotation()"
         TestConfig.customPropertyAnnotationFormatString = s
 
         val propertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, "String")
 
         println(propertyBlockString)
 
-        val expectedBlockString = """@yesAnnotaiont()
-val seal_ wu: String = "","""
+        val expectedBlockString = """@yesAnnotation()
+val seal_ wu: String = """""
 
         propertyBlockString.should.be.equal(expectedBlockString)
         assert(propertyBlockString.contains(CustomJsonLibSupporter.getPropertyAnnotationString(rawPropertyName)))
