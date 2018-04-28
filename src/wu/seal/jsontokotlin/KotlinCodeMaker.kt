@@ -147,9 +147,11 @@ class KotlinCodeMaker {
         if (!isLast)
             stringBuilder.append(",")
 
-        stringBuilder.append(" // ")
-                .append(p.getPropertyComment())
-                .append("\n")
+        val propertyComment = p.getPropertyComment()
+        if (propertyComment.isNotBlank())
+            stringBuilder.append(" // ")
+                    .append(propertyComment)
+        stringBuilder.append("\n")
     }
 
 }
