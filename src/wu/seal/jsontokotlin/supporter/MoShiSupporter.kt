@@ -38,8 +38,6 @@ object MoShiSupporter : IJsonLibSupporter {
             moShijsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
-        moShijsonSupportPropertyBuilder.append(",")
-
         return moShijsonSupportPropertyBuilder.toString()
     }
 

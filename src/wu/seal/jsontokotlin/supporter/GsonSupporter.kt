@@ -52,8 +52,6 @@ object GsonSupporter : IGsonSupporter {
             gsonSupportPropertyBuilder.append(" = ").append(getDefaultValue(propertyType))
         }
 
-        gsonSupportPropertyBuilder.append(",")
-
         return gsonSupportPropertyBuilder.toString()
 
     }
