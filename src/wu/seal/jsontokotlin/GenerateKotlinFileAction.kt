@@ -18,9 +18,7 @@ import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.filetype.KotlinFileType
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.ClassCodeFilter
-import wu.seal.jsontokotlin.utils.ImportClassDeclaration
-import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
+import wu.seal.jsontokotlin.utils.*
 
 
 /**
@@ -29,7 +27,7 @@ import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
 
     override fun actionPerformed(event: AnActionEvent) {
-        var jsonString: String = ""
+        var jsonString = ""
         try {
             val project = event.getData(PlatformDataKeys.PROJECT)
             project?.let {
@@ -38,16 +36,16 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                 module?.let {
                     val navigatable = DataKeys.NAVIGATABLE.getData(dataContext)
                     val directory: PsiDirectory =
-                            if (navigatable is PsiDirectory) {
-                                navigatable
-                            } else {
-                                val root = ModuleRootManager.getInstance(module)
-                                var tempDirectory: PsiDirectory? = null
-                                for (file in root.sourceRoots) {
-                                    tempDirectory = PsiManager.getInstance(project).findDirectory(file)
-                                }
-                                tempDirectory!!
+                        if (navigatable is PsiDirectory) {
+                            navigatable
+                        } else {
+                            val root = ModuleRootManager.getInstance(module)
+                            var tempDirectory: PsiDirectory? = null
+                            for (file in root.sourceRoots) {
+                                tempDirectory = PsiManager.getInstance(project).findDirectory(file)
                             }
+                            tempDirectory!!
+                        }
                     val directoryFactory = PsiDirectoryFactory.getInstance(directory.getProject())
                     val packageName = directoryFactory.getQualifiedName(directory, true)
                     val psiFileFactory = PsiFileFactory.getInstance(project)
@@ -65,21 +63,24 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
 
                     if (ConfigManager.isInnerClassModel) {
 
-                        generateKotlinDataClassFile(packageDeclare, removeDuplicateClassCode, project, psiFileFactory, className, directory)
-                        val notifyMessage = "Kotlin Data Class file generated successful"
-                        showNotify(notifyMessage, project)
+                        generateSingleClassFile(
+                            className,
+                            packageDeclare,
+                            removeDuplicateClassCode,
+                            project,
+                            psiFileFactory,
+                            directory
+                        )
 
                     } else {
-                        var classCount = 0
-                        removeDuplicateClassCode.split("\n\n").forEach {
-                            if (it.contains("data class")) {
-                                classCount++
-                                val aClassName = it.substringAfter("data class").substringBefore("(").trim()
-                                generateKotlinDataClassFile(packageDeclare, it, project, psiFileFactory, aClassName, directory)
-                            }
-                        }
-                        val notifyMessage = "$classCount Kotlin Data Class files generated successful"
-                        showNotify(notifyMessage, project)
+
+                        generateMultipleClassFiles(
+                            removeDuplicateClassCode,
+                            packageDeclare,
+                            project,
+                            psiFileFactory,
+                            directory
+                        )
 
                     }
 
@@ -92,7 +93,65 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         }
     }
 
-    private fun generateKotlinDataClassFile(packageDeclare: String, classCodeContent: String, project: Project?, psiFileFactory: PsiFileFactory, className: String, directory: PsiDirectory) {
+    private fun generateSingleClassFile(
+        className: String,
+        packageDeclare: String,
+        removeDuplicateClassCode: String,
+        project: Project?,
+        psiFileFactory: PsiFileFactory,
+        directory: PsiDirectory
+    ) {
+        generateKotlinDataClassFile(
+            className,
+            packageDeclare,
+            removeDuplicateClassCode,
+            project,
+            psiFileFactory,
+            directory
+        )
+        val notifyMessage = "Kotlin Data Class file generated successful"
+        showNotify(notifyMessage, project)
+    }
+
+    private fun generateMultipleClassFiles(
+        removeDuplicateClassCode: String,
+        packageDeclare: String,
+        project: Project?,
+        psiFileFactory: PsiFileFactory,
+        directory: PsiDirectory
+    ) {
+        val classNameBlockMap = mutableMapOf<String, String>()
+
+        getClassesStringList(removeDuplicateClassCode).forEach {
+            var className = getClassNameFromClassBlockString(it)
+            while (classNameBlockMap.containsKey(className)) {
+                className += "X"
+            }
+            classNameBlockMap.put(className, replaceClassNameToClassBlockString(it, className))
+        }
+
+        classNameBlockMap.forEach { className, classBlockString ->
+            generateKotlinDataClassFile(
+                className,
+                packageDeclare,
+                classBlockString,
+                project,
+                psiFileFactory,
+                directory
+            )
+        }
+        val notifyMessage = "${classNameBlockMap.size} Kotlin Data Class files generated successful"
+        showNotify(notifyMessage, project)
+    }
+
+    private fun generateKotlinDataClassFile(
+        fileName: String,
+        packageDeclare: String,
+        classCodeContent: String,
+        project: Project?,
+        psiFileFactory: PsiFileFactory,
+        directory: PsiDirectory
+    ) {
         val kotlinFileContent = buildString {
             append(packageDeclare)
             append("\n\n")
@@ -102,7 +161,7 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         }
 
         executeCouldRollBackAction(project) {
-            val file = psiFileFactory.createFileFromText("$className.kt", KotlinFileType(), kotlinFileContent)
+            val file = psiFileFactory.createFileFromText("$fileName.kt", KotlinFileType(), kotlinFileContent)
             directory.add(file)
         }
     }
