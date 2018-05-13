@@ -4,6 +4,7 @@ import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  *
@@ -12,6 +13,8 @@ import wu.seal.jsontokotlin.codeelements.getDefaultValue
 
 
 object NoneWithCamelCaseSupporter : INoneLibSupporter {
+
+    private val indent = lazy { getIndent() }
 
     override fun getNoneLibSupporterClassName(rawClassName: String):String {
         return ""
@@ -22,6 +25,7 @@ object NoneWithCamelCaseSupporter : INoneLibSupporter {
 
         val blockBuilder = StringBuilder()
 
+        blockBuilder.append(indent.value)
         blockBuilder.append(KPropertyKeyword.get())
         blockBuilder.append(" ")
         blockBuilder.append(KPropertyName.getName(rawPropertyName))

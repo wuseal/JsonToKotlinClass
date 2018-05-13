@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.supporter
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  *
@@ -23,6 +24,8 @@ interface INoneLibSupporter {
 
 object NoneSupporter : INoneLibSupporter {
 
+    private val indent = lazy { getIndent() }
+
     override fun getNoneLibSupporterClassName(rawClassName: String):String {
         return ""
     }
@@ -32,6 +35,7 @@ object NoneSupporter : INoneLibSupporter {
 
         val blockBuilder = StringBuilder()
 
+        blockBuilder.append(indent.value)
         blockBuilder.append(KPropertyKeyword.get())
         blockBuilder.append(" ")
         blockBuilder.append(rawPropertyName)

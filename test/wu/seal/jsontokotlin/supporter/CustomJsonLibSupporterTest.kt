@@ -5,6 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  *
@@ -45,8 +46,8 @@ class CustomJsonLibSupporterTest {
 
         println(propertyBlockString)
 
-        val expectedBlockString = """@yesAnnotation()
-val seal_ wu: String = """""
+        val expectedBlockString = """${getIndent()}@yesAnnotation()
+${getIndent()}val seal_ wu: String = """""
 
         propertyBlockString.should.be.equal(expectedBlockString)
         assert(propertyBlockString.contains(CustomJsonLibSupporter.getPropertyAnnotationString(rawPropertyName)))

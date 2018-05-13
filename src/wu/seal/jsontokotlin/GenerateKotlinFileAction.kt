@@ -1,14 +1,9 @@
 package wu.seal.jsontokotlin
 
-import com.intellij.notification.NotificationDisplayType
-import com.intellij.notification.NotificationGroup
-import com.intellij.notification.NotificationType
-import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.psi.PsiDirectory
@@ -16,9 +11,9 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
-import wu.seal.jsontokotlin.filetype.KotlinFileType
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.*
+import wu.seal.jsontokotlin.utils.ClassCodeFilter
+import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
 
 
 /**
@@ -58,32 +53,14 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                         return
                     }
                     jsonString = json
-                    val codeMaker = KotlinCodeMaker(className, json)
-                    val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
-
-                    if (ConfigManager.isInnerClassModel) {
-
-                        generateSingleClassFile(
-                            className,
-                            packageDeclare,
-                            removeDuplicateClassCode,
-                            project,
-                            psiFileFactory,
-                            directory
-                        )
-
-                    } else {
-
-                        generateMultipleClassFiles(
-                            removeDuplicateClassCode,
-                            packageDeclare,
-                            project,
-                            psiFileFactory,
-                            directory
-                        )
-
-                    }
-
+                    doGenerateKotlinDataClassFileAction(
+                        className,
+                        json,
+                        packageDeclare,
+                        project,
+                        psiFileFactory,
+                        directory
+                    )
 
                 }
             }
@@ -93,84 +70,38 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         }
     }
 
-    private fun generateSingleClassFile(
+    private fun doGenerateKotlinDataClassFileAction(
         className: String,
-        packageDeclare: String,
-        removeDuplicateClassCode: String,
-        project: Project?,
-        psiFileFactory: PsiFileFactory,
-        directory: PsiDirectory
-    ) {
-        generateKotlinDataClassFile(
-            className,
-            packageDeclare,
-            removeDuplicateClassCode,
-            project,
-            psiFileFactory,
-            directory
-        )
-        val notifyMessage = "Kotlin Data Class file generated successful"
-        showNotify(notifyMessage, project)
-    }
-
-    private fun generateMultipleClassFiles(
-        removeDuplicateClassCode: String,
+        json: String,
         packageDeclare: String,
         project: Project?,
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val classNameBlockMap = mutableMapOf<String, String>()
+        val codeMaker = KotlinCodeMaker(className, json)
+        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
 
-        getClassesStringList(removeDuplicateClassCode).forEach {
-            var className = getClassNameFromClassBlockString(it)
-            while (classNameBlockMap.containsKey(className)) {
-                className += "X"
-            }
-            classNameBlockMap.put(className, replaceClassNameToClassBlockString(it, className))
-        }
+        if (ConfigManager.isInnerClassModel) {
 
-        classNameBlockMap.forEach { className, classBlockString ->
-            generateKotlinDataClassFile(
+            KotlinDataClassFileGenerator().generateSingleDataClassFile(
                 className,
                 packageDeclare,
-                classBlockString,
+                removeDuplicateClassCode,
                 project,
                 psiFileFactory,
                 directory
             )
-        }
-        val notifyMessage = "${classNameBlockMap.size} Kotlin Data Class files generated successful"
-        showNotify(notifyMessage, project)
-    }
 
-    private fun generateKotlinDataClassFile(
-        fileName: String,
-        packageDeclare: String,
-        classCodeContent: String,
-        project: Project?,
-        psiFileFactory: PsiFileFactory,
-        directory: PsiDirectory
-    ) {
-        val kotlinFileContent = buildString {
-            append(packageDeclare)
-            append("\n\n")
-            append(ImportClassDeclaration.getImportClassDeclaration())
-            append("\n")
-            append(classCodeContent)
-        }
+        } else {
 
-        executeCouldRollBackAction(project) {
-            val file = psiFileFactory.createFileFromText("$fileName.kt", KotlinFileType(), kotlinFileContent)
-            directory.add(file)
-        }
-    }
+            KotlinDataClassFileGenerator().generateMultipleDataClassFiles(
+                removeDuplicateClassCode,
+                packageDeclare,
+                project,
+                psiFileFactory,
+                directory
+            )
 
-    private fun showNotify(notifyMessage: String, project: Project?) {
-        val notificationGroup = NotificationGroup("JSON to Kotlin Class", NotificationDisplayType.BALLOON, true)
-        ApplicationManager.getApplication().invokeLater {
-            val notification = notificationGroup.createNotification(notifyMessage, NotificationType.INFORMATION)
-            Notifications.Bus.notify(notification, project)
         }
     }
 }

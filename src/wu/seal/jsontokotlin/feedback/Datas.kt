@@ -9,15 +9,15 @@ import java.util.*
  * Created by Seal.Wu on 2017/9/27.
  */
 data class ConfigInfo(
-        val uuid: String = UUID,
-        val pluginVersion: String = PLUGIN_VERSION,
-        val isPropertiesVar: Boolean = ConfigManager.isPropertiesVar,
-        val isCommentOff: Boolean = ConfigManager.isCommentOff,
-        val propertyTypeStrategy: String = ConfigManager.propertyTypeStrategy.name,
-        val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
-        val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
-        val isInnerClassMode:Boolean = ConfigManager.isInnerClassModel,
-        val timeStamp: String = Date().time.toString(),
-        val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
+    val uuid: String = UUID,
+    val pluginVersion: String = PLUGIN_VERSION,
+    val isPropertiesVar: Boolean = ConfigManager.isPropertiesVar,
+    val isCommentOff: Boolean = ConfigManager.isCommentOff,
+    val propertyTypeStrategy: String = ConfigManager.propertyTypeStrategy.name,
+    val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
+    val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
+    val isInnerClassMode: Boolean = ConfigManager.isInnerClassModel,
+    val timeStamp: String = Date().time.toString(),
+    val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 
 )

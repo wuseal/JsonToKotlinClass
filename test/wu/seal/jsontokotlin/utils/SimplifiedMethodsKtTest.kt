@@ -15,7 +15,7 @@ class SimplifiedMethodsKtTest {
 
     @Test
     fun getIndentTest() {
-        ConfigManager.indent  = 4
+        ConfigManager.indent = 4
         val expectedIndent = "    "
         getIndent().should.be.equal(expectedIndent)
     }
@@ -33,14 +33,18 @@ data class C(
 )"""
         val result = getClassesStringList(classesStringBlock)
         result.size.should.be.equal(2)
-        result[0].should.be.equal("""data class Data(
+        result[0].should.be.equal(
+            """data class Data(
     @SerializedName("a") val a: Int? = 0, // 1
     @SerializedName("b") val b: String? = "", // ss
     @SerializedName("c") val c: C? = C()
-)""")
-        result[1].should.be.equal("""data class C(
+)"""
+        )
+        result[1].should.be.equal(
+            """data class C(
     @SerializedName("m") val m: Int? = 0 // 0
-)""")
+)"""
+        )
     }
 
     @Test
@@ -66,6 +70,13 @@ data class C(
     @SerializedName("b") val b: String? = "", // ss
     @SerializedName("c") val c: C? = C()
 )"""
-        replaceClassNameToClassBlockString(classBlockString,"DataNew").should.be.equal(newClassBlockString)
+        replaceClassNameToClassBlockString(classBlockString, "DataNew").should.be.equal(newClassBlockString)
+    }
+
+    @Test
+    fun firstIndexAfterSpecificIndexTest() {
+        val list = listOf<Int>(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3)
+        list.firstIndexAfterSpecificIndex(1,4).should.be.equal(8)
+        list.firstIndexAfterSpecificIndex(1,8).should.be.equal(-1)
     }
 }

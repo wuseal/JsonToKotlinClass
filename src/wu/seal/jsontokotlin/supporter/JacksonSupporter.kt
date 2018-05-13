@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.supporter
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  * Jackson json lib supporter
@@ -22,11 +23,15 @@ interface IJacksonSupporter {
 
 object JacksonSupporter : IJacksonSupporter {
 
+    private val indent = lazy { getIndent() }
+
     private val anotaionOnProperty = "@JsonProperty(\"%s\")"
 
     override fun getJacksonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 
         val jacksonSupportPropertyBuilder = StringBuilder()
+
+        jacksonSupportPropertyBuilder.append(indent.value)
 
         jacksonSupportPropertyBuilder.append(JacksonSupporter.anotaionOnProperty.format(rawPropertyName))
 

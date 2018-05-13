@@ -42,6 +42,21 @@ class KotlinCodeMakerTest {
                 ]}
                 }}"""
 
+        val json3 = """{ "programmers": [
+                { "isFirstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
+                { "firstName": "Jason", "lastName":"Hunter", "email": "bbbb" },
+                { "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
+                ],
+                "authors": [
+                { "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" },
+                { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
+                { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
+                ],
+                "musicians": [
+                { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },
+                { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
+                ] } """
+
         println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
         println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
@@ -86,12 +101,27 @@ class KotlinCodeMakerTest {
         println("json1 ====>\n${KotlinCodeMaker("Class1", json1).makeKotlinData()}")
         println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
+        println("===========================================Change to None json lib support ========================================= ")
+
+        TestConfig.isInnerClassModel=false
+        TestConfig.targetJsonConvertLib = TargetJsonConverter.None
+        println("json3 ====>\n${KotlinCodeMaker("Class3", json3).makeKotlinData()}")
+
+
+        println("===========================================Change to None json lib support Without InitValue========================================= ")
+
+        TestConfig.isInnerClassModel=false
+        TestConfig.targetJsonConvertLib = TargetJsonConverter.None
+        TestConfig.initWithDefaultValue=false
+        TestConfig.propertyTypeStrategy=PropertyTypeStrategy.NotNullable
+        println("json3 ====>\n${KotlinCodeMaker("Class3", json3).makeKotlinData()}")
     }
 
 
     @Test
     fun makeKotlinDataWithCustomAnnotation() {
         TestConfig.targetJsonConvertLib = TargetJsonConverter.Custom
+        TestConfig.isInnerClassModel = false
         TestConfig.customPropertyAnnotationFormatString ="@Optional\n@SerialName(\"%s\")"
         TestConfig.customClassAnnotationFormatString = "@Serializable"
         TestConfig.customAnnotaionImportClassString= "import kotlinx.serialization.SerialName\nimport kotlinx.serialization.Serializable"

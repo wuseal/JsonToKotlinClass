@@ -4,6 +4,7 @@ import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 import wu.seal.jsontokotlin.utils.numberOf
 
 /**
@@ -12,6 +13,8 @@ import wu.seal.jsontokotlin.utils.numberOf
  */
 
 object CustomJsonLibSupporter : IJsonLibSupporter {
+
+    private val indent = lazy { getIndent() }
 
     private val propertyAnnotation
         get() = ConfigManager.customPropertyAnnotationFormatString
@@ -39,15 +42,23 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
 
         val customJsonLibSupportPropertyBuilder = StringBuilder()
 
-        customJsonLibSupportPropertyBuilder.append(getPropertyAnnotationString(rawPropertyName))
 
-        customJsonLibSupportPropertyBuilder.append("\n")
+        val propertyAnnotationString = getPropertyAnnotationString(rawPropertyName)
+
+        propertyAnnotationString.split("\n").forEach {
+            customJsonLibSupportPropertyBuilder.append(indent.value)
+            customJsonLibSupportPropertyBuilder.append(it)
+            customJsonLibSupportPropertyBuilder.append("\n")
+        }
+
+        customJsonLibSupportPropertyBuilder.append(indent.value)
 
         customJsonLibSupportPropertyBuilder.append(KPropertyKeyword.get())
 
         customJsonLibSupportPropertyBuilder.append(" ")
 
-        val propertyName = if (needRenamePropertyNameToCamelCase()) KPropertyName.getName(rawPropertyName) else rawPropertyName
+        val propertyName =
+            if (needRenamePropertyNameToCamelCase()) KPropertyName.getName(rawPropertyName) else rawPropertyName
 
         customJsonLibSupportPropertyBuilder.append(propertyName)
 
