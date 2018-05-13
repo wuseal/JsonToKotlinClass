@@ -13,25 +13,25 @@ const val ACTION_SUCCESS_COMPLETE = "action_success_complete"
 const val ACTION_FORMAT_JSON = "action_format_json"
 
 data class StartAction(
-        val uuid: String = UUID,
-        val pluginVersion: String = PLUGIN_VERSION,
-        val actionType: String = ACTION_START,
-        val time: String = Date().time.toString(),
-        val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
+    val uuid: String = UUID,
+    val pluginVersion: String = PLUGIN_VERSION,
+    val actionType: String = ACTION_START,
+    val time: String = Date().time.toString(),
+    val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 )
 
 data class SuccessCompleteAction(
-        val uuid: String = UUID,
-        val pluginVersion: String = PLUGIN_VERSION,
-        val actionType: String = ACTION_SUCCESS_COMPLETE,
-        val time: String = Date().time.toString(),
-        val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
+    val uuid: String = UUID,
+    val pluginVersion: String = PLUGIN_VERSION,
+    val actionType: String = ACTION_SUCCESS_COMPLETE,
+    val time: String = Date().time.toString(),
+    val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 )
 
 data class FormatJSONAction(
-        val uuid: String = UUID,
-        val pluginVersion: String = PLUGIN_VERSION,
-        val actionType: String = ACTION_FORMAT_JSON,
-        val time: String = Date().time.toString(),
-        val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
+    val uuid: String = UUID,
+    val pluginVersion: String = PLUGIN_VERSION,
+    val actionType: String = ACTION_FORMAT_JSON,
+    val time: String = Date().time.toString(),
+    val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 )

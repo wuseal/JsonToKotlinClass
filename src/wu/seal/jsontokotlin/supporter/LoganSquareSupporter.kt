@@ -4,6 +4,7 @@ import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  * LoganSquare Json Lib supporter file
@@ -11,6 +12,8 @@ import wu.seal.jsontokotlin.codeelements.getDefaultValue
  */
 
 object LoganSquareSupporter : IJsonLibSupporter {
+
+    private val indent = lazy { getIndent() }
 
     private val classAnnotation = "@JsonObject"
     private val propertyAnnotation = "@JsonField(name = arrayOf(\"%s\"))"
@@ -25,6 +28,8 @@ object LoganSquareSupporter : IJsonLibSupporter {
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
 
         val loganSquareSupportPropertyBuilder = StringBuilder()
+
+        loganSquareSupportPropertyBuilder.append(indent.value)
 
         loganSquareSupportPropertyBuilder.append(LoganSquareSupporter.propertyAnnotation.format(rawPropertyName))
 

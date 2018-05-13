@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.supporter
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  * supporter for alibaba fastjson
@@ -11,6 +12,8 @@ import wu.seal.jsontokotlin.codeelements.getDefaultValue
 
 
 object FastjsonSupporter : IJsonLibSupporter {
+
+    private val indent = lazy { getIndent() }
 
     override val annotationImportClassString: String
         get() = "import com.alibaba.fastjson.annotation.JSONField"
@@ -21,6 +24,8 @@ object FastjsonSupporter : IJsonLibSupporter {
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
 
         val fastjsonSupportPropertyBuilder = StringBuilder()
+
+        fastjsonSupportPropertyBuilder.append(indent.value)
 
         fastjsonSupportPropertyBuilder.append(FastjsonSupporter.propertyAnnotation.format(rawPropertyName))
 

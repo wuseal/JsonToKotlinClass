@@ -22,12 +22,8 @@ interface IProperty {
 
 class KProperty(private val rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
 
-    private val indent = getIndent()
-
     override fun getPropertyStringBlock(): String {
         val blockBuilder = StringBuilder()
-
-        blockBuilder.append(indent)
 
 
         when (ConfigManager.targetJsonConverterLib) {
@@ -42,16 +38,7 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
 
                 val jsonLibSupportPropertyBlockString = CustomJsonLibSupporter.getJsonLibSupportPropertyBlockString(rawPropertyName, propertyType)
 
-                val stringBuilder = StringBuilder()
-
-                jsonLibSupportPropertyBlockString.split("\n").forEach {
-
-                    if (it.isNotEmpty()) {
-                        stringBuilder.append(it)
-                        stringBuilder.append("\n$indent")
-                    }
-                }
-                blockBuilder.append(stringBuilder.toString().dropLast(3))
+                blockBuilder.append(jsonLibSupportPropertyBlockString)
 
             }
         }

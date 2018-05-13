@@ -4,6 +4,7 @@ import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  * Gson Support about
@@ -23,6 +24,8 @@ interface IGsonSupporter {
 
 object GsonSupporter : IGsonSupporter {
 
+    private val indent = lazy { getIndent() }
+
     /**
      * When adapter Gson lib at most ,We should import the Anotation Class
      */
@@ -33,6 +36,8 @@ object GsonSupporter : IGsonSupporter {
     override fun getGsonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 
         val gsonSupportPropertyBuilder = StringBuilder()
+
+        gsonSupportPropertyBuilder.append(indent.value)
 
         gsonSupportPropertyBuilder.append(GsonSupporter.propertyAnnotationFormat.format(rawPropertyName))
 

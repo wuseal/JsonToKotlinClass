@@ -1,5 +1,9 @@
 package wu.seal.jsontokotlin.utils
 
+import com.intellij.notification.NotificationDisplayType
+import com.intellij.notification.NotificationGroup
+import com.intellij.notification.NotificationType
+import com.intellij.notification.Notifications
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
@@ -63,4 +67,21 @@ fun <E, K, V> List<E>.toMap(converter: (E) -> Pair<K, V>): Map<K, V> {
         map[converterResult.first] = converterResult.second
     }
     return map
+}
+
+internal fun showNotify(notifyMessage: String, project: Project?) {
+    val notificationGroup = NotificationGroup("JSON to Kotlin Class", NotificationDisplayType.BALLOON, true)
+    ApplicationManager.getApplication().invokeLater {
+        val notification = notificationGroup.createNotification(notifyMessage, NotificationType.INFORMATION)
+        Notifications.Bus.notify(notification, project)
+    }
+}
+
+fun <E> List<E>.firstIndexAfterSpecificIndex(element: E, afterIndex: Int): Int {
+    forEachIndexed { index, e ->
+        if (e == element && index > afterIndex) {
+            return index
+        }
+    }
+    return -1
 }
