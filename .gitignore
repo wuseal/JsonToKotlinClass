@@ -1,1 +1,6 @@
+.*
+*.iml
+!.gitignore
+
+build/
 out/
