@@ -118,7 +118,8 @@ interface IConfigManager {
     var customAnnotaionImportClassString: String
         get() = if (isTestModel) TestConfig.customAnnotaionImportClassString else PropertiesComponent.getInstance().getValue(
             USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
-                    "import kotlinx.serialization.Serializable"
+                    "import kotlinx.serialization.Serializable"+"\n"
+                    +"import kotlinx.serialization.Optional"
         )
         set(value) = if (isTestModel) {
             TestConfig.customAnnotaionImportClassString = value
