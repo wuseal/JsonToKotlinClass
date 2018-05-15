@@ -109,6 +109,29 @@ Have a try with the settings :stuck_out_tongue_winking_eye:
   
     ```
 
+### Build From Source
+
+Want to try out the newest features?
+
+```shell
+$ git clone https://github.com/wuseal/JsonToKotlinClass
+$ cd JsonToKotlinClass
+$ ./gradlew buildPlugin
+```
+
+And you're done! Go to directory `build/distributions` and you'll find `JsonToKotlinClass-x.x.zip`.
+
+### Contribute to This Repo
+
+Find it useful and want to contribute?
+
+```shell
+$ git clone https://github.com/wuseal/JsonToKotlinClass
+$ cd JsonToKotlinClass
+```
+
+Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the project view to "JsonToKotlinClass | Tasks | intellij | runIde", right-click and choose "Debug ...", and you're done! Create your PR [here](https://github.com/wuseal/JsonToKotlinClass/pulls)!
+
 ### Chinese Detail Document (中文文档)
 * http://blog.csdn.net/wuseal/article/details/77508585
 
