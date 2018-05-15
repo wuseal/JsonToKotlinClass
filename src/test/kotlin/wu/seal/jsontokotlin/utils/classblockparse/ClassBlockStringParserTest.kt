@@ -37,10 +37,17 @@ data class TestData(
     val authors: List<Author>,
     val musicians: List<Musician>
 )"""
+
+    val tobeParseClassBlockString5="""data class Class3(
+    val programmers: List<Programmer>, // nothing:yes
+    val authors: List<Author>, // :list
+    val musicians: List<Musician> // ==list
+)"""
     val parser1 = ClassBlockStringParser(tobeParseClassBlockString1)
     val parser2 = ClassBlockStringParser(tobeParseClassBlockString2)
     val parser3 = ClassBlockStringParser(tobeParseClassBlockString3)
     val parser4 = ClassBlockStringParser(tobeParseClassBlockString4)
+    val parser5 = ClassBlockStringParser(tobeParseClassBlockString5)
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()
@@ -52,6 +59,7 @@ data class TestData(
         parser2.getClassName().should.be.equal("TestData")
         parser3.getClassName().should.be.equal("Class3")
         parser4.getClassName().should.be.equal("Class3")
+        parser5.getClassName().should.be.equal("Class3")
     }
 
     @Test
@@ -60,6 +68,7 @@ data class TestData(
         parser2.getClassAnnotations().should.be.equal(listOf("@Serializable"))
         parser3.getClassAnnotations().should.be.empty
         parser4.getClassAnnotations().should.be.empty
+        parser5.getClassAnnotations().should.be.empty
     }
 
     @Test
@@ -94,6 +103,12 @@ data class TestData(
         properties4[0].toString().should.be.equal("""    val programmers: List<Programmer>,""")
         properties4[1].toString().should.be.equal("""    val authors: List<Author>,""")
         properties4[2].toString().should.be.equal("""    val musicians: List<Musician>""")
+
+        val properties5 = parser5.getProperties()
+        properties5.size.should.be.equal(3)
+        properties5[0].toString().should.be.equal("""    val programmers: List<Programmer>, // nothing:yes""")
+        properties5[1].toString().should.be.equal("""    val authors: List<Author>, // :list""")
+        properties5[2].toString().should.be.equal("""    val musicians: List<Musician> // ==list""")
     }
 
     @Test
@@ -102,5 +117,6 @@ data class TestData(
         parser2.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString2)
         parser3.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString3)
         parser4.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString4)
+        parser5.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString5)
     }
 }

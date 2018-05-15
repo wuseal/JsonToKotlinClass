@@ -7,7 +7,7 @@ import wu.seal.jsontokotlin.utils.getClassNameFromClassBlockString
  */
 class ClassBlockStringParser(private val classBlockString: String) {
 
-    fun getKotlinDataClass() :KotlinDataClass{
+    fun getKotlinDataClass(): KotlinDataClass {
         return KotlinDataClass(getClassAnnotations(), getClassName(), getProperties())
     }
 
@@ -34,7 +34,7 @@ class ClassBlockStringParser(private val classBlockString: String) {
             val propertyKeyword = getPropertyKeyword(propertyBlockLines.last())
             val propertyName = getPropertyName(propertyBlockLines.last())
             val isLastLine = index == propertyLinesList.lastIndex
-            val propertyType = getPropertyType(propertyBlockLines.last(),isLastLine)
+            val propertyType = getPropertyType(propertyBlockLines.last(), isLastLine)
             val propertyValue = getPropertyValue(propertyBlockLines.last(), isLastLine)
             val propertyComment = getPropertyComment(propertyBlockLines.last())
             properties.add(
@@ -56,7 +56,11 @@ class ClassBlockStringParser(private val classBlockString: String) {
         val propertyLinesList = mutableListOf<List<String>>()
         var propertyLines = mutableListOf<String>()
         lines.forEach {
-            if ((it.contains("val") || it.contains("var")) && (it.contains(":"))) {
+            val deleteCommentLine = it.substringBefore("//")
+            if ((deleteCommentLine.contains("val") || deleteCommentLine.contains("var")) && (deleteCommentLine.contains(
+                    ":"
+                ))
+            ) {
                 propertyLines.add(it)
                 propertyLinesList.add(propertyLines)
                 propertyLines = mutableListOf()
@@ -94,10 +98,11 @@ class ClassBlockStringParser(private val classBlockString: String) {
     }
 
     private fun getPropertyType(propertyLine: String, isLastLine: Boolean): String {
-        if (propertyLine.contains("=")) {
-            return propertyLine.substringAfter(":").substringBefore("//").split("=")[0].trim()
+        val deleteCommentPropertyLine = propertyLine.substringBefore("//")
+        if (deleteCommentPropertyLine.contains("=")) {
+            return deleteCommentPropertyLine.substringAfter(":").split("=")[0].trim()
         } else {
-            val substringBefore = propertyLine.substringAfter(":").substringBefore("//")
+            val substringBefore = deleteCommentPropertyLine.substringAfter(":").substringBefore("//")
             return if (isLastLine)
                 substringBefore.trim()
             else
@@ -106,9 +111,9 @@ class ClassBlockStringParser(private val classBlockString: String) {
     }
 
     private fun getPropertyValue(propertyLine: String, isLastLine: Boolean): String {
-
-        if (propertyLine.contains("=")) {
-            val propertyValuePre = propertyLine.substringAfter(":").substringBefore("//").split("=")[1]
+        val deleteCommentPropertyLine = propertyLine.substringBefore("//")
+        if (deleteCommentPropertyLine.contains("=")) {
+            val propertyValuePre = deleteCommentPropertyLine.substringAfter(":").split("=")[1]
             return if (isLastLine) {
                 propertyValuePre.trim()
             } else {
@@ -122,7 +127,7 @@ class ClassBlockStringParser(private val classBlockString: String) {
 
     private fun getPropertyComment(propertyLine: String): String {
         return if (propertyLine.contains("//"))
-            propertyLine.substringAfterLast("//").trim()
+            propertyLine.substringAfter("//").trim()
         else
             ""
     }
