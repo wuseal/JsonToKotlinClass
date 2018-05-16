@@ -74,14 +74,19 @@ class KotlinDataClassFileGenerator {
         }
         val notifyMessage = buildString {
             append("${tobeGenerateFilesClasses.size} Kotlin Data Class files generated successful")
-            append("\n")
-            append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
+            if (renamedClassNames.isNotEmpty()) {
+                append("\n")
+                append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
+            }
         }
         showNotify(notifyMessage, project)
 
     }
 
-    internal fun updateClassNames(dataClasses: List<KotlinDataClass>, newClassNames: List<String>):List<KotlinDataClass> {
+    internal fun updateClassNames(
+        dataClasses: List<KotlinDataClass>,
+        newClassNames: List<String>
+    ): List<KotlinDataClass> {
 
         val newKotlinClasses = dataClasses.toMutableList()
 
@@ -91,9 +96,9 @@ class KotlinDataClassFileGenerator {
             val originClassName = kotlinDataClass.name
 
             if (newClassName != originClassName) {
-                renamedClassNames.add(Pair(originClassName,newClassName))
+                renamedClassNames.add(Pair(originClassName, newClassName))
                 val newKotlinDataClass = kotlinDataClass.copy(name = newClassName)
-                newKotlinClasses[index]=newKotlinDataClass
+                newKotlinClasses[index] = newKotlinDataClass
                 updateTypeRef(dataClasses, kotlinDataClass, newKotlinDataClass)
             }
         }
@@ -208,17 +213,6 @@ class KotlinDataClassFileGenerator {
             directory.files.filter { it.name.endsWith(kotlinFileSuffix) }
                 .map { it.name.dropLast(kotlinFileSuffix.length) }
         while (fileNamesWithoutSuffix.contains(newFileName)) {
-            newFileName += "X"
-        }
-        return newFileName
-    }
-
-    private fun changeClassNameIfCurrentMapContains(
-        classNameBlockMap: MutableMap<String, KotlinDataClass>,
-        fileName: String
-    ): String {
-        var newFileName = fileName
-        while (classNameBlockMap.containsKey(newFileName)) {
             newFileName += "X"
         }
         return newFileName
