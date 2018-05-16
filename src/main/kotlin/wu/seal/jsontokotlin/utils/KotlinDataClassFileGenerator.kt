@@ -190,10 +190,15 @@ class KotlinDataClassFileGenerator {
         directory: PsiDirectory
     ) {
         val kotlinFileContent = buildString {
-            append(packageDeclare)
-            append("\n\n")
-            append(ImportClassDeclaration.getImportClassDeclaration())
-            append("\n")
+            if (packageDeclare.isNotEmpty()) {
+                append(packageDeclare)
+                append("\n\n")
+            }
+            val importClassDeclaration = ImportClassDeclaration.getImportClassDeclaration()
+            if (importClassDeclaration.isNotBlank()) {
+                append(importClassDeclaration)
+                append("\n\n")
+            }
             append(classCodeContent)
         }
 
