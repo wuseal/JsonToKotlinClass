@@ -42,9 +42,9 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                             tempDirectory!!
                         }
                     val directoryFactory = PsiDirectoryFactory.getInstance(directory.getProject())
-                    val packageName = directoryFactory.getQualifiedName(directory, true)
+                    val packageName = directoryFactory.getQualifiedName(directory, false)
                     val psiFileFactory = PsiFileFactory.getInstance(project)
-                    val packageDeclare = "package $packageName"
+                    val packageDeclare = if (packageName.isNotEmpty()) "package $packageName" else ""
                     val inputDialog = JsonInputDialog("", project)
                     inputDialog.show()
                     val className = inputDialog.getClassName()
