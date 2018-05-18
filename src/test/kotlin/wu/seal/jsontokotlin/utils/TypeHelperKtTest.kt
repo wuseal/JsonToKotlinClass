@@ -104,6 +104,10 @@ class TypeHelperKtTest {
         jsonObjectNotMapOther.addProperty("4","d")
         jsonObjectNotMapOther.addProperty("5","d")
         maybeJsonObjectBeMapType(jsonObjectNotMapOther).should.be.`false`
+
+
+        val emptyJsonObject = JsonObject()
+        maybeJsonObjectBeMapType(emptyJsonObject).should.be.`false`
     }
 
     @Test
