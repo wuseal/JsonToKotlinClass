@@ -2,7 +2,7 @@ package wu.seal.jsontokotlin
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.DataKeys
+import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
@@ -28,9 +28,9 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val project = event.getData(PlatformDataKeys.PROJECT)
             project?.let {
                 val dataContext = event.dataContext
-                val module = DataKeys.MODULE.getData(dataContext)
+                val module = LangDataKeys.MODULE.getData(dataContext)
                 module?.let {
-                    val navigatable = DataKeys.NAVIGATABLE.getData(dataContext)
+                    val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
                     val directory: PsiDirectory? =
                         if (navigatable is PsiDirectory) {
                             navigatable
