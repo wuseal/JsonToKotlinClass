@@ -157,13 +157,17 @@ internal fun adjustPropertyNameForGettingArrayChildType(property: String): Strin
  */
 fun maybeJsonObjectBeMapType(jsonObject: JsonObject): Boolean {
     var maybeMapType = true
-    jsonObject.entrySet().forEach {
-        val isPrimitiveNotStringType = try {
-            JsonParser().parse(it.key).asJsonPrimitive.isString.not()
-        } catch (e: Exception) {
-            false
+    if (jsonObject.entrySet().isEmpty()) {
+        maybeMapType = false
+    } else {
+        jsonObject.entrySet().forEach {
+            val isPrimitiveNotStringType = try {
+                JsonParser().parse(it.key).asJsonPrimitive.isString.not()
+            } catch (e: Exception) {
+                false
+            }
+            maybeMapType = isPrimitiveNotStringType and maybeMapType
         }
-        maybeMapType = isPrimitiveNotStringType and maybeMapType
     }
     return maybeMapType
 }
