@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
@@ -30,38 +31,44 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                 val module = DataKeys.MODULE.getData(dataContext)
                 module?.let {
                     val navigatable = DataKeys.NAVIGATABLE.getData(dataContext)
-                    val directory: PsiDirectory =
+                    val directory: PsiDirectory? =
                         if (navigatable is PsiDirectory) {
                             navigatable
+                        } else if (navigatable is PsiFile) {
+                            navigatable.containingDirectory
                         } else {
                             val root = ModuleRootManager.getInstance(module)
                             var tempDirectory: PsiDirectory? = null
                             for (file in root.sourceRoots) {
                                 tempDirectory = PsiManager.getInstance(project).findDirectory(file)
+                                if (tempDirectory != null) {
+                                    break
+                                }
                             }
-                            tempDirectory!!
+                            tempDirectory
                         }
-                    val directoryFactory = PsiDirectoryFactory.getInstance(directory.getProject())
-                    val packageName = directoryFactory.getQualifiedName(directory, false)
-                    val psiFileFactory = PsiFileFactory.getInstance(project)
-                    val packageDeclare = if (packageName.isNotEmpty()) "package $packageName" else ""
-                    val inputDialog = JsonInputDialog("", project)
-                    inputDialog.show()
-                    val className = inputDialog.getClassName()
-                    val json = inputDialog.inputString
-                    if (json == null || json.isEmpty()) {
-                        return
+                    directory?.let {
+                        val directoryFactory = PsiDirectoryFactory.getInstance(directory.getProject())
+                        val packageName = directoryFactory.getQualifiedName(directory, false)
+                        val psiFileFactory = PsiFileFactory.getInstance(project)
+                        val packageDeclare = if (packageName.isNotEmpty()) "package $packageName" else ""
+                        val inputDialog = JsonInputDialog("", project)
+                        inputDialog.show()
+                        val className = inputDialog.getClassName()
+                        val json = inputDialog.inputString
+                        if (json == null || json.isEmpty()) {
+                            return
+                        }
+                        jsonString = json
+                        doGenerateKotlinDataClassFileAction(
+                            className,
+                            json,
+                            packageDeclare,
+                            project,
+                            psiFileFactory,
+                            directory
+                        )
                     }
-                    jsonString = json
-                    doGenerateKotlinDataClassFileAction(
-                        className,
-                        json,
-                        packageDeclare,
-                        project,
-                        psiFileFactory,
-                        directory
-                    )
-
                 }
             }
         } catch (e: Throwable) {
