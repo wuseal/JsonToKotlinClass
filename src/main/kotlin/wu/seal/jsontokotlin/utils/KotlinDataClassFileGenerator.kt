@@ -8,6 +8,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
+import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.filetype.KotlinFileType
 import wu.seal.jsontokotlin.utils.classblockparse.ClassBlockStringParser
 import wu.seal.jsontokotlin.utils.classblockparse.KotlinDataClass
@@ -212,10 +213,12 @@ class KotlinDataClassFileGenerator {
 
             val fileAdded = directory.add(file)
 
-            var processor: AbstractLayoutCodeProcessor = ReformatCodeProcessor(project, fileAdded as PsiFile, null, false)
-            processor = OptimizeImportsProcessor(processor)
-            processor = RearrangeCodeProcessor(processor)
-            processor.run()
+            if (ConfigManager.enableAutoReformat) {
+                var processor: AbstractLayoutCodeProcessor = ReformatCodeProcessor(project, fileAdded as PsiFile, null, false)
+                processor = OptimizeImportsProcessor(processor)
+                processor = RearrangeCodeProcessor(processor)
+                processor.run()
+            }
         }
     }
 
