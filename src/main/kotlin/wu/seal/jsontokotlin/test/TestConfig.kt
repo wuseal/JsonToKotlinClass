@@ -30,6 +30,7 @@ object TestConfig {
     var indent: Int = 4
 
     var enableMapType: Boolean = true
+    var enableAutoReformat: Boolean = true
 
     fun setToTestInitState() {
         isTestModel = true
