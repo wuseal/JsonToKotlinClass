@@ -11,6 +11,7 @@ object ConfigManager : IConfigManager {
 
     private const val INDENT_KEY = "json-to-kotlin-class-indent-space-number"
     private const val ENABLE_MAP_TYP_KEY = "json-to-kotlin-class-enable-map-type"
+    private const val ENABLE_AUTO_REFORMAT = "json-to-kotlin-class-enable-auto-reformat"
 
     var indent: Int
         get() = if (TestConfig.isTestModel) TestConfig.indent else PropertiesComponent.getInstance().getInt(
@@ -30,5 +31,10 @@ object ConfigManager : IConfigManager {
             TestConfig.enableMapType = value
         } else PropertiesComponent.getInstance().setValue(ENABLE_MAP_TYP_KEY, value, false)
 
-
+    var enableAutoReformat: Boolean
+        get() = (TestConfig.isTestModel && TestConfig.enableAutoReformat)
+                || PropertiesComponent.getInstance().getBoolean(ENABLE_AUTO_REFORMAT, true)
+        set(value) = if(TestConfig.isTestModel) {
+            TestConfig.enableAutoReformat = value
+        } else PropertiesComponent.getInstance().setValue(ENABLE_AUTO_REFORMAT, value, true)
 }

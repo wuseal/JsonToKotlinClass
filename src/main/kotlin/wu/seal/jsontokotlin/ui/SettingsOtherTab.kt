@@ -47,6 +47,11 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableMapType.isSelected = ConfigManager.enableMapType
         enableMapType.addActionListener { ConfigManager.enableMapType = enableMapType.isSelected }
 
+
+        val enableAutoReformat = JBCheckBox("Auto reformatting generated code according to code style. (Note that the Indent option bellow would be ignored.)")
+        enableAutoReformat.isSelected = ConfigManager.enableAutoReformat
+        enableAutoReformat.addActionListener { ConfigManager.enableAutoReformat = enableAutoReformat.isSelected }
+
         val indentJPanel = JPanel()
         indentJPanel.layout = FlowLayout(FlowLayout.LEFT)
         indentJPanel.add(JBLabel("Indent (number of space): "))
@@ -90,6 +95,10 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(enableMapType)
+
+        add(Box.createVerticalStrut(JBUI.scale(20)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
 
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
