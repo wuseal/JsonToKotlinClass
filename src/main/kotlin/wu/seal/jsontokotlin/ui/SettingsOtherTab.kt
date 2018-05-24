@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.ui
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
+import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
@@ -48,7 +49,10 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableMapType.addActionListener { ConfigManager.enableMapType = enableMapType.isSelected }
 
 
-        val enableAutoReformat = JBCheckBox("Auto reformatting generated code according to code style. (Note that the Indent option bellow would be ignored.)")
+        val enableAutoReformat =
+            JBCheckBox("Auto reformatting generated code according to code style.")
+        val enableAutoReformatNoteLable = JBLabel("(Note that the Indent option bellow would be ignored.)")
+        enableAutoReformatNoteLable.border = JBEmptyBorder(0,25,0,0)
         enableAutoReformat.isSelected = ConfigManager.enableAutoReformat
         enableAutoReformat.addActionListener { ConfigManager.enableAutoReformat = enableAutoReformat.isSelected }
 
@@ -99,6 +103,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
+        addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
 
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
