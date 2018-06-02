@@ -79,4 +79,22 @@ data class C(
         list.firstIndexAfterSpecificIndex(1,4).should.be.equal(8)
         list.firstIndexAfterSpecificIndex(1,8).should.be.equal(-1)
     }
+
+    @Test
+    fun getCommentCode() {
+        val comment = "yes\nheihei"
+        getCommentCode(comment).should.be.equal("yesheihei")
+    }
+
+    @Test
+    fun getCommentCode2() {
+        val comment = "yes\n\rheihei"
+        getCommentCode(comment).should.be.equal("yesheihei")
+    }
+
+    @Test
+    fun getCommentCode3() {
+        val comment = "yes\r\r\n\nheihei"
+        getCommentCode(comment).should.be.equal("yesheihei")
+    }
 }

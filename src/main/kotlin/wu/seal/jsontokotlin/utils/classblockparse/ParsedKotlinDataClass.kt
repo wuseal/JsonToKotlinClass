@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.utils.classblockparse
 
+import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
 
 data class ParsedKotlinDataClass(val annotations: List<String>, val name: String, val properties: List<Property>) {
@@ -61,7 +62,7 @@ data class ParsedKotlinDataClass(val annotations: List<String>, val name: String
                         append(",")
                     }
                     if (propertyComment.isNotBlank()) {
-                        append(" // ").append(propertyComment)
+                        append(" // ").append(getCommentCode(propertyComment))
                     }
                 } else {
                     append(indent)

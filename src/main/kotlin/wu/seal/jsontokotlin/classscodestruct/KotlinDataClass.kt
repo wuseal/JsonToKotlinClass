@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.classscodestruct
 
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
+import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
 
 data class KotlinDataClass(
@@ -27,7 +28,7 @@ data class KotlinDataClass(
                 val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
                 append(addIndentCode)
                 if (it.isLast.not()) append(",")
-                if (it.comment.isNotBlank()) append(" // ").append(it.comment)
+                if (it.comment.isNotBlank()) append(" // ").append(getCommentCode(it.comment))
                 append("\n")
             }
             append(")")
