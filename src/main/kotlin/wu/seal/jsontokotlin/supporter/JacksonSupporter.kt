@@ -25,7 +25,7 @@ object JacksonSupporter : IJacksonSupporter {
 
     private val indent = lazy { getIndent() }
 
-    private val anotaionOnProperty = "@JsonProperty(\"%s\")"
+    internal val anotaionFormat = "@JsonProperty(\"%s\")"
 
     override fun getJacksonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 
@@ -33,7 +33,7 @@ object JacksonSupporter : IJacksonSupporter {
 
         jacksonSupportPropertyBuilder.append(indent.value)
 
-        jacksonSupportPropertyBuilder.append(JacksonSupporter.anotaionOnProperty.format(rawPropertyName))
+        jacksonSupportPropertyBuilder.append(JacksonSupporter.anotaionFormat.format(rawPropertyName))
 
         jacksonSupportPropertyBuilder.append(" ")
 

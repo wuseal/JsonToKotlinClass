@@ -150,12 +150,12 @@ interface IConfigManager {
         }
 
     var isInnerClassModel: Boolean
-        get() = if (isTestModel) TestConfig.isInnerClassModel else PropertiesComponent.getInstance().getBoolean(
+        get() = if (isTestModel) TestConfig.isNestedClassModel else PropertiesComponent.getInstance().getBoolean(
             INNER_CLASS_MODEL_KEY,
             false
         )
         set(value) = if (isTestModel) {
-            TestConfig.isInnerClassModel = value
+            TestConfig.isNestedClassModel = value
         } else {
             PropertiesComponent.getInstance().setValue(INNER_CLASS_MODEL_KEY, value)
         }

@@ -21,7 +21,7 @@ object TestConfig {
     var targetJsonConvertLib = TargetJsonConverter.Gson
     var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
     var initWithDefaultValue = true
-    var isInnerClassModel = true
+    var isNestedClassModel = true
 
     var customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
     var customClassAnnotationFormatString = ""
@@ -32,6 +32,10 @@ object TestConfig {
     var enableMapType: Boolean = true
     var enableAutoReformat: Boolean = true
 
+    var enableMinimalAnnotation = false
+
+    private var state = State()
+
     fun setToTestInitState() {
         isTestModel = true
         isCommentOff = false
@@ -39,9 +43,78 @@ object TestConfig {
         targetJsonConvertLib = TargetJsonConverter.Gson
         propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         initWithDefaultValue = true
-        isInnerClassModel = true
+        isNestedClassModel = true
         customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
         customClassAnnotationFormatString = ""
         customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
+        enableMinimalAnnotation = false
+
+    }
+
+
+    fun setToTestPureNestedClassInitState() {
+        isTestModel = true
+        isCommentOff = true
+        isPropertiesVar = false
+        targetJsonConvertLib = TargetJsonConverter.None
+        propertyTypeStrategy = PropertyTypeStrategy.NotNullable
+        initWithDefaultValue = false
+        isNestedClassModel = true
+        customPropertyAnnotationFormatString = ""
+        customClassAnnotationFormatString = ""
+        customAnnotaionImportClassString = ""
+         enableMinimalAnnotation = false
+
+    }
+
+    fun saveState() {
+        val newState = State()
+        newState.isTestModel = isTestModel
+        newState.isCommentOff = isCommentOff
+        newState.isPropertiesVar = isPropertiesVar
+        newState.targetJsonConvertLib = targetJsonConvertLib
+        newState.propertyTypeStrategy = propertyTypeStrategy
+        newState.initWithDefaultValue = initWithDefaultValue
+        newState.isNestedClassModel = isNestedClassModel
+
+        newState.customPropertyAnnotationFormatString = customPropertyAnnotationFormatString
+        newState.customClassAnnotationFormatString = customClassAnnotationFormatString
+        newState.customAnnotaionImportClassString = customAnnotaionImportClassString
+        newState.enableMinimalAnnotation = enableMinimalAnnotation
+        state = newState
+    }
+
+    fun restoreState() {
+        isTestModel = state.isTestModel
+        isCommentOff = state.isCommentOff
+        isPropertiesVar = state.isPropertiesVar
+        targetJsonConvertLib = state.targetJsonConvertLib
+        propertyTypeStrategy = state.propertyTypeStrategy
+        initWithDefaultValue = state.initWithDefaultValue
+        isNestedClassModel = state.isNestedClassModel
+        customPropertyAnnotationFormatString = state.customPropertyAnnotationFormatString
+        customClassAnnotationFormatString = state.customClassAnnotationFormatString
+        customAnnotaionImportClassString = state.customAnnotaionImportClassString
+        enableMinimalAnnotation = state.enableMinimalAnnotation
+    }
+    class State {
+        var isTestModel = false
+        var isCommentOff = false
+        var isPropertiesVar = false
+        var targetJsonConvertLib = TargetJsonConverter.Gson
+        var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
+        var initWithDefaultValue = true
+        var isNestedClassModel = true
+
+        var customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
+        var customClassAnnotationFormatString = ""
+        var customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
+
+        var indent: Int = 4
+
+        var enableMapType: Boolean = true
+        var enableAutoReformat: Boolean = true
+        var enableMinimalAnnotation = false
+
     }
 }

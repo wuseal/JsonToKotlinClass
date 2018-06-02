@@ -48,6 +48,10 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableMapType.isSelected = ConfigManager.enableMapType
         enableMapType.addActionListener { ConfigManager.enableMapType = enableMapType.isSelected }
 
+        val enableMinimalAnnotation = JBCheckBox("Enable Minimal Annotation When Selected An Annotation Config")
+        enableMinimalAnnotation.isSelected = ConfigManager.enableMinimalAnnotation
+        enableMinimalAnnotation.addActionListener { ConfigManager.enableMinimalAnnotation = enableMinimalAnnotation.isSelected }
+
 
         val enableAutoReformat =
             JBCheckBox("Auto reformatting generated code according to code style.")
@@ -55,6 +59,8 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableAutoReformatNoteLable.border = JBEmptyBorder(0,25,0,0)
         enableAutoReformat.isSelected = ConfigManager.enableAutoReformat
         enableAutoReformat.addActionListener { ConfigManager.enableAutoReformat = enableAutoReformat.isSelected }
+
+
 
         val indentJPanel = JPanel()
         indentJPanel.layout = FlowLayout(FlowLayout.LEFT)
@@ -99,6 +105,10 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(enableMapType)
+
+        add(Box.createVerticalStrut(JBUI.scale(20)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(enableMinimalAnnotation)
 
         add(Box.createVerticalStrut(JBUI.scale(20)))
 

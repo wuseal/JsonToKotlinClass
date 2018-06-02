@@ -18,7 +18,7 @@ object FastjsonSupporter : IJsonLibSupporter {
     override val annotationImportClassString: String
         get() = "import com.alibaba.fastjson.annotation.JSONField"
 
-    private val propertyAnnotation = "@JSONField(name = \"%s\")"
+    internal val propertyAnnotationFormat = "@JSONField(name = \"%s\")"
 
 
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
@@ -27,7 +27,7 @@ object FastjsonSupporter : IJsonLibSupporter {
 
         fastjsonSupportPropertyBuilder.append(indent.value)
 
-        fastjsonSupportPropertyBuilder.append(FastjsonSupporter.propertyAnnotation.format(rawPropertyName))
+        fastjsonSupportPropertyBuilder.append(FastjsonSupporter.propertyAnnotationFormat.format(rawPropertyName))
 
         fastjsonSupportPropertyBuilder.append(" ")
 

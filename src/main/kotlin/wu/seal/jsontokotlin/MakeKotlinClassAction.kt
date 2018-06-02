@@ -113,9 +113,9 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     ): Boolean {
         ImportClassWriter.insertImportClassCode(project, document)
 
-        val codeMaker: KotlinCodeMaker
+        val codeMaker: KotlinDataClassCodeMaker
         try {
-            codeMaker = KotlinCodeMaker(className, jsonString)
+            codeMaker = KotlinDataClassCodeMaker(className, jsonString)
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
             Messages.showErrorDialog(e.message, "UnSupport Json")
@@ -136,7 +136,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
             document.insertString(
                 Math.max(offset, 0),
-                ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
+                ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinDataClassCode())
             )
         }
         return true

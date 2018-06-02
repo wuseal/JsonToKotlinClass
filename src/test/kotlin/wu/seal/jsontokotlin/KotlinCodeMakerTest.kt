@@ -94,7 +94,7 @@ class KotlinCodeMakerTest {
         println("json2 ====>\n${KotlinCodeMaker("Class2", json2).makeKotlinData()}")
 
 
-        TestConfig.isInnerClassModel = true
+        TestConfig.isNestedClassModel = true
 
         println("===========================================Change to Gson json lib support And inner class model========================================= ")
 
@@ -103,14 +103,14 @@ class KotlinCodeMakerTest {
 
         println("===========================================Change to None json lib support ========================================= ")
 
-        TestConfig.isInnerClassModel=false
+        TestConfig.isNestedClassModel=false
         TestConfig.targetJsonConvertLib = TargetJsonConverter.None
         println("json3 ====>\n${KotlinCodeMaker("Class3", json3).makeKotlinData()}")
 
 
         println("===========================================Change to None json lib support Without InitValue========================================= ")
 
-        TestConfig.isInnerClassModel=false
+        TestConfig.isNestedClassModel=false
         TestConfig.targetJsonConvertLib = TargetJsonConverter.None
         TestConfig.initWithDefaultValue=false
         TestConfig.propertyTypeStrategy=PropertyTypeStrategy.NotNullable
@@ -121,7 +121,7 @@ class KotlinCodeMakerTest {
     @Test
     fun makeKotlinDataWithCustomAnnotation() {
         TestConfig.targetJsonConvertLib = TargetJsonConverter.Custom
-        TestConfig.isInnerClassModel = false
+        TestConfig.isNestedClassModel = false
         TestConfig.customPropertyAnnotationFormatString ="@Optional\n@SerialName(\"%s\")"
         TestConfig.customClassAnnotationFormatString = "@Serializable"
         TestConfig.customAnnotaionImportClassString= "import kotlinx.serialization.SerialName\nimport kotlinx.serialization.Serializable"

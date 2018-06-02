@@ -10,8 +10,8 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.filetype.KotlinFileType
-import wu.seal.jsontokotlin.utils.classblockparse.ClassBlockStringParser
-import wu.seal.jsontokotlin.utils.classblockparse.KotlinDataClass
+import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
+import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 
 class KotlinDataClassFileGenerator {
 
@@ -53,10 +53,10 @@ class KotlinDataClassFileGenerator {
     ) {
 
         val classes =
-            getClassesStringList(removeDuplicateClassCode).map { ClassBlockStringParser(it).getKotlinDataClass() }
+            getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
 
         /**
-         * Build Property Type reference to KotlinDataClass
+         * Build Property Type reference to ParsedKotlinDataClass
          * Only pre class property type could reference behind classes
          */
         val buildRefClasses = buildTypeReference(classes)
@@ -90,9 +90,9 @@ class KotlinDataClassFileGenerator {
     }
 
     internal fun updateClassNames(
-        dataClasses: List<KotlinDataClass>,
+        dataClasses: List<ParsedKotlinDataClass>,
         newClassNames: List<String>
-    ): List<KotlinDataClass> {
+    ): List<ParsedKotlinDataClass> {
 
         val newKotlinClasses = dataClasses.toMutableList()
 
@@ -116,7 +116,7 @@ class KotlinDataClassFileGenerator {
      * None conflict with current directory files and exist class
      */
     private fun getNoneConflictClassNames(
-        buildRefClasses: List<KotlinDataClass>,
+        buildRefClasses: List<ParsedKotlinDataClass>,
         directory: PsiDirectory
     ): List<String> {
         val resolveSameConflictClassesNames = mutableListOf<String>()
@@ -132,9 +132,9 @@ class KotlinDataClassFileGenerator {
     }
 
     fun updateTypeRef(
-        classes: List<KotlinDataClass>,
-        originDataClass: KotlinDataClass,
-        newKotlinDataClass: KotlinDataClass
+        classes: List<ParsedKotlinDataClass>,
+        originDataClass: ParsedKotlinDataClass,
+        newKotlinDataClass: ParsedKotlinDataClass
     ) {
         classes.forEach {
             it.properties.forEach {
@@ -145,12 +145,12 @@ class KotlinDataClassFileGenerator {
         }
     }
 
-    internal fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<KotlinDataClass>): List<KotlinDataClass> {
+    internal fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         val synchronizedPropertyTypeClassList = unSynchronizedTypeClasses.map {
 
             val dataClass = it
             val newProperties = dataClass.properties.map {
-                if (it.kotlinDataClassPropertyTypeRef != KotlinDataClass.NONE) {
+                if (it.kotlinDataClassPropertyTypeRef != ParsedKotlinDataClass.NONE) {
                     val rawPropertyReferenceType = getRawType(getChildType(it.propertyType))
                     val tobeReplaceNewType =
                         it.propertyType.replace(rawPropertyReferenceType, it.kotlinDataClassPropertyTypeRef.name)
@@ -167,11 +167,11 @@ class KotlinDataClassFileGenerator {
         return synchronizedPropertyTypeClassList
     }
 
-    internal fun buildTypeReference(classes: List<KotlinDataClass>): List<KotlinDataClass> {
+    internal fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         val classNameList = classes.map { it.name }
 
         /**
-         * Build Property Type reference to KotlinDataClass
+         * Build Property Type reference to ParsedKotlinDataClass
          * Only pre class property type could reference behind classes
          */
         classes.forEachIndexed { index, kotlinDataClass ->
