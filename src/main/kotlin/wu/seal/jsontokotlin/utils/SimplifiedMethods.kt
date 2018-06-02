@@ -85,3 +85,7 @@ fun <E> List<E>.firstIndexAfterSpecificIndex(element: E, afterIndex: Int): Int {
     }
     return -1
 }
+
+fun getCommentCode(comment: String): String {
+    return comment.replace(Regex("[\n\r]"), "")
+}
