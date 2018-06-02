@@ -5,10 +5,10 @@ import wu.seal.jsontokotlin.utils.getClassNameFromClassBlockString
 /**
  * parser for parse class block string, with this util, we could get the class struct elements
  */
-class ClassBlockStringParser(private val classBlockString: String) {
+class ClassCodeParser(private val classBlockString: String) {
 
-    fun getKotlinDataClass(): KotlinDataClass {
-        return KotlinDataClass(getClassAnnotations(), getClassName(), getProperties())
+    fun getKotlinDataClass(): ParsedKotlinDataClass {
+        return ParsedKotlinDataClass(getClassAnnotations(), getClassName(), getProperties())
     }
 
     fun getClassName(): String {
@@ -20,12 +20,12 @@ class ClassBlockStringParser(private val classBlockString: String) {
         return annotationsBlock.split("\n").filter { it.contains("@") }.map { it.trim() }
     }
 
-    fun getProperties(): List<KotlinDataClass.Property> {
+    fun getProperties(): List<ParsedKotlinDataClass.Property> {
         val propertiesBlock = classBlockString.substringAfter("(").substringBeforeLast(")").trim()
 
         val lines = propertiesBlock.split("\n")
 
-        val properties = mutableListOf<KotlinDataClass.Property>()
+        val properties = mutableListOf<ParsedKotlinDataClass.Property>()
 
         val propertyLinesList = getPropertyLinesList(lines)
 
@@ -38,7 +38,7 @@ class ClassBlockStringParser(private val classBlockString: String) {
             val propertyValue = getPropertyValue(propertyBlockLines.last(), isLastLine)
             val propertyComment = getPropertyComment(propertyBlockLines.last())
             properties.add(
-                KotlinDataClass.Property(
+                ParsedKotlinDataClass.Property(
                     annotations,
                     propertyKeyword,
                     propertyName,
@@ -75,7 +75,12 @@ class ClassBlockStringParser(private val classBlockString: String) {
     private fun getPropertyAnnotations(lines: List<String>): List<String> {
         return if (lines.size == 1) {
             val line = lines[0]
-            val annotationPre = line.trim().split(" ")[0]
+            val removeCommentAndTypeProperty = line.substringBefore("//").substringBeforeLast(":").trim()
+            val annotationPre = if (removeCommentAndTypeProperty.contains("(")) {
+                removeCommentAndTypeProperty.substringBeforeLast(")") + ")"
+            } else {
+                removeCommentAndTypeProperty.trim().split(" ")[0]
+            }
             if (annotationPre.contains("@")) {
                 listOf(annotationPre)
             } else

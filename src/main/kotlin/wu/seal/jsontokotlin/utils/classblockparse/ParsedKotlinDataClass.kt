@@ -2,13 +2,13 @@ package wu.seal.jsontokotlin.utils.classblockparse
 
 import wu.seal.jsontokotlin.utils.getIndent
 
-data class KotlinDataClass(val annotations: List<String>, val name: String, val properties: List<Property>) {
+data class ParsedKotlinDataClass(val annotations: List<String>, val name: String, val properties: List<Property>) {
 
     companion object {
         /**
-         * Represent this is Not a KotlinDataClass Type
+         * Represent this is Not a ParsedKotlinDataClass Type
          */
-        val NONE = KotlinDataClass(listOf(), "", listOf())
+        val NONE = ParsedKotlinDataClass(listOf(), "", listOf())
     }
 
     override fun toString(): String {
@@ -38,7 +38,7 @@ data class KotlinDataClass(val annotations: List<String>, val name: String, val 
         val propertyValue: String,
         val propertyComment: String,
         val isLastProperty: Boolean,
-        var kotlinDataClassPropertyTypeRef: KotlinDataClass = NONE
+        var kotlinDataClassPropertyTypeRef: ParsedKotlinDataClass = NONE
     ) {
         override fun toString(): String {
             val indent = getIndent()

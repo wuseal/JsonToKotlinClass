@@ -60,15 +60,14 @@ class KotlinCodeMaker {
 
     private fun appendInnerClassModelSubClassCode(stringBuilder: StringBuilder) {
         stringBuilder.append(" {")
-        for (append in toBeAppend) {
-            stringBuilder.append("\n")
-            append.split("\n").filter { it.isNotEmpty() }.forEach {
-                stringBuilder.append(indent)
-                stringBuilder.append(it)
-                stringBuilder.append("\n")
+        stringBuilder.append("\n")
+        val nestedClassCode = toBeAppend.joinToString("\n\n") {
+            it.split("\n").joinToString("\n") {
+                indent + it
             }
         }
-        stringBuilder.append("}")
+        stringBuilder.append(nestedClassCode)
+        stringBuilder.append("\n}")
     }
 
     private fun appendNormalSubClassCode(stringBuilder: StringBuilder) {
@@ -110,13 +109,13 @@ class KotlinCodeMaker {
                     val mapKeyType = getMapKeyTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
                     val mapValueType = getMapValueTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
                     if (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
-                            || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
+                        || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
                     ) {
                         toBeAppend.add(
-                                KotlinCodeMaker(
-                                        getChildType(mapValueType),
-                                        jsonElementValue.asJsonObject.entrySet().first().value
-                                ).makeKotlinData()
+                            KotlinCodeMaker(
+                                getChildType(mapValueType),
+                                jsonElementValue.asJsonObject.entrySet().first().value
+                            ).makeKotlinData()
                         )
                     }
                     val mapType = "Map<$mapKeyType,$mapValueType>"
@@ -135,7 +134,13 @@ class KotlinCodeMaker {
     }
 
 
-    private fun addProperty(stringBuilder: StringBuilder, property: String, type: String, value: String?, isLast: Boolean = false) {
+    private fun addProperty(
+        stringBuilder: StringBuilder,
+        property: String,
+        type: String,
+        value: String?,
+        isLast: Boolean = false
+    ) {
         var innerValue = value
         if (innerValue == null) {
             innerValue = "null"
@@ -150,7 +155,7 @@ class KotlinCodeMaker {
         val propertyComment = p.getPropertyComment()
         if (propertyComment.isNotBlank())
             stringBuilder.append(" // ")
-                    .append(propertyComment)
+                .append(propertyComment)
         stringBuilder.append("\n")
     }
 

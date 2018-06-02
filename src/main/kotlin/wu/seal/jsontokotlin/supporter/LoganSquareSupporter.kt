@@ -15,8 +15,8 @@ object LoganSquareSupporter : IJsonLibSupporter {
 
     private val indent = lazy { getIndent() }
 
-    private val classAnnotation = "@JsonObject"
-    private val propertyAnnotation = "@JsonField(name = arrayOf(\"%s\"))"
+    internal val classAnnotation = "@JsonObject"
+    internal val propertyAnnotationFormat = "@JsonField(name = arrayOf(\"%s\"))"
 
     override val annotationImportClassString: String
         get() = "import com.bluelinelabs.logansquare.annotation.JsonField\nimport com.bluelinelabs.logansquare.annotation.JsonObject"
@@ -31,7 +31,7 @@ object LoganSquareSupporter : IJsonLibSupporter {
 
         loganSquareSupportPropertyBuilder.append(indent.value)
 
-        loganSquareSupportPropertyBuilder.append(LoganSquareSupporter.propertyAnnotation.format(rawPropertyName))
+        loganSquareSupportPropertyBuilder.append(LoganSquareSupporter.propertyAnnotationFormat.format(rawPropertyName))
 
         loganSquareSupportPropertyBuilder.append(" ")
 

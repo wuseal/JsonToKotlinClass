@@ -77,7 +77,7 @@ data class Answer(
 
     @Test
     fun removeDuplicateClassCode() {
-        TestConfig.isInnerClassModel = false
+        TestConfig.isNestedClassModel = false
         withDuplicateClassString.indexOf("data class Media(").should.not.be.equal(withDuplicateClassString.lastIndexOf("data class Media("))
         val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(withDuplicateClassString)
         removeDuplicateClassCode.indexOf("data class Media(").should.be.equal(removeDuplicateClassCode.lastIndexOf("data class Media("))

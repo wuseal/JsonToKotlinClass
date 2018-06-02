@@ -4,7 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
-import wu.seal.jsontokotlin.utils.classblockparse.ClassBlockStringParser
+import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
 
 class KotlinDataClassFileGeneratorTest {
 
@@ -42,7 +42,7 @@ data class Class(
     @Test
     fun buildTypeReferenceTest() {
 
-        val classes = getClassesStringList(classStrings).map { ClassBlockStringParser(it).getKotlinDataClass() }
+        val classes = getClassesStringList(classStrings).map { ClassCodeParser(it).getKotlinDataClass() }
 
         val resultBuild = KotlinDataClassFileGenerator().buildTypeReference(classes)
         val property = resultBuild[0].properties[0]
@@ -56,7 +56,7 @@ data class Class(
 
     @Test
     fun synchronizedPropertyTypeWithTypeRefTest() {
-        val classes = getClassesStringList(classStrings).map { ClassBlockStringParser(it).getKotlinDataClass() }
+        val classes = getClassesStringList(classStrings).map { ClassCodeParser(it).getKotlinDataClass() }
 
         val generate = KotlinDataClassFileGenerator()
 
@@ -73,7 +73,7 @@ data class Class(
     @Test
     fun buildTypeReferenceTest2() {
 
-        val classes = getClassesStringList(classStrings2).map { ClassBlockStringParser(it).getKotlinDataClass() }
+        val classes = getClassesStringList(classStrings2).map { ClassCodeParser(it).getKotlinDataClass() }
 
         val resultBuild = KotlinDataClassFileGenerator().buildTypeReference(classes)
         val property = resultBuild[0].properties[0]
@@ -84,7 +84,7 @@ data class Class(
 
     @Test
     fun synchronizedPropertyTypeWithTypeRefTest2() {
-        val classes = getClassesStringList(classStrings2).map { ClassBlockStringParser(it).getKotlinDataClass() }
+        val classes = getClassesStringList(classStrings2).map { ClassCodeParser(it).getKotlinDataClass() }
 
         val generate = KotlinDataClassFileGenerator()
 
