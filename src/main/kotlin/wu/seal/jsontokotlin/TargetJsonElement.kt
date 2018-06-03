@@ -44,7 +44,7 @@ class TargetJsonElement : ITargetJsonElement {
          * get an element from the element array , And the result element should contains all the json field in every
          * element of the array
          */
-        internal fun getFullFieldElementFromArrayElement(jsonArray: JsonArray): JsonElement {
+        fun getFullFieldElementFromArrayElement(jsonArray: JsonArray): JsonElement {
 
             val map = mutableMapOf<String, JsonElement>()
 

@@ -90,7 +90,7 @@ class KotlinDataClassFileGenerator {
 
     }
 
-    internal fun updateClassNames(
+    fun updateClassNames(
         dataClasses: List<ParsedKotlinDataClass>,
         newClassNames: List<String>
     ): List<ParsedKotlinDataClass> {
@@ -146,7 +146,7 @@ class KotlinDataClassFileGenerator {
         }
     }
 
-    internal fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
+    fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         val synchronizedPropertyTypeClassList = unSynchronizedTypeClasses.map {
 
             val dataClass = it
@@ -168,7 +168,7 @@ class KotlinDataClassFileGenerator {
         return synchronizedPropertyTypeClassList
     }
 
-    internal fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
+    fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         val classNameList = classes.map { it.name }
 
         /**

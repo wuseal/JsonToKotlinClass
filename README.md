@@ -1,6 +1,6 @@
 ![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/title.png)
 
-[![Build status](https://img.shields.io/travis/kezhenxu94/JsonToKotlinClass/master.svg)](https://travis-ci.org/kezhenxu94/JsonToKotlinClass)
+[![Build status](https://img.shields.io/travis/kezhenxu94/JsonToKotlinClass/feature/travis-ci.svg)](https://travis-ci.org/kezhenxu94/JsonToKotlinClass)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
 [![JetBrains Plugin Download](https://img.shields.io/jetbrains/plugin/d/9960-json-to-kotlin-class-jsontokotlinclass-.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
@@ -9,8 +9,7 @@
 
 [![Kotlin](https://img.shields.io/badge/%20language-Kotlin-red.svg)](https://kotlinlang.org/)
 [![IntelliJ Idea Plugin](https://img.shields.io/badge/plugin-IntelliJ%20%20Idea-blue.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
-[![Android Studio Plugin](https://img.shields.io/badge/plugin-AndroidStudio-green.svg)](
-https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
+[![Android Studio Plugin](https://img.shields.io/badge/plugin-AndroidStudio-green.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 
 # JsonToKotlinClass
 
@@ -34,7 +33,7 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18029.png)
 
 ### Usage
-* Search 'JsonToKotlinClass' in Intellij Idea Plugin Repositroy Or AndroidStudio Plugin Repository And Install it.</br>
+* Search 'JsonToKotlinClass' in Intellij Idea Plugin Repository Or AndroidStudio Plugin Repository And Install it.</br>
     File --> Settings --> Plugins --> Browse Repositories -->Search JsonToKotlinClass
 * Restart your Develop tools 
 * Press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac Or right click on package -> `New`->`Kotlin data clas file from JSON`　And Then you will know how to use
