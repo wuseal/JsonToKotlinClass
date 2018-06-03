@@ -1,6 +1,7 @@
 .*
 *.iml
 !.gitignore
+!.travis.yml
 
 build/
 out/
