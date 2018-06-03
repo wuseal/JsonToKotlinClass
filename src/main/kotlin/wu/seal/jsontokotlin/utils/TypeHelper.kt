@@ -121,7 +121,7 @@ fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
  * filter the sequence as 'list' ,"List'
  * and remove the last character 's' to make it like a child rather than a list
  */
-internal fun adjustPropertyNameForGettingArrayChildType(property: String): String {
+fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     var innerProperty = KClassName.getLegalClassName(property)
     if (innerProperty.endsWith("ies")) {
         innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
