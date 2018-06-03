@@ -1,6 +1,6 @@
 ![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/title.png)
 
-[![Build status](https://img.shields.io/travis/kezhenxu94/JsonToKotlinClass/feature/travis-ci.svg)](https://travis-ci.org/kezhenxu94/JsonToKotlinClass)
+[![Build Status](https://travis-ci.org/wuseal/JsonToKotlinClass.svg?branch=master)](https://travis-ci.org/wuseal/JsonToKotlinClass)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
 [![JetBrains Plugin Download](https://img.shields.io/jetbrains/plugin/d/9960-json-to-kotlin-class-jsontokotlinclass-.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
