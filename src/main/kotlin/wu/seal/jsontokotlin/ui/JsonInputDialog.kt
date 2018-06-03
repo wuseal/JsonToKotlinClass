@@ -30,15 +30,14 @@ class MyInputValidator : InputValidator {
 
     lateinit var classNameField: JTextField
     override fun checkInput(inputString: String): Boolean {
-        try {
+        return inputString.startsWith("http") || try {
             val classNameLegal = classNameField.text.trim().isNotBlank()
             val jsonElement = JsonParser().parse(inputString)
 
-            return (jsonElement.isJsonObject || jsonElement.isJsonArray) && classNameLegal
+            (jsonElement.isJsonObject || jsonElement.isJsonArray) && classNameLegal
         } catch (e: JsonSyntaxException) {
-            return false
+            false
         }
-
     }
 
     override fun canClose(inputString: String): Boolean {
