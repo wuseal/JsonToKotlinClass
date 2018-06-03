@@ -9,6 +9,7 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.filetype.KotlinFileType
 import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
@@ -155,7 +156,7 @@ class KotlinDataClassFileGenerator {
                     val tobeReplaceNewType =
                         it.propertyType.replace(rawPropertyReferenceType, it.kotlinDataClassPropertyTypeRef.name)
                     if (it.propertyValue.isNotBlank()) {
-                        it.copy(propertyType = tobeReplaceNewType, propertyValue = "$tobeReplaceNewType()")
+                        it.copy(propertyType = tobeReplaceNewType, propertyValue = getDefaultValue(tobeReplaceNewType))
                     } else
                         it.copy(propertyType = tobeReplaceNewType)
                 } else {
