@@ -8,7 +8,7 @@ import java.util.logging.Logger
 /**
  * Created by Seal.Wu on 2018/3/12.
  */
-internal object LogUtil {
+object LogUtil {
 
     fun i(info: String) {
         if (TestConfig.isTestModel) {

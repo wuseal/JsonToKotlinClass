@@ -151,21 +151,21 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         document.setText(cleanText)
     }
 
-    internal fun getCleanText(editorText: String): String {
+    fun getCleanText(editorText: String): String {
         val tempCleanText = editorText.substringBeforeLast("class")
         val cleanText =
             if (tempCleanText.trim().endsWith("data")) tempCleanText.trim().removeSuffix("data") else tempCleanText
         return cleanText
     }
 
-    internal fun getCurrentEditFileTemClassName(editorText: String) = editorText.substringAfterLast("class")
+    fun getCurrentEditFileTemClassName(editorText: String) = editorText.substringAfterLast("class")
         .substringBefore("(").substringBefore("{").trim()
 
     /**
      * whether we could reuse current class name declared in the edit file for inserting data class code
      * if we could use it,then we would clean the kotlin file as it was new file without any class code .
      */
-    internal fun couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText: String): Boolean {
+    fun couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText: String): Boolean {
         try {
             var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
             val removeDocComment = editorText.replace(Regex("/\\*\\*(.|\n)*\\*/", RegexOption.MULTILINE), "")
