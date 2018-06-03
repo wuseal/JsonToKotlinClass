@@ -11,10 +11,12 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
+import org.apache.commons.io.IOUtils
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
+import java.net.URL
 
 
 /**
@@ -55,7 +57,10 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                         val inputDialog = JsonInputDialog("", project)
                         inputDialog.show()
                         val className = inputDialog.getClassName()
-                        val json = inputDialog.inputString
+                        val inputString = inputDialog.inputString
+                        val json = if (inputString?.startsWith("http") == true) {
+                            IOUtils.toString(URL(inputString))
+                        } else inputString
                         if (json == null || json.isEmpty()) {
                             return
                         }
