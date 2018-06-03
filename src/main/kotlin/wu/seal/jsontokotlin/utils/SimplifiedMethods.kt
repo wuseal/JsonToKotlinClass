@@ -69,7 +69,7 @@ fun <E, K, V> List<E>.toMap(converter: (E) -> Pair<K, V>): Map<K, V> {
     return map
 }
 
-internal fun showNotify(notifyMessage: String, project: Project?) {
+fun showNotify(notifyMessage: String, project: Project?) {
     val notificationGroup = NotificationGroup("JSON to Kotlin Class", NotificationDisplayType.BALLOON, true)
     ApplicationManager.getApplication().invokeLater {
         val notification = notificationGroup.createNotification(notifyMessage, NotificationType.INFORMATION)

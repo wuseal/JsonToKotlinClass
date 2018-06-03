@@ -31,7 +31,7 @@ object GsonSupporter : IGsonSupporter {
      */
     val annotationImportClassString = "import com.google.gson.annotations.SerializedName"
 
-    internal val propertyAnnotationFormat = "@SerializedName(\"%s\")"
+    val propertyAnnotationFormat = "@SerializedName(\"%s\")"
 
     override fun getGsonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 

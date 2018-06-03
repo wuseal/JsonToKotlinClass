@@ -73,7 +73,7 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
         return customJsonLibSupportPropertyBuilder.toString()
     }
 
-    internal fun getPropertyAnnotationString(rawPropertyName: String): String {
+    fun getPropertyAnnotationString(rawPropertyName: String): String {
 
         return if (propertyAnnotation.contains("%s")) {
 
