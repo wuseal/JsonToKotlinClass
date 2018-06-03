@@ -9,14 +9,15 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
+import org.apache.commons.io.IOUtils
 import wu.seal.jsontokotlin.feedback.StartAction
 import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
-import wu.seal.jsontokotlin.utils.LogUtil
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
+import java.net.URL
 import java.util.*
 
 /**
@@ -28,7 +29,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     private val gson = Gson()
 
     override fun actionPerformed(event: AnActionEvent) {
-        var jsonString: String = ""
+        var jsonString = ""
         try {
             actionStart()
             val project = event.getData(PlatformDataKeys.PROJECT)
@@ -53,7 +54,10 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             val inputDialog = JsonInputDialog(tempClassName, project!!)
             inputDialog.show()
             val className = inputDialog.getClassName()
-            val json = inputDialog.inputString
+            val inputString = inputDialog.inputString
+	        val json = if (inputString?.startsWith("http") == true) {
+                IOUtils.toString(URL(inputString))
+	        } else inputString
             if (json == null || json.isEmpty()) {
                 return
             }
