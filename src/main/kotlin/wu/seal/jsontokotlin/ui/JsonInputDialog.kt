@@ -14,6 +14,8 @@ import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
+import java.awt.event.KeyAdapter
+import java.awt.event.KeyEvent
 import javax.swing.*
 import javax.swing.event.DocumentEvent
 import javax.swing.text.JTextComponent
@@ -75,6 +77,14 @@ class JsonInputDialog(private val classsName: String, project: Project) : Messag
         classNameInputContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameTitle)
         classNameInput = JTextField()
         classNameInput.preferredSize = JBDimension(400, 40)
+        classNameInput.addKeyListener(object : KeyAdapter() {
+            override fun keyTyped(e: KeyEvent) {
+                val keyChar = e.keyChar;
+                if (keyChar == '˚') {
+                    e.consume()
+                }
+            }
+        })
         myInputValidator.classNameField = classNameInput
 
         classNameInput.document.addDocumentListener(object : DocumentAdapter() {
