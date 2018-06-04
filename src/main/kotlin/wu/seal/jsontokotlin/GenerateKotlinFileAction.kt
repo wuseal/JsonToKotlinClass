@@ -90,8 +90,8 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val codeMaker = KotlinDataClassCodeMaker(className, json)
-        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinDataClassCode())
+        val codeMaker = KotlinCodeMaker(className, json)
+        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
 
         if (ConfigManager.isInnerClassModel) {
 

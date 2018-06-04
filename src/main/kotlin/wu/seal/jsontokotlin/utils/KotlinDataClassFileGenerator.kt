@@ -11,10 +11,14 @@ import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.filetype.KotlinFileType
+import wu.seal.jsontokotlin.interceptor.IInterceptor
+import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
+import wu.seal.jsontokotlin.utils.classblockparse.NestedClassModelClassesCodeParser
+import wu.seal.jsontokotlin.utils.classblockparse.NormalClassesCodeParser
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 
-class KotlinDataClassFileGenerator {
+class KotlinDataClassFileGenerator(private val interceptors: List<IInterceptor> = InterceptorManager.getEnabledInterceptors()) {
 
     /**
      * record the renamed class name when generate multiple files
@@ -196,6 +200,15 @@ class KotlinDataClassFileGenerator {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
+        val classCode = if (interceptors.isNotEmpty()) {
+            if (ConfigManager.isInnerClassModel) {
+                NestedClassModelClassesCodeParser(classCodeContent).parse().applyInterceptors(interceptors).getCode()
+            } else {
+                NormalClassesCodeParser(classCodeContent).parse()[0].applyInterceptors(interceptors).getCode()
+            }
+        } else {
+            classCodeContent
+        }
         val kotlinFileContent = buildString {
             if (packageDeclare.isNotEmpty()) {
                 append(packageDeclare)
@@ -206,7 +219,7 @@ class KotlinDataClassFileGenerator {
                 append(importClassDeclaration)
                 append("\n\n")
             }
-            append(classCodeContent)
+            append(classCode)
         }
 
         executeCouldRollBackAction(project) {
@@ -215,7 +228,8 @@ class KotlinDataClassFileGenerator {
             val fileAdded = directory.add(file)
 
             if (ConfigManager.enableAutoReformat) {
-                var processor: AbstractLayoutCodeProcessor = ReformatCodeProcessor(project, fileAdded as PsiFile, null, false)
+                var processor: AbstractLayoutCodeProcessor =
+                    ReformatCodeProcessor(project, fileAdded as PsiFile, null, false)
                 processor = OptimizeImportsProcessor(processor)
                 processor = RearrangeCodeProcessor(processor)
                 processor.run()
