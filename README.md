@@ -13,12 +13,11 @@
 
 # JsonToKotlinClass
 
-Hi,Welcome to come to see me!
-I am a plugin for Kotlin generate Kotlin data class code from a JSON string
-also as say a plugin for Kotlin to convert JSON String into Kotlin data class code (Json to Kotlin)
+Hi, welcome to visit me! I am a plugin for generating Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin)
 
 ### Overview
-Hi,This is a very cool tool for Kotlin developers ,It can convert the Json String into Kotlin Data Class code ,The tool could recognize the Primitive Type of Json String and make Type Identifier respectively ,It taste easily ,Just have test,guys! Just press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac,And then,start your Kotlin programming travel ! JsonToKotlinClass make programming more happy!
+
+This is a very cool tool for Kotlin developers, it can convert a JSON string to Kotlin `data class`. The tool could not only recognize the primitive types but also auto create complex types. It's easily accessible, we provide shortcut keymap `ALT + K` for Windows and `Option + K` for Mac, have a try and you'll fall in love with it! JsonToKotlinClass just makes programming more enjoyable, enjoy coding!
 
 ### Easy Use
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18032.png)
@@ -33,81 +32,80 @@ Hi,This is a very cool tool for Kotlin developers ,It can convert the Json Strin
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18029.png)
 
 ### Usage
-* Search 'JsonToKotlinClass' in Intellij Idea Plugin Repository Or AndroidStudio Plugin Repository And Install it.</br>
-    File --> Settings --> Plugins --> Browse Repositories -->Search JsonToKotlinClass
-* Restart your Develop tools 
-* Press shortcut key `ALT` + `K` for Windows or `Option` + `K` for Mac Or right click on package -> `New`->`Kotlin data clas file from JSON`　And Then you will know how to use
+* Search 'JsonToKotlinClass' in Intellij Idea Plugin Repository Or AndroidStudio Plugin Repository And Install it.
+
+> File --> Settings --> Plugins --> Browse Repositories --> Search JsonToKotlinClass
+
+* Restart your IDE
+
+* Press `ALT + K` for Windows or `Option + K` for Mac or right click on package -> `New`->`Kotlin data clas file from JSON` and continue as guided.
 
 ### Advanced usage
-Have a try with the settings :stuck_out_tongue_winking_eye:
+Have a try with the settings dialog :stuck_out_tongue_winking_eye:
+
 ### Features
-* Generate Kotlin data class from any legal JSON text.
-* Generate Kotlin data class File form any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`.
-* Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare,kotlinx.serialization(default custom value))
-* Support customize your own Annotation
-* Support init property with default value
-* Support make property type to be nullable(?)
-* Support auto make sure property type to be nullable(?) or not 
-* Support auto rename property name to be camelCase when select a target JSON lib Annotation．
-* Support generate kotlin data class code in split model
-* Support generate kotlin data class code in inner class model
-* Support generate kotlin data class File in inner class model 
-* Support generate kotlin data class File in split files 
-* Support format any legal JSON string
-* Support Generate Map Type when json key is primitive type
+* Generating Kotlin data class from any legal JSON string or any **URLs that returns a JSON string as response**
+* Generating Kotlin data class from any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`
+* Supporting (almostly) all kinds of JSON libs' annotation(Gson, Jackson, Fastjson, MoShi and LoganSquare, kotlinx.serialization(default custom value))
+* Customizing your own annotations
+* Initializing properties with default values
+* Allowing properties to be nullable(?)
+* Determining property nullability automatically
+* Renaming property names to be camelCase style when selecting a target JSON lib annotation．
+* Generating Kotlin `data class` as individual classes
+* Generating Kotlin `data class` as inner classes
+* Formatting any legal JSON string
+* Generating Map Type when json key is primitive type
 
 ### Generate Example 
 * Default
 
-    ```kotlin
-        data class FD(
-            val programmers: List<Programmer>,
-            val authors: List<Author>,
-            val musicians: List<Musician>
-        )
-        
-        data class Musician(
-            val firstName: String, 
-            val lastName: String, 
-            val instrument: String 
-        )
-        
-        data class Author(
-            val firstName: String, 
-            val lastName: String, 
-            val genre: String 
-        )
-        
-        data class Programmer(
-            val firstName: String, 
-            val lastName: String, 
-            val email: String 
-        )
+```kotlin
+data class FD(
+	val programmers: List<Programmer>,
+	val authors: List<Author>,
+	val musicians: List<Musician>
+)
 
-    ```
+data class Musician(
+	val firstName: String, 
+	val lastName: String, 
+	val instrument: String 
+)
+
+data class Author(
+	val firstName: String, 
+	val lastName: String, 
+	val genre: String 
+)
+
+data class Programmer(
+	val firstName: String, 
+	val lastName: String, 
+	val email: String 
+)
+```
+
 * Example with gson option on and init with default value option on in settings
 
-    ```kotlin
-    
-       data class TestData(
-           @SerializedName("ticketInfo") val ticketInfo: TicketInfo = TicketInfo(),
-           @SerializedName("trainInfo") val trainInfo: TrainInfo = TrainInfo(),
-           @SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
-           @SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
-           @SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
-       )
-       
-       data class TrainScheduleBody(
-           @SerializedName("mxl") val mxl: Long = 0, 
-           @SerializedName("content") val content: List<Int> = listOf()
-       )
-       
-       data class TrainInfo(
-           @SerializedName("T110") val t110: T110 = T110()
-       )
-     
-  
-    ```
+```kotlin
+data class TestData(
+   @SerializedName("ticketInfo") val ticketInfo: TicketInfo = TicketInfo(),
+   @SerializedName("trainInfo") val trainInfo: TrainInfo = TrainInfo(),
+   @SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
+   @SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
+   @SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
+)
+
+data class TrainScheduleBody(
+   @SerializedName("mxl") val mxl: Long = 0, 
+   @SerializedName("content") val content: List<Int> = listOf()
+)
+
+data class TrainInfo(
+   @SerializedName("T110") val t110: T110 = T110()
+)
+```
 
 ### Build From Source
 
@@ -119,7 +117,7 @@ $ cd JsonToKotlinClass
 $ ./gradlew buildPlugin
 ```
 
-And you're done! Go to directory `build/distributions` and you'll find `JsonToKotlinClass-x.x.zip`.
+And you're done! Go to directory `build/distributions` and you'll find `JsonToKotlinClass-x.x.zip`, which can be installed via **Install plugin from disk...**.
 
 ### Contribute to This Repo
 
@@ -136,18 +134,19 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * http://blog.csdn.net/wuseal/article/details/77508585
 
 ### Others
-* Welcome anyone to raise new issue.
-* Welcome anyone to push a pull request to improve me.
+* Any kind of issues are welcome.
+* Pull Requests are highly appreciated.
 
 ### Thanks
-* Thank [@davidbilik](https://github.com/davidbilik) give me first awesome advice.
-* Thank [@cgoodroe](https://github.com/cgoodroe) raise many awesome issues for me,Help me improve myself
-* Thank [@wangzhenguang](https://github.com/wangzhenguang) remains me the details of problem
+* Thank [@davidbilik](https://github.com/davidbilik) for giving me the first awesome advice.
+* Thank [@cgoodroe](https://github.com/cgoodroe) for opening many awesome issues for me, help me improve myself
+* Thank [@wangzhenguang](https://github.com/wangzhenguang) for reminding me of the details of the problem
+* Thank [@kezhenxu94](https://github.com/kezhenxu94/) for introducing CI/CD to save me a lot of time :)
 
-### Find me useful ? :heart:
-* Support me by clicking the :star: button on the upper right of this page. :v:
-* Spread to others to let more people have a better develope expierience :heart:
+### Find it useful ? :heart:
+* Support and encourage me by clicking the :star: button on the upper right of this page. :v:
+* Share to others to help more people have a better develope expierience :heart:
 
 ### Contact Community
-#### Scan into QQ Group
+#### Scan to join QQ Group
 ![群   号：341755074](https://user-images.githubusercontent.com/9211902/40884090-f447ac5e-673f-11e8-963d-08705f70b918.png)
