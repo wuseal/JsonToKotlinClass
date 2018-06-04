@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.classscodestruct
 
+import wu.seal.jsontokotlin.interceptor.IInterceptor
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
@@ -67,6 +68,14 @@ data class KotlinDataClass(
         return ParsedKotlinDataClass(annotationCodeList, name, parsedProperties)
     }
 
+    fun applyInterceptors(interceptors: List<IInterceptor>): KotlinDataClass {
+        var kotlinDataClass = this
+        interceptors.forEach {
+            kotlinDataClass = it.intercept(kotlinDataClass)
+        }
+        return kotlinDataClass
+    }
+
     companion object {
 
         fun fromParsedKotlinDataClass(parsedKotlinDataClass: ParsedKotlinDataClass): KotlinDataClass {
@@ -79,6 +88,7 @@ data class KotlinDataClass(
                 properties = properties
             )
         }
+
     }
 
 }
