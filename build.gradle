@@ -25,13 +25,13 @@ version '2.1-Alpha'
 intellij {
     updateSinceUntilBuild false
     version '2018.1.4'
-    pluginName 'JSON To Kotlin Class (JsonToKotlinClass)'
+    pluginName 'JsonToKotlinClass'
 }
 
 publishPlugin {
     username System.getenv('username')
     password System.getenv('password')
-    channels 'eap'
+    channels System.getProperty('channels', "")
 }
 
 repositories {

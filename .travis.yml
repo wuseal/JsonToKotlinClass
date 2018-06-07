@@ -9,7 +9,22 @@ deploy:
     on:
       tags: true
       repo: wuseal/JsonToKotlinClass
-      branch: master
+
+  - provider: script
+    script: ./gradlew publishPlugin -Dchannels=eap
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: wuseal/JsonToKotlinClass
+      condition: $TRAVIS_TAG =~ (eap|EAP)$
+
+  - provider: script
+    script: ./gradlew publishPlugin -Dchannels=alpha
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: wuseal/JsonToKotlinClass
+      condition: $TRAVIS_TAG =~ (alpha|Alpha)$
 
   - provider: script
     script: ./gradlew publishPlugin
@@ -17,8 +32,7 @@ deploy:
     on:
       tags: true
       repo: wuseal/JsonToKotlinClass
-      branch: master
-      condition: $TRAVIS_TAG =~ (eap|EAP)$
+      condition: $TRAVIS_TAG =~ ^(v|V)\d+\.\d+(\.\d+)?$
 
 env:
   global:
