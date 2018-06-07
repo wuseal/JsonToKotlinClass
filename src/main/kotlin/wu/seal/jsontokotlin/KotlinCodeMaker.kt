@@ -153,7 +153,7 @@ class KotlinCodeMaker {
             stringBuilder.append(",")
 
         val propertyComment = p.getPropertyComment()
-        if (propertyComment.isNotBlank())
+        if (!ConfigManager.isCommentOff && propertyComment.isNotBlank())
             stringBuilder.append(" // ")
                 .append(getCommentCode(propertyComment))
         stringBuilder.append("\n")
