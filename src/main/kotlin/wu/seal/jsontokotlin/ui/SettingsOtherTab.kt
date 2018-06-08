@@ -48,7 +48,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableMapType.isSelected = ConfigManager.enableMapType
         enableMapType.addActionListener { ConfigManager.enableMapType = enableMapType.isSelected }
 
-        val enableMinimalAnnotation = JBCheckBox("Enable Minimal Annotation When Selected An Annotation Config")
+        val enableMinimalAnnotation = JBCheckBox("Only create annotations when needed")
         enableMinimalAnnotation.isSelected = ConfigManager.enableMinimalAnnotation
         enableMinimalAnnotation.addActionListener { ConfigManager.enableMinimalAnnotation = enableMinimalAnnotation.isSelected }
 

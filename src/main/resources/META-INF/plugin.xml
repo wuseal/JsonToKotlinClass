@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>wu.seal.tool.jsontokotlin</id>
     <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-    <version>2.0</version>
+    <version>2.1.1</version>
     <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
     <description><![CDATA[
@@ -9,33 +9,19 @@
 
       <b><br>Features:</br></b>
 
-      <br>Generate Kotlin data class code from any legal JSON text.</br>
-
-      <br>Generate Kotlin data class File form any legal JSON text when right click on directory and select New->Kotlin data class File from JSON.</br>
-
-      <br>Support JSON Serialize Lib Annotation(Gson,Jackson,Fastjson,MoShi and LoganSquare,kotlinx.serialize(default custom value))</br>
-
-      <br>Support customize your own Annotation</br>
-
-      <br>Support init property with default value</br>
-
-      <br>Support make property type to be nullable(?)</br>
-
-      <br>Support auto make sure property type to be nullable(?) or not </br>
-
-      <br>Support auto rename property name to be camelCase when select a target JSON lib Annotation</br>
-
-      <br>Support generate kotlin data class code in split model</br>
-
-      <br>Support generate kotlin data class code in inner class model</br>
-
-      <br>Support generate kotlin data class File in inner class model</br>
-
-      <br>Support generate kotlin data class File in split files</br>
-
-      <br>Support format any legal JSON string</br>
-
-      <br>Support Generate Map Type</br>
+        <br>Generating Kotlin data class from any legal JSON string or any URLs that returns a JSON string as response
+        <br>Generating Kotlin data class from any legal JSON text when right click on directory and select New -> Kotlin data class File from JSON</br>
+        <br>Supporting (almostly) all kinds of JSON libs' annotation(Gson, Jackson, Fastjson, MoShi and LoganSquare, kotlinx.serialization(default custom value))</br>
+        <br>Customizing your own annotations</br>
+        <br>Initializing properties with default values</br>
+        <br>Allowing properties to be nullable(?)</br>
+        <br>Determining property nullability automatically</br>
+        <br>Renaming property names to be camelCase style when selecting a target JSON lib annotation．</br>
+        <br>Generating Kotlin data class as individual classes</br>
+        <br>Generating Kotlin data class as inner classes</br>
+        <br>Formatting any legal JSON string</br>
+        <br>Generating Map Type when json key is primitive type</br>
+        <br></br>
 
       <em>kotlin</em>
       <em>Json</em>
@@ -52,13 +38,9 @@
 
 
     <change-notes><![CDATA[
-        <br>Add support for generating Kotlin data class file from JSON with click on the package directory</br>
-
-        <br>Add config option for auto make property type</br>
-
-        <br>Add support config for indent space number</br>
-
-        <br>Add support for generate Map type when json key is primitive type</br>
+       <br>Fixed bugs</br>
+       <br>Add support for generate kotlin class code from network json api</br>
+       <br>Add Only create annotation if need option in other tab</br>
     ]]>
     </change-notes>
 
