@@ -9,7 +9,6 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import org.apache.commons.io.IOUtils
 import wu.seal.jsontokotlin.feedback.StartAction
 import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
 import wu.seal.jsontokotlin.feedback.dealWithException
@@ -56,7 +55,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             val className = inputDialog.getClassName()
             val inputString = inputDialog.inputString
 	        val json = if (inputString?.startsWith("http") == true) {
-                IOUtils.toString(URL(inputString))
+                URL(inputString).readText()
 	        } else inputString
             if (json == null || json.isEmpty()) {
                 return
