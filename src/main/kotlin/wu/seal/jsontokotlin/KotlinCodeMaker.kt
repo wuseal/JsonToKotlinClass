@@ -87,7 +87,7 @@ class KotlinCodeMaker {
 
     private fun appendCodeMember(stringBuilder: StringBuilder, jsonObject: JsonObject) {
 
-        val size = jsonObject.size()
+        val size = jsonObject.entrySet().size
 
         jsonObject.entrySet().forEachIndexed { index, (property, jsonElementValue) ->
             val isLast = (index == size - 1)
