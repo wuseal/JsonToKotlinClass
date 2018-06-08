@@ -1,40 +1,36 @@
 language: java
 deploy:
-  - provider: releases
-    api_key:
-      secure: NVfoiuig3+2pLZu0LZdxCrNtUqe5/Xayx7jKL69VND7ZoGCmS3laJ9ZXf5nD3bzrrn+IH/jCroOL8SKARsw2YgeSqm5CT221HJGeBWzCmAOrNK6tw/y1Y5l9XraessdqC8Nkl1gHwjtaNxMVZz7TFjIy9uSpq3ptUKWaqkZnzXNw42rqAl8SwbJkzj/Jc30a6MGdlsTelWWRkj7doq65qqo16DMjpK/UASrb442ST5guXfMoGeyyidGmmmyDSAzh1nAICjMRYP0dpH4de2caWjd/l2ku3Ja5ye3IEYDJDa75wo6PEm2gfCqsX1uQmMmhlwa7MnfpWuM3s4KS3zHUf76DbybxRXkjHk1yV5pjyNq0KNSZKPfT0WRtOwPhY/xkwiY+5uHN94l39fPjZCJNehrGAVFdP3pTge/ULyG7u4SSSp3wIG4gNdUmNmYIu20W8gS2Dvh+UCGN4ZGjeKBBfzUQ4a1oUMCgbNG7V9P45n7S8JSMl/dBAq6nnnLPHkkJJDusz9C77DJ7o2rosv3NDZ9Lzzm592lqXjJuB65OXowsGiuyfOGTp08X7V5xkZ95QU1tEnFbaATrm6BNYxKYjlyo62Bi82/4v9VqyxSdGFOHLfTExpBD5E2CMHEYufYBzt3kLpvyy2lWZFCpFE2INBleOoUoiWxZvQmFJO+BeMk=
-    file_glob: true
-    file: build/distributions/JsonToKotlinClass*.zip
-    skip_cleanup: true
-    on:
-      tags: true
-      repo: wuseal/JsonToKotlinClass
-
-  - provider: script
-    script: ./gradlew publishPlugin -Dchannels=eap
-    skip_cleanup: true
-    on:
-      tags: true
-      repo: wuseal/JsonToKotlinClass
-      condition: $TRAVIS_TAG =~ (eap|EAP)$
-
-  - provider: script
-    script: ./gradlew publishPlugin -Dchannels=alpha
-    skip_cleanup: true
-    on:
-      tags: true
-      repo: wuseal/JsonToKotlinClass
-      condition: $TRAVIS_TAG =~ (alpha|Alpha)$
-
-  - provider: script
-    script: ./gradlew publishPlugin
-    skip_cleanup: true
-    on:
-      tags: true
-      repo: wuseal/JsonToKotlinClass
-      condition: $TRAVIS_TAG =~ ^(v|V)\d+\.\d+(\.\d+)?$
-
+- provider: releases
+  api_key:
+    secure: NVfoiuig3+2pLZu0LZdxCrNtUqe5/Xayx7jKL69VND7ZoGCmS3laJ9ZXf5nD3bzrrn+IH/jCroOL8SKARsw2YgeSqm5CT221HJGeBWzCmAOrNK6tw/y1Y5l9XraessdqC8Nkl1gHwjtaNxMVZz7TFjIy9uSpq3ptUKWaqkZnzXNw42rqAl8SwbJkzj/Jc30a6MGdlsTelWWRkj7doq65qqo16DMjpK/UASrb442ST5guXfMoGeyyidGmmmyDSAzh1nAICjMRYP0dpH4de2caWjd/l2ku3Ja5ye3IEYDJDa75wo6PEm2gfCqsX1uQmMmhlwa7MnfpWuM3s4KS3zHUf76DbybxRXkjHk1yV5pjyNq0KNSZKPfT0WRtOwPhY/xkwiY+5uHN94l39fPjZCJNehrGAVFdP3pTge/ULyG7u4SSSp3wIG4gNdUmNmYIu20W8gS2Dvh+UCGN4ZGjeKBBfzUQ4a1oUMCgbNG7V9P45n7S8JSMl/dBAq6nnnLPHkkJJDusz9C77DJ7o2rosv3NDZ9Lzzm592lqXjJuB65OXowsGiuyfOGTp08X7V5xkZ95QU1tEnFbaATrm6BNYxKYjlyo62Bi82/4v9VqyxSdGFOHLfTExpBD5E2CMHEYufYBzt3kLpvyy2lWZFCpFE2INBleOoUoiWxZvQmFJO+BeMk=
+  file_glob: true
+  file: build/distributions/JsonToKotlinClass*.zip
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: wuseal/JsonToKotlinClass
+- provider: script
+  script: "./gradlew publishPlugin -Dchannels=eap"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: wuseal/JsonToKotlinClass
+    condition: "$TRAVIS_TAG =~ (eap|EAP)$"
+- provider: script
+  script: "./gradlew publishPlugin -Dchannels=alpha"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: wuseal/JsonToKotlinClass
+    condition: "$TRAVIS_TAG =~ (alpha|Alpha)$"
+- provider: script
+  script: "./gradlew publishPlugin"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: wuseal/JsonToKotlinClass
+    condition: "$TRAVIS_TAG =~ ^(v|V)\\d+\\.\\d+(\\.\\d+)?$"
 env:
   global:
-    - secure: M8KZqqEHpr1JuYkSWdaM0TpPFNv5eEWoTk5uaAC9A6+VlQmqM38kTssr5Of7jXostbK+iG87cnJu+unx04h1ivAkVOBG/lMzxIb3IxZMzBW4lHV8cnPpS1/6N3+EyBGphZpVCJR6dnFUiUPhFVYjleXdcgDUOLzJ+gYnO5jsStDXr0hePulYDSDMKtGX5HEhfFiIKlEwL05x/MVNyjafNk5pFzD3VO2cEkCATcc2llndqlK5qf2LV9D2Mw6QkKB5h1W7UYjXmPHxLOLvjy0NRbUtHOiiJ3m6xhrNOaY9jiq1wmFZ//GKROCvF8yuT1RPHex+am1sWY+x8SsBLlG30lM9VdxmWAJD7xs1RBNZtl1Z7esYbJgC537Pt8CgOjDGRhMlkmLJIdcgzlrZOuoaCrL/m7pqhaLhYACdv2309QegsfpYI7SdCTMsDe/hAdSvWABnXpdPh921iKPSBp4ijTJEBemZhArEOwYwv+o7xrqp2G2Pgrvr6SAOyNfWQSIxdVAmPi2cBhMvSzxfysIGpvuKJosld9Gi82F+pTL2hrfEixxiiVsyZYk7rlwVcFzJOhO94h5YyORdJwX06e22nC4Ca/AJAhvlcmjylmiJKN1yCzFMFGCarEOlhzaucSVbW3/Mh2yakfxhc+pXICDa9dr1oqUTwiZ+q+6WWd2J9ys=
-    - secure: YENQoiXn7PQIiTPCcORLAJq3GsrQyUupfb7o9xC9uHf+zr97gP0wfYi8yBw9akeCXaNB0WpxOj9LsfIO1W8O/G6A6tuQd4X78rQXyI9IckR3QPHweOspXct75S4fUyJsaOEuGYLtCtLb/TDGui737f1x2BzQ1vJtGy2T91hb3NJn7BeXrar8bZApgbBR2PJFyPyKxRXfkKy/MqJGEIqfpuEmqRxBfoX7xHYeYE1lMoqxQpeS4t90Jq5GZGuQW65yzgyux92FhNQ1x/PIqv8vz4aXjlFtCU6IDGvpLn7Xw05SJXoi/Hbf7uarqmACjeHbfsuAjbM6vN3aVHAwn7/eqEahEGsVqZqImPnvQo4DLlamf/Xp1mz1RxqvznzjF6tXzqu7dWY9wRJiBDRBGAFWRwn2obt9kRNyNm3dQRGmx7wXEQTPgMVlL7S/nEuObvKctICW/EJB2gX+5eQNxLPe8A7wopy7xuwwSwu+voYIP6g/atRwckHDX31RZ7qfU6L6lcx1ic9QbQI1QmCRjHDF95UESX5ubTLHUvZoj7dsZoouNVl4OjK1dB91dqunmt9KiEVJVG5HNXgUXiBKi6zmwS2RB6YulBKrwL1JpcciUTbXdtXT+dzqVhV33VKhXvaoCwe35tAWggET8afFcq2wIoUMAUVfLpSpLf9eXJIGXMs=
+  - secure: qwrh8fE9lGA3RTzMvV7aA1jN3Hp271GEnSzaWZZIbQeQV36OuZ4S9uYkSIIbVvDZ1uyodh67UOFv7WgmaYkQJmVpW0YjObwfquaLA86ibZaHj7c4SZDXOkVhq1b3Vbhp1G9dCIGDeHmx9OVakmhvEr6ZmuGyskLA0oXS5dDXClUAeINRS9hX7sCZRRVkDl/s2hrqiUINYKEYUyE6eUaIaqCH1NYw5ywxEpaMtobDsxjcttKuspY69ak0rNoUMVVHupS1B5jRpUuMzJc/8YIf0u1MTxg6QIWy+xPWSl1f/NP/PvA1Bx1BcZnTnumemYyn6MG0W6SXIAPLPPHnWmDFnZPls3krk48/HLWd9j/HeMqahG093ZxB9DV1rls+OCgBFmJPdf5A2RznG7afnpMqj/juzyX/qaGfGDkljo6SsPKWHo4ffT7KcGsHB/dM3Gf5qTDqQ3SWuDLqGjZpvvODjM/PSKBsdADpOY85wZnq4nYHm3cQqtMCQOt+Ztr9SXAu3d5YA/+ZUuvdhlQQKJOxn/YcEu3CvrmbBgibCkeL/jJzcePmWidbYmiwBl+ZRVu47y9x8fMWQVn0OELrX64dvAUrXh8cwvDT00R8Hk8mWkpgnB7oSf1+BS9C9KPdWvJIpYpzC/xfXvAu2NOcJj42guv83/EMxWFsM644GDQkwuw=
+  - secure: LpbTIpqwuV7QQYoKPxrZ9/sMxDyIqeDOqg3LcOxpZXcGBVD05G88VLiy+moSNzK8p/oCYkc7ky+SzeLBC+lksRQQ4hN1+SJWE5+Uht6woroaD9JvAhfMz49xIr3Cm+PRjN5hIxqUQUXDQ7DiJ5n7Dl4OAAtle6vXZxuJGkx+DOnXR69xEFNTiwpd10mQHEqWhihXOZ2C9egxkZiJRO6kgrJVsUMdfNFMZ84+8s2baXC5tmSTzEauUKiJccoAYEqr5ZDtjY3VIEwmOEufvIyNierv26rlNORGb79zqmHpePCAmsAqCHvFnfdcF4ftw4u9FEF1FXjVrlIMD+RvUqb59QQfd8tyHgUSgCpFJxVtlCB5KLuBMEp1INsfCNrq0nE0FnrUqXCYLQ6iWGyNkmdK4ytIcO+e/JvCHdXjJfpze2AhUzGl89wmtTeHtgKPDGXDJatJ0juJ9qFEqyVMPGfonUuILNfpZjDerGau22nyaAmtpFCuW/VWlDxBSio7TWA7nauzMbLq1T5dHfCmhOEEZkqc5wlXjmtaUTseyEN6u/GgVh/QrXM3z1Pcjz2gkZoXA7mmuGCRRzILoUx3/tPzxigT2o6BH4HMIyLRQSlaA1O0K89Zrs9W0Z48uddiFTJuPGNhe4O2qeCo19sx+6TxBrT3vKaCcFc4JTknjJfgFhI=

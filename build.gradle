@@ -20,12 +20,19 @@ apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
 
 group 'wu.seal'
-version '2.1.2'
+version '2.2-dev'
 
 intellij {
-    updateSinceUntilBuild false
-    version '2018.1.4'
+    version '2017.1'
     pluginName 'JsonToKotlinClass'
+
+    publish {
+        pluginId '9960'
+    }
+}
+
+patchPluginXml {
+    untilBuild ''
 }
 
 publishPlugin {

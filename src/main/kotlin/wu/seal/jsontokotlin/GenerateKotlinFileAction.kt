@@ -11,7 +11,6 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
-import org.apache.commons.io.IOUtils
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
@@ -59,7 +58,7 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                         val className = inputDialog.getClassName()
                         val inputString = inputDialog.inputString
                         val json = if (inputString?.startsWith("http") == true) {
-                            IOUtils.toString(URL(inputString))
+                            URL(inputString).readText()
                         } else inputString
                         if (json == null || json.isEmpty()) {
                             return
