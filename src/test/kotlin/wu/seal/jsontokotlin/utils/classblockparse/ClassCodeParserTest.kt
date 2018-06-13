@@ -3,6 +3,9 @@ package wu.seal.jsontokotlin.utils.classblockparse
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.ConfigManagerTestHelper
+import wu.seal.jsontokotlin.KotlinCodeMaker
+import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
 
@@ -135,5 +138,28 @@ data class TestData(
         parser4.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString4)
         parser5.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString5)
         parser6.getKotlinDataClass().toString().should.be.equal(tobeParseClassBlockString6)
+    }
+
+    @Test
+    fun testAllKindsOfAnnotationConfigNoCrash() {
+        val json = """{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }"""
+        TargetJsonConverter.values().forEach {
+            TestConfig.targetJsonConvertLib = it
+            val codeString = KotlinCodeMaker("ClassName", json).makeKotlinData()
+            ClassCodeParser(codeString).getKotlinDataClass().toString().trim().should.be.equal(codeString.trim())
+        }
+    }
+
+    @Test
+    fun testAllConfigParse() {
+        val json = """{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }"""
+        ConfigManagerTestHelper.testAllConfigWithAction {
+
+            val code = KotlinDataClassCodeMaker("ClassName", json).makeKotlinDataClassCode()
+            val kotlinDataClass = ClassCodeParser(code).getKotlinDataClass()
+            kotlinDataClass.name.should.be.equal("ClassName")
+        }
+
+
     }
 }

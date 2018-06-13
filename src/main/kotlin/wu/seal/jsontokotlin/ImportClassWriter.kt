@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
+import sun.tools.java.ClassDeclaration
 import wu.seal.jsontokotlin.supporter.*
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 
@@ -81,6 +82,10 @@ object ImportClassWriter : IImportClassWriter {
 
             }
         }
+    }
+
+    fun writeImportClassDeclaration(editFile: Document, classDeclaration: String, project: Project?) {
+        insertImportClassString(editFile,classDeclaration,project)
     }
 
 }
