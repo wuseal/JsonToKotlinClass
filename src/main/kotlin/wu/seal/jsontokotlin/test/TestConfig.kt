@@ -23,9 +23,11 @@ object TestConfig {
     var initWithDefaultValue = true
     var isNestedClassModel = true
 
-    var customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
-    var customClassAnnotationFormatString = ""
-    var customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
+    var customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
+    var customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
+            "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional"
+
+    var customClassAnnotationFormatString = "@Serializable"
 
     var indent: Int = 4
 
@@ -44,9 +46,12 @@ object TestConfig {
         propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         initWithDefaultValue = true
         isNestedClassModel = true
-        customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
-        customClassAnnotationFormatString = ""
-        customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
+        customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
+        customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
+                "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional"
+
+        customClassAnnotationFormatString = "@Serializable"
+
         enableMinimalAnnotation = false
 
     }
@@ -63,7 +68,7 @@ object TestConfig {
         customPropertyAnnotationFormatString = ""
         customClassAnnotationFormatString = ""
         customAnnotaionImportClassString = ""
-         enableMinimalAnnotation = false
+        enableMinimalAnnotation = false
 
     }
 
@@ -97,6 +102,7 @@ object TestConfig {
         customAnnotaionImportClassString = state.customAnnotaionImportClassString
         enableMinimalAnnotation = state.enableMinimalAnnotation
     }
+
     class State {
         var isTestModel = false
         var isCommentOff = false
