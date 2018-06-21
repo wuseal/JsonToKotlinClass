@@ -13,7 +13,6 @@ import wu.seal.jsontokotlin.utils.getIndent
 
 object FastjsonSupporter : IJsonLibSupporter {
 
-    private val indent = lazy { getIndent() }
 
     override val annotationImportClassString: String
         get() = "import com.alibaba.fastjson.annotation.JSONField"
@@ -25,7 +24,7 @@ object FastjsonSupporter : IJsonLibSupporter {
 
         val fastjsonSupportPropertyBuilder = StringBuilder()
 
-        fastjsonSupportPropertyBuilder.append(indent.value)
+        fastjsonSupportPropertyBuilder.append(getIndent())
 
         fastjsonSupportPropertyBuilder.append(FastjsonSupporter.propertyAnnotationFormat.format(rawPropertyName))
 

@@ -141,19 +141,9 @@ data class TestData(
     }
 
     @Test
-    fun testAllKindsOfAnnotationConfigNoCrash() {
-        val json = """{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }"""
-        TargetJsonConverter.values().forEach {
-            TestConfig.targetJsonConvertLib = it
-            val codeString = KotlinCodeMaker("ClassName", json).makeKotlinData()
-            ClassCodeParser(codeString).getKotlinDataClass().toString().trim().should.be.equal(codeString.trim())
-        }
-    }
-
-    @Test
     fun testAllConfigParse() {
         val json = """{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }"""
-        ConfigManagerTestHelper.testAllConfigWithAction {
+        ConfigManagerTestHelper().testAllConfigWithAction {
 
             val code = KotlinDataClassCodeMaker("ClassName", json).makeKotlinDataClassCode()
             val kotlinDataClass = ClassCodeParser(code).getKotlinDataClass()

@@ -24,7 +24,6 @@ interface INoneLibSupporter {
 
 object NoneSupporter : INoneLibSupporter {
 
-    private val indent = lazy { getIndent() }
 
     override fun getNoneLibSupporterClassName(rawClassName: String):String {
         return ""
@@ -35,7 +34,7 @@ object NoneSupporter : INoneLibSupporter {
 
         val blockBuilder = StringBuilder()
 
-        blockBuilder.append(indent.value)
+        blockBuilder.append(getIndent())
         blockBuilder.append(KPropertyKeyword.get())
         blockBuilder.append(" ")
         blockBuilder.append(rawPropertyName)

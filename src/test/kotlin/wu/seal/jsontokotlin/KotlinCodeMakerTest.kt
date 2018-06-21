@@ -162,7 +162,7 @@ class KotlinCodeMakerTest {
                 { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },
                 { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
                 ] } """
-        ConfigManagerTestHelper.testAllBoolConfigsWithAction {
+        ConfigManagerTestHelper().testAllBoolConfigsWithAction {
             val code = KotlinCodeMaker("ClassName", json).makeKotlinData()
             println(code)
         }

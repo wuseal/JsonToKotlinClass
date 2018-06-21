@@ -13,8 +13,6 @@ import wu.seal.jsontokotlin.utils.getIndent
 
 object LoganSquareSupporter : IJsonLibSupporter {
 
-    private val indent = lazy { getIndent() }
-
     val classAnnotation = "@JsonObject"
     val propertyAnnotationFormat = "@JsonField(name = arrayOf(\"%s\"))"
 
@@ -29,7 +27,7 @@ object LoganSquareSupporter : IJsonLibSupporter {
 
         val loganSquareSupportPropertyBuilder = StringBuilder()
 
-        loganSquareSupportPropertyBuilder.append(indent.value)
+        loganSquareSupportPropertyBuilder.append(getIndent())
 
         loganSquareSupportPropertyBuilder.append(LoganSquareSupporter.propertyAnnotationFormat.format(rawPropertyName))
 

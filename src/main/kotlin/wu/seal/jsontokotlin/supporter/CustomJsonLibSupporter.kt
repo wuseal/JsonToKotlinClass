@@ -14,7 +14,6 @@ import wu.seal.jsontokotlin.utils.numberOf
 
 object CustomJsonLibSupporter : IJsonLibSupporter {
 
-    private val indent = lazy { getIndent() }
 
     private val propertyAnnotation
         get() = ConfigManager.customPropertyAnnotationFormatString
@@ -46,12 +45,12 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
         val propertyAnnotationString = getPropertyAnnotationString(rawPropertyName)
 
         propertyAnnotationString.split("\n").forEach {
-            customJsonLibSupportPropertyBuilder.append(indent.value)
+            customJsonLibSupportPropertyBuilder.append(getIndent())
             customJsonLibSupportPropertyBuilder.append(it)
             customJsonLibSupportPropertyBuilder.append("\n")
         }
 
-        customJsonLibSupportPropertyBuilder.append(indent.value)
+        customJsonLibSupportPropertyBuilder.append(getIndent())
 
         customJsonLibSupportPropertyBuilder.append(KPropertyKeyword.get())
 
