@@ -24,7 +24,6 @@ interface IGsonSupporter {
 
 object GsonSupporter : IGsonSupporter {
 
-    private val indent = lazy { getIndent() }
 
     /**
      * When adapter Gson lib at most ,We should import the Anotation Class
@@ -37,7 +36,7 @@ object GsonSupporter : IGsonSupporter {
 
         val gsonSupportPropertyBuilder = StringBuilder()
 
-        gsonSupportPropertyBuilder.append(indent.value)
+        gsonSupportPropertyBuilder.append(getIndent())
 
         gsonSupportPropertyBuilder.append(GsonSupporter.propertyAnnotationFormat.format(rawPropertyName))
 

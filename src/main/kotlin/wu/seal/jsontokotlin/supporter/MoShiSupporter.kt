@@ -12,8 +12,6 @@ import wu.seal.jsontokotlin.utils.getIndent
 
 object MoShiSupporter : IJsonLibSupporter {
 
-    private val indent = lazy { getIndent() }
-
     override val annotationImportClassString: String
         get() = "import com.squareup.moshi.Json"
 
@@ -24,7 +22,7 @@ object MoShiSupporter : IJsonLibSupporter {
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
         val moShijsonSupportPropertyBuilder = StringBuilder()
 
-        moShijsonSupportPropertyBuilder.append(indent.value)
+        moShijsonSupportPropertyBuilder.append(getIndent())
 
         moShijsonSupportPropertyBuilder.append(MoShiSupporter.propertyAnnotationFormat.format(rawPropertyName))
 

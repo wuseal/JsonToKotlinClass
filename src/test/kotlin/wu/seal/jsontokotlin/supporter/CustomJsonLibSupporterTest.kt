@@ -31,7 +31,7 @@ class CustomJsonLibSupporterTest {
 
         println(propertyBlockString)
 
-        assert(propertyBlockString.contains(String.format(ConfigManager.customPropertyAnnotationFormatString, rawPropertyName)))
+        assert(propertyBlockString.contains(rawPropertyName))
 
     }
 

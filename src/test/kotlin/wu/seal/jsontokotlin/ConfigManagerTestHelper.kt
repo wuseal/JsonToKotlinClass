@@ -5,7 +5,7 @@ import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
 import kotlin.reflect.KMutableProperty0
 
-object ConfigManagerTestHelper {
+class ConfigManagerTestHelper {
 
 
     @Before

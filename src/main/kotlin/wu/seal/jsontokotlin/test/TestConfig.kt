@@ -54,6 +54,8 @@ object TestConfig {
 
         enableMinimalAnnotation = false
 
+        indent = 4
+
     }
 
 

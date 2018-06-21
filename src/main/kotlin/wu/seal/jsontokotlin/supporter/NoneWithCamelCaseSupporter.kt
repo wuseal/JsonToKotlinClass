@@ -14,7 +14,6 @@ import wu.seal.jsontokotlin.utils.getIndent
 
 object NoneWithCamelCaseSupporter : INoneLibSupporter {
 
-    private val indent = lazy { getIndent() }
 
     override fun getNoneLibSupporterClassName(rawClassName: String):String {
         return ""
@@ -25,7 +24,7 @@ object NoneWithCamelCaseSupporter : INoneLibSupporter {
 
         val blockBuilder = StringBuilder()
 
-        blockBuilder.append(indent.value)
+        blockBuilder.append(getIndent())
         blockBuilder.append(KPropertyKeyword.get())
         blockBuilder.append(" ")
         blockBuilder.append(KPropertyName.getName(rawPropertyName))
