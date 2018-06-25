@@ -20,7 +20,7 @@ apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
 
 group 'wu.seal'
-version '2.2-dev'
+version '2.2-eap'
 
 intellij {
     version '2017.1'
