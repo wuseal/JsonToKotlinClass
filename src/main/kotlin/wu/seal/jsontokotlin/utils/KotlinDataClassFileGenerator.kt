@@ -11,14 +11,14 @@ import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.filetype.KotlinFileType
-import wu.seal.jsontokotlin.interceptor.IInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
 import wu.seal.jsontokotlin.utils.classblockparse.NestedClassModelClassesCodeParser
 import wu.seal.jsontokotlin.utils.classblockparse.NormalClassesCodeParser
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 
-class KotlinDataClassFileGenerator(private val interceptors: List<IInterceptor> = InterceptorManager.getEnabledInterceptors()) {
+class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataClassInterceptor> = InterceptorManager.getEnabledKotlinDataClassInterceptors()) {
 
     /**
      * record the renamed class name when generate multiple files

@@ -5,7 +5,7 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 /**
  * interceptor to make the code to be like the minimal annotation
  */
-class MinimalAnnotationInterceptor() : IInterceptor {
+class MinimalAnnotationKotlinDataClassInterceptor() : IKotlinDataClassInterceptor {
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
         val newProperties = kotlinDataClass.properties.map {

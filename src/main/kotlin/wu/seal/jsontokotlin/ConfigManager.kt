@@ -13,6 +13,7 @@ object ConfigManager : IConfigManager {
     private const val ENABLE_MAP_TYP_KEY = "json-to-kotlin-class-enable-map-type"
     private const val ENABLE_AUTO_REFORMAT = "json-to-kotlin-class-enable-auto-reformat"
     private const val ENABLE_MINIMAL_ANNOTATION = "json-to-kotlin-class-enable-minimal-annotation"
+    private const val PARENT_CLASS_TEMPLATE = "json-to-kotlin-class-parent-class-template"
 
     var indent: Int
         get() = if (TestConfig.isTestModel) TestConfig.indent else PropertiesComponent.getInstance().getInt(
@@ -50,6 +51,20 @@ object ConfigManager : IConfigManager {
                 TestConfig.enableMinimalAnnotation = value
             } else {
                 PropertiesComponent.getInstance().setValue(ENABLE_MINIMAL_ANNOTATION, value, false)
+            }
+        }
+
+    var parenClassTemplate: String
+        get() = if (TestConfig.isTestModel) {
+            TestConfig.parenClassTemplate
+        } else {
+            PropertiesComponent.getInstance().getValue(PARENT_CLASS_TEMPLATE, "")
+        }
+        set(value) {
+            if (TestConfig.isTestModel) {
+                TestConfig.parenClassTemplate = value
+            } else {
+                PropertiesComponent.getInstance().setValue(PARENT_CLASS_TEMPLATE, value, "")
             }
         }
 }

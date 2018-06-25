@@ -5,7 +5,7 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 /**
  * Interceptor for code transform
  */
-interface IInterceptor {
+interface IKotlinDataClassInterceptor {
 
     /**
      * intercept the kotlindataclass and modify the class,the function will return a new  Kotlin Data Class Object

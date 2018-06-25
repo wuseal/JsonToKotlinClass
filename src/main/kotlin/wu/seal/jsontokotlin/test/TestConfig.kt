@@ -36,6 +36,8 @@ object TestConfig {
 
     var enableMinimalAnnotation = false
 
+    var parenClassTemplate = ""
+
     private var state = State()
 
     fun setToTestInitState() {
@@ -56,23 +58,9 @@ object TestConfig {
 
         indent = 4
 
+        parenClassTemplate = ""
     }
 
-
-    fun setToTestPureNestedClassInitState() {
-        isTestModel = true
-        isCommentOff = true
-        isPropertiesVar = false
-        targetJsonConvertLib = TargetJsonConverter.None
-        propertyTypeStrategy = PropertyTypeStrategy.NotNullable
-        initWithDefaultValue = false
-        isNestedClassModel = true
-        customPropertyAnnotationFormatString = ""
-        customClassAnnotationFormatString = ""
-        customAnnotaionImportClassString = ""
-        enableMinimalAnnotation = false
-
-    }
 
     fun saveState() {
         val newState = State()
@@ -88,6 +76,7 @@ object TestConfig {
         newState.customClassAnnotationFormatString = customClassAnnotationFormatString
         newState.customAnnotaionImportClassString = customAnnotaionImportClassString
         newState.enableMinimalAnnotation = enableMinimalAnnotation
+        newState.parenClassTemplate = parenClassTemplate
         state = newState
     }
 
@@ -103,6 +92,7 @@ object TestConfig {
         customClassAnnotationFormatString = state.customClassAnnotationFormatString
         customAnnotaionImportClassString = state.customAnnotaionImportClassString
         enableMinimalAnnotation = state.enableMinimalAnnotation
+        parenClassTemplate = state.parenClassTemplate
     }
 
     class State {
@@ -123,6 +113,8 @@ object TestConfig {
         var enableMapType: Boolean = true
         var enableAutoReformat: Boolean = true
         var enableMinimalAnnotation = false
+
+        var parenClassTemplate = ""
 
     }
 }

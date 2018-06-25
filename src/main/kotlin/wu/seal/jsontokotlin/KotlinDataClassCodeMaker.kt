@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin
 
-import wu.seal.jsontokotlin.interceptor.IInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 
 class KotlinDataClassCodeMaker(private val rootClassName: String, private val json: String) {
@@ -9,7 +9,7 @@ class KotlinDataClassCodeMaker(private val rootClassName: String, private val js
 
         return if (needMakeKotlinCodeByKotlinDataClass()) {
 
-            makeKotlinDataClassCode(InterceptorManager.getEnabledInterceptors())
+            makeKotlinDataClassCode(InterceptorManager.getEnabledKotlinDataClassInterceptors())
 
         } else {
             KotlinCodeMaker(rootClassName, json).makeKotlinData()
@@ -17,10 +17,10 @@ class KotlinDataClassCodeMaker(private val rootClassName: String, private val js
     }
 
     private fun needMakeKotlinCodeByKotlinDataClass(): Boolean {
-        return InterceptorManager.getEnabledInterceptors().isNotEmpty()
+        return InterceptorManager.getEnabledKotlinDataClassInterceptors().isNotEmpty()
     }
 
-    fun makeKotlinDataClassCode(interceptors: List<IInterceptor>): String {
+    fun makeKotlinDataClassCode(interceptors: List<IKotlinDataClassInterceptor>): String {
         val kotlinDataClasses = KotlinDataClassMaker(rootClassName = rootClassName, json = json).makeKotlinDataClasses()
         val interceptedDataClasses = kotlinDataClasses.map {it.applyInterceptors(interceptors)}
         val code = interceptedDataClasses.joinToString("\n\n") {
