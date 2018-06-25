@@ -1,8 +1,9 @@
 package wu.seal.jsontokotlin.utils
 
 import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.ImportClassWriter
 import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
+import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.supporter.*
 
 /**
@@ -16,7 +17,7 @@ object ImportClassDeclaration {
      */
     fun getImportClassDeclaration(): String {
 
-        return when (ConfigManager.targetJsonConverterLib) {
+        val importClassDeclaration = when (ConfigManager.targetJsonConverterLib) {
 
             TargetJsonConverter.Gson -> {
                 GsonSupporter.annotationImportClassString
@@ -41,5 +42,24 @@ object ImportClassDeclaration {
                 ""
             }
         }
+
+
+        return applyImportClassDeclarationInterceptors(
+            importClassDeclaration,
+            InterceptorManager.getEnabledImportClassDeclarationInterceptors()
+        )
+
+    }
+
+
+    fun applyImportClassDeclarationInterceptors(
+        originImportClassDeclaration: String,
+        interceptors: List<IImportClassDeclarationInterceptor>
+    ): String {
+        var importClassDeclaration = originImportClassDeclaration
+        interceptors.forEach {
+            importClassDeclaration = it.intercept(importClassDeclaration)
+        }
+        return importClassDeclaration
     }
 }

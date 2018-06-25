@@ -25,7 +25,7 @@ class MinimalAnnotationInterceptorTest {
 )"""
         val kotlinDataClass =
             KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
-        val interceptor = MinimalAnnotationInterceptor()
+        val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
         val interceptedDataClass = interceptor.intercept(kotlinDataClass)
         interceptedDataClass.getCode().should.be.equal("""data class Data(
     @SerializedName("UserID")
@@ -46,7 +46,7 @@ class MinimalAnnotationInterceptorTest {
 )"""
         val kotlinDataClass =
             KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
-        val interceptor = MinimalAnnotationInterceptor()
+        val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
         val interceptedDataClass = interceptor.intercept(kotlinDataClass)
         interceptedDataClass.getCode().should.be.equal("""data class Data(
     @SerializedName
@@ -68,7 +68,7 @@ class MinimalAnnotationInterceptorTest {
         ConfigManager.customPropertyAnnotationFormatString ="@SerializedName(\"%s\", default = \"%s\")"
         val kotlinDataClass =
             KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
-        val interceptor = MinimalAnnotationInterceptor()
+        val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
         val interceptedDataClass = interceptor.intercept(kotlinDataClass)
         interceptedDataClass.getCode().should.be.equal("""data class Data(
     @SerializedName

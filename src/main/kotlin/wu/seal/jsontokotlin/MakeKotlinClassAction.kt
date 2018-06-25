@@ -132,10 +132,10 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
                 offset = caret.offset
                 if (offset == 0) {
-                    offset = document.textLength - 1
+                    offset = document.textLength
                 }
             } else {
-                offset = document.textLength - 1
+                offset = document.textLength
             }
             document.insertString(
                 Math.max(offset, 0),

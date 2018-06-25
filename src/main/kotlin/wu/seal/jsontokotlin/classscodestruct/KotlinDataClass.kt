@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.classscodestruct
 
-import wu.seal.jsontokotlin.interceptor.IInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
@@ -68,12 +68,20 @@ data class KotlinDataClass(
         return ParsedKotlinDataClass(annotationCodeList, name, parsedProperties)
     }
 
-    fun applyInterceptors(interceptors: List<IInterceptor>): KotlinDataClass {
+    fun applyInterceptors(interceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
         var kotlinDataClass = this
         interceptors.forEach {
-            kotlinDataClass = it.intercept(kotlinDataClass)
+            kotlinDataClass = kotlinDataClass.applyInterceptorWithNestedClasses(it)
         }
         return kotlinDataClass
+    }
+
+    fun applyInterceptorWithNestedClasses(interceptor: IKotlinDataClassInterceptor): KotlinDataClass {
+        if (nestedClasses.isNotEmpty()) {
+            val newNestedClasses = nestedClasses.map { it.applyInterceptorWithNestedClasses(interceptor) }
+            return interceptor.intercept(this).copy(nestedClasses = newNestedClasses)
+        }
+        return interceptor.intercept(this)
     }
 
     companion object {

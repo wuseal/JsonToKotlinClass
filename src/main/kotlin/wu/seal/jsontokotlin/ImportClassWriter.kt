@@ -2,8 +2,9 @@ package wu.seal.jsontokotlin
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
-import sun.tools.java.ClassDeclaration
+import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.supporter.*
+import wu.seal.jsontokotlin.utils.ImportClassDeclaration
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 
 /**
@@ -42,7 +43,7 @@ object ImportClassWriter : IImportClassWriter {
             TargetJsonConverter.Custom -> insertCustomImportClass(project, editFile)
 
             else -> {
-                println("No need to import any Class code")
+                writeImportClassDeclaration(editFile, "", project)
             }
         }
     }
@@ -67,13 +68,20 @@ object ImportClassWriter : IImportClassWriter {
     private fun insertImportClassString(editFile: Document, importClassString: String, project: Project?) {
 
         val text = editFile.text
-        importClassString.split("\n").forEach { importClassLineString ->
+
+        val interceptedImportClassDeclaration = ImportClassDeclaration.applyImportClassDeclarationInterceptors(
+            importClassString,
+            InterceptorManager.getEnabledImportClassDeclarationInterceptors()
+        )
+
+        interceptedImportClassDeclaration.split("\n").forEach { importClassLineString ->
 
             if (importClassLineString !in text) {
 
                 val packageIndex = text.indexOf("package ")
                 val importIndex = Math.max(text.lastIndexOf("import"), packageIndex)
-                val insertIndex = if (importIndex == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(importIndex))
+                val insertIndex =
+                    if (importIndex == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(importIndex))
 
 
                 executeCouldRollBackAction(project) {
@@ -85,7 +93,7 @@ object ImportClassWriter : IImportClassWriter {
     }
 
     fun writeImportClassDeclaration(editFile: Document, classDeclaration: String, project: Project?) {
-        insertImportClassString(editFile,classDeclaration,project)
+        insertImportClassString(editFile, classDeclaration, project)
     }
 
 }

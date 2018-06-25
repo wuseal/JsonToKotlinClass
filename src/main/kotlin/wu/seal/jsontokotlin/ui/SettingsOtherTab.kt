@@ -50,16 +50,17 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         val enableMinimalAnnotation = JBCheckBox("Only create annotations when needed")
         enableMinimalAnnotation.isSelected = ConfigManager.enableMinimalAnnotation
-        enableMinimalAnnotation.addActionListener { ConfigManager.enableMinimalAnnotation = enableMinimalAnnotation.isSelected }
+        enableMinimalAnnotation.addActionListener {
+            ConfigManager.enableMinimalAnnotation = enableMinimalAnnotation.isSelected
+        }
 
 
         val enableAutoReformat =
             JBCheckBox("Auto reformatting generated code according to code style.")
         val enableAutoReformatNoteLable = JBLabel("(Note that the Indent option bellow would be ignored.)")
-        enableAutoReformatNoteLable.border = JBEmptyBorder(0,25,0,0)
+        enableAutoReformatNoteLable.border = JBEmptyBorder(0, 25, 0, 0)
         enableAutoReformat.isSelected = ConfigManager.enableAutoReformat
         enableAutoReformat.addActionListener { ConfigManager.enableAutoReformat = enableAutoReformat.isSelected }
-
 
 
         val indentJPanel = JPanel()
@@ -94,6 +95,23 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         indentField.text = ConfigManager.indent.toString()
         indentJPanel.add(indentField)
 
+        val parentClassPanel = JPanel()
+        parentClassPanel.border = JBEmptyBorder(0)
+        parentClassPanel.layout = FlowLayout(FlowLayout.LEFT)
+        parentClassPanel.add(JBLabel("Parent Class Template: "))
+        val parentClassField = JBTextField(20)
+        parentClassField.text = ConfigManager.parenClassTemplate
+        parentClassField.addFocusListener(object : FocusListener {
+            override fun focusGained(e: FocusEvent?) {
+            }
+
+            override fun focusLost(e: FocusEvent?) {
+                ConfigManager.parenClassTemplate = parentClassField.text
+            }
+
+        })
+        parentClassPanel.add(parentClassField)
+
         add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(enableComment)
@@ -115,9 +133,14 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
+
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(parentClassPanel)
+
     }
 
 }
