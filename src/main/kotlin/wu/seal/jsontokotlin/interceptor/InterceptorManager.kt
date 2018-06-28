@@ -4,21 +4,22 @@ import wu.seal.jsontokotlin.ConfigManager
 
 object InterceptorManager {
 
-    fun getEnabledKotlinDataClassInterceptors() :List<IKotlinDataClassInterceptor>{
+    fun getEnabledKotlinDataClassInterceptors(): List<IKotlinDataClassInterceptor> {
 
-        val interceptors = mutableListOf<IKotlinDataClassInterceptor>()
-        if (ConfigManager.enableMinimalAnnotation) {
-            interceptors.add(MinimalAnnotationKotlinDataClassInterceptor())
-        }
+        return mutableListOf<IKotlinDataClassInterceptor>().apply {
 
-        if (ConfigManager.parenClassTemplate.isNotBlank()) {
-            interceptors.add(ParentClassTemplateKotlinDataClassInterceptor())
+            if (ConfigManager.enableMinimalAnnotation) {
+                add(MinimalAnnotationKotlinDataClassInterceptor())
+            }
+
+            if (ConfigManager.parenClassTemplate.isNotBlank()) {
+                add(ParentClassTemplateKotlinDataClassInterceptor())
+            }
         }
-        return interceptors
     }
 
 
-    fun getEnabledImportClassDeclarationInterceptors(): List<IImportClassDeclarationInterceptor>{
+    fun getEnabledImportClassDeclarationInterceptors(): List<IImportClassDeclarationInterceptor> {
 
         return mutableListOf<IImportClassDeclarationInterceptor>().apply {
 
