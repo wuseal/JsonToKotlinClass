@@ -21,6 +21,8 @@
         <br>Generating Kotlin data class as inner classes</br>
         <br>Formatting any legal JSON string</br>
         <br>Generating Map Type when json key is primitive type</br>
+        <br>Only create annotation when needed</br>
+        <br>Custom define data class parent class</br>
         <br></br>
 
       <em>kotlin</em>
@@ -38,9 +40,8 @@
 
 
     <change-notes><![CDATA[
+       <br>Add support parent class declaration</br>
        <br>Fixed bugs</br>
-       <br>Add support for generate kotlin class code from network json api</br>
-       <br>Add Only create annotation if need option in other tab</br>
     ]]>
     </change-notes>
 

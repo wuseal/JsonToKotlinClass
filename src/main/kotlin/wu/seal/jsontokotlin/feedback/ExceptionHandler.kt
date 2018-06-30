@@ -49,6 +49,6 @@ fun dealWithException(jsonString: String, e: Throwable) {
         jsonString1 = "User keep private about JSON text"
     }
     getUncaughtExceptionHandler(jsonString1) {
-        Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again later or recover to the old version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass\nWe will fixed it soon!", "Occur a fatal error")
+        Messages.showErrorDialog("I am sorry,JsonToKotlinClass may occur a RuntimeException,\nYou could try again after update to the latest version,\nOr you could post an issue here:\nhttps://github.com/wuseal/JsonToKotlinClass\nWe will fixed it soon!", "Occur a fatal error")
     }.uncaughtException(Thread.currentThread(), e)
 }
