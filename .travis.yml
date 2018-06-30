@@ -28,7 +28,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    repo: wuseal/JsonToKotlinClass
     condition: "$TRAVIS_TAG =~ V\\d+\\.\\d+\\.\\d+$"
 env:
   global:
