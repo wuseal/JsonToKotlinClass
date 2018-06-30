@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.ui
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
+import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
@@ -64,6 +65,8 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
 
         val indentJPanel = JPanel()
+        indentJPanel.border = JBEmptyBorder(0,5,0,0)
+        indentJPanel.maximumSize = JBDimension(400, 30)
         indentJPanel.layout = FlowLayout(FlowLayout.LEFT)
         indentJPanel.add(JBLabel("Indent (number of space): "))
         val indentField = JBTextField(2)
@@ -96,7 +99,8 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         indentJPanel.add(indentField)
 
         val parentClassPanel = JPanel()
-        parentClassPanel.border = JBEmptyBorder(0)
+        parentClassPanel.maximumSize = JBDimension(400, 30)
+        parentClassPanel.border = JBEmptyBorder(0,5,0,0)
         parentClassPanel.layout = FlowLayout(FlowLayout.LEFT)
         parentClassPanel.add(JBLabel("Parent Class Template: "))
         val parentClassField = JBTextField(20)
@@ -133,13 +137,14 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
 
-        add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
 
-        add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(parentClassPanel)
+
+        add(Box.createVerticalGlue())
+
 
     }
 
