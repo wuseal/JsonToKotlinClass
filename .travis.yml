@@ -29,7 +29,12 @@ deploy:
   on:
     tags: true
     repo: wuseal/JsonToKotlinClass
-    condition: "$TRAVIS_TAG =~ V\\d+\\.\\d+\\.\\d+$"
+    condition: "$TRAVIS_TAG =~ ^V[0-9]+\\.[0-9]+\\.[0-9]+$"
+
+cache:
+  directories:
+    - $HOME/.m2
+
 env:
   global:
   - secure: qwrh8fE9lGA3RTzMvV7aA1jN3Hp271GEnSzaWZZIbQeQV36OuZ4S9uYkSIIbVvDZ1uyodh67UOFv7WgmaYkQJmVpW0YjObwfquaLA86ibZaHj7c4SZDXOkVhq1b3Vbhp1G9dCIGDeHmx9OVakmhvEr6ZmuGyskLA0oXS5dDXClUAeINRS9hX7sCZRRVkDl/s2hrqiUINYKEYUyE6eUaIaqCH1NYw5ywxEpaMtobDsxjcttKuspY69ak0rNoUMVVHupS1B5jRpUuMzJc/8YIf0u1MTxg6QIWy+xPWSl1f/NP/PvA1Bx1BcZnTnumemYyn6MG0W6SXIAPLPPHnWmDFnZPls3krk48/HLWd9j/HeMqahG093ZxB9DV1rls+OCgBFmJPdf5A2RznG7afnpMqj/juzyX/qaGfGDkljo6SsPKWHo4ffT7KcGsHB/dM3Gf5qTDqQ3SWuDLqGjZpvvODjM/PSKBsdADpOY85wZnq4nYHm3cQqtMCQOt+Ztr9SXAu3d5YA/+ZUuvdhlQQKJOxn/YcEu3CvrmbBgibCkeL/jJzcePmWidbYmiwBl+ZRVu47y9x8fMWQVn0OELrX64dvAUrXh8cwvDT00R8Hk8mWkpgnB7oSf1+BS9C9KPdWvJIpYpzC/xfXvAu2NOcJj42guv83/EMxWFsM644GDQkwuw=
