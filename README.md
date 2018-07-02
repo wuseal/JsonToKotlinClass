@@ -121,7 +121,17 @@ And you're done! Go to directory `build/distributions` and you'll find `JsonToKo
 
 ### Contribute to This Repo
 
-Find it useful and want to contribute?
+Find it useful and want to contribute? All sorts of contributions are welcome, including but not limited to:
+
+- Open an issue [here](https://github.com/wuseal/JsonToKotlinClass/issues) if you find a bug;
+
+- Help test the EAP version and report bugs:
+
+Go to the "Plugins" settings, click "Browse repositories..." => "Manage repositories..." and click the "+" button to add the EAP channel repository URL "https://plugins.jetbrains.com/plugins/eap/list". Optionally, you can also add the Alpha and Beta channel repository URLs "https://plugins.jetbrains.com/plugins/alpha/list" and "https://plugins.jetbrains.com/plugins/beta/list".
+
+> Kindly note that the "EAP" or "Alpha" or "Beta" channel update may be unstable and tend to be buggy, if you want to get back to the stable version, remove the "EAP" or "Alpha" or "Beta" version and reinstall this plugin from the "JetBrains Plugin Repository" channel, which can be filtered by the drop-down menu next to the search input field.
+
+- Contribute your code:
 
 ```shell
 $ git clone https://github.com/wuseal/JsonToKotlinClass
