@@ -47,15 +47,17 @@ Have a try with the settings dialog :stuck_out_tongue_winking_eye:
 * Generating Kotlin data class from any legal JSON string or any **URLs that returns a JSON string as response**
 * Generating Kotlin data class from any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`
 * Supporting (almostly) all kinds of JSON libs' annotation(Gson, Jackson, Fastjson, MoShi and LoganSquare, kotlinx.serialization(default custom value))
-* Customizing your own annotations
-* Initializing properties with default values
+* [Customizing your own annotations](https://github.com/wuseal/JsonToKotlinClass/issues/19)
+* (Initializing properties with default values)[https://github.com/wuseal/JsonToKotlinClass/issues/6]
 * Allowing properties to be nullable(?)
-* Determining property nullability automatically
+* (Determining property nullability automatically)[https://github.com/wuseal/JsonToKotlinClass/issues/23]
 * Renaming property names to be camelCase style when selecting a target JSON lib annotation．
 * Generating Kotlin `data class` as individual classes
 * Generating Kotlin `data class` as inner classes
-* Formatting any legal JSON string
+* [Formatting any legal JSON string](https://github.com/wuseal/JsonToKotlinClass/issues/18)
 * Generating Map Type when json key is primitive type
+* [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/44)
+* [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 
 ### Generate Example 
 * Default
