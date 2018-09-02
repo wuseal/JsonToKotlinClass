@@ -15,6 +15,12 @@ object InterceptorManager {
             if (ConfigManager.parenClassTemplate.isNotBlank()) {
                 add(ParentClassTemplateKotlinDataClassInterceptor())
             }
+
+        }.apply {
+
+            if (size > 1) {
+                add(0, MakePropertyOriginNameInterceptor())
+            }
         }
     }
 

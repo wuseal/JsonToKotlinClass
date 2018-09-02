@@ -11,19 +11,8 @@ class MinimalAnnotationKotlinDataClassInterceptor() : IKotlinDataClassIntercepto
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
         val newProperties = kotlinDataClass.properties.map {
-            if (it.annotations.isNotEmpty()) {
-                val rawName = it.getRawName()
-                if (rawName.isEmpty()) {
-                    it
-                } else {
-                    if (rawName == it.name) {
-                        it.copy(annotations = it.annotations.filter {
-                            it.rawName.isBlank()
-                        })
-                    } else {
-                        it
-                    }
-                }
+            if (it.originName == it.name) {
+                it.copy(annotations = it.annotations.filter { it.rawName.isBlank() })
             } else {
                 it
             }

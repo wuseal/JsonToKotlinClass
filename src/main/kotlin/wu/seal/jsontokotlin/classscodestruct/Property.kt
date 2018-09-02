@@ -10,7 +10,8 @@ data class Property(
     val value: String,
     val comment: String,
     val isLast: Boolean,
-    val refTypeId: Int = -1 // the id of property type,if can't reference in current generate classes ,use the default value -1
+    val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
+    val originName: String = ""
 ) {
 
     fun getCode(): String {
