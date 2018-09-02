@@ -26,7 +26,7 @@ class MinimalAnnotationInterceptorTest {
         val kotlinDataClass =
             KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
         val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
-        val interceptedDataClass = interceptor.intercept(kotlinDataClass)
+        val interceptedDataClass = interceptor.intercept(MakePropertyOriginNameInterceptor().intercept(kotlinDataClass))
         interceptedDataClass.getCode().should.be.equal("""data class Data(
     @SerializedName("UserID")
     val userID: Int? = 0, // 11
@@ -47,7 +47,7 @@ class MinimalAnnotationInterceptorTest {
         val kotlinDataClass =
             KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
         val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
-        val interceptedDataClass = interceptor.intercept(kotlinDataClass)
+        val interceptedDataClass = interceptor.intercept(MakePropertyOriginNameInterceptor().intercept(kotlinDataClass))
         interceptedDataClass.getCode().should.be.equal("""data class Data(
     @SerializedName
     val userID: Int? = 0, // 11
@@ -69,7 +69,7 @@ class MinimalAnnotationInterceptorTest {
         val kotlinDataClass =
             KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
         val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
-        val interceptedDataClass = interceptor.intercept(kotlinDataClass)
+        val interceptedDataClass = interceptor.intercept(MakePropertyOriginNameInterceptor().intercept(kotlinDataClass))
         interceptedDataClass.getCode().should.be.equal("""data class Data(
     @SerializedName
     val userID: Int? = 0, // 11
