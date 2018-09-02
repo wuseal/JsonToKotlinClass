@@ -39,6 +39,9 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         enableComment.isSelected = ConfigManager.isCommentOff.not()
         enableComment.addActionListener { ConfigManager.isCommentOff = enableComment.isSelected.not() }
 
+        val enableOrderByAlphabetical = JBCheckBox("Enable Order By Alphabetical")
+        enableOrderByAlphabetical.isSelected = ConfigManager.isOrderByAlphabetical
+        enableOrderByAlphabetical.addActionListener { ConfigManager.isOrderByAlphabetical = enableOrderByAlphabetical.isSelected.not() }
 
         val enableInnerClassModel = JBCheckBox("Enable Inner Class Model")
         enableInnerClassModel.isSelected = ConfigManager.isInnerClassModel
@@ -119,6 +122,10 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         add(Box.createVerticalStrut(JBUI.scale(10)))
 
         addComponentIntoVerticalBoxAlignmentLeft(enableComment)
+
+        add(Box.createVerticalStrut(JBUI.scale(20)))
+
+        addComponentIntoVerticalBoxAlignmentLeft(enableOrderByAlphabetical)
 
         add(Box.createVerticalStrut(JBUI.scale(20)))
 
