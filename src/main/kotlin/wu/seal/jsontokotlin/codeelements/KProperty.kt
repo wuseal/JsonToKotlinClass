@@ -41,6 +41,7 @@ class KProperty(private val rawPropertyName: String, private val propertyType: S
                 blockBuilder.append(jsonLibSupportPropertyBlockString)
 
             }
+            else-> blockBuilder.append(NoneSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
         }
 
         return blockBuilder.toString()

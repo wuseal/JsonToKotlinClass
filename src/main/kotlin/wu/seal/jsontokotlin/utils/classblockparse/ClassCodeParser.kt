@@ -93,13 +93,51 @@ class ClassCodeParser(private val classBlockString: String) {
     }
 
     private fun getPropertyKeyword(propertyLine: String): String {
-        val subs = propertyLine.substringBefore(":").split(" ")
-        return subs[subs.size - 2]
+        val stringBeforeColon = propertyLine.substringBefore(":").trim()
+        return when {
+            stringBeforeColon.contains(")") -> {
+                val noAnnotationString = stringBeforeColon.substringAfterLast(")").trim()
+                val keyword = noAnnotationString.split(" ").first()
+                keyword
+            }
+            stringBeforeColon.contains("@") -> {
+                val keyword = stringBeforeColon.split(" ")[1]
+                keyword
+            }
+            else -> {
+                val keyword = stringBeforeColon.split(" ").first()
+                keyword
+            }
+        }.trim()
     }
 
     private fun getPropertyName(propertyLine: String): String {
-        val subs = propertyLine.substringBefore(":").split(" ")
-        return subs.last()
+
+        val stringBeforeColon = propertyLine.substringBefore(":").trim()
+        return when {
+            stringBeforeColon.contains(")") -> {
+                val noAnnotationString = stringBeforeColon.substringAfterLast(")").trim()
+                val splits = noAnnotationString.split(" ")
+                val propertyName =
+                    splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
+                        .joinToString(" ")
+                propertyName
+            }
+            stringBeforeColon.contains("@") -> {
+                val splits = stringBeforeColon.split(" ")
+                val propertyName =
+                    splits.filterIndexed { index, s -> listOf(0, 1).contains(index).not() }
+                        .joinToString(" ")
+                propertyName
+            }
+            else -> {
+                val splits = stringBeforeColon.split(" ")
+                val propertyName =
+                    splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
+                        .joinToString(" ")
+                propertyName
+            }
+        }.trim()
     }
 
     private fun getPropertyType(propertyLine: String, isLastLine: Boolean): String {
