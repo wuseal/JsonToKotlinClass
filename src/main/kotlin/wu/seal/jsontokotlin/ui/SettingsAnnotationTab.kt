@@ -36,14 +36,14 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
 
         boxPanel.border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
 
-        boxPanel.size = JBDimension(480, 320)
-        boxPanel.minimumSize = JBDimension(480, 320)
+        boxPanel.size = JBDimension(480, 350)
+        boxPanel.minimumSize = JBDimension(480, 350)
 
         val subBoxPanel = JPanel()
 
         subBoxPanel.minimumSize = JBDimension(480, 150)
 
-        subBoxPanel.border = JBEmptyBorder(0,10,0,0)
+        subBoxPanel.border = JBEmptyBorder(0, 10, 0, 0)
 
         val subBoxLayout = BoxLayout(subBoxPanel, BoxLayout.PAGE_AXIS)
 
@@ -183,15 +183,23 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
     /**
      * Target JsonLib ConfigPanel
      */
-    class TargetJsonLibConfigPanel(layout: LayoutManager?, isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : JPanel(layout, isDoubleBuffered) {
+    class TargetJsonLibConfigPanel(
+        layout: LayoutManager?,
+        isDoubleBuffered: Boolean,
+        callBack: (selected: Boolean) -> Unit
+    ) : JPanel(layout, isDoubleBuffered) {
 
         constructor(layout: LayoutManager?, callBack: (selected: Boolean) -> Unit) : this(layout, false, callBack)
 
-        constructor(isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : this(FlowLayout(), isDoubleBuffered, callBack)
+        constructor(isDoubleBuffered: Boolean, callBack: (selected: Boolean) -> Unit) : this(
+            FlowLayout(),
+            isDoubleBuffered,
+            callBack
+        )
 
         init {
             val gridLayout = JPanel()
-            gridLayout.layout = GridLayout(4, 2, 10, 10)
+            gridLayout.layout = GridLayout(5, 2, 10, 10)
 
             setLayout(BoxLayout(this, BoxLayout.PAGE_AXIS))
 
@@ -202,6 +210,7 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             val radioButtonJackson = JRadioButton("Jackson")
             val radioButtonFastjson = JRadioButton("Fastjson")
             val radioButtonMoShi = JRadioButton("MoShi")
+            val radioButtonMoShiCodeGen = JRadioButton("MoShi (Codegen)")
             val radioButtonLoganSquare = JRadioButton("LoganSquare")
             val radioButtonCustom = JRadioButton("Others by customize")
 
@@ -231,6 +240,11 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
 
             radioButtonMoShi.addActionListener {
                 ConfigManager.targetJsonConverterLib = TargetJsonConverter.MoShi
+                callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
+            }
+
+            radioButtonMoShiCodeGen.addActionListener {
+                ConfigManager.targetJsonConverterLib = TargetJsonConverter.MoshiCodeGen
                 callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
             }
 
@@ -267,6 +281,10 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoShi) {
 
                 radioButtonMoShi.isSelected = true
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoshiCodeGen) {
+
+                radioButtonMoShiCodeGen.isSelected = true
+
             } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
 
                 radioButtonCustom.isSelected = true
@@ -280,6 +298,7 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             buttonGroupProperty.add(radioButtonJackson)
             buttonGroupProperty.add(radioButtonFastjson)
             buttonGroupProperty.add(radioButtonMoShi)
+            buttonGroupProperty.add(radioButtonMoShiCodeGen)
             buttonGroupProperty.add(radioButtonLoganSquare)
             buttonGroupProperty.add(radioButtonCustom)
 
@@ -289,18 +308,19 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             gridLayout.add(radioButtonJackson)
             gridLayout.add(radioButtonFastjson)
             gridLayout.add(radioButtonMoShi)
+            gridLayout.add(radioButtonMoShiCodeGen)
             gridLayout.add(radioButtonLoganSquare)
             gridLayout.add(radioButtonCustom)
 
-            gridLayout.size = JBDimension(480, 200)
-            gridLayout.preferredSize = JBDimension(480, 200)
-            gridLayout.maximumSize = JBDimension(480, 200)
-            gridLayout.maximumSize = JBDimension(480, 200)
+            gridLayout.size = JBDimension(480, 230)
+            gridLayout.preferredSize = JBDimension(480, 230)
+            gridLayout.maximumSize = JBDimension(480, 230)
+            gridLayout.maximumSize = JBDimension(480, 230)
 
 
-            size = JBDimension(480, 200)
-            maximumSize = JBDimension(480, 200)
-            maximumSize = JBDimension(480, 200)
+            size = JBDimension(480, 230)
+            maximumSize = JBDimension(480, 230)
+            maximumSize = JBDimension(480, 230)
 
             addComponentIntoVerticalBoxAlignmentLeft(gridLayout)
         }
