@@ -21,6 +21,9 @@ interface IConfigManager {
     private val IS_COMMENT_OFF: String
         get() = "need_comment_key"
 
+    private val IS_ORDER_BY_ALPHABETICAL: String
+        get() = "is_order_by_alphabetical"
+
     private val IS_PROPERTY_NULLABLE_KEY: String
         get() = "jsonToKotlin_is_property_nullable_key"
 
@@ -70,6 +73,16 @@ interface IConfigManager {
             PropertiesComponent.getInstance().setValue(IS_COMMENT_OFF, value, true)
         }
 
+    var isOrderByAlphabetical: Boolean
+        get() = if (isTestModel) TestConfig.isOrderByAlphabetical else PropertiesComponent.getInstance().getBoolean(
+            IS_ORDER_BY_ALPHABETICAL,
+                true
+        )
+        set(value) = if (isTestModel) {
+            TestConfig.isOrderByAlphabetical = value
+        } else {
+            PropertiesComponent.getInstance().setValue(IS_ORDER_BY_ALPHABETICAL, value, true)
+        }
 
     var targetJsonConverterLib: TargetJsonConverter
         get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(

@@ -13,6 +13,7 @@ data class ConfigInfo(
     val pluginVersion: String = PLUGIN_VERSION,
     val isPropertiesVar: Boolean = ConfigManager.isPropertiesVar,
     val isCommentOff: Boolean = ConfigManager.isCommentOff,
+    val isOrderByAlphabetical: Boolean = ConfigManager.isOrderByAlphabetical,
     val propertyTypeStrategy: String = ConfigManager.propertyTypeStrategy.name,
     val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
     val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
