@@ -17,6 +17,7 @@ object TestConfig {
      */
     var isTestModel = false
     var isCommentOff = false
+    var isOrderByAlphabetical = false
     var isPropertiesVar = false
     var targetJsonConvertLib = TargetJsonConverter.Gson
     var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
@@ -43,6 +44,7 @@ object TestConfig {
     fun setToTestInitState() {
         isTestModel = true
         isCommentOff = false
+        isOrderByAlphabetical = true
         isPropertiesVar = false
         targetJsonConvertLib = TargetJsonConverter.Gson
         propertyTypeStrategy = PropertyTypeStrategy.NotNullable
@@ -66,6 +68,7 @@ object TestConfig {
         val newState = State()
         newState.isTestModel = isTestModel
         newState.isCommentOff = isCommentOff
+        newState.isOrderByAlphabetical = isOrderByAlphabetical
         newState.isPropertiesVar = isPropertiesVar
         newState.targetJsonConvertLib = targetJsonConvertLib
         newState.propertyTypeStrategy = propertyTypeStrategy
@@ -83,6 +86,7 @@ object TestConfig {
     fun restoreState() {
         isTestModel = state.isTestModel
         isCommentOff = state.isCommentOff
+        isOrderByAlphabetical = state.isOrderByAlphabetical
         isPropertiesVar = state.isPropertiesVar
         targetJsonConvertLib = state.targetJsonConvertLib
         propertyTypeStrategy = state.propertyTypeStrategy
@@ -98,6 +102,7 @@ object TestConfig {
     class State {
         var isTestModel = false
         var isCommentOff = false
+        var isOrderByAlphabetical = true
         var isPropertiesVar = false
         var targetJsonConvertLib = TargetJsonConverter.Gson
         var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
