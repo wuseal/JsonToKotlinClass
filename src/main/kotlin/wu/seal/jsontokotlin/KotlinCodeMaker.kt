@@ -89,7 +89,10 @@ class KotlinCodeMaker {
 
         val size = jsonObject.entrySet().size
 
-        jsonObject.entrySet().forEachIndexed { index, (property, jsonElementValue) ->
+        val entryList =
+                if (ConfigManager.isOrderByAlphabetical) jsonObject.entrySet().sortedBy { it.key }
+                else jsonObject.entrySet()
+        entryList.forEachIndexed { index, (property, jsonElementValue) ->
             val isLast = (index == size - 1)
 
             if (jsonElementValue.isJsonArray) {
