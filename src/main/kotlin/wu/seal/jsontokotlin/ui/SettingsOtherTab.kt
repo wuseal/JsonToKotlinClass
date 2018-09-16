@@ -41,7 +41,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         val enableOrderByAlphabetical = JBCheckBox("Enable Order By Alphabetical")
         enableOrderByAlphabetical.isSelected = ConfigManager.isOrderByAlphabetical
-        enableOrderByAlphabetical.addActionListener { ConfigManager.isOrderByAlphabetical = enableOrderByAlphabetical.isSelected.not() }
+        enableOrderByAlphabetical.addActionListener { ConfigManager.isOrderByAlphabetical = enableOrderByAlphabetical.isSelected }
 
         val enableInnerClassModel = JBCheckBox("Enable Inner Class Model")
         enableInnerClassModel.isSelected = ConfigManager.isInnerClassModel
