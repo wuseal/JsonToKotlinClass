@@ -20,6 +20,10 @@ object InterceptorManager {
                 add(ParentClassTemplateKotlinDataClassInterceptor())
             }
 
+            if(ConfigManager.keywordPropertyValid){
+                add(MakeKeywordNamedPropertyValidInterceptor())
+            }
+
         }.apply {
 
             if (size >= 1) {
