@@ -39,6 +39,8 @@ object TestConfig {
 
     var parenClassTemplate = ""
 
+    var isKeywordPropertyValid = true
+
     private var state = State()
 
     fun setToTestInitState() {
@@ -61,6 +63,8 @@ object TestConfig {
         indent = 4
 
         parenClassTemplate = ""
+
+        isKeywordPropertyValid = true
     }
 
 
@@ -80,6 +84,7 @@ object TestConfig {
         newState.customAnnotaionImportClassString = customAnnotaionImportClassString
         newState.enableMinimalAnnotation = enableMinimalAnnotation
         newState.parenClassTemplate = parenClassTemplate
+        newState.isKeywordPropertyValid = isKeywordPropertyValid
         state = newState
     }
 
@@ -97,6 +102,7 @@ object TestConfig {
         customAnnotaionImportClassString = state.customAnnotaionImportClassString
         enableMinimalAnnotation = state.enableMinimalAnnotation
         parenClassTemplate = state.parenClassTemplate
+        isKeywordPropertyValid = state.isKeywordPropertyValid
     }
 
     class State {
@@ -121,5 +127,6 @@ object TestConfig {
 
         var parenClassTemplate = ""
 
+        var isKeywordPropertyValid = true
     }
 }
