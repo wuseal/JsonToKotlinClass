@@ -20,7 +20,7 @@ object InterceptorManager {
                 add(ParentClassTemplateKotlinDataClassInterceptor())
             }
 
-            if(ConfigManager.keywordPropertyValid){
+            if (ConfigManager.keywordPropertyValid) {
                 add(MakeKeywordNamedPropertyValidInterceptor())
             }
 
