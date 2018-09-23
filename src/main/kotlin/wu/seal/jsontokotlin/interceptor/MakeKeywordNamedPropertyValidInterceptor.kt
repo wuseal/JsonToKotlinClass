@@ -4,7 +4,7 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.utils.KOTLIN_KEYWORD_LIST
 
 /**
- * Use this try to recover the origin name that before property name formatting to camel case
+ * Interceptor to make kotlin keyword property names valid
  */
 class MakeKeywordNamedPropertyValidInterceptor : IKotlinDataClassInterceptor {
 
