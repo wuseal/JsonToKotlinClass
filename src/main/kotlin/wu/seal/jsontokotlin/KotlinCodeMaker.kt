@@ -36,10 +36,14 @@ class KotlinCodeMaker {
 
         val jsonElement = inputElement
         if (jsonElement!!.isJsonObject) {
-            appClassName(stringBuilder)
+            appendClassName(stringBuilder)
             appendCodeMember(stringBuilder, jsonElement.asJsonObject)
         } else {
-            throw IllegalArgumentException("UnSupport")
+            /**
+             * in this condition the only result it that we just give the json a List<Any> type is enough, No need to
+             * do any convert to make class type
+             */
+            throw UnSupportJsonException("Unsupported Json String")
         }
 
         stringBuilder.append(")")
@@ -77,7 +81,7 @@ class KotlinCodeMaker {
         }
     }
 
-    private fun appClassName(stringBuilder: StringBuilder) {
+    private fun appendClassName(stringBuilder: StringBuilder) {
         val classAnnotation = KClassAnnotation.getClassAnnotation(className.toString())
         stringBuilder.append(classAnnotation)
         if (classAnnotation.isNotBlank()) stringBuilder.append("\n")
@@ -111,14 +115,12 @@ class KotlinCodeMaker {
                 if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(jsonElementValue.asJsonObject)) {
                     val mapKeyType = getMapKeyTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
                     val mapValueType = getMapValueTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
-                    if (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
-                        || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
-                    ) {
+                    if (mapValueIsObjectType(mapValueType)) {
                         toBeAppend.add(
-                            KotlinCodeMaker(
-                                getChildType(mapValueType),
-                                jsonElementValue.asJsonObject.entrySet().first().value
-                            ).makeKotlinData()
+                                KotlinCodeMaker(
+                                        getChildType(mapValueType),
+                                        jsonElementValue.asJsonObject.entrySet().first().value
+                                ).makeKotlinData()
                         )
                     }
                     val mapType = "Map<$mapKeyType,$mapValueType>"
@@ -136,13 +138,16 @@ class KotlinCodeMaker {
         }
     }
 
+    private fun mapValueIsObjectType(mapValueType: String) = (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
+            || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE))
+
 
     private fun addProperty(
-        stringBuilder: StringBuilder,
-        property: String,
-        type: String,
-        value: String?,
-        isLast: Boolean = false
+            stringBuilder: StringBuilder,
+            property: String,
+            type: String,
+            value: String?,
+            isLast: Boolean = false
     ) {
         var innerValue = value
         if (innerValue == null) {
@@ -158,7 +163,7 @@ class KotlinCodeMaker {
         val propertyComment = p.getPropertyComment()
         if (!ConfigManager.isCommentOff && propertyComment.isNotBlank())
             stringBuilder.append(" // ")
-                .append(getCommentCode(propertyComment))
+                    .append(getCommentCode(propertyComment))
         stringBuilder.append("\n")
     }
 
