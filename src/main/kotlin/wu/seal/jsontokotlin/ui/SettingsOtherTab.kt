@@ -60,7 +60,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
 
         val enableAutoReformat =
-            JBCheckBox("Auto reformatting generated code according to code style.")
+                JBCheckBox("Auto reformatting generated code according to code style.")
         val enableAutoReformatNoteLable = JBLabel("(Note that the Indent option bellow would be ignored.)")
         enableAutoReformatNoteLable.border = JBEmptyBorder(0, 25, 0, 0)
         enableAutoReformat.isSelected = ConfigManager.enableAutoReformat
@@ -68,7 +68,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
 
         val indentJPanel = JPanel()
-        indentJPanel.border = JBEmptyBorder(0,5,0,0)
+        indentJPanel.border = JBEmptyBorder(0, 5, 0, 0)
         indentJPanel.maximumSize = JBDimension(400, 30)
         indentJPanel.layout = FlowLayout(FlowLayout.LEFT)
         indentJPanel.add(JBLabel("Indent (number of space): "))
@@ -103,7 +103,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         val parentClassPanel = JPanel()
         parentClassPanel.maximumSize = JBDimension(400, 30)
-        parentClassPanel.border = JBEmptyBorder(0,5,0,0)
+        parentClassPanel.border = JBEmptyBorder(0, 5, 0, 0)
         parentClassPanel.layout = FlowLayout(FlowLayout.LEFT)
         parentClassPanel.add(JBLabel("Parent Class Template: "))
         val parentClassField = JBTextField(20)
@@ -118,6 +118,12 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         })
         parentClassPanel.add(parentClassField)
+
+
+        val keywordPropertyValid = JBCheckBox("Make keyword property names valid")
+        keywordPropertyValid.isSelected = ConfigManager.keywordPropertyValid
+        keywordPropertyValid.addActionListener { ConfigManager.keywordPropertyValid = keywordPropertyValid.isSelected }
+
 
         add(Box.createVerticalStrut(JBUI.scale(10)))
 
@@ -144,11 +150,15 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
         addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
 
+        add(Box.createVerticalStrut(JBUI.scale(20)))
+        addComponentIntoVerticalBoxAlignmentLeft(keywordPropertyValid)
+        add(Box.createVerticalStrut(JBUI.scale(20)))
 
         addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
 
 
         addComponentIntoVerticalBoxAlignmentLeft(parentClassPanel)
+
 
         add(Box.createVerticalGlue())
 

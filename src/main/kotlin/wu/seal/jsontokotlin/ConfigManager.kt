@@ -14,11 +14,12 @@ object ConfigManager : IConfigManager {
     private const val ENABLE_AUTO_REFORMAT = "json-to-kotlin-class-enable-auto-reformat"
     private const val ENABLE_MINIMAL_ANNOTATION = "json-to-kotlin-class-enable-minimal-annotation"
     private const val PARENT_CLASS_TEMPLATE = "json-to-kotlin-class-parent-class-template"
+    private const val KEYWORD_PROPERTY_VALID = "json-to-kotlin-class-keyword-property-valid"
 
     var indent: Int
         get() = if (TestConfig.isTestModel) TestConfig.indent else PropertiesComponent.getInstance().getInt(
-            INDENT_KEY,
-            4
+                INDENT_KEY,
+                4
         )
         set(value) = if (TestConfig.isTestModel) {
             TestConfig.indent = value
@@ -26,8 +27,8 @@ object ConfigManager : IConfigManager {
 
     var enableMapType: Boolean
         get() = if (TestConfig.isTestModel) TestConfig.enableMapType else PropertiesComponent.getInstance().getBoolean(
-            ENABLE_MAP_TYP_KEY,
-            false
+                ENABLE_MAP_TYP_KEY,
+                false
         )
         set(value) = if (TestConfig.isTestModel) {
             TestConfig.enableMapType = value
@@ -67,4 +68,19 @@ object ConfigManager : IConfigManager {
                 PropertiesComponent.getInstance().setValue(PARENT_CLASS_TEMPLATE, value, "")
             }
         }
+
+    var keywordPropertyValid: Boolean
+        get() = if (TestConfig.isTestModel) {
+            TestConfig.isKeywordPropertyValid
+        } else {
+            PropertiesComponent.getInstance().getBoolean(KEYWORD_PROPERTY_VALID, false)
+        }
+        set (value) {
+            if (TestConfig.isTestModel) {
+                TestConfig.isKeywordPropertyValid = value
+            } else {
+                PropertiesComponent.getInstance().setValue(KEYWORD_PROPERTY_VALID, value, false)
+            }
+        }
+
 }
