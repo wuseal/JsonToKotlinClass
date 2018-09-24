@@ -42,7 +42,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
              */
             var tempClassName = ""
             val couldGetAndReuseClassNameInCurrentEditFileForInsertCode =
-                couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText)
+                    couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText)
 
             if (couldGetAndReuseClassNameInCurrentEditFileForInsertCode) {
                 /**
@@ -54,9 +54,9 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             inputDialog.show()
             val className = inputDialog.getClassName()
             val inputString = inputDialog.inputString
-	        val json = if (inputString?.startsWith("http") == true) {
+            val json = if (inputString?.startsWith("http") == true) {
                 URL(inputString).readText()
-	        } else inputString
+            } else inputString
             if (json == null || json.isEmpty()) {
                 return
             }
@@ -75,6 +75,8 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
 
 
+        } catch (e: UnSupportJsonException) {
+            Messages.showInfoMessage("No need converting, just use List<Any> is enough for your json string", "Tip")
         } catch (e: Throwable) {
             dealWithException(jsonString, e)
             throw e
@@ -82,9 +84,9 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     }
 
     private fun reuseClassName(
-        couldGetAndReuseClassNameInCurrentEditFileForInserCode: Boolean,
-        className: String,
-        tempClassName: String
+            couldGetAndReuseClassNameInCurrentEditFileForInserCode: Boolean,
+            className: String,
+            tempClassName: String
     ) = couldGetAndReuseClassNameInCurrentEditFileForInserCode && className == tempClassName
 
     private fun couldNotInsertCode(editor: Editor?): Boolean {
@@ -108,11 +110,11 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     }
 
     private fun insertKotlinCode(
-        project: Project?,
-        document: Document,
-        className: String,
-        jsonString: String,
-        caret: Caret?
+            project: Project?,
+            document: Document,
+            className: String,
+            jsonString: String,
+            caret: Caret?
     ): Boolean {
         ImportClassWriter.insertImportClassCode(project, document)
 
@@ -138,8 +140,8 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 offset = document.textLength
             }
             document.insertString(
-                Math.max(offset, 0),
-                ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinDataClassCode())
+                    Math.max(offset, 0),
+                    ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinDataClassCode())
             )
         }
         return true
@@ -153,12 +155,12 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
     fun getCleanText(editorText: String): String {
         val tempCleanText = editorText.substringBeforeLast("class")
         val cleanText =
-            if (tempCleanText.trim().endsWith("data")) tempCleanText.trim().removeSuffix("data") else tempCleanText
+                if (tempCleanText.trim().endsWith("data")) tempCleanText.trim().removeSuffix("data") else tempCleanText
         return cleanText
     }
 
     fun getCurrentEditFileTemClassName(editorText: String) = editorText.substringAfterLast("class")
-        .substringBefore("(").substringBefore("{").trim()
+            .substringBefore("(").substringBefore("{").trim()
 
     /**
      * whether we could reuse current class name declared in the edit file for inserting data class code
@@ -169,20 +171,20 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
             val removeDocComment = editorText.replace(Regex("/\\*\\*(.|\n)*\\*/", RegexOption.MULTILINE), "")
             val removeDocCommentAndPackageDeclareText = removeDocComment
-                .replace(Regex("^(?:\\s*package |\\s*import ).*$", RegexOption.MULTILINE), "")
+                    .replace(Regex("^(?:\\s*package |\\s*import ).*$", RegexOption.MULTILINE), "")
             if ((removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf(
-                    "class"
-                )
-                        && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
-                        && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("(").not()
-                        && removeDocCommentAndPackageDeclareText.substringAfter("class").contains(":").not()
-                        && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("=").not())
-                || (removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf(
-                    "class"
-                )
-                        && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
-                        && removeDocCommentAndPackageDeclareText.substringAfter("class").substringAfter("(")
-                    .replace(Regex("\\s"), "").let { it.equals(")") || it.equals("){}") })
+                            "class"
+                    )
+                            && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
+                            && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("(").not()
+                            && removeDocCommentAndPackageDeclareText.substringAfter("class").contains(":").not()
+                            && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("=").not())
+                    || (removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf(
+                            "class"
+                    )
+                            && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
+                            && removeDocCommentAndPackageDeclareText.substringAfter("class").substringAfter("(")
+                            .replace(Regex("\\s"), "").let { it.equals(")") || it.equals("){}") })
             ) {
                 couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
             }
