@@ -25,9 +25,11 @@
         <br>Generating Map Type when json key is primitive type</br>
         <br>Only create annotation when needed</br>
         <br>Custom define data class parent class</br>
+        <br>Sort property  order by Alphabetical</br>
+        <br>Make keyword property valid</br>
         <br></br>
 
-        <p><img src="https://plugins.jetbrains.com/files/9960/screenshot_18032.png" alt="demo"></p>
+        <p><img src="https://plugins.jetbrains.com/files/9960/screenshot_18032.png" alt="demo" width="600"></p>
 
       <em>kotlin</em>
       <em>Json</em>
@@ -44,8 +46,9 @@
 
 
     <change-notes><![CDATA[
-       <br>Add support parent class declaration</br>
-       <br>Fixed bugs</br>
+       <br>Sort property  order by Alphabetical</br>
+       <br>Add Moshi (auto codege) annotation option</br>
+        <br>Make keyword property valid</br>
     ]]>
     </change-notes>
 
