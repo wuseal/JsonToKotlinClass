@@ -7,6 +7,8 @@
     <description><![CDATA[
       <br>Plugin for Kotlin to convert Json String into Kotlin data class code quickly</br>
 
+      <br> Fast use it with short cut key ALT + K on Windows or Option + K on Mac</br>
+
       <b><br>Features:</br></b>
 
         <br>Generating Kotlin data class from any legal JSON string or any URLs that returns a JSON string as response
@@ -24,6 +26,8 @@
         <br>Only create annotation when needed</br>
         <br>Custom define data class parent class</br>
         <br></br>
+
+        <p><img src="https://plugins.jetbrains.com/files/9960/screenshot_18032.png" alt="demo"></p>
 
       <em>kotlin</em>
       <em>Json</em>
