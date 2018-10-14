@@ -18,6 +18,8 @@ class DefaultValueKtTest {
         getDefaultValue("Int").should.be.equal("0")
         getDefaultValue("Long").should.be.equal("0")
         getDefaultValue("Any").should.be.equal("Any()")
+        getDefaultValue("AList").should.be.equal("AList()")
+
     }
 
 }
