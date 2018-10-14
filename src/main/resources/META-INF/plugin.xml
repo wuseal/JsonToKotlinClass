@@ -1,7 +1,6 @@
 <idea-plugin>
     <id>wu.seal.tool.jsontokotlin</id>
     <name>JSON To Kotlin Class (JsonToKotlinClass)</name>
-    <version>2.1.1</version>
     <vendor email="sealkingking@163.com" url="https://www.github.com/wuseal">Seal</vendor>
 
     <description><![CDATA[
@@ -29,7 +28,7 @@
         <br>Make keyword property valid</br>
         <br></br>
 
-        <p><img src="https://plugins.jetbrains.com/files/9960/screenshot_18032.png" alt="demo" width="600"></p>
+        <p><img src="https://plugins.jetbrains.com/files/9960/screenshot_18032.png" alt="demo" width="600" height="360"></p>
 
       <em>kotlin</em>
       <em>Json</em>
