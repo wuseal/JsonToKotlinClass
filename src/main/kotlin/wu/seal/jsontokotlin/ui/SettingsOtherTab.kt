@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.ui
 
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
+import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
@@ -30,8 +31,25 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
-        val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
-        setLayout(boxLayout)
+
+        val parentLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+        setLayout(parentLayout)
+
+        val boxPanel = JPanel()
+        val boxLayout = BoxLayout(boxPanel, BoxLayout.PAGE_AXIS)
+        boxPanel.setLayout(boxLayout)
+        val jbScrollPane = JBScrollPane(boxPanel)
+
+        jbScrollPane.size = JBDimension(500, 320)
+        jbScrollPane.preferredSize = JBDimension(500, 320)
+        jbScrollPane.maximumSize = JBDimension(500, 320)
+        jbScrollPane.maximumSize = JBDimension(500, 320)
+
+        jbScrollPane.border = null
+        addComponentIntoVerticalBoxAlignmentLeft(jbScrollPane)
+
+
+
         val bordWidth = JBUI.scale(10)
         border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
 
@@ -125,42 +143,41 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         keywordPropertyValid.addActionListener { ConfigManager.keywordPropertyValid = keywordPropertyValid.isSelected }
 
 
-        add(Box.createVerticalStrut(JBUI.scale(10)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
 
-        addComponentIntoVerticalBoxAlignmentLeft(enableComment)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableComment)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        addComponentIntoVerticalBoxAlignmentLeft(enableOrderByAlphabetical)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableOrderByAlphabetical)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        addComponentIntoVerticalBoxAlignmentLeft(enableInnerClassModel)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableInnerClassModel)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        addComponentIntoVerticalBoxAlignmentLeft(enableMapType)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableMapType)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        addComponentIntoVerticalBoxAlignmentLeft(enableMinimalAnnotation)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableMinimalAnnotation)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
-        addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
 
-        add(Box.createVerticalStrut(JBUI.scale(20)))
-        addComponentIntoVerticalBoxAlignmentLeft(keywordPropertyValid)
-        add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(keywordPropertyValid)
 
-        addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
-
-
-        addComponentIntoVerticalBoxAlignmentLeft(parentClassPanel)
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
 
 
-        add(Box.createVerticalGlue())
+        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(parentClassPanel)
+
+
+        boxPanel.add(Box.createVerticalGlue())
 
 
     }
