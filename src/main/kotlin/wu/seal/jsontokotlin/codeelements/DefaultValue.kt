@@ -21,9 +21,9 @@ fun getDefaultValue(propertyType: String): String {
         return 0.0.toString()
     } else if (rawType == TYPE_BOOLEAN) {
         return false.toString()
-    } else if (rawType.contains("List")) {
+    } else if (rawType.contains("List<")) {
         return "listOf()"
-    } else if (rawType.contains("Map")) {
+    } else if (rawType.contains("Map<")) {
         return "mapOf()"
     } else if (rawType == TYPE_ANY) {
         return "Any()"
