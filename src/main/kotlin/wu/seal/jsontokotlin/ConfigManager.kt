@@ -73,7 +73,7 @@ object ConfigManager : IConfigManager {
         get() = if (TestConfig.isTestModel) {
             TestConfig.isKeywordPropertyValid
         } else {
-            PropertiesComponent.getInstance().getBoolean(KEYWORD_PROPERTY_VALID, false)
+            PropertiesComponent.getInstance().getBoolean(KEYWORD_PROPERTY_VALID, true)
         }
         set (value) {
             if (TestConfig.isTestModel) {
