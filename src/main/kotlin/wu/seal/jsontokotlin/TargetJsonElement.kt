@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.*
+import wu.seal.jsontokotlin.utils.onlyHasOneElementRecursive
 import java.util.*
 
 /**
@@ -29,6 +30,8 @@ class TargetJsonElement : ITargetJsonElement {
                 } else {
                     throw IllegalStateException("Unbelievable！ should not throw out this exception")
                 }
+            } else if(jsonElement.asJsonArray.onlyHasOneElementRecursive()){
+                return getArrayChildElement(this.jsonElement.asJsonArray)
             } else if (allElementAreSamePrimitiveType(jsonElement.asJsonArray)) {
                 return jsonElement.asJsonArray[0]
             } else {
@@ -42,6 +45,7 @@ class TargetJsonElement : ITargetJsonElement {
             return this.jsonElement
         }
     }
+
 
     private fun allElementAreObject(jsonArray: JsonArray): Boolean {
         var allElementAreObject = true
@@ -95,6 +99,8 @@ class TargetJsonElement : ITargetJsonElement {
         /**
          * get an element from the element array , And the result element should contains all the json field in every
          * element of the array
+         *
+         * the input argument jsonArray should only contains jsonObject or only contains one element Recursive like [[["element"]]]
          */
         fun getFullFieldElementFromArrayElement(jsonArray: JsonArray): JsonElement {
 
@@ -118,6 +124,8 @@ class TargetJsonElement : ITargetJsonElement {
 
             return gson.fromJson(gson.toJson(map), JsonElement::class.java)
         }
+
+
     }
 
 }

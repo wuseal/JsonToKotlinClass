@@ -1,7 +1,9 @@
 package wu.seal.jsontokotlin
 
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.sun.org.apache.regexp.internal.RE
 import wu.seal.jsontokotlin.codeelements.KClassAnnotation
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
@@ -16,16 +18,20 @@ class KotlinCodeMaker {
     private var className: String? = null
     private var inputElement: JsonElement? = null
 
+    private var originElement:JsonElement
+
     private val indent = getIndent()
 
     private val toBeAppend = HashSet<String>()
 
     constructor(className: String, inputText: String) {
+        originElement = Gson().fromJson<JsonElement>(inputText,JsonElement::class.java)
         this.inputElement = TargetJsonElement(inputText).getTargetJsonElementForGeneratingCode()
         this.className = className
     }
 
     constructor(className: String, jsonElement: JsonElement) {
+        originElement = jsonElement
         this.inputElement = TargetJsonElement(jsonElement).getTargetJsonElementForGeneratingCode()
         this.className = className
     }
@@ -35,16 +41,10 @@ class KotlinCodeMaker {
         stringBuilder.append("\n")
 
         val jsonElement = inputElement
-        if (jsonElement!!.isJsonObject) {
-            appendClassName(stringBuilder)
-            appendCodeMember(stringBuilder, jsonElement.asJsonObject)
-        } else {
-            /**
-             * in this condition the only result it that we just give the json a List<Any> type is enough, No need to
-             * do any convert to make class type
-             */
-            throw UnSupportJsonException("Unsupported Json String")
-        }
+        checkIsNotEmptyObjectJSONElement(jsonElement)
+
+        appendClassName(stringBuilder)
+        appendCodeMember(stringBuilder, jsonElement?.asJsonObject!!)
 
         stringBuilder.append(")")
         if (toBeAppend.isNotEmpty()) {
@@ -52,6 +52,35 @@ class KotlinCodeMaker {
         }
 
         return stringBuilder.toString()
+    }
+
+    //the fucking code
+    private fun checkIsNotEmptyObjectJSONElement(jsonElement: JsonElement?) {
+        if (jsonElement!!.isJsonObject) {
+            if (jsonElement.asJsonObject.entrySet().isEmpty() && originElement.isJsonArray) {
+                //when [[[{}]]]
+                if (originElement.asJsonArray.onlyHasOneElementRecursive()) {
+                    val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
+                    val adviceType = getArrayType("Any", originElement.asJsonArray).replace(Regex("Int|Float|String|Boolean"), "Any")
+                    unSupportJsonException.advice = """No need converting, just use $adviceType is enough for your json string"""
+                    throw unSupportJsonException
+                } else {
+                    //when [1,"a"]
+                    val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
+                    unSupportJsonException.advice = """No need converting, just use List<Any> is enough for your json string"""
+                    throw unSupportJsonException
+                }
+            }
+        } else {
+            /**
+             * in this condition the only result it that we just give the json a List<Any> type is enough, No need to
+             * do any convert to make class type
+             */
+            val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
+            val adviceType = getArrayType("Any", originElement.asJsonArray).replace("AnyX", "Any")
+            unSupportJsonException.advice = """No need converting, just use $adviceType is enough for your json string"""
+            throw unSupportJsonException
+        }
     }
 
     private fun appendSubClassCode(stringBuilder: StringBuilder) {
