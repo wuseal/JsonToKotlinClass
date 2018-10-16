@@ -76,12 +76,15 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
 
         } catch (e: UnSupportJsonException) {
-            Messages.showInfoMessage("No need converting, just use List<Any> is enough for your json string", "Tip")
+            val advice = e.advice
+            Messages.showInfoMessage(dealWithHtmlConvert(advice), "Tip")
         } catch (e: Throwable) {
             dealWithException(jsonString, e)
             throw e
         }
     }
+
+    private fun dealWithHtmlConvert(advice: String) = advice.replace("<", "&lt;").replace(">", "&gt;")
 
     private fun reuseClassName(
             couldGetAndReuseClassNameInCurrentEditFileForInserCode: Boolean,
@@ -127,6 +130,8 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             return false
         }
 
+        val generateClassesString = codeMaker.makeKotlinDataClassCode()
+
         executeCouldRollBackAction(project) {
             var offset: Int
 
@@ -141,7 +146,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             }
             document.insertString(
                     Math.max(offset, 0),
-                    ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinDataClassCode())
+                    ClassCodeFilter.removeDuplicateClassCode(generateClassesString)
             )
         }
         return true

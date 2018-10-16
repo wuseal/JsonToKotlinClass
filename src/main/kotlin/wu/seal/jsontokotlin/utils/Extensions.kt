@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.utils
 
+import com.google.gson.JsonArray
 import java.awt.Component
 import java.awt.Container
 import java.util.regex.Matcher
@@ -47,4 +48,30 @@ fun String.numberOf(subString: String):Int {
         count++
     }
     return count
+}
+
+/**
+ * array only has one element
+ */
+private fun JsonArray.onlyHasOneElement(): Boolean {
+    return size() == 1
+}
+
+/**
+ * if Multidimensional Arrays only has one element
+ */
+fun JsonArray.onlyHasOneElementRecursive(): Boolean {
+
+    if (size() == 0) {
+        return false
+    }
+    if (onlyHasOneElement().not()) {
+        return false
+    }
+
+    if (get(0).isJsonPrimitive || get(0).isJsonObject || get(0).isJsonNull) {
+        return true
+    }
+
+    return get(0).asJsonArray.onlyHasOneElementRecursive()
 }
