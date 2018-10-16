@@ -67,7 +67,7 @@ class KotlinCodeMaker {
                 } else {
                     //when [1,"a"]
                     val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
-                    unSupportJsonException.advice = """No need converting, just use List<Any> is enough for your json string"""
+                    unSupportJsonException.advice = """No need converting,  List<Any> may be a good class type for your json string"""
                     throw unSupportJsonException
                 }
             }
