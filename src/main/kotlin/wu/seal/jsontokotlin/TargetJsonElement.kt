@@ -1,9 +1,13 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.*
+import wu.seal.jsontokotlin.utils.onlyHasOneElementRecursive
 import java.util.*
 
-
+/**
+ * This class aim at filtering out the expected Json Element to be convert from Json array
+ *
+ */
 class TargetJsonElement : ITargetJsonElement {
     private val jsonElement: JsonElement
 
@@ -17,16 +21,68 @@ class TargetJsonElement : ITargetJsonElement {
 
     override fun getTargetJsonElementForGeneratingCode(): JsonElement {
         if (this.jsonElement.isJsonArray) {
-            val jsonElementNotArray = getArrayChildElement(this.jsonElement.asJsonArray)
-            if (jsonElementNotArray.isJsonObject) {
-                return jsonElementNotArray
+            if (jsonElement.asJsonArray.size() == 0) {
+                return gson.toJsonTree(Any())
+            } else if (allElementAreObject(jsonElement.asJsonArray)) {
+                val jsonElementNotArray = getArrayChildElement(this.jsonElement.asJsonArray)
+                if (jsonElementNotArray.isJsonObject) {
+                    return jsonElementNotArray
+                } else {
+                    throw IllegalStateException("Unbelievable！ should not throw out this exception")
+                }
+            } else if(jsonElement.asJsonArray.onlyHasOneElementRecursive()){
+                return getArrayChildElement(this.jsonElement.asJsonArray)
+            } else if (allElementAreSamePrimitiveType(jsonElement.asJsonArray)) {
+                return jsonElement.asJsonArray[0]
+            } else {
+                return gson.toJsonTree(Any())
             }
         } else if (this.jsonElement.isJsonObject) {
             return this.jsonElement
+        } else if (this.jsonElement.isJsonPrimitive) {
+            return this.jsonElement
+        } else {
+            return this.jsonElement
         }
-        throw IllegalFormatFlagsException("Unsupported Json String")
     }
 
+
+    private fun allElementAreObject(jsonArray: JsonArray): Boolean {
+        var allElementAreObject = true
+        jsonArray.forEach {
+            if (it.isJsonObject.not()) {
+                allElementAreObject = false
+                return@forEach
+            }
+        }
+        return allElementAreObject
+    }
+
+    private fun allElementAreSamePrimitiveType(jsonArray: JsonArray): Boolean {
+        var allElementAreSamePrimitiveType = true
+        jsonArray.forEach {
+            if (it.isJsonPrimitive.not()) {
+                allElementAreSamePrimitiveType = false
+                return@forEach
+            }
+            if (theSamePrimitiveType(jsonArray[0].asJsonPrimitive, it.asJsonPrimitive).not()) {
+                allElementAreSamePrimitiveType = false
+                return@forEach
+            }
+        }
+        return allElementAreSamePrimitiveType
+    }
+
+    private fun theSamePrimitiveType(first: JsonPrimitive, second: JsonPrimitive): Boolean {
+
+        val sameBoolean = first.isBoolean && second.isBoolean
+
+        val sameNumber = first.isNumber && second.isNumber
+
+        val sameString = first.isString && second.isString
+
+        return sameBoolean || sameNumber || sameString
+    }
 
     private fun getArrayChildElement(jsonArray: JsonArray): JsonElement {
         if (jsonArray.size() >= 1) {
@@ -43,6 +99,8 @@ class TargetJsonElement : ITargetJsonElement {
         /**
          * get an element from the element array , And the result element should contains all the json field in every
          * element of the array
+         *
+         * the input argument jsonArray should only contains jsonObject or only contains one element Recursive like [[["element"]]]
          */
         fun getFullFieldElementFromArrayElement(jsonArray: JsonArray): JsonElement {
 
@@ -66,6 +124,8 @@ class TargetJsonElement : ITargetJsonElement {
 
             return gson.fromJson(gson.toJson(map), JsonElement::class.java)
         }
+
+
     }
 
 }

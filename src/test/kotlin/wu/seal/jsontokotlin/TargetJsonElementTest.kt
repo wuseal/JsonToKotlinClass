@@ -41,6 +41,12 @@ class TargetJsonElementTest {
 
         val text7 = """[1,"2",true]"""
 
+        val text8 = """[[[1]]]"""
+
+        val text9 = """[[1,2],[]]"""
+
+
+
 
         val targetElementJson1 = getTargetElementJson(gson, text1)
         targetElementJson1.should.be.equal(gson.toJson(gson.fromJson(text1, JsonElement::class.java)))
@@ -52,16 +58,22 @@ class TargetJsonElementTest {
         targetElementJson3.should.be.equal(gson.toJson(Any()))
 
         val targetElementJson4 = getTargetElementJson(gson, text4)
-        targetElementJson4.should.be.equal(error)
+        targetElementJson4.should.be.equal("1")
 
         val targetElementJson5 = getTargetElementJson(gson, text5)
-        targetElementJson5.should.be.equal(error)
+        targetElementJson5.should.be.equal("1")
 
         val targetElementJson6 = getTargetElementJson(gson, text6)
-        targetElementJson6.should.be.equal(error)
+        targetElementJson6.should.be.equal("\"1\"")
 
         val targetElementJson7 = getTargetElementJson(gson, text7)
-        targetElementJson7.should.be.equal(error)
+        targetElementJson7.should.be.equal("{}")
+
+        val targetElementJson8 = getTargetElementJson(gson, text8)
+        targetElementJson8.should.be.equal("1")
+
+        val targetElementJson9 = getTargetElementJson(gson, text9)
+        targetElementJson9.should.be.equal("{}")
 
     }
 

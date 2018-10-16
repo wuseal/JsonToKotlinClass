@@ -1,7 +1,9 @@
 package wu.seal.jsontokotlin
 
+import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.sun.org.apache.regexp.internal.RE
 import wu.seal.jsontokotlin.codeelements.KClassAnnotation
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
@@ -16,16 +18,20 @@ class KotlinCodeMaker {
     private var className: String? = null
     private var inputElement: JsonElement? = null
 
+    private var originElement:JsonElement
+
     private val indent = getIndent()
 
     private val toBeAppend = HashSet<String>()
 
     constructor(className: String, inputText: String) {
+        originElement = Gson().fromJson<JsonElement>(inputText,JsonElement::class.java)
         this.inputElement = TargetJsonElement(inputText).getTargetJsonElementForGeneratingCode()
         this.className = className
     }
 
     constructor(className: String, jsonElement: JsonElement) {
+        originElement = jsonElement
         this.inputElement = TargetJsonElement(jsonElement).getTargetJsonElementForGeneratingCode()
         this.className = className
     }
@@ -35,12 +41,10 @@ class KotlinCodeMaker {
         stringBuilder.append("\n")
 
         val jsonElement = inputElement
-        if (jsonElement!!.isJsonObject) {
-            appClassName(stringBuilder)
-            appendCodeMember(stringBuilder, jsonElement.asJsonObject)
-        } else {
-            throw IllegalArgumentException("UnSupport")
-        }
+        checkIsNotEmptyObjectJSONElement(jsonElement)
+
+        appendClassName(stringBuilder)
+        appendCodeMember(stringBuilder, jsonElement?.asJsonObject!!)
 
         stringBuilder.append(")")
         if (toBeAppend.isNotEmpty()) {
@@ -48,6 +52,35 @@ class KotlinCodeMaker {
         }
 
         return stringBuilder.toString()
+    }
+
+    //the fucking code
+    private fun checkIsNotEmptyObjectJSONElement(jsonElement: JsonElement?) {
+        if (jsonElement!!.isJsonObject) {
+            if (jsonElement.asJsonObject.entrySet().isEmpty() && originElement.isJsonArray) {
+                //when [[[{}]]]
+                if (originElement.asJsonArray.onlyHasOneElementRecursive()) {
+                    val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
+                    val adviceType = getArrayType("Any", originElement.asJsonArray).replace(Regex("Int|Float|String|Boolean"), "Any")
+                    unSupportJsonException.advice = """No need converting, just use $adviceType is enough for your json string"""
+                    throw unSupportJsonException
+                } else {
+                    //when [1,"a"]
+                    val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
+                    unSupportJsonException.advice = """No need converting, just use List<Any> is enough for your json string"""
+                    throw unSupportJsonException
+                }
+            }
+        } else {
+            /**
+             * in this condition the only result it that we just give the json a List<Any> type is enough, No need to
+             * do any convert to make class type
+             */
+            val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
+            val adviceType = getArrayType("Any", originElement.asJsonArray).replace("AnyX", "Any")
+            unSupportJsonException.advice = """No need converting, just use $adviceType is enough for your json string"""
+            throw unSupportJsonException
+        }
     }
 
     private fun appendSubClassCode(stringBuilder: StringBuilder) {
@@ -77,7 +110,7 @@ class KotlinCodeMaker {
         }
     }
 
-    private fun appClassName(stringBuilder: StringBuilder) {
+    private fun appendClassName(stringBuilder: StringBuilder) {
         val classAnnotation = KClassAnnotation.getClassAnnotation(className.toString())
         stringBuilder.append(classAnnotation)
         if (classAnnotation.isNotBlank()) stringBuilder.append("\n")
@@ -111,14 +144,12 @@ class KotlinCodeMaker {
                 if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(jsonElementValue.asJsonObject)) {
                     val mapKeyType = getMapKeyTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
                     val mapValueType = getMapValueTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
-                    if (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
-                        || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE)
-                    ) {
+                    if (mapValueIsObjectType(mapValueType)) {
                         toBeAppend.add(
-                            KotlinCodeMaker(
-                                getChildType(mapValueType),
-                                jsonElementValue.asJsonObject.entrySet().first().value
-                            ).makeKotlinData()
+                                KotlinCodeMaker(
+                                        getChildType(mapValueType),
+                                        jsonElementValue.asJsonObject.entrySet().first().value
+                                ).makeKotlinData()
                         )
                     }
                     val mapType = "Map<$mapKeyType,$mapValueType>"
@@ -136,13 +167,16 @@ class KotlinCodeMaker {
         }
     }
 
+    private fun mapValueIsObjectType(mapValueType: String) = (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
+            || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE))
+
 
     private fun addProperty(
-        stringBuilder: StringBuilder,
-        property: String,
-        type: String,
-        value: String?,
-        isLast: Boolean = false
+            stringBuilder: StringBuilder,
+            property: String,
+            type: String,
+            value: String?,
+            isLast: Boolean = false
     ) {
         var innerValue = value
         if (innerValue == null) {
@@ -158,7 +192,7 @@ class KotlinCodeMaker {
         val propertyComment = p.getPropertyComment()
         if (!ConfigManager.isCommentOff && propertyComment.isNotBlank())
             stringBuilder.append(" // ")
-                .append(getCommentCode(propertyComment))
+                    .append(getCommentCode(propertyComment))
         stringBuilder.append("\n")
     }
 
