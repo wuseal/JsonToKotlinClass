@@ -47,7 +47,8 @@
     <change-notes><![CDATA[
        <br>Sort property  order by Alphabetical</br>
        <br>Add Moshi (auto codege) annotation option</br>
-        <br>Make keyword property valid</br>
+       <br>Make keyword property valid</br>
+       <br> Fix bugs </br>
     ]]>
     </change-notes>
 
