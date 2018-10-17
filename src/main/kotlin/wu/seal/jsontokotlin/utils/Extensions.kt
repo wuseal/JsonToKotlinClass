@@ -3,7 +3,6 @@ package wu.seal.jsontokotlin.utils
 import com.google.gson.JsonArray
 import java.awt.Component
 import java.awt.Container
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.swing.Box
 import javax.swing.BoxLayout
@@ -24,7 +23,7 @@ fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component) {
 
 }
 
-fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component, leftMargin:Int) {
+fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component, leftMargin: Int) {
     if (layout is BoxLayout) {
 
         val hBox = Box.createHorizontalBox()
@@ -40,10 +39,10 @@ fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component, lef
 /**
  * How many substring in the parent string
  */
-fun String.numberOf(subString: String):Int {
+fun String.numberOf(subString: String): Int {
     var count = 0
     val pattern = Pattern.compile(subString)
-    val matcher= pattern.matcher(this)
+    val matcher = pattern.matcher(this)
     while (matcher.find()) {
         count++
     }
@@ -55,6 +54,25 @@ fun String.numberOf(subString: String):Int {
  */
 private fun JsonArray.onlyHasOneElement(): Boolean {
     return size() == 1
+}
+
+/**
+ * array only has one object element
+ */
+private fun JsonArray.onlyHasOneObjectElement(): Boolean {
+    return size() == 1 && get(0).isJsonObject
+}
+
+/**
+ * array only has object element
+ */
+private fun JsonArray.allObjectElement(): Boolean {
+    forEach {
+        if (it.isJsonObject.not()) {
+            return false
+        }
+    }
+    return  true
 }
 
 /**
@@ -74,4 +92,48 @@ fun JsonArray.onlyHasOneElementRecursive(): Boolean {
     }
 
     return get(0).asJsonArray.onlyHasOneElementRecursive()
+}
+
+
+/**
+ * if Multidimensional Arrays only has one element
+ */
+fun JsonArray.onlyHasOneObjectElementRecursive(): Boolean {
+
+    if (size() == 0) {
+        return false
+    }
+    if (onlyHasOneElement().not()) {
+        return false
+    }
+
+    if (get(0).isJsonPrimitive || get(0).isJsonNull) {
+        return false
+    }
+
+    if (get(0).isJsonObject) {
+        return true
+    }
+    return get(0).asJsonArray.onlyHasOneObjectElementRecursive()
+}
+
+
+/**
+ * if Multidimensional Arrays only has one dimension contains element and the elements are all object element
+ */
+fun JsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive(): Boolean {
+
+    if (size() == 0) {
+        return false
+    }
+
+    if (get(0).isJsonPrimitive || get(0).isJsonNull) {
+        return false
+    }
+
+    if (allObjectElement()) {
+        return true
+    }
+
+    return get(0).asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()
 }

@@ -2,7 +2,7 @@ package wu.seal.jsontokotlin
 
 import com.google.gson.*
 import wu.seal.jsontokotlin.utils.onlyHasOneElementRecursive
-import java.util.*
+import wu.seal.jsontokotlin.utils.onlyOneSubArrayContainsElementAndAllObjectRecursive
 
 /**
  * This class aim at filtering out the expected Json Element to be convert from Json array
@@ -30,7 +30,7 @@ class TargetJsonElement : ITargetJsonElement {
                 } else {
                     throw IllegalStateException("Unbelievable！ should not throw out this exception")
                 }
-            } else if(jsonElement.asJsonArray.onlyHasOneElementRecursive()){
+            } else if (jsonElement.asJsonArray.onlyHasOneElementRecursive() || jsonElement.asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()) {
                 return getArrayChildElement(this.jsonElement.asJsonArray)
             } else if (allElementAreSamePrimitiveType(jsonElement.asJsonArray)) {
                 return jsonElement.asJsonArray[0]

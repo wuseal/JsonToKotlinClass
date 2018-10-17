@@ -3,7 +3,6 @@ package wu.seal.jsontokotlin
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.sun.org.apache.regexp.internal.RE
 import wu.seal.jsontokotlin.codeelements.KClassAnnotation
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
@@ -18,14 +17,14 @@ class KotlinCodeMaker {
     private var className: String? = null
     private var inputElement: JsonElement? = null
 
-    private var originElement:JsonElement
+    private var originElement: JsonElement
 
     private val indent = getIndent()
 
     private val toBeAppend = HashSet<String>()
 
     constructor(className: String, inputText: String) {
-        originElement = Gson().fromJson<JsonElement>(inputText,JsonElement::class.java)
+        originElement = Gson().fromJson<JsonElement>(inputText, JsonElement::class.java)
         this.inputElement = TargetJsonElement(inputText).getTargetJsonElementForGeneratingCode()
         this.className = className
     }
@@ -131,7 +130,9 @@ class KotlinCodeMaker {
             if (jsonElementValue.isJsonArray) {
                 val type = getArrayType(property, jsonElementValue.asJsonArray)
 
-                if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray)) {
+                if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray) || jsonElementValue.asJsonArray.onlyHasOneObjectElementRecursive()
+                        || jsonElementValue.asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()) {
+
                     toBeAppend.add(KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData())
                 }
                 addProperty(stringBuilder, property, type, "", isLast)

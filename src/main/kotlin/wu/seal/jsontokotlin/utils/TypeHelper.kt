@@ -103,10 +103,15 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
                     getJsonObjectType(preSubType)
 
                 } else if (next.isJsonArray) {
-                    getArrayType(preSubType, next.asJsonArray)
+                    if (jsonArray.size() == 1) {
+                        getArrayType(preSubType, next.asJsonArray)
+                    } else {
+                        DEFAULT_TYPE
+                    }
                 } else {
                     DEFAULT_TYPE
                 }
+        return "List<$subType>"
     }
     return "List<$subType>"
 }
