@@ -28,6 +28,10 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
         val bordWidth = JBUI.scale(10)
         border = EmptyBorder(bordWidth, bordWidth, 0, bordWidth)
 
+        size = JBDimension(500, 320)
+        preferredSize = JBDimension(500, 320)
+        maximumSize = JBDimension(500, 320)
+        maximumSize = JBDimension(500, 320)
         val keywordLable = JLabel("Keyword")
 
         val radioButtonVal = JRadioButton("Val")
