@@ -11,6 +11,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
+import org.apache.http.client.utils.URIBuilder
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
@@ -26,55 +27,52 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
     override fun actionPerformed(event: AnActionEvent) {
         var jsonString = ""
         try {
-            val project = event.getData(PlatformDataKeys.PROJECT)
-            project?.let {
-                val dataContext = event.dataContext
-                val module = LangDataKeys.MODULE.getData(dataContext)
-                module?.let {
-                    val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
-                    val directory: PsiDirectory? =
-                        if (navigatable is PsiDirectory) {
-                            navigatable
-                        } else if (navigatable is PsiFile) {
-                            navigatable.containingDirectory
-                        } else {
-                            val root = ModuleRootManager.getInstance(module)
-                            var tempDirectory: PsiDirectory? = null
-                            for (file in root.sourceRoots) {
-                                tempDirectory = PsiManager.getInstance(project).findDirectory(file)
-                                if (tempDirectory != null) {
-                                    break
-                                }
-                            }
-                            tempDirectory
+            val project = event.getData(PlatformDataKeys.PROJECT) ?: return
+
+            val dataContext = event.dataContext
+            val module = LangDataKeys.MODULE.getData(dataContext) ?: return
+
+            val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
+            val directory: PsiDirectory =
+                if (navigatable is PsiDirectory) {
+                    navigatable
+                } else if (navigatable is PsiFile) {
+                    navigatable.containingDirectory
+                } else {
+                    val root = ModuleRootManager.getInstance(module)
+                    var tempDirectory: PsiDirectory? = null
+                    for (file in root.sourceRoots) {
+                        tempDirectory = PsiManager.getInstance(project).findDirectory(file)
+                        if (tempDirectory != null) {
+                            break
                         }
-                    directory?.let {
-                        val directoryFactory = PsiDirectoryFactory.getInstance(directory.getProject())
-                        val packageName = directoryFactory.getQualifiedName(directory, false)
-                        val psiFileFactory = PsiFileFactory.getInstance(project)
-                        val packageDeclare = if (packageName.isNotEmpty()) "package $packageName" else ""
-                        val inputDialog = JsonInputDialog("", project)
-                        inputDialog.show()
-                        val className = inputDialog.getClassName()
-                        val inputString = inputDialog.inputString
-                        val json = if (inputString?.startsWith("http") == true) {
-                            URL(inputString).readText()
-                        } else inputString
-                        if (json == null || json.isEmpty()) {
-                            return
-                        }
-                        jsonString = json
-                        doGenerateKotlinDataClassFileAction(
-                            className,
-                            json,
-                            packageDeclare,
-                            project,
-                            psiFileFactory,
-                            directory
-                        )
                     }
-                }
+                    tempDirectory
+                } ?: return
+
+            val directoryFactory = PsiDirectoryFactory.getInstance(directory.project)
+            val packageName = directoryFactory.getQualifiedName(directory, false)
+            val psiFileFactory = PsiFileFactory.getInstance(project)
+            val packageDeclare = if (packageName.isNotEmpty()) "package $packageName" else ""
+            val inputDialog = JsonInputDialog("", project)
+            inputDialog.show()
+            val className = inputDialog.getClassName()
+            val inputString = inputDialog.inputString ?: return
+            val json = if (inputString.startsWith("http")) {
+                URL(inputString).readText()
+            } else inputString
+            if (json.isEmpty()) {
+                return
             }
+            jsonString = json
+            doGenerateKotlinDataClassFileAction(
+                className,
+                json,
+                packageDeclare,
+                project,
+                psiFileFactory,
+                directory
+            )
         } catch (e: Throwable) {
             dealWithException(jsonString, e)
             throw e
