@@ -58,7 +58,7 @@ Have a try with the settings dialog :stuck_out_tongue_winking_eye:
 * Generating Map Type when json key is primitive type
 * [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 * [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
-* Generated kotlin data class property order by alphabetical
+* Generating kotlin data class property order by alphabetical
 
 ### Generate Example 
 This is the example JSON from json.org
