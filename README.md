@@ -60,53 +60,67 @@ Have a try with the settings dialog :stuck_out_tongue_winking_eye:
 * [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 
 ### Generate Example 
-* Default
+This is the example JSON from json.org
 
-```kotlin
-data class FD(
-	val programmers: List<Programmer>,
-	val authors: List<Author>,
-	val musicians: List<Musician>
-)
-
-data class Musician(
-	val firstName: String, 
-	val lastName: String, 
-	val instrument: String 
-)
-
-data class Author(
-	val firstName: String, 
-	val lastName: String, 
-	val genre: String 
-)
-
-data class Programmer(
-	val firstName: String, 
-	val lastName: String, 
-	val email: String 
-)
+```json
+{
+    "glossary": {
+        "title": "example glossary",
+		"GlossDiv": {
+            "title": "S",
+			"GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+					"SortAs": "SGML",
+					"GlossTerm": "Standard Generalized Markup Language",
+					"Acronym": "SGML",
+					"Abbrev": "ISO 8879:1986",
+					"GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+						"GlossSeeAlso": ["GML", "XML"]
+                    },
+					"GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
 ```
-
-* Example with gson option on and init with default value option on in settings
+And with this plugin converting, Kotlin data classes would generate like this by default
 
 ```kotlin
-data class TestData(
-   @SerializedName("ticketInfo") val ticketInfo: TicketInfo = TicketInfo(),
-   @SerializedName("trainInfo") val trainInfo: TrainInfo = TrainInfo(),
-   @SerializedName("trainScheduleHead") val trainScheduleHead: List<String> = listOf(),
-   @SerializedName("extInfo") val extInfo: ExtInfo = ExtInfo(),
-   @SerializedName("trainScheduleBody") val trainScheduleBody: List<TrainScheduleBody> = listOf()
-)
+	data class Example(
+	    val glossary: Glossary
+	)
 
-data class TrainScheduleBody(
-   @SerializedName("mxl") val mxl: Long = 0, 
-   @SerializedName("content") val content: List<Int> = listOf()
-)
+	data class Glossary(
+	    val GlossDiv: GlossDiv,
+	    val title: String
+	)
 
-data class TrainInfo(
-   @SerializedName("T110") val t110: T110 = T110()
-)
+	data class GlossDiv(
+	    val GlossList: GlossList,
+	    val title: String
+	)
+
+	data class GlossList(
+	    val GlossEntry: GlossEntry
+	)
+
+	data class GlossEntry(
+	    val Abbrev: String,
+	    val Acronym: String,
+	    val GlossDef: GlossDef,
+	    val GlossSee: String,
+	    val GlossTerm: String,
+	    val ID: String,
+	    val SortAs: String
+	)
+
+	data class GlossDef(
+	    val GlossSeeAlso: List<String>,
+	    val para: String
+	)
 ```
 
 ### Build From Source
@@ -154,10 +168,18 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Thank [@cgoodroe](https://github.com/cgoodroe) for opening many awesome issues for me, help me improve myself
 * Thank [@wangzhenguang](https://github.com/wangzhenguang) for reminding me of the details of the problem
 * Thank [@kezhenxu94](https://github.com/kezhenxu94/) for introducing CI/CD to save me a lot of time :)
+* Thank [iqbalhood](https://github.com/iqbalhood) for contributing logo for this project
+* Thank [akindone](https://github.com/akindone) for adding `order by alphabetical` featrue for `JsonToKotlinClass`
+* Thank [rafalbednarczuk](https://github.com/rafalbednarczuk) for adding `make keyword property valid` featrue for `JsonToKotlinClass`
+
 
 ### Find it useful ? :heart:
 * Support and encourage me by clicking the :star: button on the upper right of this page. :v:
 * Share to others to help more people have a better develope expierience :heart:
+
+### Authors
+* [wuseal](https://github.com/wuseal)
+* [kezhenxu94](https://github.com/kezhenxu94)
 
 ### Contact Community
 #### Scan to join QQ Group
