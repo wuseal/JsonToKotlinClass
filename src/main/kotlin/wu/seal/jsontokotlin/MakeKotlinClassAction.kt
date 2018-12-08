@@ -8,6 +8,12 @@ import com.intellij.openapi.editor.Caret
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.PsiManager
+import com.intellij.openapi.actionSystem.LangDataKeys
+import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.ui.Messages
 import wu.seal.jsontokotlin.feedback.StartAction
 import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
@@ -25,11 +31,16 @@ import java.util.*
 class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
     private val gson = Gson()
+    lateinit var directory: PsiDirectory //directory object to avoid duplicate/repetitive class names
 
     override fun actionPerformed(event: AnActionEvent) {
         var jsonString = ""
         try {
             actionStart()
+
+            // initializing the directory object to check duplicate class names
+            initDirectory(event)
+
             val project = event.getData(PlatformDataKeys.PROJECT)
             val caret = event.getData(PlatformDataKeys.CARET)
             val editor = event.getData(PlatformDataKeys.EDITOR_EVEN_IF_INACTIVE)
@@ -80,6 +91,36 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         }
     }
 
+    /**
+     * initializes the value of directory of the current file
+     */
+    private fun initDirectory(event: AnActionEvent)
+    {
+        val project = event.getData(PlatformDataKeys.PROJECT) ?: return
+
+        val dataContext = event.dataContext
+        val module = LangDataKeys.MODULE.getData(dataContext) ?: return
+
+        val navigatable = LangDataKeys.PSI_FILE.getData(dataContext)
+
+        directory =
+                if (navigatable is PsiDirectory) {
+                    navigatable
+                } else if (navigatable is PsiFile) {
+                    navigatable.containingDirectory
+                } else {
+                    val root = ModuleRootManager.getInstance(module)
+                    var tempDirectory: PsiDirectory? = null
+                    for (file in root.sourceRoots) {
+                        tempDirectory = PsiManager.getInstance(project).findDirectory(file)
+                        if (tempDirectory != null) {
+                            break
+                        }
+                    }
+                    tempDirectory
+                } ?: return
+    }
+
     private fun dealWithHtmlConvert(advice: String) = advice.replace("<", "&lt;").replace(">", "&gt;")
 
     private fun reuseClassName(
@@ -119,7 +160,8 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
         val codeMaker: KotlinDataClassCodeMaker
         try {
-            codeMaker = KotlinDataClassCodeMaker(className, jsonString)
+            //passing current file directory along with className and json
+            codeMaker = KotlinDataClassCodeMaker(className, jsonString, directory)
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
             Messages.showErrorDialog(e.message, "UnSupport Json")

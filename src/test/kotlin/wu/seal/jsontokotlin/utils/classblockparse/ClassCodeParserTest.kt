@@ -5,9 +5,10 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.ConfigManagerTestHelper
 import wu.seal.jsontokotlin.KotlinCodeMaker
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
+import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
+import com.intellij.psi.PsiDirectory
 
 class ClassCodeParserTest {
 
@@ -145,7 +146,7 @@ data class TestData(
         val json = """{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" }"""
         ConfigManagerTestHelper().testAllConfigWithAction {
 
-            val code = KotlinDataClassCodeMaker("ClassName", json).makeKotlinDataClassCode()
+            val code = KotlinCodeMaker("ClassName", json).makeKotlinData()
             val kotlinDataClass = ClassCodeParser(code).getKotlinDataClass()
             kotlinDataClass.name.should.be.equal("ClassName")
         }

@@ -49,6 +49,27 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         showNotify(notifyMessage, project)
     }
 
+
+    // method to make inclass data classes for JsonToKotlinClass
+    fun makeKotlinDataClasses(
+            removeDuplicateClassCode: String,
+            directory: PsiDirectory) : List<ParsedKotlinDataClass>{
+
+         val kotlinClasses = getToBeGenerateClassess(removeDuplicateClassCode = removeDuplicateClassCode, directory = directory)
+
+        val notifyMessage = buildString {
+            append("${kotlinClasses.size} Kotlin Data Class files generated successful")
+            if (renamedClassNames.isNotEmpty()) {
+                append("\n")
+                append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
+            }
+        }
+        showNotify(notifyMessage, null)
+
+
+        return kotlinClasses
+    }
+
     fun generateMultipleDataClassFiles(
         removeDuplicateClassCode: String,
         packageDeclare: String,
@@ -57,21 +78,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         directory: PsiDirectory
     ) {
 
-        val classes =
-            getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
-
-        /**
-         * Build Property Type reference to ParsedKotlinDataClass
-         * Only pre class property type could reference behind classes
-         */
-        val buildRefClasses = buildTypeReference(classes)
-
-        val newClassNames = getNoneConflictClassNames(buildRefClasses, directory)
-
-        val newKotlinClasses = updateClassNames(buildRefClasses, newClassNames)
-
-        val tobeGenerateFilesClasses =
-            synchronizedPropertyTypeWithTypeRef(newKotlinClasses)
+        val tobeGenerateFilesClasses = getToBeGenerateClassess(removeDuplicateClassCode, directory)
 
         tobeGenerateFilesClasses.forEach { kotlinDataClass ->
             generateKotlinDataClassFile(
@@ -91,6 +98,26 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
             }
         }
         showNotify(notifyMessage, project)
+
+    }
+
+    fun getToBeGenerateClassess(removeDuplicateClassCode: String, directory: PsiDirectory) : List<ParsedKotlinDataClass>
+    {
+        val classes =
+                getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
+
+        /**
+         * Build Property Type reference to ParsedKotlinDataClass
+         * Only pre class property type could reference behind classes
+         */
+        val buildRefClasses = buildTypeReference(classes)
+
+        val newClassNames = getNoneConflictClassNames(buildRefClasses, directory)
+
+        val newKotlinClasses = updateClassNames(buildRefClasses, newClassNames)
+
+
+        return synchronizedPropertyTypeWithTypeRef(newKotlinClasses)
 
     }
 
