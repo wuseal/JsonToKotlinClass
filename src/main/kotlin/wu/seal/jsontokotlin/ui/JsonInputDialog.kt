@@ -7,22 +7,17 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.components.JBTabbedPane
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
 import wu.seal.jsontokotlin.feedback.FormatJSONAction
 import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.BorderLayout
-import java.awt.Component
 import java.awt.event.ActionEvent
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
-import java.net.MalformedURLException
-import java.net.URL
 import javax.swing.*
 import javax.swing.event.DocumentEvent
-import javax.swing.filechooser.FileNameExtensionFilter
 import javax.swing.text.JTextComponent
 
 /**
@@ -32,38 +27,21 @@ import javax.swing.text.JTextComponent
 
 
 class MyInputValidator : InputValidator {
-    lateinit var jbTabbedPane: JBTabbedPane
-    lateinit var httpUrlInput: JTextComponent
-    lateinit var fileChooser: JFileChooser
-    lateinit var classNameField: JTextComponent
 
+    lateinit var classNameField: JTextField
     override fun checkInput(inputString: String): Boolean {
-        val classNameBlank = classNameField.text.trim().isBlank()
-        if (classNameBlank) {
-            return false
-        }
-        return when (jbTabbedPane.selectedIndex) {
-            0 -> isJsonStringValid(inputString)
-            1 -> isUrlValid(httpUrlInput.text.trim())
-            2 -> true
-            else -> false
+        return inputString.startsWith("http") || try {
+            val classNameLegal = classNameField.text.trim().isNotBlank()
+            val jsonElement = JsonParser().parse(inputString)
+
+            (jsonElement.isJsonObject || jsonElement.isJsonArray) && classNameLegal
+        } catch (e: JsonSyntaxException) {
+            false
         }
     }
 
-    override fun canClose(inputString: String) = true
-
-    private fun isJsonStringValid(string: String) = try {
-        val jsonElement = JsonParser().parse(string)
-        (jsonElement.isJsonObject || jsonElement.isJsonArray)
-    } catch (e: JsonSyntaxException) {
-        false
-    }
-
-    private fun isUrlValid(urlString: String) = try {
-        URL(urlString)
-        true
-    } catch (e: MalformedURLException) {
-        false
+    override fun canClose(inputString: String): Boolean {
+        return true
     }
 }
 
@@ -72,12 +50,9 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(classsName: String, project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class Code", Messages.getInformationIcon(), "", myInputValidator) {
+class JsonInputDialog(private val classsName: String, project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String for generating Kotlin data class", "Make Kotlin Data Class Code", Messages.getInformationIcon(), "", myInputValidator) {
 
-    private lateinit var jbTabbedPane: JBTabbedPane
-    private lateinit var classNameInput: JTextComponent
-    private lateinit var httpUrlInput: JTextComponent
-    private lateinit var fileChooser: JFileChooser
+    private lateinit var classNameInput: JTextField
 
     private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
 
@@ -89,9 +64,11 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
     override fun createMessagePanel(): JPanel {
         val messagePanel = JPanel(BorderLayout())
         if (myMessage != null) {
-            messagePanel.add(createTextComponent(), BorderLayout.NORTH)
+            val textComponent = createTextComponent()
+            messagePanel.add(textComponent, BorderLayout.NORTH)
         }
         myField = createTextFieldComponent()
+
 
         val classNameInputContainer = createLinearLayoutVertical()
         val classNameTitle = JBLabel("Class Name: ")
@@ -101,7 +78,7 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
         classNameInput.preferredSize = JBDimension(400, 40)
         classNameInput.addKeyListener(object : KeyAdapter() {
             override fun keyTyped(e: KeyEvent) {
-                val keyChar = e.keyChar
+                val keyChar = e.keyChar;
                 if (keyChar == '˚') {
                     e.consume()
                 }
@@ -110,50 +87,30 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
         myInputValidator.classNameField = classNameInput
 
         classNameInput.document.addDocumentListener(object : DocumentAdapter() {
-            override fun textChanged(e: DocumentEvent?) = revalidate()
+            override fun textChanged(e: DocumentEvent?) {
+                okAction.isEnabled = myInputValidator.checkInput(myField.text)
+            }
         })
 
         classNameInputContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameInput)
         classNameInputContainer.preferredSize = JBDimension(500, 56)
 
 
-        val jsonTextComponent = createMyScrollableTextComponent(myField)
+        val createScrollableTextComponent = createMyScrollableTextComponent()
         val jsonInputContainer = createLinearLayoutVertical()
         jsonInputContainer.preferredSize = JBDimension(700, 400)
         jsonInputContainer.border = JBEmptyBorder(5, 0, 5, 5)
-        jsonInputContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonTextComponent)
+        val jsonTitle = JBLabel("JSON Text:")
+        jsonTitle.border = JBEmptyBorder(5, 0, 5, 0)
+        jsonInputContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonTitle)
+        jsonInputContainer.addComponentIntoVerticalBoxAlignmentLeft(createScrollableTextComponent)
 
-        jbTabbedPane = JBTabbedPane(SwingConstants.TOP)
-        jbTabbedPane.addChangeListener { revalidate() }
-        myInputValidator.jbTabbedPane = jbTabbedPane
-        jbTabbedPane.add("From Json", jsonInputContainer)
-
-        val httpInputContainer = JPanel().apply {
-            layout = BorderLayout()
-        }
-        httpUrlInput = JTextField()
-        httpUrlInput.document.addDocumentListener(object : DocumentAdapter() {
-            override fun textChanged(e: DocumentEvent?) = revalidate()
-        })
-        myInputValidator.httpUrlInput = httpUrlInput
-        httpInputContainer.add(httpUrlInput, BorderLayout.NORTH)
-
-        jbTabbedPane.add("From Http", httpInputContainer)
-
-        fileChooser = JFileChooser()
-        fileChooser.addActionListener {
-            revalidate()
-        }
-        myInputValidator.fileChooser = fileChooser
-        fileChooser.fileFilter = FileNameExtensionFilter("Select a json file", "json", "txt")
-        fileChooser.controlButtonsAreShown = false
-        jbTabbedPane.add("From File", fileChooser)
 
         val centerContainer = JPanel()
         val centerBoxLayout = BoxLayout(centerContainer, BoxLayout.PAGE_AXIS)
         centerContainer.layout = centerBoxLayout
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameInputContainer)
-        centerContainer.addComponentIntoVerticalBoxAlignmentLeft(jbTabbedPane)
+        centerContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonInputContainer)
         messagePanel.add(centerContainer, BorderLayout.CENTER)
         val settingButton = JButton("Settings")
         settingButton.horizontalAlignment = SwingConstants.CENTER
@@ -168,6 +125,7 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
             override fun actionPerformed(p0: ActionEvent?) {
                 handleFormatJSONString()
             }
+
         })
         val settingContainer = JPanel()
         settingContainer.border = JBEmptyBorder(0, 5, 5, 7)
@@ -184,11 +142,14 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
     override fun createTextFieldComponent(): JTextComponent {
         val jTextArea = JTextArea(15, 50)
         jTextArea.minimumSize = JBDimension(750, 400)
+//        jTextArea.lineWrap = true
+//        jTextArea.wrapStyleWord = true
+//        jTextArea.autoscrolls = true
         return jTextArea
     }
 
 
-    private fun createMyScrollableTextComponent(myField: Component): JComponent {
+    protected fun createMyScrollableTextComponent(): JComponent {
         val jbScrollPane = JBScrollPane(myField)
         jbScrollPane.preferredSize = JBDimension(700, 350)
         jbScrollPane.autoscrolls = true
@@ -204,20 +165,8 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
         return ""
     }
 
-    override fun getInputString(): String {
-        if (exitCode != 0) {
-            return ""
-        }
-        when (jbTabbedPane.selectedIndex) {
-            0 -> return myField.text.trim() // Json Text
-            1 -> return URL(httpUrlInput.text.trim()).readText() // Http Url
-            2 -> return fileChooser.selectedFile.readText()
-        }
-        return ""
-    }
-
     override fun getPreferredFocusedComponent(): JComponent? {
-        if (classNameInput.text?.isEmpty() != false) {
+        if (classNameInput.text?.isEmpty() ?: true) {
             return classNameInput
         } else {
             return myField
@@ -236,14 +185,11 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
         }
 
         feedBackFormatJSONActionInfo()
+
     }
 
     private fun feedBackFormatJSONActionInfo() {
         Thread { sendActionInfo(prettyGson.toJson(FormatJSONAction())) }.start()
-    }
-
-    private fun revalidate() {
-        okAction.isEnabled = myInputValidator.checkInput(myField.text)
     }
 }
 
