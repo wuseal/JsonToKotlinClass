@@ -45,22 +45,12 @@ class MyInputValidator : InputValidator {
         return when (jbTabbedPane.selectedIndex) {
             0 -> isJsonStringValid(inputString)
             1 -> isUrlValid(httpUrlInput.text.trim())
-            2 -> (fileChooser.selectedFile != null && fileChooser.selectedFile.isFile)
+            2 -> true
             else -> false
         }
     }
 
-    override fun canClose(inputString: String): Boolean {
-        if (jbTabbedPane.selectedIndex == 2) {
-            val fileText = fileChooser.selectedFile.readText()
-            if (isJsonStringValid(fileText)) {
-                return true
-            }
-            Messages.showErrorDialog("It seems that the content in the selected file is not valid JSON string", "Invalid Json File")
-            return false
-        }
-        return true
-    }
+    override fun canClose(inputString: String) = true
 
     private fun isJsonStringValid(string: String) = try {
         val jsonElement = JsonParser().parse(string)
@@ -151,7 +141,9 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
         jbTabbedPane.add("From Http", httpInputContainer)
 
         fileChooser = JFileChooser()
-        fileChooser.addPropertyChangeListener { revalidate() }
+        fileChooser.addActionListener {
+            revalidate()
+        }
         myInputValidator.fileChooser = fileChooser
         fileChooser.fileFilter = FileNameExtensionFilter("Select a json file", "json", "txt")
         fileChooser.controlButtonsAreShown = false
