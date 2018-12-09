@@ -16,6 +16,7 @@ import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
+import java.net.URL
 import java.util.*
 
 /**
@@ -53,10 +54,13 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             inputDialog.show()
             val className = inputDialog.getClassName()
             val inputString = inputDialog.inputString
-            if (inputString.isEmpty()) {
+            val json = if (inputString?.startsWith("http") == true) {
+                URL(inputString).readText()
+            } else inputString
+            if (json == null || json.isEmpty()) {
                 return
             }
-            jsonString = inputString
+            jsonString = json
 
             if (reuseClassName(couldGetAndReuseClassNameInCurrentEditFileForInsertCode, className, tempClassName)) {
                 executeCouldRollBackAction(project) {
