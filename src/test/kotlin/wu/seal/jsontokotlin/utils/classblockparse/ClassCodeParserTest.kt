@@ -3,12 +3,8 @@ package wu.seal.jsontokotlin.utils.classblockparse
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.ConfigManagerTestHelper
-import wu.seal.jsontokotlin.KotlinCodeMaker
-import wu.seal.jsontokotlin.KotlinDataClassMaker
-import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
-import com.intellij.psi.PsiDirectory
+import wu.seal.jsontokotlin.*
 
 class ClassCodeParserTest {
 

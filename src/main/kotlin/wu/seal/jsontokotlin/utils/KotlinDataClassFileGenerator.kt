@@ -50,25 +50,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
     }
 
 
-    // method to make inclass data classes for JsonToKotlinClass
-    fun makeKotlinDataClasses(
-            removeDuplicateClassCode: String,
-            directory: PsiDirectory) : List<ParsedKotlinDataClass>{
 
-         val kotlinClasses = getToBeGenerateClassess(removeDuplicateClassCode = removeDuplicateClassCode, directory = directory)
-
-        val notifyMessage = buildString {
-            append("${kotlinClasses.size} Kotlin Data Class files generated successful")
-            if (renamedClassNames.isNotEmpty()) {
-                append("\n")
-                append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
-            }
-        }
-        showNotify(notifyMessage, null)
-
-
-        return kotlinClasses
-    }
 
     fun generateMultipleDataClassFiles(
         removeDuplicateClassCode: String,
