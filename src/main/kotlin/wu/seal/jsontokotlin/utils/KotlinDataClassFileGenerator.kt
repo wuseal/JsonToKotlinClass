@@ -60,9 +60,9 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         directory: PsiDirectory
     ) {
 
-        val tobeGenerateFilesClasses = getToBeGenerateClassess(removeDuplicateClassCode, directory)
+        val generatedFilesClasses = generateKotlinClasses(removeDuplicateClassCode, directory)
 
-        tobeGenerateFilesClasses.forEach { kotlinDataClass ->
+        generatedFilesClasses.forEach { kotlinDataClass ->
             generateKotlinDataClassFile(
                 kotlinDataClass.name,
                 packageDeclare,
@@ -73,7 +73,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
             )
         }
         val notifyMessage = buildString {
-            append("${tobeGenerateFilesClasses.size} Kotlin Data Class files generated successful")
+            append("${generatedFilesClasses.size} Kotlin Data Class files generated successful")
             if (renamedClassNames.isNotEmpty()) {
                 append("\n")
                 append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
@@ -83,7 +83,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
 
     }
 
-    fun getToBeGenerateClassess(removeDuplicateClassCode: String, directory: PsiDirectory) : List<ParsedKotlinDataClass>
+    private fun generateKotlinClasses(removeDuplicateClassCode: String, directory: PsiDirectory) : List<ParsedKotlinDataClass>
     {
         val classes =
                 getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
