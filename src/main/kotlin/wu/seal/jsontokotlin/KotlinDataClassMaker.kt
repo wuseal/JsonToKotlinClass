@@ -11,9 +11,7 @@ import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 class KotlinDataClassMaker(private val rootClassName: String, private val json: String) {
 
 
-    /**
-     * record the renamed class name when generate multiple files
-     */
+
     private val renamedClassNames = mutableListOf<Pair<String, String>>()
 
     fun makeKotlinDataClasses(): List<KotlinDataClass> {
@@ -39,7 +37,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
     private fun makeKotlinDataClasses(
             removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>{
 
-        val kotlinClasses = getToBeGenerateClasses(removeDuplicateClassCode = removeDuplicateClassCode)
+        val kotlinClasses = generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode = removeDuplicateClassCode)
 
         val notifyMessage = buildString {
             append("${kotlinClasses.size} Kotlin Data Class files generated successful")
@@ -54,7 +52,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         return kotlinClasses
     }
 
-    private fun getToBeGenerateClasses(removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>
+    private fun generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>
     {
         val classes =
                 getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
@@ -75,9 +73,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
     }
 
 
-    /**
-     * None conflict with current directory files and exist class
-     */
+
     private fun getNoneConflictClassNames(
             buildRefClasses: List<ParsedKotlinDataClass>): List<String> {
 
