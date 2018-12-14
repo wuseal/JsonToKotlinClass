@@ -25,7 +25,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
             listOf(NestedClassModelClassesCodeParser(code).parse())
         } else {
 
-            // reusing KotlinDataClassFileGenerator() to create the list of non duplicate classes
+            // create the list of non duplicate classes
             val parsedKotlinClasses: List<ParsedKotlinDataClass> =
                     makeKotlinDataClasses(code)
 
@@ -40,7 +40,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         val kotlinClasses = generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode = removeDuplicateClassCode)
 
         val notifyMessage = buildString {
-            append("${kotlinClasses.size} Kotlin Data Class files generated successful")
+            append("${kotlinClasses.size} Kotlin Data Classes generated successful")
             if (renamedClassNames.isNotEmpty()) {
                 append("\n")
                 append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
