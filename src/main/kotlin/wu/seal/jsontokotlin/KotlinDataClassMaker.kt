@@ -52,7 +52,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         return kotlinClasses
     }
 
-    private fun generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>
+    fun generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>
     {
         val classes =
                 getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
@@ -74,7 +74,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
 
 
 
-    private fun getNoneConflictClassNames(
+    fun getNoneConflictClassNames(
             buildRefClasses: List<ParsedKotlinDataClass>): List<String> {
 
         val resolveSameConflictClassesNames = mutableListOf<String>()
@@ -89,7 +89,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
 
 
 
-    private fun updateClassNames(
+    fun updateClassNames(
             dataClasses: List<ParsedKotlinDataClass>,
             newClassNames: List<String>
     ): List<ParsedKotlinDataClass> {
@@ -126,7 +126,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         }
     }
 
-    private fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
+    fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         return unSynchronizedTypeClasses.map { dataClass: ParsedKotlinDataClass ->
 
             val newProperties = dataClass.properties.map { it ->
@@ -146,7 +146,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         }
     }
 
-    private fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
+    fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         val classNameList = classes.map { it.name }
 
         /**
