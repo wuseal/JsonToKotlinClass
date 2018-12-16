@@ -10,8 +10,14 @@ import wu.seal.jsontokotlin.utils.getChildType
 import wu.seal.jsontokotlin.utils.getClassesStringList
 import wu.seal.jsontokotlin.utils.getRawType
 
+/**
+ * created by karthik on 2018/15/12
+ *
+ */
 class KotlinDataClassMakerTest {
 
+
+    private val className = "Dummy"
 
     val classStrings = """data class Class3(
     val programmers: List<Programmer?>? = listOf(),
@@ -62,7 +68,7 @@ data class Class(
 
         val classes = getClassesStringList(classStrings).map { ClassCodeParser(it).getKotlinDataClass() }
 
-        val resultBuild = KotlinDataClassMaker("ClassName","").buildTypeReference(classes)
+        val resultBuild = KotlinDataClassMaker(className,"").buildTypeReference(classes)
         val property = resultBuild[0].properties[0]
 
         property.kotlinDataClassPropertyTypeRef.should.be.identity(resultBuild[1])
@@ -76,7 +82,7 @@ data class Class(
     fun synchronizedPropertyTypeWithTypeRefTest() {
         val classes = getClassesStringList(classStrings).map { ClassCodeParser(it).getKotlinDataClass() }
 
-        val generate = KotlinDataClassMaker("ClassName","")
+        val generate = KotlinDataClassMaker(className,"")
 
         val buildTypeList = generate.buildTypeReference(classes)
 
@@ -93,7 +99,7 @@ data class Class(
 
         val classes = getClassesStringList(classStrings2).map { ClassCodeParser(it).getKotlinDataClass() }
 
-        val resultBuild = KotlinDataClassMaker("ClassName","").buildTypeReference(classes)
+        val resultBuild = KotlinDataClassMaker(className,"").buildTypeReference(classes)
         val property = resultBuild[0].properties[0]
         val printType = property.propertyType
         val referenceType = getRawType(getChildType(printType))
@@ -104,7 +110,7 @@ data class Class(
     fun synchronizedPropertyTypeWithTypeRefTest2() {
         val classes = getClassesStringList(classStrings2).map { ClassCodeParser(it).getKotlinDataClass() }
 
-        val generate = KotlinDataClassMaker("ClassName","")
+        val generate = KotlinDataClassMaker(className,"")
 
         val buildTypeList = generate.buildTypeReference(classes)
 
@@ -137,7 +143,7 @@ data class Class(
     {
         val classes = getClassesStringList(classStrings2).map { ClassCodeParser(it).getKotlinDataClass() }
 
-        val generate = KotlinDataClassMaker("ClassName","")
+        val generate = KotlinDataClassMaker(className,"")
 
         val buildTypeList = generate.buildTypeReference(classes)
 
@@ -153,7 +159,7 @@ data class Class(
     @Test
     fun generateKotlinDataClassesWithNonConflictNamesTest()
     {
-        val generatedClassesList = KotlinDataClassMaker("ClassName","").
+        val generatedClassesList = KotlinDataClassMaker(className,"").
                 generateKotlinDataClassesWithNonConflictNames(classStrings2)
 
 
@@ -177,12 +183,12 @@ data class Class(
     {
 
         TestConfig.isNestedClassModel = false
-        val codeMaker = KotlinCodeMaker("Dummy", dupliateClassNamesJson)
+        val codeMaker = KotlinCodeMaker(className, dupliateClassNamesJson)
 
         val code = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
 
         println(code)
-        val generatedClassList = KotlinDataClassMaker("Dummy",dupliateClassNamesJson).
+        val generatedClassList = KotlinDataClassMaker(className,dupliateClassNamesJson).
                 generateKotlinDataClassesWithNonConflictNames(code)
 
 
@@ -190,7 +196,7 @@ data class Class(
         generatedClassList[0].properties[1].propertyType.should.be.equal("Value")
         generatedClassList[2].properties[0].propertyType.should.be.equal("ValueX")
 
-        generatedClassList[0].name.should.be.equal("Dummy")
+        generatedClassList[0].name.should.be.equal(className)
         generatedClassList[1].name.should.be.equal("Value")
         generatedClassList[2].name.should.be.equal("Test")
         generatedClassList[3].name.should.be.equal("ValueX")
