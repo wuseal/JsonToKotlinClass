@@ -31,6 +31,8 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         var jsonString = ""
         try {
             actionStart()
+
+
             val project = event.getData(PlatformDataKeys.PROJECT)
             val caret = event.getData(PlatformDataKeys.CARET)
             val editor = event.getData(PlatformDataKeys.EDITOR_EVEN_IF_INACTIVE)
@@ -123,6 +125,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
         val codeMaker: KotlinDataClassCodeMaker
         try {
+            //passing current file directory along with className and json
             codeMaker = KotlinDataClassCodeMaker(className, jsonString)
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
