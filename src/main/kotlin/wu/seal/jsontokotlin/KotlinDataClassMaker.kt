@@ -52,6 +52,10 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         return kotlinClasses
     }
 
+
+    /**
+     * generates Kotlin data classes without having any class name conflicts
+     */
     fun generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>
     {
         val classes =
@@ -73,7 +77,9 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
     }
 
 
-
+    /**
+     * gets the list of non conflicting class names by appending extra character
+     */
     fun getNoneConflictClassNames(
             buildRefClasses: List<ParsedKotlinDataClass>): List<String> {
 
@@ -88,7 +94,9 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
     }
 
 
-
+    /**
+     * updates the class names with renamed class names
+     */
     fun updateClassNames(
             dataClasses: List<ParsedKotlinDataClass>,
             newClassNames: List<String>
@@ -126,6 +134,9 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         }
     }
 
+    /**
+     * Returns list of Classes with synchronized property based on renamed classes
+     */
     fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         return unSynchronizedTypeClasses.map { dataClass: ParsedKotlinDataClass ->
 
@@ -146,6 +157,9 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
         }
     }
 
+    /**
+     * builds the reference for each property in the data classes
+     */
     fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         val classNameList = classes.map { it.name }
 
