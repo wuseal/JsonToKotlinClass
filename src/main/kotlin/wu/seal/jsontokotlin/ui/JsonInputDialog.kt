@@ -2,10 +2,13 @@ package wu.seal.jsontokotlin.ui
 
 import com.google.gson.*
 import com.intellij.json.JsonFileType
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
+import com.intellij.openapi.progress.util.DispatchThreadProgressWindow
+import com.intellij.openapi.progress.util.ProgressWindow
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.InputValidator
 import com.intellij.openapi.ui.Messages
@@ -55,7 +58,7 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(classsName: String, project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String to generate Kotlin data class", "Generate Kotlin Data Class Code", Messages.getInformationIcon(), "", myInputValidator) {
+class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String to generate Kotlin data class", "Generate Kotlin Data Class Code", IconLoader.getIcon("/icons/logo_96x96.png"), "", myInputValidator) {
     private lateinit var jsonContentEditor: Editor
 
     private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
@@ -175,8 +178,14 @@ class JsonInputDialog(classsName: String, project: Project) : Messages.InputDial
     private fun createRetrieveContentFromHttpURLMenuItem() = JMenuItem("Retrieve content from Http URL").apply {
         addActionListener {
             val url = Messages.showInputDialog("URL", "Retrieve content from Http URL", null, null, UrlInputValidator)
-            val urlContent = URL(url).readText()
-            jsonContentEditor.document.setText(urlContent)
+            val p = DispatchThreadProgressWindow(false, project)
+            p.isIndeterminate = true
+            p.setRunnable {
+                val urlContent = URL(url).readText()
+                jsonContentEditor.document.setText(urlContent)
+                p.stop()
+            }
+            p.start()
         }
     }
 
