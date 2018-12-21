@@ -198,6 +198,9 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         }
     }
 
+    /**
+     * get the user input class name
+     */
     fun getClassName(): String = if (exitCode == 0) this.myField.text.trim() else ""
 
     override fun getInputString(): String = if (exitCode == 0) jsonContentEditor.document.text.trim() else ""
