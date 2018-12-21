@@ -23,19 +23,6 @@ fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component) {
 
 }
 
-fun Container.addComponentIntoVerticalBoxAlignmentLeft(component: Component, leftMargin: Int) {
-    if (layout is BoxLayout) {
-
-        val hBox = Box.createHorizontalBox()
-        hBox.add(Box.createHorizontalStrut(leftMargin))
-        hBox.add(component)
-        hBox.add(Box.createHorizontalGlue())
-        add(hBox)
-    }
-
-}
-
-
 /**
  * How many substring in the parent string
  */
@@ -57,18 +44,11 @@ private fun JsonArray.onlyHasOneElement(): Boolean {
 }
 
 /**
- * array only has one object element
- */
-private fun JsonArray.onlyHasOneObjectElement(): Boolean {
-    return size() == 1 && get(0).isJsonObject
-}
-
-/**
  * array only has object element
  */
 private fun JsonArray.allObjectElement(): Boolean {
     forEach {
-        if (it.isJsonObject.not()) {
+        if (it.isJsonObject.not() && it.isJsonNull.not()) {
             return false
         }
     }
@@ -122,7 +102,6 @@ fun JsonArray.onlyHasOneObjectElementRecursive(): Boolean {
  * if Multidimensional Arrays only has one dimension contains element and the elements are all object element
  */
 fun JsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive(): Boolean {
-
     if (size() == 0) {
         return false
     }
