@@ -181,9 +181,12 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             val p = DispatchThreadProgressWindow(false, project)
             p.isIndeterminate = true
             p.setRunnable {
-                val urlContent = URL(url).readText()
-                jsonContentEditor.document.setText(urlContent)
-                p.stop()
+                try {
+                    val urlContent = URL(url).readText()
+                    jsonContentEditor.document.setText(urlContent.replace("\r\n", "\n"))
+                } finally {
+                    p.stop()
+                }
             }
             p.start()
         }
