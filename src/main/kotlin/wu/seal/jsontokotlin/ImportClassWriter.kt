@@ -78,11 +78,19 @@ object ImportClassWriter : IImportClassWriter {
 
             if (importClassLineString !in text) {
 
-                val packageIndex = text.indexOf("package ")
-                val importIndex = Math.max(text.lastIndexOf("import"), packageIndex)
+                val packageIndex =  try {
+                    "^[\\s]*package".toRegex(RegexOption.MULTILINE).find(text)!!.range.endInclusive
+                } catch (e: Exception) {
+                    -1
+                }
+                val lastImportKeywordIndex = try {
+                    "^[\\s]*import".toRegex(RegexOption.MULTILINE).findAll(text).last().range.endInclusive
+                } catch (e: Exception) {
+                    -1
+                }
+                val index = Math.max(lastImportKeywordIndex, packageIndex)
                 val insertIndex =
-                    if (importIndex == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(importIndex))
-
+                    if (index == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(index))
 
                 executeCouldRollBackAction(project) {
                     editFile.insertString(insertIndex, "\n" + importClassLineString + "\n")
