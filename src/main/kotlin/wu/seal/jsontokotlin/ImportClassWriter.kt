@@ -79,12 +79,12 @@ object ImportClassWriter : IImportClassWriter {
             if (importClassLineString !in text) {
 
                 val packageIndex =  try {
-                    "^[\\s]*package".toRegex(RegexOption.MULTILINE).find(text)!!.range.endInclusive
+                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).find(text)!!.range.endInclusive
                 } catch (e: Exception) {
                     -1
                 }
                 val lastImportKeywordIndex = try {
-                    "^[\\s]*import".toRegex(RegexOption.MULTILINE).findAll(text).last().range.endInclusive
+                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(text).last().range.endInclusive
                 } catch (e: Exception) {
                     -1
                 }

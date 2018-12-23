@@ -16,7 +16,6 @@ import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
-import java.awt.SystemColor.text
 import java.net.URL
 import java.util.*
 
@@ -146,12 +145,12 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                     offset = document.textLength
                 }
                 val lastPackageKeywordLineEndIndex = try {
-                    "^[\\s]*package.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
                 } catch (e: Exception) {
                     -1
                 }
                 val lastImportKeywordLineEndIndex = try {
-                    "^[\\s]*import.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
                 } catch (e: Exception) {
                     -1
                 }
