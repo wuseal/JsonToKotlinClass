@@ -144,6 +144,23 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 if (offset == 0) {
                     offset = document.textLength
                 }
+                val lastPackageKeywordLineEndIndex = try {
+                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                } catch (e: Exception) {
+                    -1
+                }
+                val lastImportKeywordLineEndIndex = try {
+                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                } catch (e: Exception) {
+                    -1
+                }
+                if (offset < lastPackageKeywordLineEndIndex) {
+                    offset = lastPackageKeywordLineEndIndex + 1
+                }
+                if (offset < lastImportKeywordLineEndIndex) {
+                    offset = lastImportKeywordLineEndIndex + 1
+                }
+
             } else {
                 offset = document.textLength
             }
