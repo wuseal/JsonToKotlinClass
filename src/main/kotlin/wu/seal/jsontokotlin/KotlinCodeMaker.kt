@@ -113,7 +113,11 @@ class KotlinCodeMaker {
         val classAnnotation = KClassAnnotation.getClassAnnotation(className.toString())
         stringBuilder.append(classAnnotation)
         if (classAnnotation.isNotBlank()) stringBuilder.append("\n")
-        stringBuilder.append("data class ").append(className).append("(\n")
+        if (inputElement?.isJsonNull == true || (inputElement as? JsonObject)?.entrySet()?.isEmpty() == true) {
+            stringBuilder.append("class ").append(className).append("(\n")
+        } else {
+            stringBuilder.append("data class ").append(className).append("(\n")
+        }
     }
 
 
