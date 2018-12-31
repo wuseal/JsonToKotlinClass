@@ -41,6 +41,8 @@ object TestConfig {
 
     var isKeywordPropertyValid = true
 
+    var extensionsConfig = ""
+
     private var state = State()
 
     fun setToTestInitState() {
@@ -65,6 +67,8 @@ object TestConfig {
         parenClassTemplate = ""
 
         isKeywordPropertyValid = true
+
+        extensionsConfig = ""
     }
 
 
@@ -85,6 +89,7 @@ object TestConfig {
         newState.enableMinimalAnnotation = enableMinimalAnnotation
         newState.parenClassTemplate = parenClassTemplate
         newState.isKeywordPropertyValid = isKeywordPropertyValid
+        newState.extensionsConfig = extensionsConfig
         state = newState
     }
 
@@ -103,6 +108,7 @@ object TestConfig {
         enableMinimalAnnotation = state.enableMinimalAnnotation
         parenClassTemplate = state.parenClassTemplate
         isKeywordPropertyValid = state.isKeywordPropertyValid
+        extensionsConfig = state.extensionsConfig
     }
 
     class State {
@@ -128,5 +134,8 @@ object TestConfig {
         var parenClassTemplate = ""
 
         var isKeywordPropertyValid = true
+
+        var extensionsConfig = ""
+
     }
 }

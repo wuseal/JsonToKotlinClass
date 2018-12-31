@@ -15,6 +15,7 @@ object ConfigManager : IConfigManager {
     private const val ENABLE_MINIMAL_ANNOTATION = "json-to-kotlin-class-enable-minimal-annotation"
     private const val PARENT_CLASS_TEMPLATE = "json-to-kotlin-class-parent-class-template"
     private const val KEYWORD_PROPERTY_VALID = "json-to-kotlin-class-keyword-property-valid"
+    private const val KEYWORD_PROPERTY_EXTENSIONS_CONFIG = "json-to-kotlin-class-keyword-extensions-config"
 
     var indent: Int
         get() = if (TestConfig.isTestModel) TestConfig.indent else PropertiesComponent.getInstance().getInt(
@@ -80,6 +81,19 @@ object ConfigManager : IConfigManager {
                 TestConfig.isKeywordPropertyValid = value
             } else {
                 PropertiesComponent.getInstance().setValue(KEYWORD_PROPERTY_VALID, value, false)
+            }
+        }
+    var extensionsConfig: String
+        get() = if (TestConfig.isTestModel) {
+            TestConfig.extensionsConfig
+        } else {
+            PropertiesComponent.getInstance().getValue(KEYWORD_PROPERTY_EXTENSIONS_CONFIG, "")
+        }
+        set (value) {
+            if (TestConfig.isTestModel) {
+                TestConfig.extensionsConfig = value
+            } else {
+                PropertiesComponent.getInstance().setValue(KEYWORD_PROPERTY_EXTENSIONS_CONFIG, value, "")
             }
         }
 
