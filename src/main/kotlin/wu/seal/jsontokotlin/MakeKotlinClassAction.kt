@@ -16,6 +16,7 @@ import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
+import java.net.URL
 import java.util.*
 
 /**
@@ -30,6 +31,8 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
         var jsonString = ""
         try {
             actionStart()
+
+
             val project = event.getData(PlatformDataKeys.PROJECT)
             val caret = event.getData(PlatformDataKeys.CARET)
             val editor = event.getData(PlatformDataKeys.EDITOR_EVEN_IF_INACTIVE)
@@ -53,10 +56,13 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             inputDialog.show()
             val className = inputDialog.getClassName()
             val inputString = inputDialog.inputString
-            if (inputString.isEmpty()) {
+            val json = if (inputString?.startsWith("http") == true) {
+                URL(inputString).readText()
+            } else inputString
+            if (json == null || json.isEmpty()) {
                 return
             }
-            jsonString = inputString
+            jsonString = json
 
             if (reuseClassName(couldGetAndReuseClassNameInCurrentEditFileForInsertCode, className, tempClassName)) {
                 executeCouldRollBackAction(project) {
@@ -119,6 +125,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
         val codeMaker: KotlinDataClassCodeMaker
         try {
+            //passing current file directory along with className and json
             codeMaker = KotlinDataClassCodeMaker(className, jsonString)
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
@@ -137,6 +144,23 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                 if (offset == 0) {
                     offset = document.textLength
                 }
+                val lastPackageKeywordLineEndIndex = try {
+                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                } catch (e: Exception) {
+                    -1
+                }
+                val lastImportKeywordLineEndIndex = try {
+                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                } catch (e: Exception) {
+                    -1
+                }
+                if (offset < lastPackageKeywordLineEndIndex) {
+                    offset = lastPackageKeywordLineEndIndex + 1
+                }
+                if (offset < lastImportKeywordLineEndIndex) {
+                    offset = lastImportKeywordLineEndIndex + 1
+                }
+
             } else {
                 offset = document.textLength
             }

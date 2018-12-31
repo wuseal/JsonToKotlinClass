@@ -49,6 +49,9 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         showNotify(notifyMessage, project)
     }
 
+
+
+
     fun generateMultipleDataClassFiles(
         removeDuplicateClassCode: String,
         packageDeclare: String,
@@ -57,8 +60,33 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         directory: PsiDirectory
     ) {
 
+        val generatedFilesClasses = generateKotlinClasses(removeDuplicateClassCode, directory)
+
+        generatedFilesClasses.forEach { kotlinDataClass ->
+            generateKotlinDataClassFile(
+                kotlinDataClass.name,
+                packageDeclare,
+                kotlinDataClass.toString(),
+                project,
+                psiFileFactory,
+                directory
+            )
+        }
+        val notifyMessage = buildString {
+            append("${generatedFilesClasses.size} Kotlin Data Class files generated successful")
+            if (renamedClassNames.isNotEmpty()) {
+                append("\n")
+                append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
+            }
+        }
+        showNotify(notifyMessage, project)
+
+    }
+
+    private fun generateKotlinClasses(removeDuplicateClassCode: String, directory: PsiDirectory) : List<ParsedKotlinDataClass>
+    {
         val classes =
-            getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
+                getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
 
         /**
          * Build Property Type reference to ParsedKotlinDataClass
@@ -70,27 +98,8 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
 
         val newKotlinClasses = updateClassNames(buildRefClasses, newClassNames)
 
-        val tobeGenerateFilesClasses =
-            synchronizedPropertyTypeWithTypeRef(newKotlinClasses)
 
-        tobeGenerateFilesClasses.forEach { kotlinDataClass ->
-            generateKotlinDataClassFile(
-                kotlinDataClass.name,
-                packageDeclare,
-                kotlinDataClass.toString(),
-                project,
-                psiFileFactory,
-                directory
-            )
-        }
-        val notifyMessage = buildString {
-            append("${tobeGenerateFilesClasses.size} Kotlin Data Class files generated successful")
-            if (renamedClassNames.isNotEmpty()) {
-                append("\n")
-                append("These class names has been auto renamed to new names:\n ${renamedClassNames.map { it.first + " -> " + it.second }.toList()}")
-            }
-        }
-        showNotify(notifyMessage, project)
+        return synchronizedPropertyTypeWithTypeRef(newKotlinClasses)
 
     }
 
