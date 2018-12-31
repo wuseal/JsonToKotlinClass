@@ -367,12 +367,18 @@ data class Test(
 }"""
 
 
+    /**
+     * test before to init test enviroment
+     */
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()
     }
 
 
+    /**
+     * Test issue #90 if fixed
+     */
     @Test
     fun testIssue090() {
         val result = KotlinDataClassCodeMaker("Test", rawJson).makeKotlinDataClassCode()

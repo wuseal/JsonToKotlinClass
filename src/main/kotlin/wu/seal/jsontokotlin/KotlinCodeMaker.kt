@@ -140,8 +140,6 @@ class KotlinCodeMaker {
                     } catch (e: UnSupportJsonException) {
                         type = e.adviceType
                         ""
-                    } catch (e: Exception) {
-                        ""
                     }
                     toBeAppend.add(subCode)
                 }
@@ -164,8 +162,6 @@ class KotlinCodeMaker {
                         } catch (e: UnSupportJsonException) {
                             mapValueType = e.adviceType
                             ""
-                        } catch (e: Exception) {
-                            ""
                         }
                         toBeAppend.add(
                                 subCode
@@ -180,8 +176,6 @@ class KotlinCodeMaker {
                         KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData()
                     } catch (e: UnSupportJsonException) {
                         type = e.adviceType
-                        ""
-                    } catch (e: Exception) {
                         ""
                     }
                     toBeAppend.add(subCode)
