@@ -30,11 +30,15 @@ class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
         val annotationTab = createAnnotationTab()
 
+        val extensionsTab = createExtensionTab()
+
         tabbedPane.add("Property", propertyPanelTab)
 
         tabbedPane.add("Annotation", annotationTab)
 
         tabbedPane.add("Other", otherConfigTab)
+
+        tabbedPane.add("Extensions", extensionsTab)
 
         tabbedPane.minimumSize = JBDimension(500, 300)
 
@@ -46,6 +50,7 @@ class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
     private fun createAnnotationTab() = SettingsAnnotationTab(true)
 
 
+    private fun createExtensionTab() = ExtensionsTab(true)
     private fun createPropertyTab(): JPanel {
 
 
