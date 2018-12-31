@@ -45,9 +45,8 @@
 
 
     <change-notes><![CDATA[
-       <br>Sort property  order by Alphabetical</br>
-       <br>Add Moshi (auto codege) annotation option</br>
-       <br>Make keyword property valid</br>
+       <br>Add Support Loading JSON From Paster/Local File/Http URL</br>
+       <br>Add Extension Module for easy extension</br>
        <br> Fix bugs </br>
     ]]>
     </change-notes>
