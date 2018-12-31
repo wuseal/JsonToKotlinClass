@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.interceptor
 
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.TargetJsonConverter
+import extensions.ExtensionsCollector
 
 object InterceptorManager {
 
@@ -29,6 +30,9 @@ object InterceptorManager {
             if (size >= 1) {
                 add(0, MakePropertyOriginNameInterceptor())
             }
+        }.apply {
+            //add extensions's interceptor
+            addAll(ExtensionsCollector.extensions)
         }
     }
 
@@ -45,6 +49,9 @@ object InterceptorManager {
 
                 add(ParentClassImportClassDeclarationInterceptor())
             }
+        }.apply {
+            //add extensions's interceptor
+            addAll(ExtensionsCollector.extensions)
         }
     }
 
