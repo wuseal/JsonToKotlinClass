@@ -44,4 +44,19 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassI
         return originImportClasses
     }
 
+    fun getTestHelper() = TestHelper(this)
+
+    /**
+     * Test helper for test config settings
+     */
+    class TestHelper(private val extension: Extension) {
+
+        fun setConfig(key: String, value: String) {
+            extension.setConfig(key,value)
+        }
+
+        fun getConfig(key: String): String {
+            return getConfig(key)
+        }
+    }
 }
