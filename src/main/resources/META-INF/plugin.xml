@@ -26,6 +26,8 @@
         <br>Custom define data class parent class</br>
         <br>Sort property  order by Alphabetical</br>
         <br>Make keyword property valid</br>
+        <br>Support Loading JSON From Paster/Local File/Http URL</br>
+        <br>Support customize your own plugin by Extension Module</br>
         <br></br>
 
         <p><img src="https://plugins.jetbrains.com/files/9960/screenshot_18032.png" alt="demo" width="600" height="360"></p>
