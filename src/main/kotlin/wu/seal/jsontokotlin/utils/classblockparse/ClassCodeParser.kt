@@ -93,7 +93,7 @@ class ClassCodeParser(private val classBlockString: String) {
     }
 
     private fun getPropertyKeyword(propertyLine: String): String {
-        val stringBeforeColon = propertyLine.substringBefore(":").trim()
+        val stringBeforeColon = propertyLine.substringBefore("//").substringBeforeLast(":").trim()
         return when {
             stringBeforeColon.contains(")") -> {
                 val noAnnotationString = stringBeforeColon.substringAfterLast(")").trim()
@@ -113,7 +113,7 @@ class ClassCodeParser(private val classBlockString: String) {
 
     private fun getPropertyName(propertyLine: String): String {
 
-        val stringBeforeColon = propertyLine.substringBefore(":").trim()
+        val stringBeforeColon = propertyLine.substringBefore("//").substringBeforeLast(":").trim()
         return when {
             stringBeforeColon.contains(")") -> {
                 val noAnnotationString = stringBeforeColon.substringAfterLast(")").trim()
