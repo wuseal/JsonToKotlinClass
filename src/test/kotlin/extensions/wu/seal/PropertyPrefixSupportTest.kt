@@ -3,7 +3,7 @@ package extensions.wu.seal
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.generateKotlinDataClasses
+import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
 class PropertyPrefixSupportTest {
@@ -23,7 +23,7 @@ class PropertyPrefixSupportTest {
     @Test
     fun interceptTest() {
         val kotlinDataClass =
-                json.generateKotlinDataClasses()
+                json.generateKotlinDataClass()
         PropertyPrefixSupport.getTestHelper().setConfig("wu.seal.property_prefix_enable","true")
         PropertyPrefixSupport.getTestHelper().setConfig("wu.seal.property_prefix","seal")
         val generatedCode = kotlinDataClass.applyInterceptors(listOf(PropertyPrefixSupport)).getCode()
