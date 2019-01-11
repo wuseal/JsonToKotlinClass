@@ -17,7 +17,7 @@ object FastjsonSupporter : IJsonLibSupporter {
     override val annotationImportClassString: String
         get() = "import com.alibaba.fastjson.annotation.JSONField"
 
-    const val propertyAnnotationFormat = "@JSONField(name = \"%s\")"
+    val propertyAnnotationFormat = "@JSONField(name = \"%s\")"
 
 
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
@@ -52,14 +52,15 @@ object FastjsonSupporter : IJsonLibSupporter {
 
 
     private fun removeStartIsCharactors(rawPropertyName: String): String {
-        return if (rawPropertyName.startsWith("is")) {
+        if (rawPropertyName.startsWith("is")) {
+
             var modifyPropertyName = rawPropertyName.removePrefix("is")
             while (modifyPropertyName.startsWith("is")) {
                 modifyPropertyName = modifyPropertyName.removePrefix("is")
             }
-            modifyPropertyName
+            return modifyPropertyName
         } else {
-            rawPropertyName
+            return rawPropertyName
         }
     }
 }

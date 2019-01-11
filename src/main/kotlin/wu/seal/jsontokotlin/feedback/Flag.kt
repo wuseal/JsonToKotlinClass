@@ -21,4 +21,4 @@ val UUID = if (ConfigManager.userUUID.isEmpty()) {
 } else ConfigManager.userUUID
 
 
-const val PLUGIN_NAME = "JSON To Kotlin Class"
+val PLUGIN_NAME = "JSON To Kotlin Class"

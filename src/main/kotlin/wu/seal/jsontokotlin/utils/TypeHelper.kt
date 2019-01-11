@@ -31,16 +31,21 @@ const val MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE = "Item"
 const val DEFAULT_TYPE = TYPE_ANY
 
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
-    return when {
-        jsonPrimitive.isBoolean -> "Boolean"
-        jsonPrimitive.isNumber -> when {
-            jsonPrimitive.asString.contains(".") -> "Double"
-            jsonPrimitive.asLong > Integer.MAX_VALUE -> "Long"
-            else -> "Int"
+    var subType = "String"
+    if (jsonPrimitive.isBoolean) {
+        subType = "Boolean"
+    } else if (jsonPrimitive.isNumber) {
+        if (jsonPrimitive.asString.contains(".")) {
+            subType = "Double"
+        } else if (jsonPrimitive.asLong > Integer.MAX_VALUE) {
+            subType = "Long"
+        } else {
+            subType = "Int"
         }
-        jsonPrimitive.isString -> "String"
-        else -> "String"
+    } else if (jsonPrimitive.isString) {
+        subType = "String"
     }
+    return subType
 }
 
 
@@ -53,7 +58,12 @@ fun getJsonObjectType(type: String): String {
 /**
  * get the inmost child type of array type
  */
-fun getChildType(arrayType: String): String = arrayType.replace(Regex("List<|>"), "")
+fun getChildType(arrayType: String): String {
+
+    val tempType = arrayType.replace(Regex("List<|>"), "")
+
+    return tempType
+}
 
 /**
  * get the type output to the edit file
@@ -61,7 +71,8 @@ fun getChildType(arrayType: String): String = arrayType.replace(Regex("List<|>")
 fun getOutType(rawType: String, value: Any?): String {
     if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable) {
         val innerRawType = rawType.replace("?", "").replace(">", "?>")
-        return innerRawType.plus("?")
+        val outputType = innerRawType.plus("?")
+        return outputType
     } else if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.AutoDeterMineNullableOrNot && value == null) {
         return rawType.plus("?")
     }
@@ -71,13 +82,17 @@ fun getOutType(rawType: String, value: Any?): String {
 /**
  * get the type string without '?' character
  */
-fun getRawType(outputType: String): String = outputType.replace("?", "")
+fun getRawType(outputType: String): String {
+
+    return outputType.replace("?", "")
+}
 
 fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
     val preSubType = adjustPropertyNameForGettingArrayChildType(propertyName)
     var subType = DEFAULT_TYPE
+    val jsonArray = jsonElementValue
 
-    val iterator = jsonElementValue.iterator()
+    val iterator = jsonArray.iterator()
     if (iterator.hasNext()) {
         val next = iterator.next()
         subType =
@@ -88,7 +103,7 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
                     getJsonObjectType(preSubType)
 
                 } else if (next.isJsonArray) {
-                    if (jsonElementValue.size() == 1) {
+                    if (jsonArray.size() == 1) {
                         getArrayType(preSubType, next.asJsonArray)
                     } else {
                         DEFAULT_TYPE
@@ -119,7 +134,7 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
         val firstLatterAfterListIndex = innerProperty.lastIndexOf("List") + 4
         if (innerProperty.length > firstLatterAfterListIndex) {
             val c = innerProperty[firstLatterAfterListIndex]
-            if (c in 'A'..'Z') {
+            if (c >= 'A' && c <= 'Z') {
                 val pre = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
                 val end = innerProperty.substring(firstLatterAfterListIndex, innerProperty.length)
                 innerProperty = pre + end
@@ -166,14 +181,15 @@ fun maybeJsonObjectBeMapType(jsonObject: JsonObject): Boolean {
  * get the Key Type of Map type converted from jsonObject
  */
 fun getMapKeyTypeConvertFromJsonObject(jsonObject: JsonObject): String {
-    return getPrimitiveType(JsonParser().parse(jsonObject.entrySet().first().key).asJsonPrimitive)
+    val mapKey = getPrimitiveType(JsonParser().parse(jsonObject.entrySet().first().key).asJsonPrimitive)
+    return mapKey
 }
 
 /**
  * get Map Type Value Type from JsonObject object struct
  */
 fun getMapValueTypeConvertFromJsonObject(jsonObject: JsonObject): String {
-    var valueType = ""
+    var valueType: String = ""
     jsonObject.entrySet().forEach {
         val jsonElement = it.value
         if (jsonElement.isJsonPrimitive) {
