@@ -43,7 +43,7 @@ fun sendActionInfo(actionInfo: String) {
         connection.requestMethod = "POST"
         connection.addRequestProperty("Content-Type", "application/json;charset=UTF-8")
 
-        val outputStream = connection.getOutputStream()
+        val outputStream = connection.outputStream
         val writer = outputStream.writer()
         writer.write(actionInfo)
         writer.flush()
@@ -58,7 +58,7 @@ fun sendActionInfo(actionInfo: String) {
 
 
 fun sendHistoryExceptionInfo() {
-    Thread() {
+    Thread {
         PersistCache.readAllCachedExceptionInfo().split("#").filter { it.isNotBlank() }.forEach {
             sendExceptionLog(it)
         }
@@ -68,7 +68,7 @@ fun sendHistoryExceptionInfo() {
 
 
 fun sendHistoryActionInfo() {
-    Thread() {
+    Thread {
         PersistCache.readAllCachedActionInfo().split("#").filter { it.isNotBlank() }.forEach {
             sendActionInfo(it)
         }
@@ -83,7 +83,7 @@ fun sendConfigInfo() {
         connection.requestMethod = "POST"
         connection.addRequestProperty("Content-Type", "application/json;charset=UTF-8")
 
-        val outputStream = connection.getOutputStream()
+        val outputStream = connection.outputStream
         val writer = outputStream.writer()
         writer.write(Gson().toJson(ConfigInfo()))
         writer.flush()

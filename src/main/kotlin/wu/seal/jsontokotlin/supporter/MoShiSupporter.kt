@@ -16,7 +16,7 @@ object MoShiSupporter : IJsonLibSupporter {
         get() = "import com.squareup.moshi.Json"
 
 
-    val propertyAnnotationFormat = "@Json(name = \"%s\")"
+    const val propertyAnnotationFormat = "@Json(name = \"%s\")"
 
 
     override fun getJsonLibSupportPropertyBlockString(rawPropertyName: String, propertyType: String): String {
