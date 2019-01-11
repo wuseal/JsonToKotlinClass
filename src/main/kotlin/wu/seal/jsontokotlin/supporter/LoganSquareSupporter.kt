@@ -13,8 +13,8 @@ import wu.seal.jsontokotlin.utils.getIndent
 
 object LoganSquareSupporter : IJsonLibSupporter {
 
-    const val classAnnotation = "@JsonObject"
-    const val propertyAnnotationFormat = "@JsonField(name = arrayOf(\"%s\"))"
+    val classAnnotation = "@JsonObject"
+    val propertyAnnotationFormat = "@JsonField(name = arrayOf(\"%s\"))"
 
     override val annotationImportClassString: String
         get() = "import com.bluelinelabs.logansquare.annotation.JsonField\nimport com.bluelinelabs.logansquare.annotation.JsonObject"

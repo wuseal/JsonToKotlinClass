@@ -22,7 +22,10 @@ interface IPropertyNameMaker {
 }
 
 object KPropertyName : KName(), IPropertyNameMaker {
+
+
     override fun getName(rawName: String): String {
+
         return makePropertyName(rawName, true)
     }
 
@@ -32,12 +35,16 @@ object KPropertyName : KName(), IPropertyNameMaker {
     }
 
     override fun makePropertyName(rawString: String, needTransformToLegalName: Boolean): String {
-        return if (needTransformToLegalName) {
+
+        if (needTransformToLegalName) {
+
             val camelCaseLegalName = makeCamelCaseLegalName(rawString)
-            if (camelCaseLegalName.isEmpty()) KPropertyName.makeCamelCaseLegalName("x-$rawString") else camelCaseLegalName
+            return if (camelCaseLegalName.isEmpty()) KPropertyName.makeCamelCaseLegalName("x-" + rawString) else camelCaseLegalName
+
         } else {
-            rawString
+            return rawString
         }
+
     }
 
     /**
@@ -47,7 +54,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
         /**
          * keep nameSeparator character
          */
-        val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
+        val pattern = "${illegalCharacter}".replace(Regex(nameSeparator.toString()), "")
 
         val temp = rawString.replace(Regex(pattern), "").let {
 
@@ -57,7 +64,9 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         val lowerCamelCaseName = toLowerCamelCase(temp)
 
-        return toBeLegalName(lowerCamelCaseName)
+        val legalName = toBeLegalName(lowerCamelCaseName)
+
+        return legalName
     }
 
 
@@ -76,10 +85,18 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         val camelCaseName = stringBuilder.toString()
 
-        return if (camelCaseName.isNotEmpty()) {
-            camelCaseName.substring(0, 1).toLowerCase().plus(camelCaseName.substring(1))
+        if (camelCaseName.isNotEmpty()) {
+
+            val lowerCamelCaseName = camelCaseName.substring(0, 1).toLowerCase().plus(camelCaseName.substring(1))
+
+            return lowerCamelCaseName
         } else {
-            camelCaseName
+
+            return camelCaseName
         }
+
+
     }
+
+
 }

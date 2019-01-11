@@ -25,8 +25,9 @@ class KotlinDataClassCodeMaker( private val rootClassName: String, private val j
         val kotlinDataClasses = KotlinDataClassMaker(rootClassName = rootClassName, json = json).makeKotlinDataClasses()
 
         val interceptedDataClasses = kotlinDataClasses.map {it.applyInterceptors(interceptors)}
-        return interceptedDataClasses.joinToString("\n\n") {
+        val code = interceptedDataClasses.joinToString("\n\n") {
             it.getCode()
         }
+        return code
     }
 }

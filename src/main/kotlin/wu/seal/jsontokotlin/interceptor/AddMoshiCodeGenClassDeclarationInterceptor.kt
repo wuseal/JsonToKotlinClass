@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.interceptor
 
+import wu.seal.jsontokotlin.codeannotations.MoshiPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.supporter.MoShiSupporter
 
 /**
@@ -13,6 +14,8 @@ class AddMoshiCodeGenClassDeclarationInterceptor :IImportClassDeclarationInterce
 
         val classAnnotationImportClassString = "import com.squareup.moshi.JsonClass"
 
-        return propertyAnnotationImportClassString.plus("\n").plus(classAnnotationImportClassString)
+        val importClassDeclaration = propertyAnnotationImportClassString.plus("\n").plus(classAnnotationImportClassString)
+
+        return importClassDeclaration
     }
 }
