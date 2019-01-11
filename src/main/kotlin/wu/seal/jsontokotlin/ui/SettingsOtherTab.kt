@@ -26,8 +26,6 @@ import javax.swing.border.EmptyBorder
  */
 class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: LayoutManager?) : this(layout, false)
-
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
@@ -37,7 +35,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         val boxPanel = JPanel()
         val boxLayout = BoxLayout(boxPanel, BoxLayout.PAGE_AXIS)
-        boxPanel.setLayout(boxLayout)
+        boxPanel.layout = boxLayout
         val jbScrollPane = JBScrollPane(boxPanel)
 
         jbScrollPane.size = JBDimension(500, 320)
@@ -108,7 +106,7 @@ class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         })
         indentField.addKeyListener(object : KeyAdapter() {
             override fun keyTyped(e: KeyEvent) {
-                val keyChar = e.keyChar;
+                val keyChar = e.keyChar
                 if (keyChar.toInt() >= KeyEvent.VK_0 && keyChar.toInt() <= KeyEvent.VK_9) {
 
                 } else {

@@ -10,10 +10,7 @@ import javax.swing.JPanel
 
 class ExtensionsTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: LayoutManager?) : this(layout, false)
-
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
-
 
     init {
 
