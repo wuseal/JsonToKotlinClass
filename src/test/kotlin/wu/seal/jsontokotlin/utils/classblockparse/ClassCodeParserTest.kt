@@ -8,12 +8,12 @@ import wu.seal.jsontokotlin.*
 
 class ClassCodeParserTest {
 
-    private val tobeParseClassBlockString1="""data class ClassXXX(
+    val tobeParseClassBlockString1="""data class ClassXXX(
     @SerializedName("sa") val sa: Int = 0, // 0
     @SerializedName("Class") val classX: Class = Class()
 )"""
 
-    private val tobeParseClassBlockString2="""@Serializable
+    val tobeParseClassBlockString2="""@Serializable
 data class TestData(
     @Optional
     @SerialName("progr ammers")
@@ -26,35 +26,35 @@ data class TestData(
     val musicians: List<Musician> = listOf()
 )"""
 
-    private val tobeParseClassBlockString3="""data class Class3(
+    val tobeParseClassBlockString3="""data class Class3(
     val programmers: List<Programmer?>? = listOf(),
     val authors: List<Author?>? = listOf(),
     val musicians: List<Musician?>? = listOf()
 )"""
 
-    private val tobeParseClassBlockString4="""data class Class3(
+    val tobeParseClassBlockString4="""data class Class3(
     val programmers: List<Programmer>,
     val authors: List<Author>,
     val musicians: List<Musician>
 )"""
 
-    private val tobeParseClassBlockString5="""data class Class3(
+    val tobeParseClassBlockString5="""data class Class3(
     val programmers: List<Programmer>, // nothing:yes
     val authors: List<Author>, // :list
     val musicians: List<Musician> // ==list
 )"""
 
-    private val tobeParseClassBlockString6 = """data class Data(
+    val tobeParseClassBlockString6 = """data class Data(
     @SerializedName val userID: Int? = 0, // 11
     @SerializedName("name") val name: Name? = Name(),
     @SerializedName("Email", default = "Email") val email: String? = "" // zhuleipro◎hotmail.com
 )"""
-    private val parser1 = ClassCodeParser(tobeParseClassBlockString1)
-    private val parser2 = ClassCodeParser(tobeParseClassBlockString2)
-    private val parser3 = ClassCodeParser(tobeParseClassBlockString3)
-    private val parser4 = ClassCodeParser(tobeParseClassBlockString4)
-    private val parser5 = ClassCodeParser(tobeParseClassBlockString5)
-    private val parser6 = ClassCodeParser(tobeParseClassBlockString6)
+    val parser1 = ClassCodeParser(tobeParseClassBlockString1)
+    val parser2 = ClassCodeParser(tobeParseClassBlockString2)
+    val parser3 = ClassCodeParser(tobeParseClassBlockString3)
+    val parser4 = ClassCodeParser(tobeParseClassBlockString4)
+    val parser5 = ClassCodeParser(tobeParseClassBlockString5)
+    val parser6 = ClassCodeParser(tobeParseClassBlockString6)
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()

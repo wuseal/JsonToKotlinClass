@@ -60,6 +60,15 @@ fun replaceClassNameToClassBlockString(classBlockString: String, newClassName: S
     return blockPre + blockMid + blockAfter
 }
 
+fun <E, K, V> List<E>.toMap(converter: (E) -> Pair<K, V>): Map<K, V> {
+    val map = mutableMapOf<K, V>()
+    forEach {
+        val converterResult = converter(it)
+        map[converterResult.first] = converterResult.second
+    }
+    return map
+}
+
 fun showNotify(notifyMessage: String, project: Project?) {
     val notificationGroup = NotificationGroup("JSON to Kotlin Class", NotificationDisplayType.BALLOON, true)
     ApplicationManager.getApplication().invokeLater {

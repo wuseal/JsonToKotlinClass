@@ -23,7 +23,7 @@ class AnnotationTest {
     @Test
     fun getAnnotationString() {
         var annotationTemplate = "@SealWu"
-        val rawName = "seal king"
+        var rawName = "seal king"
         Annotation(annotationTemplate, rawName).getAnnotationString().should.be.equal("@SealWu")
         annotationTemplate = "@SealWu(\"%s\")"
         Annotation(annotationTemplate, rawName).getAnnotationString().should.be.equal("@SealWu(\"seal king\")")

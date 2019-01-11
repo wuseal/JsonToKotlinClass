@@ -12,6 +12,6 @@ class LoganSquarePropertyAnnotationTemplate(val rawName: String) : AnnotationTem
     }
 
     override fun getAnnotations(): List<Annotation> {
-        return listOf(annotation)
+        return listOf<Annotation>(annotation)
     }
 }

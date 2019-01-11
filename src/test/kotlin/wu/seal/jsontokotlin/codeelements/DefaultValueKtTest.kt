@@ -1,6 +1,9 @@
 package wu.seal.jsontokotlin.codeelements
 
 import com.winterbe.expekt.should
+import org.junit.*
+
+import org.junit.Assert.*
 
 /**
  *

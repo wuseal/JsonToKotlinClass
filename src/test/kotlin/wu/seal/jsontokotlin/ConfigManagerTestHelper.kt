@@ -59,9 +59,64 @@ class ConfigManagerTestHelper {
         }
     }
 
+    fun buildBoolAction(configProperties: List<KMutableProperty0<Boolean>>, action: () -> Unit): () -> Unit {
+
+        var newAction = action
+        configProperties.forEach {
+            val temp = { traverseBoolConfigOnAction(it, newAction) }
+
+            newAction = temp
+
+
+        }
+        return newAction
+    }
+
+
+    fun iterateBoolConfigs(iterator: AbstractIterator<KMutableProperty0<Boolean>>, action: () -> Unit) {
+        if (iterator.hasNext()) {
+            traverseBoolConfigOnAction(iterator.next(), { iterateBoolConfigs(iterator, action) })
+        }
+    }
+
+    fun buildAllBoolConfigAction(action: () -> Unit): () -> Unit {
+
+        val boolProperties = listOf(
+            ConfigManager::enableAutoReformat,
+            ConfigManager::enableMapType,
+            ConfigManager::enableMinimalAnnotation,
+            ConfigManager::initWithDefaultValue,
+            ConfigManager::isCommentOff,
+            ConfigManager::isInnerClassModel,
+            ConfigManager::isPropertiesVar,
+            ConfigManager::isPropertyNullable
+        )
+
+        return buildBoolAction(boolProperties, action)
+    }
 
     var color = false
     var weight = false
+
+    //@Test
+    fun testBuildBoolAction() {
+        val action = buildBoolAction(listOf(::color, ::weight)) {
+
+            val print = buildString {
+
+                if (color) {
+                    append("color")
+                }
+
+                if (weight) {
+                    append("weight")
+                }
+            }
+            println(print)
+        }
+
+        action()
+    }
 
     @Test
     fun testTraverseBoolConfigOnAction() {
@@ -96,7 +151,7 @@ class ConfigManagerTestHelper {
 
     @Test
     fun testIncludeRunable() {
-        val runable = Runnable { println("runable") }
+        var runable = Runnable { println("runable") }
         val runable1 = Runnable {
             println("Container runable")
             runable.run()
