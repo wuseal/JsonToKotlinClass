@@ -23,7 +23,7 @@ interface IJacksonSupporter {
 
 object JacksonSupporter : IJacksonSupporter {
 
-    const val anotaionFormat = "@JsonProperty(\"%s\")"
+    val anotaionFormat = "@JsonProperty(\"%s\")"
 
     override fun getJacksonSupporterProperty(rawPropertyName: String, propertyType: String): String {
 

@@ -85,10 +85,10 @@ class TargetJsonElement : ITargetJsonElement {
     }
 
     private fun getArrayChildElement(jsonArray: JsonArray): JsonElement {
-        return if (jsonArray.size() >= 1) {
-            getFullFieldElementFromArrayElement(jsonArray)
+        if (jsonArray.size() >= 1) {
+            return getFullFieldElementFromArrayElement(jsonArray)
         } else {
-            Gson().toJsonTree(Any())
+            return Gson().toJsonTree(Any())
         }
     }
 

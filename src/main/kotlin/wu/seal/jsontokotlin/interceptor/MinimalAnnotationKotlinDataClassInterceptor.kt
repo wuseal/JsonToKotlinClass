@@ -7,7 +7,7 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
  * which means that if the property name is the same as raw name then remove the
  * annotations contains %s
  */
-class MinimalAnnotationKotlinDataClassInterceptor : IKotlinDataClassInterceptor {
+class MinimalAnnotationKotlinDataClassInterceptor() : IKotlinDataClassInterceptor {
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
         val newProperties = kotlinDataClass.properties.map {

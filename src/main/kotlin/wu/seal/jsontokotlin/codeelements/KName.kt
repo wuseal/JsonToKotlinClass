@@ -16,19 +16,19 @@ abstract class KName : IKName {
 
     private val suffix = "X"
 
-    protected val illegalNameList = listOf(
+    protected val illegalNameList = listOf<String>(
             "as", "break", "class", "continue", "do", "else", "false", "for", "fun", "if", "in", "interface", "is", "null"
             , "object", "package", "return", "super", "this", "throw", "true", "try", "typealias", "val", "var", "when", "while"
     )
 
 
-    protected val illegalCharacter = listOf(
+    protected val illegalCharacter = listOf<String>(
             "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\\\", "\"", "_"
             , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/", " ", "\t", "\n"
     )
 
 
-    protected val nameSeparator = listOf(" ", "_", "-")
+    protected val nameSeparator = listOf<String>(" ", "_", "-")
 
 
     /**
@@ -40,9 +40,9 @@ abstract class KName : IKName {
             return@indexOfFirst it in '0'..'9'
         } == 0) {
 
-            val numberAndIllegalCharacters = listOf(*illegalCharacter.toTypedArray(), "\\d")
+            val numberAndIllegalCharacters = listOf<String>(*illegalCharacter.toTypedArray(), "\\d")
 
-            it.trim().replaceFirst(Regex("${numberAndIllegalCharacters.toString().trim()}+"), "")
+            it.trim().replaceFirst(Regex("${numberAndIllegalCharacters.toString().trim()}{1,}"), "")
         } else {
             it
         }
@@ -51,11 +51,12 @@ abstract class KName : IKName {
     protected fun toBeLegalName(name: String): String {
         val tempName = name.replace(illegalCharacter.toString(), "")
 
-        return if (tempName in illegalNameList) {
+        val legalName = if (tempName in illegalNameList) {
             tempName + suffix
         } else {
             tempName
         }
+        return legalName
     }
 
 }

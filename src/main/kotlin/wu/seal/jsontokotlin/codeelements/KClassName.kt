@@ -14,11 +14,13 @@ interface IKClassName {
 object KClassName : KName(), IKClassName {
 
     override fun getLegalClassName(rawClassName: String): String {
+
         val upperCamelCaseLegalName = getUpperCamelCaseLegalName(rawClassName)
-        return if (upperCamelCaseLegalName.isNotEmpty()) {
-            upperCamelCaseLegalName
+        if (upperCamelCaseLegalName.isNotEmpty()) {
+
+            return upperCamelCaseLegalName
         } else {
-            getUpperCamelCaseLegalName("X-$rawClassName")
+            return getUpperCamelCaseLegalName("X-"+rawClassName)
         }
     }
 
@@ -36,7 +38,9 @@ object KClassName : KName(), IKClassName {
 
         val upperCamelCase =toUpperCamelCase(temp)
 
-        return toBeLegalName(upperCamelCase)
+        val legalName = toBeLegalName(upperCamelCase)
+
+        return legalName
     }
 
 
@@ -59,7 +63,9 @@ object KClassName : KName(), IKClassName {
             }
         }
 
-        return stringBuilder.toString()
+        val upperCamelCaseName = stringBuilder.toString()
+
+        return upperCamelCaseName
 
     }
 

@@ -25,6 +25,8 @@ import javax.swing.border.EmptyBorder
  */
 class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
+    constructor(layout: LayoutManager?) : this(layout, false)
+
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
@@ -54,9 +56,9 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
 
         addPropertyAnnotationFormatSettingPanel(subBoxPanel)
 
-        val annotationSelectPanel = TargetJsonLibConfigPanel(true) {
+        val annotationSelectPanel = TargetJsonLibConfigPanel(true, {
             subBoxPanel.isVisible = it
-        }
+        })
 
         boxPanel.add(annotationSelectPanel)
 
@@ -255,16 +257,38 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
                 callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
             }
 
-            when {
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.None -> radioButtonNone.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.NoneWithCamelCase -> radioButtonNoneWithCamelCase.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson -> radioButtonGson.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson -> radioButtonJackson.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson -> radioButtonFastjson.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.LoganSquare -> radioButtonLoganSquare.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoShi -> radioButtonMoShi.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoshiCodeGen -> radioButtonMoShiCodeGen.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom -> radioButtonCustom.isSelected = true
+            if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.None) {
+
+                radioButtonNone.isSelected = true
+
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.NoneWithCamelCase) {
+
+                radioButtonNoneWithCamelCase.isSelected = true
+
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson) {
+
+                radioButtonGson.isSelected = true
+
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson) {
+
+                radioButtonJackson.isSelected = true
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson) {
+
+                radioButtonFastjson.isSelected = true
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.LoganSquare) {
+
+                radioButtonLoganSquare.isSelected = true
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoShi) {
+
+                radioButtonMoShi.isSelected = true
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoshiCodeGen) {
+
+                radioButtonMoShiCodeGen.isSelected = true
+
+            } else if (ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
+
+                radioButtonCustom.isSelected = true
+
             }
 
             val buttonGroupProperty = ButtonGroup()

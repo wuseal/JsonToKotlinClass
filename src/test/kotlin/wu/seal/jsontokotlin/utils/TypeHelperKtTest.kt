@@ -1,10 +1,13 @@
 package wu.seal.jsontokotlin.utils
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.winterbe.expekt.should
 import org.junit.Test
+
+import org.junit.Assert.*
 
 /**
  * Created by Seal.Wu on 2018/4/18.
