@@ -6,5 +6,5 @@ package wu.seal.jsontokotlin
  */
 class UnSupportJsonException(message: String = "") : Exception(message) {
     var advice: String = ""
-
+    var adviceType: String = ""
 }
