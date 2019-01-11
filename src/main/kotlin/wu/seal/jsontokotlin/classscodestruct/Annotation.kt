@@ -6,12 +6,12 @@ import wu.seal.jsontokotlin.utils.numberOf
 data class Annotation(val annotationTemplate: String, val rawName: String) {
 
     fun getAnnotationString(): String {
-        if (annotationTemplate.contains("%s")) {
+        return if (annotationTemplate.contains("%s")) {
             val countS = annotationTemplate.numberOf("%s")
-            val args = Array(countS, { rawName })
-            return annotationTemplate.format(*args)
+            val args = Array(countS) { rawName }
+            annotationTemplate.format(*args)
         } else {
-            return annotationTemplate
+            annotationTemplate
         }
     }
 
@@ -22,16 +22,16 @@ data class Annotation(val annotationTemplate: String, val rawName: String) {
                 throw IllegalArgumentException("Only support one line annotation!! current is $annotationString")
             }
 
-            if (annotationString.contains("\"")) {
+            return if (annotationString.contains("\"")) {
                 if (annotationString.numberOf("\"") != 2) {
                     throw IllegalArgumentException("Only support one line annotation with one couple Double quotes!! current is $annotationString")
                 }
                 val rawName = annotationString.substringAfter("\"").substringBefore("\"")
                 val annotationTemplate =
-                    annotationString.substringBefore("\"") + "\"%s\"" + annotationString.substringAfterLast("\"")
-                return Annotation(annotationTemplate, rawName)
+                        annotationString.substringBefore("\"") + "\"%s\"" + annotationString.substringAfterLast("\"")
+                Annotation(annotationTemplate, rawName)
             } else {
-                return Annotation(annotationString, "")
+                Annotation(annotationString, "")
             }
 
         }

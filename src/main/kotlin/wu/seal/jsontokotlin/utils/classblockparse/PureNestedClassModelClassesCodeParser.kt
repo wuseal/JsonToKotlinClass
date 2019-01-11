@@ -16,15 +16,15 @@ class PureNestedClassModelClassesCodeParser(private val classesCode: String) {
             throw IllegalArgumentException("Can't support this classes code for it has comment or annotations $classesCode")
         }
 
-        if (classesCode.contains("{").not()) {
-            return parsedToKotlinDataClass(classesCode)
+        return if (classesCode.contains("{").not()) {
+            parsedToKotlinDataClass(classesCode)
         } else {
             val trimedClassesCode = classesCode.trim()
             val tobeParsedCode = trimedClassesCode.substringBefore("{")
             val tobeParsedNestedClassesCode = trimedClassesCode.substringAfter("{").substringBeforeLast("}")
             val parentClass = parsedToKotlinDataClass(tobeParsedCode)
             val subClasses = getClassesStringList(tobeParsedNestedClassesCode).map { parsedToKotlinDataClass(it) }
-            return parentClass.copy(nestedClasses = subClasses)
+            parentClass.copy(nestedClasses = subClasses)
         }
 
 

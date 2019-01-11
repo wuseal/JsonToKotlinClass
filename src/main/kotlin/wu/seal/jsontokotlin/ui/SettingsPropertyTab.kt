@@ -17,10 +17,7 @@ import javax.swing.border.EmptyBorder
  */
 class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
-    constructor(layout: LayoutManager?) : this(layout, false)
-
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
-
 
     init {
         val boxLayout = BoxLayout(this, BoxLayout.PAGE_AXIS)
@@ -92,16 +89,10 @@ class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
             ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
 
         }
-        if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.NotNullable) {
-
-            radioButtonNonNullable.isSelected = true
-
-        } else if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable) {
-
-            radioButtonNullable.isSelected = true
-        } else {
-
-            radioButtonAutoDetermineType.isSelected = true
+        when {
+            ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.NotNullable -> radioButtonNonNullable.isSelected = true
+            ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable -> radioButtonNullable.isSelected = true
+            else -> radioButtonAutoDetermineType.isSelected = true
         }
         val buttonGroupPropertyType = ButtonGroup()
         buttonGroupPropertyType.add(radioButtonNonNullable)

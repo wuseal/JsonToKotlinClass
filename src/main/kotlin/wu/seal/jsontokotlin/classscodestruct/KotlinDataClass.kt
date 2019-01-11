@@ -18,7 +18,7 @@ data class KotlinDataClass(
         val indent = getIndent()
         val code = buildString {
             if (annotations.isNotEmpty()) {
-                val annotationsCode = annotations.map { it.getAnnotationString() }.joinToString("\n")
+                val annotationsCode = annotations.joinToString("\n") { it.getAnnotationString() }
                 if (annotationsCode.isNotBlank()) {
                     append(annotationsCode).append("\n")
                 }
@@ -46,8 +46,8 @@ data class KotlinDataClass(
                 append("}")
             }
         }
-        if (extraIndent.isNotEmpty()) {
-            return code.split("\n").map {
+        return if (extraIndent.isNotEmpty()) {
+            code.split("\n").map {
                 if (it.isNotBlank()) {
                     extraIndent + it
                 } else {
@@ -55,7 +55,7 @@ data class KotlinDataClass(
                 }
             }.joinToString("\n")
         } else {
-            return code
+            code
         }
     }
 

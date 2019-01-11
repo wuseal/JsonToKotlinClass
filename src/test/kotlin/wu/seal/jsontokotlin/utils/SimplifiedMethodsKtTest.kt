@@ -75,7 +75,7 @@ data class C(
 
     @Test
     fun firstIndexAfterSpecificIndexTest() {
-        val list = listOf<Int>(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3)
+        val list = listOf(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3)
         list.firstIndexAfterSpecificIndex(1,4).should.be.equal(8)
         list.firstIndexAfterSpecificIndex(1,8).should.be.equal(-1)
     }
