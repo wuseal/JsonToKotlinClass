@@ -10,7 +10,7 @@ object ExtensionsCollector {
     /**
      * all extensions
      */
-    val extensions = listOf<Extension>(
+    val extensions = listOf(
             PropertyPrefixSupport,
             PropertySuffixSupport
     )

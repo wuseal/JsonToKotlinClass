@@ -16,7 +16,7 @@ data class Property(
 
     fun getCode(): String {
 
-        val code = buildString {
+        return buildString {
             if (annotations.isNotEmpty()) {
                 val annotationsCode = annotations.map { it.getAnnotationString() }.joinToString("\n")
                 if (annotationsCode.isNotBlank()) {
@@ -28,7 +28,6 @@ data class Property(
                 append(" = ").append(value)
             }
         }
-        return code
     }
 
     fun toParsedProperty(): ParsedKotlinDataClass.Property {

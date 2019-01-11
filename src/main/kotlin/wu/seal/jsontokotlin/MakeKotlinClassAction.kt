@@ -56,10 +56,10 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             inputDialog.show()
             val className = inputDialog.getClassName()
             val inputString = inputDialog.inputString
-            val json = if (inputString?.startsWith("http") == true) {
+            val json = if (inputString.startsWith("http")) {
                 URL(inputString).readText()
             } else inputString
-            if (json == null || json.isEmpty()) {
+            if (json.isEmpty()) {
                 return
             }
             jsonString = json
@@ -179,9 +179,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
     fun getCleanText(editorText: String): String {
         val tempCleanText = editorText.substringBeforeLast("class")
-        val cleanText =
-                if (tempCleanText.trim().endsWith("data")) tempCleanText.trim().removeSuffix("data") else tempCleanText
-        return cleanText
+        return if (tempCleanText.trim().endsWith("data")) tempCleanText.trim().removeSuffix("data") else tempCleanText
     }
 
     fun getCurrentEditFileTemClassName(editorText: String) = editorText.substringAfterLast("class")
@@ -209,7 +207,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
                     )
                             && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
                             && removeDocCommentAndPackageDeclareText.substringAfter("class").substringAfter("(")
-                            .replace(Regex("\\s"), "").let { it.equals(")") || it.equals("){}") })
+                            .replace(Regex("\\s"), "").let { it == ")" || it == "){}" })
             ) {
                 couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
             }
