@@ -3,7 +3,6 @@ package wu.seal.jsontokotlin.codeelements
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.supporter.*
-import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  *
