@@ -12,15 +12,12 @@ object ClassCodeFilter {
      * when not in `innerClassModel` and the class spit with `\n\n` then remove the duplicate class
      */
     fun removeDuplicateClassCode(generateClassesString: String): String {
-
-        if (ConfigManager.isInnerClassModel.not()) {
-
+        return if (ConfigManager.isInnerClassModel.not()) {
             val set = mutableSetOf<String>()
             set.addAll(generateClassesString.split("\n\n"))
-            return set.joinToString("\n\n")
-
+            set.joinToString("\n\n")
         } else {
-            return generateClassesString
+            generateClassesString
         }
     }
 }

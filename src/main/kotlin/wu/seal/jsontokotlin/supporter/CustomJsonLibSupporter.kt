@@ -27,13 +27,12 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
 
 
     override fun getClassAnnotationBlockString(rawClassName: String): String {
-
-        if (classAnnotationFormat.contains("%s")) {
+        return if (classAnnotationFormat.contains("%s")) {
             val count = classAnnotationFormat.numberOf("%s")
             val args = arrayOfNulls<String>(count).apply { fill(rawClassName) }
-            return classAnnotationFormat.format(*args)
+            classAnnotationFormat.format(*args)
         } else {
-            return classAnnotationFormat
+            classAnnotationFormat
         }
     }
 

@@ -18,7 +18,7 @@ class JsonToKotlinApplication : ApplicationComponent {
 
         LogUtil.i("init JSON To Kotlin Class version ==$PLUGIN_VERSION")
 
-        Thread() {
+        Thread {
             try {
                 sendConfigInfo()
                 sendHistoryExceptionInfo()

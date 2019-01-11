@@ -160,9 +160,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
     }
 
     fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
-        val synchronizedPropertyTypeClassList = unSynchronizedTypeClasses.map {
-
-            val dataClass = it
+        return unSynchronizedTypeClasses.map { dataClass ->
             val newProperties = dataClass.properties.map {
                 if (it.kotlinDataClassPropertyTypeRef != ParsedKotlinDataClass.NONE) {
                     val rawPropertyReferenceType = getRawType(getChildType(it.propertyType))
@@ -178,7 +176,6 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
             }
             dataClass.copy(properties = newProperties)
         }
-        return synchronizedPropertyTypeClassList
     }
 
     fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
