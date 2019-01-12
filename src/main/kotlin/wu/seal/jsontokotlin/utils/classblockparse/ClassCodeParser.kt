@@ -93,19 +93,19 @@ class ClassCodeParser(private val classBlockString: String) {
     }
 
     private fun getPropertyKeyword(propertyLine: String): String {
-        val stringBeforeColon = propertyLine.substringBefore("//").substringBeforeLast(":").trim()
+        val stringBeforeLastColonWithoutComment = propertyLine.substringBefore("//").substringBeforeLast(":").trim()
         return when {
-            stringBeforeColon.contains(")") -> {
-                val noAnnotationString = stringBeforeColon.substringAfterLast(")").trim()
+            stringBeforeLastColonWithoutComment.contains(")") -> {
+                val noAnnotationString = stringBeforeLastColonWithoutComment.substringAfterLast(")").trim()
                 val keyword = noAnnotationString.split(" ").first()
                 keyword
             }
-            stringBeforeColon.contains("@") -> {
-                val keyword = stringBeforeColon.split(" ")[1]
+            stringBeforeLastColonWithoutComment.contains("@") -> {
+                val keyword = stringBeforeLastColonWithoutComment.split(" ")[1]
                 keyword
             }
             else -> {
-                val keyword = stringBeforeColon.split(" ").first()
+                val keyword = stringBeforeLastColonWithoutComment.split(" ").first()
                 keyword
             }
         }.trim()
@@ -113,25 +113,25 @@ class ClassCodeParser(private val classBlockString: String) {
 
     private fun getPropertyName(propertyLine: String): String {
 
-        val stringBeforeColon = propertyLine.substringBefore("//").substringBeforeLast(":").trim()
+        val stringBeforeLastColonWithoutComment = propertyLine.substringBefore("//").substringBeforeLast(":").trim()
         return when {
-            stringBeforeColon.contains(")") -> {
-                val noAnnotationString = stringBeforeColon.substringAfterLast(")").trim()
+            stringBeforeLastColonWithoutComment.contains(")") -> {
+                val noAnnotationString = stringBeforeLastColonWithoutComment.substringAfterLast(")").trim()
                 val splits = noAnnotationString.split(" ")
                 val propertyName =
                     splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
-            stringBeforeColon.contains("@") -> {
-                val splits = stringBeforeColon.split(" ")
+            stringBeforeLastColonWithoutComment.contains("@") -> {
+                val splits = stringBeforeLastColonWithoutComment.split(" ")
                 val propertyName =
                     splits.filterIndexed { index, s -> listOf(0, 1).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
             else -> {
-                val splits = stringBeforeColon.split(" ")
+                val splits = stringBeforeLastColonWithoutComment.split(" ")
                 val propertyName =
                     splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
                         .joinToString(" ")
