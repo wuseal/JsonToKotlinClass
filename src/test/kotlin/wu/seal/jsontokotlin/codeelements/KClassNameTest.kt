@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.codeelements
 
+import com.winterbe.expekt.should
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -28,6 +29,9 @@ class KClassNameTest {
 
     }
 
+    /**
+     * test get name logic works well when name contains illegal character
+     */
     @Test
     fun getName() {
         val rawClassName = """
@@ -36,13 +40,15 @@ class KClassNameTest {
 
         val legalClassName = KClassName.getName(rawClassName)
 
-        assertTrue(legalClassName.startsWith("N"))
-        assertTrue(legalClassName == "NAM12335E431")
+        legalClassName.should.startWith("N")
+
+        legalClassName.should.be.equal("NAM12335E431")
 
         val rawClassName1 = "341@!$#43214%$#@%34"
+
         val legalClassName1 = KClassName.getName(rawClassName1)
         assertTrue(legalClassName1.isNotEmpty())
-        assertTrue(legalClassName1 == "X3414321434")
+        legalClassName1.should.be.equal("X3414321434")
 
     }
 

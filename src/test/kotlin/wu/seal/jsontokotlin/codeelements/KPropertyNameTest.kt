@@ -78,4 +78,12 @@ class KPropertyNameTest {
         resultCamelCaseNameUnderScore.should.be.equal("abcAbc")
         resultCamelCaseNameWithMiddleScore.should.be.equal("abcAbc")
     }
+
+    /**
+     * Test Property name camle case format if OK when there two colon inside string
+     */
+    @Test
+    fun testPropertyNameCameCaseFormatWithTwoColon() {
+        KPropertyName.getName("hello:baby:come").should.be.equal("helloBabyCome")
+    }
 }
