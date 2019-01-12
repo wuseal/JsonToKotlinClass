@@ -56,29 +56,36 @@ class Issue089Test {
 ) {
     data class Description(
         @SerializedName("cmis:objectTypeId")
-        val cmisobjectTypeId: String = "", // D:esp:act
+        val cmisObjectTypeId: String = "", // D:esp:act
         @SerializedName("esp:author")
-        val espauthor: String = "", // Уалиева Асель Мухаметбековна
+        val espAuthor: String = "", // Уалиева Асель Мухаметбековна
         @SerializedName("esp:create_date")
-        val espcreateDate: String = "", // 2018.09.31
+        val espCreateDate: String = "", // 2018.09.31
         @SerializedName("esp:doc_name")
-        val espdocName: String = "", // текст примечания
+        val espDocName: String = "", // текст примечания
         @SerializedName("esp:iin_bin")
-        val espiinBin: String = "", // 101040011256
+        val espIinBin: String = "", // 101040011256
         @SerializedName("esp:reg_date")
-        val espregDate: String = "", // 2018.10.01
+        val espRegDate: String = "", // 2018.10.01
         @SerializedName("esp:reg_num")
-        val espregNum: String = "" // 181000000103012/00022
+        val espRegNum: String = "" // 181000000103012/00022
     )
 }"""
+
+    /**
+     * init test environment before test
+     */
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()
     }
 
+    /**
+     * test issue #89 of Github Project issue
+     */
     @Test
     fun testIssue089() {
         val result = KotlinDataClassCodeMaker("Test", json).makeKotlinDataClassCode()
-        result.should.be.equal(expected)
+        result.trim().should.be.equal(expected)
     }
 }
