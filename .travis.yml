@@ -22,7 +22,7 @@ deploy:
   on:
     tags: true
     repo: wuseal/JsonToKotlinClass
-    condition: "$TRAVIS_TAG =~ (alpha|Alpha)$"
+    condition: "$TRAVIS_TAG =~ (alpha|Alpha)"
 - provider: script
   script: "./gradlew publishPlugin"
   skip_cleanup: true
