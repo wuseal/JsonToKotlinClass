@@ -59,6 +59,7 @@ Have a try with the settings dialog :stuck_out_tongue_winking_eye:
 * [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 * [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 * Generating kotlin data class property order by alphabetical
+* [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/3.0-doc-extensions/doc_for_extensions.md)
 
 ### Generate Example 
 This is the example JSON from json.org

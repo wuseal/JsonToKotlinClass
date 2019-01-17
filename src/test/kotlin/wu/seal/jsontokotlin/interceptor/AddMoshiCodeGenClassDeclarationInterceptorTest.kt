@@ -3,8 +3,6 @@ package wu.seal.jsontokotlin.interceptor
 import com.winterbe.expekt.should
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class AddMoshiCodeGenClassDeclarationInterceptorTest {
 
     @Test
