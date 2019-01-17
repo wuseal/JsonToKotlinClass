@@ -2,6 +2,8 @@ package wu.seal.jsontokotlin.ui
 
 import com.google.gson.*
 import com.intellij.json.JsonFileType
+import com.intellij.openapi.application.Application
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.fileChooser.FileChooser
@@ -194,7 +196,9 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         addActionListener {
             FileChooser.chooseFile(FileChooserDescriptor(true, false, false, false, false, false), null, null) { file ->
                 val content = String(file.contentsToByteArray())
-                jsonContentEditor.document.setText(content)
+                ApplicationManager.getApplication().runWriteAction {
+                    jsonContentEditor.document.setText(content.replace("\r\n", "\n"))
+                }
             }
         }
     }
