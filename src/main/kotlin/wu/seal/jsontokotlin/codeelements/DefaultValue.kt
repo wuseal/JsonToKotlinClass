@@ -8,26 +8,17 @@ import wu.seal.jsontokotlin.utils.*
  */
 
 fun getDefaultValue(propertyType: String): String {
-
     val rawType = getRawType(propertyType)
 
-    if (rawType == TYPE_INT) {
-        return 0.toString()
-    } else if (rawType == TYPE_LONG) {
-        return 0L.toString()
-    } else if (rawType == TYPE_STRING) {
-        return "\"\""
-    } else if (rawType == TYPE_DOUBLE) {
-        return 0.0.toString()
-    } else if (rawType == TYPE_BOOLEAN) {
-        return false.toString()
-    } else if (rawType.contains("List<")) {
-        return "listOf()"
-    } else if (rawType.contains("Map<")) {
-        return "mapOf()"
-    } else if (rawType == TYPE_ANY) {
-        return "Any()"
-    } else {
-        return "$rawType()"
+    return when {
+        rawType == TYPE_INT -> 0.toString()
+        rawType == TYPE_LONG -> 0L.toString()
+        rawType == TYPE_STRING -> "\"\""
+        rawType == TYPE_DOUBLE -> 0.0.toString()
+        rawType == TYPE_BOOLEAN -> false.toString()
+        rawType.contains("List<") -> "listOf()"
+        rawType.contains("Map<") -> "mapOf()"
+        rawType == TYPE_ANY -> "Any()"
+        else -> "$rawType()"
     }
 }
