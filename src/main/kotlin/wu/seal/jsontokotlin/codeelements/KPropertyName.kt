@@ -47,9 +47,9 @@ object KPropertyName : KName(), IPropertyNameMaker {
         /**
          * keep nameSeparator character
          */
-        val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
+        val pattern = illegalCharacter.toMutableList().apply { removeAll(nameSeparator) }.toRegex()
 
-        val temp = rawString.replace(Regex(pattern), "").let {
+        val temp = rawString.replace(pattern, "").let {
 
             return@let removeStartNumberAndIllegalCharacter(it)
 
@@ -68,7 +68,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
         val stringBuilder = StringBuilder()
 
-        temp.split(Regex(nameSeparator.toString())).forEach {
+        temp.split(nameSeparator.toRegex()).forEach {
             if (it.isNotBlank()) {
                 stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
             }

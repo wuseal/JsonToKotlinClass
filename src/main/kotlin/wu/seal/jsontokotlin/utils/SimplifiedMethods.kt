@@ -8,6 +8,8 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.project.Project
 import wu.seal.jsontokotlin.ConfigManager
+import java.lang.IllegalStateException
+import java.util.regex.Pattern
 
 /**
  * File contains functions which simply other functions's invoke
@@ -50,7 +52,12 @@ fun getClassesStringList(classesString: String): List<String> {
  * export the class name from class block string
  */
 fun getClassNameFromClassBlockString(classBlockString: String): String {
-    return classBlockString.substringAfter("data class").substringBefore("(").trim()
+    val pattern = Pattern.compile("(data )?class (?<className>[^(]+).*")
+    val matcher = pattern.matcher(classBlockString)
+    if (matcher.find()) {
+        return matcher.group("className").trim()
+    }
+    throw IllegalStateException("cannot find class name in classBlockString: $classBlockString")
 }
 
 fun replaceClassNameToClassBlockString(classBlockString: String, newClassName: String): String {

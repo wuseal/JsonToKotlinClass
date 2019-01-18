@@ -22,13 +22,13 @@ abstract class KName : IKName {
     )
 
 
-    protected val illegalCharacter = listOf(
-            "\\+", "\\-", "\\*", "/", "%", "=", "&", "|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\\\", "\"", "_"
-            , ",", ".", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "^", "#", "\\", "/", " ", "\t", "\n"
+    protected val illegalCharacter = listOf<String>(
+            "\\+", "\\-", "\\*", "/", "%", "=", "&", "\\|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\\\", "\"", "_"
+            , ",", "\\.", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "\\^", "#", "\\", "/", " ", "\t", "\n"
     )
 
 
-    protected val nameSeparator = listOf(" ", "_", "-")
+    protected val nameSeparator = listOf<String>(" ", "_", "\\-", ":")
 
 
     /**
@@ -36,20 +36,16 @@ abstract class KName : IKName {
      */
     protected fun removeStartNumberAndIllegalCharacter(it: String): String {
 
-        return if (it.replace(Regex(illegalCharacter.toString()), "").indexOfFirst {
-            return@indexOfFirst it in '0'..'9'
-        } == 0) {
+        val numberAndIllegalCharacters = listOf<String>(*illegalCharacter.toTypedArray(), "\\d")
 
-            val numberAndIllegalCharacters = listOf(*illegalCharacter.toTypedArray(), "\\d")
+        val firstNumberAndIllegalCharactersRegex = "^(${numberAndIllegalCharacters.toRegex()})+".toRegex()
 
-            it.trim().replaceFirst(Regex("${numberAndIllegalCharacters.toString().trim()}+"), "")
-        } else {
-            it
-        }
+        return it.trim().replaceFirst(firstNumberAndIllegalCharactersRegex, "")
+
     }
 
     protected fun toBeLegalName(name: String): String {
-        val tempName = name.replace(illegalCharacter.toString(), "")
+        val tempName = name.replace(illegalCharacter.toRegex(), "")
 
         return if (tempName in illegalNameList) {
             tempName + suffix
@@ -57,5 +53,11 @@ abstract class KName : IKName {
             tempName
         }
     }
+
+    /**
+     * array string into regex match patten that could match any element of the array
+     */
+    protected fun Iterable<String>.toRegex() = joinToString(separator = "|").toRegex()
+
 
 }
