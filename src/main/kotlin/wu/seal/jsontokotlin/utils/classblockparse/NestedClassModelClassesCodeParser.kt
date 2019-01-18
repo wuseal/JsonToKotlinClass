@@ -31,7 +31,7 @@ class NestedClassModelClassesCodeParser(private val nestedClassCode: String) {
         var backParenthesesCount = 0
         var backBigParenthesesCount = 0
         lines.forEach {
-            if (it.startsWith("data class")) {
+            if (it.matches("^(data )?class.+".toRegex())) {
                 classStringBuilder.append("\n")
                 classStringBuilder.append(it)
                 dataclassStringCount++

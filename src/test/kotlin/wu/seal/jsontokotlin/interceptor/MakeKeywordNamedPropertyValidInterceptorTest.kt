@@ -16,13 +16,13 @@ class MakeKeywordNamedPropertyValidInterceptorTest {
 
     @Test
     fun intercept() {
-        val toBeParsedCode = """data class (val in: String,
+        val toBeParsedCode = """data class A(val in: String,
             val as: Int,
             val dupa: Double
 )"""
         val kotlinDataClass = KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(toBeParsedCode).getKotlinDataClass())
         val intercepted = MakeKeywordNamedPropertyValidInterceptor().intercept(kotlinDataClass)
-        intercepted.getCode().should.be.equal("""data class (
+        intercepted.getCode().should.be.equal("""data class A(
     val `in`: String,
     val `as`: Int,
     val dupa: Double

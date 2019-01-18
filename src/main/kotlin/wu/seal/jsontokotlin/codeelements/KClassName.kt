@@ -26,9 +26,9 @@ object KClassName : KName(), IKClassName {
         /**
          * keep " " character
          */
-        val pattern = "$illegalCharacter".replace(Regex(nameSeparator.toString()), "")
+        val pattern = illegalCharacter.toMutableList().apply { removeAll(nameSeparator) }.toRegex()
 
-        val temp = rawClassName.replace(Regex(pattern), "").let {
+        val temp = rawClassName.replace(pattern, "").let {
 
             return@let removeStartNumberAndIllegalCharacter(it)
 
@@ -53,7 +53,7 @@ object KClassName : KName(), IKClassName {
 
         val stringBuilder = StringBuilder()
 
-        temp.split(Regex(nameSeparator.toString())).forEach {
+        temp.split(nameSeparator.toRegex()).forEach {
             if (it.isNotBlank()) {
                 stringBuilder.append(it.substring(0, 1).toUpperCase().plus(it.substring(1)))
             }

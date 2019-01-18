@@ -23,7 +23,11 @@ data class KotlinDataClass(
                     append(annotationsCode).append("\n")
                 }
             }
-            append("data class ").append(name).append("(").append("\n")
+            if (properties.isEmpty()) {
+                append("class ").append(name).append("(").append("\n")
+            } else {
+                append("data class ").append(name).append("(").append("\n")
+            }
             properties.forEach {
                 val code = it.getCode()
                 val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
