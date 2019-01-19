@@ -14,7 +14,7 @@ Customize your own plugin by these steps, and you will have your own plugin, in 
 
    ![image](https://user-images.githubusercontent.com/9211902/51250876-ccb8cb00-19d2-11e9-9620-9c45c8975bfa.png)
 
-   Package name could be your own domain name. in this case we will you `wu.seal`
+   Package name could be your own domain name. in this case we will use `wu.seal`
 
 5. Create a Extension object class file under your created package
 
@@ -75,13 +75,16 @@ Customize your own plugin by these steps, and you will have your own plugin, in 
 10. And make the properties names to be all upper case
 
     ```kotlin
-     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
 
+        return if (getConfig(configKey).toBoolean()) {
             //make all properties name to be all upper case
             val newProperties = kotlinDataClass.properties.map { it.copy(name = it.name.toUpperCase()) }
-
-            return kotlinDataClass.copy(properties = newProperties)
+            kotlinDataClass.copy(properties = newProperties)
+        } else {
+            kotlinDataClass
         }
+    }
     ```
 
     We use `map`method to create a new properties which all properties names are translate to be all upper case, And copy the incoming parameter `kotlinDataClass`  with replacing the new created properties, and return it to the system.
