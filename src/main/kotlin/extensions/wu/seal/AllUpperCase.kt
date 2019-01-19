@@ -8,9 +8,10 @@ import javax.swing.JPanel
 
 object AllUpperCase :Extension(){
 
-    override fun createUI(): JPanel {
+    private const val configKey = "wu.seal.all_to_be_upper_case"
 
-        val configKey = "wu.seal.all_to_be_upper_case"
+
+    override fun createUI(): JPanel {
 
         val checkBox = JCheckBox("Make all properties name to be all upper case").apply {
             isSelected = getConfig(configKey).toBoolean()
@@ -29,9 +30,15 @@ object AllUpperCase :Extension(){
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
 
-        //make all properties name to be all upper case
-        val newProperties = kotlinDataClass.properties.map { it.copy(name = it.name.toUpperCase()) }
+        return if (getConfig(configKey).toBoolean()) {
+            //make all properties name to be all upper case
+            val newProperties = kotlinDataClass.properties.map { it.copy(name = it.name.toUpperCase()) }
 
-        return kotlinDataClass.copy(properties = newProperties)
+            kotlinDataClass.copy(properties = newProperties)
+
+        } else {
+
+            kotlinDataClass
+        }
     }
 }
