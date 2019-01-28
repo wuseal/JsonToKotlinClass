@@ -38,7 +38,7 @@ class ConfigManagerTestHelper {
         }
     }
 
-    fun testAllNoBoolConfigWithAction(action: () -> Unit) {
+    private fun testAllNoBoolConfigWithAction(action: () -> Unit) {
         traverseConfigOnAction(ConfigManager::indent, listOf(2,4,8)){
             traverseConfigOnAction(ConfigManager::propertyTypeStrategy, PropertyTypeStrategy.values().toList()){
                 traverseConfigOnAction(ConfigManager::targetJsonConverterLib,TargetJsonConverter.values().toList()){
@@ -47,12 +47,12 @@ class ConfigManagerTestHelper {
             }
         }
     }
-    fun traverseBoolConfigOnAction(boolConfig: KMutableProperty0<Boolean>, action: () -> Unit) {
+    private fun traverseBoolConfigOnAction(boolConfig: KMutableProperty0<Boolean>, action: () -> Unit) {
         traverseConfigOnAction(boolConfig, listOf(true, false), action)
     }
 
 
-    fun <R> traverseConfigOnAction(config: KMutableProperty0<R>, configAbleValues: List<R>, action: () -> Unit) {
+    private fun <R> traverseConfigOnAction(config: KMutableProperty0<R>, configAbleValues: List<R>, action: () -> Unit) {
         configAbleValues.forEach {
             config.set(it)
             action()

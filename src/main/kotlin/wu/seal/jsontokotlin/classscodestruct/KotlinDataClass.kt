@@ -28,12 +28,12 @@ data class KotlinDataClass(
             } else {
                 append("data class ").append(name).append("(").append("\n")
             }
-            properties.forEach {
-                val code = it.getCode()
+            properties.forEach { p ->
+                val code = p.getCode()
                 val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
                 append(addIndentCode)
-                if (it.isLast.not()) append(",")
-                if (it.comment.isNotBlank()) append(" // ").append(getCommentCode(it.comment))
+                if (p.isLast.not()) append(",")
+                if (p.comment.isNotBlank()) append(" // ").append(getCommentCode(p.comment))
                 append("\n")
             }
             append(")")
@@ -51,13 +51,13 @@ data class KotlinDataClass(
             }
         }
         return if (extraIndent.isNotEmpty()) {
-            code.split("\n").map {
+            code.split("\n").joinToString("\n") {
                 if (it.isNotBlank()) {
                     extraIndent + it
                 } else {
                     it
                 }
-            }.joinToString("\n")
+            }
         } else {
             code
         }

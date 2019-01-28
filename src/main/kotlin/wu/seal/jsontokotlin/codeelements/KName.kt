@@ -22,13 +22,13 @@ abstract class KName : IKName {
     )
 
 
-    protected val illegalCharacter = listOf<String>(
+    protected val illegalCharacter = listOf(
             "\\+", "\\-", "\\*", "/", "%", "=", "&", "\\|", "!", "\\[", "\\]", "\\{", "\\}", "\\(", "\\)", "\\\\", "\"", "_"
             , ",", "\\.", ":", "\\?", "\\>", "\\<", "@", ";", "'", "\\`", "\\~", "\\$", "\\^", "#", "\\", "/", " ", "\t", "\n"
     )
 
 
-    protected val nameSeparator = listOf<String>(" ", "_", "\\-", ":")
+    protected val nameSeparator = listOf(" ", "_", "\\-", ":")
 
 
     /**
@@ -36,7 +36,7 @@ abstract class KName : IKName {
      */
     protected fun removeStartNumberAndIllegalCharacter(it: String): String {
 
-        val numberAndIllegalCharacters = listOf<String>(*illegalCharacter.toTypedArray(), "\\d")
+        val numberAndIllegalCharacters = listOf(*illegalCharacter.toTypedArray(), "\\d")
 
         val firstNumberAndIllegalCharactersRegex = "^(${numberAndIllegalCharacters.toRegex()})+".toRegex()
 
