@@ -96,8 +96,8 @@ class KotlinCodeMaker {
         stringBuilder.append(" {")
         stringBuilder.append("\n")
         val nestedClassCode = toBeAppend.joinToString("\n\n") {
-            it.split("\n").joinToString("\n") {
-                indent + it
+            it.split("\n").joinToString("\n") { line ->
+                indent + line
             }
         }
         stringBuilder.append(nestedClassCode)

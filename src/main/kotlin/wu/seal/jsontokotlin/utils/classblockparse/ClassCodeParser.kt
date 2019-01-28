@@ -156,15 +156,15 @@ class ClassCodeParser(private val classBlockString: String) {
     private fun getPropertyValue(propertyLine: String, isLastLine: Boolean): String {
         val deleteCommentPropertyLine = propertyLine.substringBefore("//")
         val typeAndValueBlock = deleteCommentPropertyLine.substringAfterLast(":")
-        if (typeAndValueBlock.contains("=")) {
+        return if (typeAndValueBlock.contains("=")) {
             val propertyValuePre = typeAndValueBlock.split("=")[1]
-            return if (isLastLine) {
+            if (isLastLine) {
                 propertyValuePre.trim()
             } else {
                 propertyValuePre.trim().dropLast(1)
             }
         } else {
-            return ""
+            ""
         }
 
     }

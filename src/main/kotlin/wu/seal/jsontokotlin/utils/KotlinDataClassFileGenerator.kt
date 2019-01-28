@@ -151,9 +151,9 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         newKotlinDataClass: ParsedKotlinDataClass
     ) {
         classes.forEach {
-            it.properties.forEach {
-                if (it.kotlinDataClassPropertyTypeRef == originDataClass) {
-                    it.kotlinDataClassPropertyTypeRef = newKotlinDataClass
+            it.properties.forEach { p ->
+                if (p.kotlinDataClassPropertyTypeRef == originDataClass) {
+                    p.kotlinDataClassPropertyTypeRef = newKotlinDataClass
                 }
             }
         }

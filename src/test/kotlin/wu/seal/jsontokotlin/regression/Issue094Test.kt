@@ -26,7 +26,6 @@ class Issue094Test {
     fun testIssue094() {
         TestConfig.setToTestInitState()
         val generated = KotlinDataClassCodeMaker("A", testJson).makeKotlinDataClassCode()
-        println("generated = ${generated}")
         generated.should.be.equal(expected)
     }
 }

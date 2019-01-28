@@ -18,7 +18,7 @@ data class Property(
 
         return buildString {
             if (annotations.isNotEmpty()) {
-                val annotationsCode = annotations.map { it.getAnnotationString() }.joinToString("\n")
+                val annotationsCode = annotations.joinToString("\n") { it.getAnnotationString() }
                 if (annotationsCode.isNotBlank()) {
                     append(annotationsCode).append("\n")
                 }
