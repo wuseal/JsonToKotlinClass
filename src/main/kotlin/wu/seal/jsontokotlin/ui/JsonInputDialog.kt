@@ -2,7 +2,6 @@ package wu.seal.jsontokotlin.ui
 
 import com.google.gson.*
 import com.intellij.json.JsonFileType
-import com.intellij.openapi.application.Application
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory

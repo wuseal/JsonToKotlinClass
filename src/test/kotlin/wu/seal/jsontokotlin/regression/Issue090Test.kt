@@ -3,13 +3,12 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinCodeMaker
 import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue090Test {
 
-    val rawJson = """{
+    private val rawJson = """{
   "id": 1441,
   "name": "SOAP DISPENSER WITH ALL-PURPOSE VALVE",
   "slug": "soap-dispenser-with-all-purpose-valve",
