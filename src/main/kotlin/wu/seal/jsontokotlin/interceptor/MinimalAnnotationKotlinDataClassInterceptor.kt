@@ -10,11 +10,11 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 class MinimalAnnotationKotlinDataClassInterceptor : IKotlinDataClassInterceptor {
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        val newProperties = kotlinDataClass.properties.map {
-            if (it.originName == it.name) {
-                it.copy(annotations = it.annotations.filter { it.rawName.isBlank() })
+        val newProperties = kotlinDataClass.properties.map { p ->
+            if (p.originName == p.name) {
+                p.copy(annotations = p.annotations.filter { it.rawName.isBlank() })
             } else {
-                it
+                p
             }
         }
 

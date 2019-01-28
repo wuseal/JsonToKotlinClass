@@ -95,11 +95,6 @@ interface IConfigManager {
             PropertiesComponent.getInstance().setValue(TARGET_JSON_CONVERTER_LIB_KEY, value.name)
         }
 
-    @Deprecated("Not use since Version 2.0")
-    var isPropertyNullable: Boolean
-        get() = PropertiesComponent.getInstance().isTrueValue(IS_PROPERTY_NULLABLE_KEY)
-        set(value) = PropertiesComponent.getInstance().setValue(IS_PROPERTY_NULLABLE_KEY, value)
-
     var propertyTypeStrategy: PropertyTypeStrategy
         get() = if (TestConfig.isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(
             PropertiesComponent.getInstance().getValue(

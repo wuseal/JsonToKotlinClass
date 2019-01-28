@@ -126,9 +126,9 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
             newKotlinDataClass: ParsedKotlinDataClass
     ) {
         classes.forEach {
-            it.properties.forEach {
-                if (it.kotlinDataClassPropertyTypeRef == originDataClass) {
-                    it.kotlinDataClassPropertyTypeRef = newKotlinDataClass
+            it.properties.forEach { p ->
+                if (p.kotlinDataClassPropertyTypeRef == originDataClass) {
+                    p.kotlinDataClassPropertyTypeRef = newKotlinDataClass
                 }
             }
         }
@@ -140,17 +140,17 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
     fun synchronizedPropertyTypeWithTypeRef(unSynchronizedTypeClasses: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
         return unSynchronizedTypeClasses.map { dataClass: ParsedKotlinDataClass ->
 
-            val newProperties = dataClass.properties.map { it ->
-                if (it.kotlinDataClassPropertyTypeRef != ParsedKotlinDataClass.NONE) {
-                    val rawPropertyReferenceType = getRawType(getChildType(it.propertyType))
+            val newProperties = dataClass.properties.map { property ->
+                if (property.kotlinDataClassPropertyTypeRef != ParsedKotlinDataClass.NONE) {
+                    val rawPropertyReferenceType = getRawType(getChildType(property.propertyType))
                     val tobeReplaceNewType =
-                            it.propertyType.replace(rawPropertyReferenceType, it.kotlinDataClassPropertyTypeRef.name)
-                    if (it.propertyValue.isNotBlank()) {
-                        it.copy(propertyType = tobeReplaceNewType, propertyValue = getDefaultValue(tobeReplaceNewType))
+                            property.propertyType.replace(rawPropertyReferenceType, property.kotlinDataClassPropertyTypeRef.name)
+                    if (property.propertyValue.isNotBlank()) {
+                        property.copy(propertyType = tobeReplaceNewType, propertyValue = getDefaultValue(tobeReplaceNewType))
                     } else
-                        it.copy(propertyType = tobeReplaceNewType)
+                        property.copy(propertyType = tobeReplaceNewType)
                 } else {
-                    it
+                    property
                 }
             }
             dataClass.copy(properties = newProperties)
