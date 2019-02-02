@@ -189,3 +189,7 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 ### Contact Community
 #### Scan to join QQ Group
 ![群   号：341755074](https://user-images.githubusercontent.com/9211902/40884090-f447ac5e-673f-11e8-963d-08705f70b918.png)
+
+# Stargazers over time
+
+[![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)
