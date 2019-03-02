@@ -5,7 +5,6 @@ import com.intellij.json.JsonFileType
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
-import com.intellij.openapi.editor.impl.EditorImpl
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.progress.util.DispatchThreadProgressWindow
@@ -23,7 +22,9 @@ import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
-import java.awt.event.*
+import java.awt.event.ActionEvent
+import java.awt.event.KeyAdapter
+import java.awt.event.KeyEvent
 import java.net.URL
 import javax.swing.*
 import javax.swing.text.JTextComponent
@@ -140,16 +141,6 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         component.isEnabled = true
         component.preferredSize = Dimension(640, 480)
         component.autoscrolls = true
-        component.addFocusListener(object : FocusListener{
-            override fun focusLost(e: FocusEvent?) {
-
-            }
-
-            override fun focusGained(e: FocusEvent?) {
-               component.isFocusCycleRoot =true
-
-            }
-        })
 
         val contentComponent = editor.contentComponent
         contentComponent.isFocusable = true
