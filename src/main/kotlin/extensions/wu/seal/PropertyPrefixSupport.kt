@@ -57,7 +57,7 @@ object PropertyPrefixSupport : Extension() {
 
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(prefixKeyEnable).toBoolean()) {
+        return if (getConfig(prefixKeyEnable).toBoolean() && getConfig(prefixKey).isNotEmpty()) {
             val originProperties = kotlinDataClass.properties
             val newProperties = originProperties.map {
                 val prefix = getConfig(prefixKey)
