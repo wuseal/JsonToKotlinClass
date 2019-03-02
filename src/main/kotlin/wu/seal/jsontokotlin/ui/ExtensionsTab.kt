@@ -18,7 +18,6 @@ class ExtensionsTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(
             ExtensionsCollector.extensions.forEach {
                 row(separated = false) {
                     it.createUI().apply {
-                        background  = Color(225,225,225)
                         preferredSize = JBDimension(500, 0)
                     }.invoke()
                 }
