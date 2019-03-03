@@ -20,7 +20,7 @@ class CustomJsonLibSupporterTest {
     @org.junit.Test
     fun testAnnotationImportClass() {
 
-        println(ConfigManager.customAnnotaionImportClassString)
+        println(ConfigManager.customAnnotationImportClassString)
     }
 
     @org.junit.Test

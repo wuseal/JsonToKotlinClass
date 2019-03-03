@@ -22,5 +22,11 @@ class ConfigInfoTest {
         val info = ConfigInfo()
         val infoJson = Gson().toJson(info)
         infoJson.should.not.be.empty
+        println(infoJson)
+    }
+
+    @Test
+    fun getConfigTest() {
+        println(getConfigInfo())
     }
 }
