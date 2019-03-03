@@ -1,5 +1,7 @@
 package wu.seal.jsontokotlin.feedback
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.intellij.openapi.ui.Messages
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -15,13 +17,18 @@ import java.util.*
 /**
  * handler the exception
  */
+
+val prettyPrintGson = GsonBuilder().setPrettyPrinting().create()
+
 fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, e ->
     val logBuilder = StringBuilder()
+    logBuilder.append("\n\n")
     logBuilder.append("PluginVersion:$PLUGIN_VERSION\n")
     logBuilder.append("user: $UUID").append("\n")
     val time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss E", Locale.CHINA).format(Date())
     logBuilder.append("createTime: $time").append("\n")
 
+    logBuilder.appendln().append(getConfigInfo()).appendln()
     val stringWriter = StringWriter()
     val printWriter = PrintWriter(stringWriter, true)
     e.printStackTrace(printWriter)
@@ -40,6 +47,11 @@ fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Threa
     }.start()
 
     callBack.invoke()
+}
+
+
+fun getConfigInfo(): String {
+    return prettyPrintGson.toJson(ConfigInfo())
 }
 
 fun dealWithException(jsonString: String, e: Throwable) {
