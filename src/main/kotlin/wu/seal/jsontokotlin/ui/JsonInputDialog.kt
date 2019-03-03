@@ -128,7 +128,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
     private fun createJsonContentEditor(): Editor {
         val editorFactory = EditorFactory.getInstance()
-        val document = editorFactory.createDocument("").apply {  }
+        val document = editorFactory.createDocument("").apply { }
         document.setReadOnly(false)
         document.addDocumentListener(object : com.intellij.openapi.editor.event.DocumentListener {
             override fun documentChanged(event: com.intellij.openapi.editor.event.DocumentEvent?) = revalidate()
@@ -142,7 +142,9 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         component.preferredSize = Dimension(640, 480)
         component.autoscrolls = true
 
-        editor.contentComponent.componentPopupMenu = JPopupMenu().apply {
+        val contentComponent = editor.contentComponent
+        contentComponent.isFocusable = true
+        contentComponent.componentPopupMenu = JPopupMenu().apply {
             add(createPasteFromClipboardMenuItem())
             add(createRetrieveContentFromHttpURLMenuItem())
             add(createLoadFromLocalFileMenu())
@@ -210,7 +212,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
     override fun getInputString(): String = if (exitCode == 0) jsonContentEditor.document.text.trim() else ""
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return if (this.myField.text?.isEmpty() != false) {
+        return if (this.myField.text.isNullOrEmpty()) {
             this.myField
         } else {
             jsonContentEditor.contentComponent
