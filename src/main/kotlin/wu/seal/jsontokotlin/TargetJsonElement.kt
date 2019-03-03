@@ -1,8 +1,9 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.*
+import wu.seal.jsontokotlin.utils.filterOutNullElement
 import wu.seal.jsontokotlin.utils.onlyHasOneElementRecursive
-import wu.seal.jsontokotlin.utils.onlyOneSubArrayContainsElementAndAllObjectRecursive
+import wu.seal.jsontokotlin.utils.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive
 
 /**
  * This class aim at filtering out the expected Json Element to be convert from Json array
@@ -21,19 +22,20 @@ class TargetJsonElement : ITargetJsonElement {
 
     override fun getTargetJsonElementForGeneratingCode(): JsonElement {
         if (this.jsonElement.isJsonArray) {
-            if (jsonElement.asJsonArray.size() == 0) {
+            val jsonArrayWithoutNullElement = jsonElement.asJsonArray.filterOutNullElement()
+            if (jsonArrayWithoutNullElement.size() == 0) {
                 return gson.toJsonTree(Any())
-            } else if (allElementAreObject(jsonElement.asJsonArray)) {
-                val jsonElementNotArray = getArrayChildElement(this.jsonElement.asJsonArray)
+            } else if (allElementAreObject(jsonArrayWithoutNullElement)) {
+                val jsonElementNotArray = getArrayChildElement(jsonArrayWithoutNullElement)
                 if (jsonElementNotArray.isJsonObject) {
                     return jsonElementNotArray
                 } else {
                     throw IllegalStateException("Unbelievable！ should not throw out this exception")
                 }
-            } else if (jsonElement.asJsonArray.onlyHasOneElementRecursive() || jsonElement.asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()) {
-                return getArrayChildElement(this.jsonElement.asJsonArray)
-            } else if (allElementAreSamePrimitiveType(jsonElement.asJsonArray)) {
-                return jsonElement.asJsonArray[0]
+            } else if (jsonArrayWithoutNullElement.onlyHasOneElementRecursive() || jsonArrayWithoutNullElement.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()) {
+                return getArrayChildElement(jsonArrayWithoutNullElement)
+            } else if (allElementAreSamePrimitiveType(jsonArrayWithoutNullElement)) {
+                return jsonArrayWithoutNullElement[0]
             } else {
                 return gson.toJsonTree(Any())
             }
@@ -60,16 +62,22 @@ class TargetJsonElement : ITargetJsonElement {
 
     private fun allElementAreSamePrimitiveType(jsonArray: JsonArray): Boolean {
         var allElementAreSamePrimitiveType = true
-        jsonArray.forEach {
-            if (it.isJsonPrimitive.not()) {
-                allElementAreSamePrimitiveType = false
-                return@forEach
+
+        run loop@{
+
+            jsonArray.forEach {
+                if (it.isJsonPrimitive.not()) {
+                    allElementAreSamePrimitiveType = false
+                    return@loop
+                }
+                if (theSamePrimitiveType(jsonArray[0].asJsonPrimitive, it.asJsonPrimitive).not()) {
+                    allElementAreSamePrimitiveType = false
+                    return@loop
+                }
             }
-            if (theSamePrimitiveType(jsonArray[0].asJsonPrimitive, it.asJsonPrimitive).not()) {
-                allElementAreSamePrimitiveType = false
-                return@forEach
-            }
+
         }
+
         return allElementAreSamePrimitiveType
     }
 
