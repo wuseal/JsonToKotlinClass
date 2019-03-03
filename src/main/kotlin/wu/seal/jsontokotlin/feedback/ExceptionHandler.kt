@@ -49,7 +49,9 @@ fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Threa
     callBack.invoke()
 }
 
-
+/**
+ * get the config info of this plugin settings
+ */
 fun getConfigInfo(): String {
     return prettyPrintGson.toJson(ConfigInfo())
 }
