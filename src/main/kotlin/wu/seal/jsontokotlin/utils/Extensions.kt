@@ -122,6 +122,9 @@ fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): Boolean 
 }
 
 
+/**
+ * filter out all null json element of JsonArray
+ */
 fun JsonArray.filterOutNullElement(): JsonArray {
 
     val jsonElements = filter { it.isJsonNull.not() }

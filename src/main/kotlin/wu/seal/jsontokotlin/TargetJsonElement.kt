@@ -63,20 +63,17 @@ class TargetJsonElement : ITargetJsonElement {
     private fun allElementAreSamePrimitiveType(jsonArray: JsonArray): Boolean {
         var allElementAreSamePrimitiveType = true
 
-        run loop@{
-
             jsonArray.forEach {
                 if (it.isJsonPrimitive.not()) {
                     allElementAreSamePrimitiveType = false
-                    return@loop
+                    return allElementAreSamePrimitiveType
                 }
                 if (theSamePrimitiveType(jsonArray[0].asJsonPrimitive, it.asJsonPrimitive).not()) {
                     allElementAreSamePrimitiveType = false
-                    return@loop
+                    return allElementAreSamePrimitiveType
                 }
             }
 
-        }
 
         return allElementAreSamePrimitiveType
     }
