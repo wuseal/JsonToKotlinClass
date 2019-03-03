@@ -46,6 +46,13 @@ class TargetJsonElementTest {
         val text9 = """[[1,2],[]]"""
 
 
+        val text10 = """[
+          {
+            "distTypeId": "55f40fa5-b6b4-4dcf-a963-52a57f53a71e",
+            "distTypeName": "มแี ผง"
+          },
+            "..."
+          ]"""
 
 
         val targetElementJson1 = getTargetElementJson(gson, text1)
@@ -75,12 +82,16 @@ class TargetJsonElementTest {
         val targetElementJson9 = getTargetElementJson(gson, text9)
         targetElementJson9.should.be.equal("{}")
 
+        val targetElementJson10 = getTargetElementJson(gson, text10)
+        targetElementJson10.should.be.equal("{}")
+
     }
 
     private fun getTargetElementJson(gson: Gson, text1: String): String {
         return try {
             gson.toJson(TargetJsonElement(text1).getTargetJsonElementForGeneratingCode())
         } catch(e: Exception) {
+            e.printStackTrace()
             error
         }
     }

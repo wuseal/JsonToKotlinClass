@@ -137,7 +137,7 @@ class KotlinCodeMaker {
                 var type = getArrayType(property, jsonElementValue.asJsonArray)
 
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray) || jsonElementValue.asJsonArray.onlyHasOneObjectElementRecursive()
-                        || jsonElementValue.asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()) {
+                        || jsonElementValue.asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()) {
 
                     val subCode = try {
                         KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()

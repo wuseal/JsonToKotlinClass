@@ -46,7 +46,7 @@ private fun JsonArray.onlyHasOneElement(): Boolean {
 /**
  * array only has object element
  */
-private fun JsonArray.allObjectElement(): Boolean {
+private fun JsonArray.allItemAreObjectElement(): Boolean {
     forEach {
         if (it.isJsonObject.not() && it.isJsonNull.not()) {
             return false
@@ -99,10 +99,14 @@ fun JsonArray.onlyHasOneObjectElementRecursive(): Boolean {
 
 
 /**
- * if Multidimensional Arrays only has one dimension contains element and the elements are all object element
+ * if Multidimensional Arrays only has one dimension contains element and the elements  all are object element
  */
-fun JsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive(): Boolean {
+fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): Boolean {
     if (size() == 0) {
+        return false
+    }
+
+    if (onlyHasOneElement().not()) {
         return false
     }
 
@@ -110,9 +114,21 @@ fun JsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive(): Boolean {
         return false
     }
 
-    if (allObjectElement()) {
+    if (allItemAreObjectElement()) {
         return true
     }
 
-    return get(0).asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()
+    return get(0).asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
+}
+
+
+fun JsonArray.filterOutNullElement(): JsonArray {
+
+    val jsonElements = filter { it.isJsonNull.not() }
+    return JsonArray().apply {
+        jsonElements.forEach {jsonElement->
+            add(jsonElement)
+        }
+    }
+
 }
