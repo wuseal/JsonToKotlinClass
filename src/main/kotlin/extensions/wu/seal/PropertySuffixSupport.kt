@@ -22,6 +22,7 @@ object PropertySuffixSupport : Extension() {
             addFocusListener(object : FocusListener {
                 override fun focusGained(e: FocusEvent?) {
                 }
+
                 override fun focusLost(e: FocusEvent?) {
                     if (getConfig(suffixKeyEnable).toBoolean()) {
                         setConfig(suffixKey, text)
@@ -46,17 +47,17 @@ object PropertySuffixSupport : Extension() {
                 suffixJField()
             }
         }.apply {
-            border = JBEmptyBorder(6,0,0,0)
+            border = JBEmptyBorder(6, 0, 0, 0)
         }
     }
 
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(suffixKeyEnable).toBoolean()) {
+        return if (getConfig(suffixKeyEnable).toBoolean() && getConfig(suffixKey).isNotEmpty()) {
             val originProperties = kotlinDataClass.properties
             val newProperties = originProperties.map {
                 val suffix = getConfig(suffixKey)
-                val newName = it.name + suffix.first().toUpperCase() +suffix.substring(1)
+                val newName = it.name + suffix.first().toUpperCase() + suffix.substring(1)
                 it.copy(name = newName)
             }
             kotlinDataClass.copy(properties = newProperties)

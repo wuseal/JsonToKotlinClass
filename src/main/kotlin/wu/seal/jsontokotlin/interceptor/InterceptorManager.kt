@@ -25,6 +25,10 @@ object InterceptorManager {
                 add(MakeKeywordNamedPropertyValidInterceptor())
             }
 
+            if (ConfigManager.isCommentOff) {
+                add(CommentOffInterceptor)
+            }
+
         }.apply {
 
             if (size >= 1) {

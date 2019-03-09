@@ -47,8 +47,8 @@
 
 
     <change-notes><![CDATA[
-       <br>Add Support Loading JSON From Paster/Local File/Http URL</br>
-       <br>Add Extension Module for easy extension</br>
+       <br>Update User Interface</br>
+       <br>Optimize User Experience</br>
        <br> Fix bugs </br>
     ]]>
     </change-notes>
@@ -87,4 +87,5 @@
             <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
         </component>
     </application-components>
+    <version/>
 </idea-plugin>
