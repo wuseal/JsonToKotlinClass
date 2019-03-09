@@ -9,16 +9,25 @@ import java.util.*
  * Created by Seal.Wu on 2017/9/27.
  */
 data class ConfigInfo(
-    val uuid: String = UUID,
-    val pluginVersion: String = PLUGIN_VERSION,
-    val isPropertiesVar: Boolean = ConfigManager.isPropertiesVar,
-    val isCommentOff: Boolean = ConfigManager.isCommentOff,
-    val isOrderByAlphabetical: Boolean = ConfigManager.isOrderByAlphabetical,
-    val propertyTypeStrategy: String = ConfigManager.propertyTypeStrategy.name,
-    val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
-    val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
-    val isInnerClassMode: Boolean = ConfigManager.isInnerClassModel,
-    val timeStamp: String = Date().time.toString(),
-    val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
+        val uuid: String = UUID,
+        val pluginVersion: String = PLUGIN_VERSION,
+        val isPropertiesVar: Boolean = ConfigManager.isPropertiesVar,
+        val isCommentOff: Boolean = ConfigManager.isCommentOff,
+        val isOrderByAlphabetical: Boolean = ConfigManager.isOrderByAlphabetical,
+        val propertyTypeStrategy: String = ConfigManager.propertyTypeStrategy.name,
+        val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
+        val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
+        val isInnerClassMode: Boolean = ConfigManager.isInnerClassModel,
+        val customAnnotationImportClassString: String = ConfigManager.customAnnotationImportClassString,
+        val customClassAnnotationFormatString: String = ConfigManager.customClassAnnotationFormatString,
+        val customPropertyAnnotationFormatString: String = ConfigManager.customPropertyAnnotationFormatString,
+        val enableMapType: Boolean = ConfigManager.enableMapType,
+        val enableAutoReformat: Boolean = ConfigManager.enableAutoReformat,
+        val enableMinimalAnnotation: Boolean = ConfigManager.enableMinimalAnnotation,
+        val parenClassTemplate: String = ConfigManager.parenClassTemplate,
+        val keywordPropertyValid: Boolean = ConfigManager.keywordPropertyValid,
+        val extensionsConfig: String = ConfigManager.extensionsConfig,
+        val timeStamp: String = Date().time.toString(),
+        val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())
 
 )

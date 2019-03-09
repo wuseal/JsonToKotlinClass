@@ -137,7 +137,7 @@ class KotlinCodeMaker {
                 var type = getArrayType(property, jsonElementValue.asJsonArray)
 
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray) || jsonElementValue.asJsonArray.onlyHasOneObjectElementRecursive()
-                        || jsonElementValue.asJsonArray.onlyOneSubArrayContainsElementAndAllObjectRecursive()) {
+                        || jsonElementValue.asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()) {
 
                     val subCode = try {
                         KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()
@@ -215,7 +215,7 @@ class KotlinCodeMaker {
             stringBuilder.append(",")
 
         val propertyComment = p.getPropertyComment()
-        if (!ConfigManager.isCommentOff && propertyComment.isNotBlank())
+        if (propertyComment.isNotBlank())
             stringBuilder.append(" // ")
                     .append(getCommentCode(propertyComment))
         stringBuilder.append("\n")

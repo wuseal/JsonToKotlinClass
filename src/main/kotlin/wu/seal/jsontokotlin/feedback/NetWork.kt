@@ -85,7 +85,7 @@ fun sendConfigInfo() {
 
         val outputStream = connection.outputStream
         val writer = outputStream.writer()
-        writer.write(Gson().toJson(ConfigInfo()))
+        writer.write(getConfigInfo())
         writer.flush()
         if (connection.responseCode != 200) {
             println(connection.responseMessage + "\n" + connection.errorStream.reader().readText())
