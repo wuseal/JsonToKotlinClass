@@ -202,7 +202,7 @@ class KotlinCodeMaker {
         if (innerValue == null) {
             innerValue = "null"
         }
-        val p = KProperty(property, getOutType(type, value), innerValue)
+        val p = KProperty(property, type, innerValue)
 
         stringBuilder.append(p.getPropertyStringBlock())
 

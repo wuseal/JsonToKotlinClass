@@ -28,6 +28,8 @@ object InterceptorManager {
                 add(ChangePropertyKeywordToVarInterceptor())
             }
 
+            add(PropertyTypeNullableStrategyInterceptor())
+
             if (ConfigManager.initWithDefaultValue) {
                 add(InitWithDefaultValueInterceptor())
             }

@@ -11,7 +11,8 @@ data class Property(
         val comment: String,
         val isLast: Boolean,
         val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
-        val originName: String = ""
+        val originName: String,
+        val originJsonValue: String? = ""
 ) {
 
     fun getCode(): String {
@@ -68,12 +69,13 @@ data class Property(
                     annotations = annotations,
                     keyword = parsedProperty.keyword,
                     name = parsedProperty.propertyName,
-                    originName = parsedProperty.propertyName,
                     type = parsedProperty.propertyType,
                     value = parsedProperty.propertyValue,
                     comment = parsedProperty.propertyComment,
                     isLast = parsedProperty.isLastProperty,
-                    refTypeId = -1
+                    refTypeId = -1,
+                    originName = parsedProperty.propertyName,
+                    originJsonValue = if (parsedProperty.propertyComment.trim().equals("null")) null else parsedProperty.propertyComment.trim()
             )
         }
     }
