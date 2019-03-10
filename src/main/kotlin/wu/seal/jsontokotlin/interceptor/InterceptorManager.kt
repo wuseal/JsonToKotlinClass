@@ -24,20 +24,25 @@ object InterceptorManager {
 
         return mutableListOf<IKotlinDataClassInterceptor>().apply {
 
+            if (ConfigManager.isPropertiesVar) {
+                add(ChangePropertyKeywordToVarInterceptor())
+            }
+
             if (ConfigManager.initWithDefaultValue) {
                 add(InitWithDefaultValueInterceptor())
             }
 
             when (ConfigManager.targetJsonConverterLib) {
-                TargetJsonConverter.None-> {}
-                TargetJsonConverter.NoneWithCamelCase->add(MakePropertiesNameToBeCamelCaseInterceptor())
-                TargetJsonConverter.Gson->add(AddGsonAnnotationInterceptor())
-                TargetJsonConverter.FastJson-> add(AddFastJsonAnnotationInterceptor())
-                TargetJsonConverter.Jackson-> add(AddJacksonAnnotationInterceptor())
-                TargetJsonConverter.MoShi->add(AddMoshiAnnotationInterceptor())
-                TargetJsonConverter.MoshiCodeGen->add(AddMoshiCodeGenAnnotationInterceptor())
-                TargetJsonConverter.LoganSquare->add(AddLoganSquareAnnotationInterceptor())
-                TargetJsonConverter.Custom-> add(AddCustomAnnotationInterceptor())
+                TargetJsonConverter.None -> {
+                }
+                TargetJsonConverter.NoneWithCamelCase -> add(MakePropertiesNameToBeCamelCaseInterceptor())
+                TargetJsonConverter.Gson -> add(AddGsonAnnotationInterceptor())
+                TargetJsonConverter.FastJson -> add(AddFastJsonAnnotationInterceptor())
+                TargetJsonConverter.Jackson -> add(AddJacksonAnnotationInterceptor())
+                TargetJsonConverter.MoShi -> add(AddMoshiAnnotationInterceptor())
+                TargetJsonConverter.MoshiCodeGen -> add(AddMoshiCodeGenAnnotationInterceptor())
+                TargetJsonConverter.LoganSquare -> add(AddLoganSquareAnnotationInterceptor())
+                TargetJsonConverter.Custom -> add(AddCustomAnnotationInterceptor())
             }
             if (ConfigManager.enableMinimalAnnotation) {
                 add(MinimalAnnotationKotlinDataClassInterceptor())

@@ -35,7 +35,7 @@ object NoneSupporter : INoneLibSupporter {
         val blockBuilder = StringBuilder()
 
         blockBuilder.append(getIndent())
-        blockBuilder.append(KPropertyKeyword.get())
+        blockBuilder.append("val")
         blockBuilder.append(" ")
         blockBuilder.append(rawPropertyName)
         blockBuilder.append(": ").append(propertyType)
