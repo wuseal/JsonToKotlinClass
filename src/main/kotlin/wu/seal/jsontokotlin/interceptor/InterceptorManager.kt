@@ -24,6 +24,10 @@ object InterceptorManager {
 
         return mutableListOf<IKotlinDataClassInterceptor>().apply {
 
+            if (ConfigManager.initWithDefaultValue) {
+                add(InitWithDefaultValueInterceptor())
+            }
+
             when (ConfigManager.targetJsonConverterLib) {
                 TargetJsonConverter.None-> {}
                 TargetJsonConverter.NoneWithCamelCase->add(MakePropertiesNameToBeCamelCaseInterceptor())
@@ -34,7 +38,6 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen->add(AddMoshiCodeGenAnnotationInterceptor())
                 TargetJsonConverter.LoganSquare->add(AddLoganSquareAnnotationInterceptor())
                 TargetJsonConverter.Custom-> add(AddCustomAnnotationInterceptor())
-                else->{}
             }
             if (ConfigManager.enableMinimalAnnotation) {
                 add(MinimalAnnotationKotlinDataClassInterceptor())

@@ -39,10 +39,6 @@ object NoneSupporter : INoneLibSupporter {
         blockBuilder.append(" ")
         blockBuilder.append(rawPropertyName)
         blockBuilder.append(": ").append(propertyType)
-        if (ConfigManager.initWithDefaultValue) {
-            blockBuilder.append(" = ").append(getDefaultValue(propertyType))
-        }
-
         return blockBuilder.toString()
     }
 
