@@ -60,6 +60,10 @@ object InterceptorManager {
                 add(CommentOffInterceptor)
             }
 
+            if (ConfigManager.isOrderByAlphabetical) {
+                add(OrderPropertyByAlphabeticalInterceptor())
+            }
+
         }.apply {
             //add extensions's interceptor
             addAll(ExtensionsCollector.extensions)
