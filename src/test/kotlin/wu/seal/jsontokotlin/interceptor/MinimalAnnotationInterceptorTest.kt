@@ -24,11 +24,11 @@ class MinimalAnnotationInterceptorTest {
     """.trimIndent()
 
     private val excepted = """data class Test(
-    val a: Int = 0, // 1
-    @SerializedName("a c")
-    val aC: Int = 0, // 3
+    val a: Int, // 1
     @SerializedName("a_b")
-    val aB: Int = 0 // 2
+    val aB: Int, // 2
+    @SerializedName("a c")
+    val aC: Int // 3
 )"""
     @Before
     fun setUp() {

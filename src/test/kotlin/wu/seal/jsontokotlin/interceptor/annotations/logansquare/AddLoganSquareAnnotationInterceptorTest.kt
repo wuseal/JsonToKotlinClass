@@ -14,7 +14,7 @@ class AddLoganSquareAnnotationInterceptorTest {
     private val expectedResult = """@JsonObject
 data class Test(
     @JsonField(name = arrayOf("M_property""))
-    val mProperty: Int = 0 // 123
+    val mProperty: Int // 123
 )"""
     @Before
     fun setUp() {

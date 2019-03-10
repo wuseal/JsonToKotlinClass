@@ -14,7 +14,7 @@ class AddMoshiAnnotationInterceptorTest {
     private val expectedResult = """
         data class Test(
     @Json(name = "M_property"")
-    val mProperty: Int = 0 // 123
+    val mProperty: Int // 123
 )
     """.trimIndent()
     @Before

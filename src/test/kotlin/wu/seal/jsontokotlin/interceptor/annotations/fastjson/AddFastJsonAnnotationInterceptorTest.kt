@@ -15,7 +15,7 @@ class AddFastJsonAnnotationInterceptorTest {
 
     private val expectedDataClass = """data class Test(
     @JSONField(name = "M_property"")
-    val mProperty: Int = 0 // 123
+    val mProperty: Int // 123
 )"""
 
     @Before

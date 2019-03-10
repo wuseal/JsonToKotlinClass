@@ -16,7 +16,7 @@ class AddJacksonAnnotationInterceptorTest {
 
     private val expectedResult = """data class Test(
     @JsonProperty("M_property"")
-    val mProperty: Int = 0 // 123
+    val mProperty: Int // 123
 )"""
     @Before
     fun setUp() {

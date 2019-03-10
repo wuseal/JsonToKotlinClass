@@ -91,7 +91,7 @@ object InterceptorManager {
 
             if (ConfigManager.parenClassTemplate.isNotBlank()) {
 
-                add(ParentClassImportClassDeclarationInterceptor())
+                add(ParentClassClassImportDeclarationInterceptor())
             }
         }.apply {
             //add extensions's interceptor

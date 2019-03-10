@@ -16,7 +16,7 @@ class ParentClassClassImportDeclarationInterceptorTest {
     fun intercept() {
         ConfigManager.parenClassTemplate = "java.io.Serializable"
         val originImportCode = ""
-        val interceptedCode = ParentClassImportClassDeclarationInterceptor().intercept(originImportCode)
+        val interceptedCode = ParentClassClassImportDeclarationInterceptor().intercept(originImportCode)
         interceptedCode.should.equal("import java.io.Serializable")
 
     }

@@ -25,7 +25,7 @@ class KPropertyTest {
 
         val propertyStringBlock = property.getPropertyStringBlock()
 
-        propertyStringBlock.trim().should.be.equal("""val seal is a *() good_man: Boolean = false""")
+        propertyStringBlock.trim().should.be.equal("""val seal is a *() good_man: Boolean""")
 
     }
 

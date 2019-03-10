@@ -11,7 +11,7 @@ class PropertyPrefixSupportTest {
 
 
     val expectResult = """data class Test(
-    val sealA: Int = 0 // 1
+    val sealA: Int // 1
 )"""
 
     @Before

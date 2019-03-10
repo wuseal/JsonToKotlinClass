@@ -20,11 +20,11 @@ class AddMoshiCodeGenAnnotationInterceptorTest {
     private val excepted = """@JsonClass(generateAdapter = true)
 data class Test(
     @Json(name = "a")
-    val a: Int = 0, // 1
-    @Json(name = "a c")
-    val aC: Int = 0, // 3
+    val a: Int, // 1
     @Json(name = "a_b")
-    val aB: Int = 0 // 2
+    val aB: Int, // 2
+    @Json(name = "a c")
+    val aC: Int // 3
 )"""
 
     @Before

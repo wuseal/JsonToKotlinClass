@@ -150,8 +150,6 @@ class Issue090Test {
   }
 }"""
     val expectedResult = """data class Test(
-    @SerializedName("_links")
-    val links: Links = Links(),
     @SerializedName("attributes")
     val attributes: List<Attribute> = listOf(),
     @SerializedName("average_rating")
@@ -212,6 +210,8 @@ class Issue090Test {
     val images: List<Image> = listOf(),
     @SerializedName("in_stock")
     val inStock: Boolean = false, // true
+    @SerializedName("_links")
+    val links: Links = Links()
     @SerializedName("manage_stock")
     val manageStock: Boolean = false, // true
     @SerializedName("menu_order")
@@ -281,22 +281,58 @@ class Issue090Test {
     @SerializedName("virtual")
     val virtual: Boolean = false, // false
     @SerializedName("weight")
-    val weight: String = ""
+    val weight: String = "",
 ) {
     data class Dimensions(
         @SerializedName("height")
-        val height: String = "",
+        val height: String = ""
         @SerializedName("length")
         val length: String = "",
         @SerializedName("width")
-        val width: String = ""
+        val width: String = "",
+    )
+
+    data class Attribute(
+        @SerializedName("id")
+        val id: Int = 0, // 0
+        @SerializedName("name")
+        val name: String = "", // Dispenser/Dish
+        @SerializedName("options")
+        val options: List<String> = listOf()
+        @SerializedName("position")
+        val position: Int = 0, // 1
+        @SerializedName("variation")
+        val variation: Boolean = false, // false
+        @SerializedName("visible")
+        val visible: Boolean = false, // true
+    )
+
+    data class Image(
+        @SerializedName("alt")
+        val alt: String = "",
+        @SerializedName("date_created")
+        val dateCreated: String = "", // 2018-11-12T10:51:09
+        @SerializedName("date_created_gmt")
+        val dateCreatedGmt: String = "", // 2018-11-12T10:51:09
+        @SerializedName("date_modified")
+        val dateModified: String = "", // 2018-11-12T10:51:09
+        @SerializedName("date_modified_gmt")
+        val dateModifiedGmt: String = "", // 2018-11-12T10:51:09
+        @SerializedName("id")
+        val id: Int = 0, // 1442
+        @SerializedName("name")
+        val name: String = "", // TY-0223024_usn
+        @SerializedName("position")
+        val position: Int = 0 // 0
+        @SerializedName("src")
+        val src: String = "", // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
     )
 
     data class Links(
         @SerializedName("collection")
-        val collection: List<Collection> = listOf(),
+        val collection: List<Collection> = listOf()
         @SerializedName("self")
-        val self: List<Self> = listOf()
+        val self: List<Self> = listOf(),
     ) {
         data class Self(
             @SerializedName("href")
@@ -318,21 +354,6 @@ class Issue090Test {
         val slug: String = "" // sale
     )
 
-    data class Attribute(
-        @SerializedName("id")
-        val id: Int = 0, // 0
-        @SerializedName("name")
-        val name: String = "", // Dispenser/Dish
-        @SerializedName("options")
-        val options: List<String> = listOf(),
-        @SerializedName("position")
-        val position: Int = 0, // 1
-        @SerializedName("variation")
-        val variation: Boolean = false, // false
-        @SerializedName("visible")
-        val visible: Boolean = false // true
-    )
-
     data class Category(
         @SerializedName("id")
         val id: Int = 0, // 60
@@ -341,29 +362,7 @@ class Issue090Test {
         @SerializedName("slug")
         val slug: String = "" // laundry
     )
-
-    data class Image(
-        @SerializedName("alt")
-        val alt: String = "",
-        @SerializedName("date_created")
-        val dateCreated: String = "", // 2018-11-12T10:51:09
-        @SerializedName("date_created_gmt")
-        val dateCreatedGmt: String = "", // 2018-11-12T10:51:09
-        @SerializedName("date_modified")
-        val dateModified: String = "", // 2018-11-12T10:51:09
-        @SerializedName("date_modified_gmt")
-        val dateModifiedGmt: String = "", // 2018-11-12T10:51:09
-        @SerializedName("id")
-        val id: Int = 0, // 1442
-        @SerializedName("name")
-        val name: String = "", // TY-0223024_usn
-        @SerializedName("position")
-        val position: Int = 0, // 0
-        @SerializedName("src")
-        val src: String = "" // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
-    )
 }"""
-
 
     /**
      * test before to init test enviroment
@@ -380,7 +379,7 @@ class Issue090Test {
     @Test
     fun testIssue090() {
         val result = KotlinDataClassCodeMaker("Test", rawJson).makeKotlinDataClassCode()
-        result.should.equal(expectedResult)
+        result.trim().should.equal(expectedResult.trim())
     }
 
 }
