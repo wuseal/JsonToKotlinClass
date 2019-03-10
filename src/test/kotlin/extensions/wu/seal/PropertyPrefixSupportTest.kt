@@ -11,7 +11,6 @@ class PropertyPrefixSupportTest {
 
 
     val expectResult = """data class Test(
-    @SerializedName("a")
     val sealA: Int = 0 // 1
 )"""
 

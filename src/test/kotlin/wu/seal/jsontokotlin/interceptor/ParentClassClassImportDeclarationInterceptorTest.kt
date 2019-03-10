@@ -6,7 +6,7 @@ import org.junit.Test
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.test.TestConfig
 
-class ParentClassImportClassDeclarationInterceptorTest {
+class ParentClassClassImportDeclarationInterceptorTest {
 
     @Before
     fun before() {

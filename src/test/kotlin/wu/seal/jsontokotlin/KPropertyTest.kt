@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin
 
+import com.winterbe.expekt.should
 import org.junit.Before
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.test.TestConfig.isTestModel
@@ -20,27 +21,11 @@ class KPropertyTest {
     @org.junit.Test
     fun getPropertyStringBlock() {
 
-        TargetJsonConverter.values().forEach {
-            ConfigManager.targetJsonConverterLib = it
-            val property = KProperty("seal is a *() good_man", "Boolean", "true")
+        val property = KProperty("seal is a *() good_man", "Boolean", "true")
 
+        val propertyStringBlock = property.getPropertyStringBlock()
 
-            val propertyStringBlock = property.getPropertyStringBlock()
-
-            when(ConfigManager.targetJsonConverterLib){
-                TargetJsonConverter.None-> assert(propertyStringBlock.contains("@").not())
-                TargetJsonConverter.NoneWithCamelCase-> assert(propertyStringBlock.contains("@").not())
-                TargetJsonConverter.Gson-> assert(propertyStringBlock.contains("@SerializedName"))
-                TargetJsonConverter.Jackson-> assert(propertyStringBlock.contains("@JsonProperty"))
-                TargetJsonConverter.FastJson-> assert(propertyStringBlock.contains("@JSONField(name"))
-                TargetJsonConverter.MoShi-> assert(propertyStringBlock.contains("@Json(name"))
-                TargetJsonConverter.LoganSquare-> assert(propertyStringBlock.contains("@JsonField(name = arrayOf"))
-                TargetJsonConverter.Custom-> assert(propertyStringBlock.contains(ConfigManager.customPropertyAnnotationFormatString.substring(0..1)))
-            }
-
-            println("getPropertyStringBlock:\n$propertyStringBlock")
-
-        }
+        propertyStringBlock.trim().should.be.equal("""val seal is a *() good_man: Boolean = false""")
 
     }
 

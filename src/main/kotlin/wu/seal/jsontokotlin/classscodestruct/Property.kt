@@ -3,15 +3,15 @@ package wu.seal.jsontokotlin.classscodestruct
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 
 data class Property(
-    val annotations: List<Annotation>,
-    val keyword: String,
-    val name: String,
-    val type: String,
-    val value: String,
-    val comment: String,
-    val isLast: Boolean,
-    val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
-    val originName: String = ""
+        val annotations: List<Annotation>,
+        val keyword: String,
+        val name: String,
+        val type: String,
+        val value: String,
+        val comment: String,
+        val isLast: Boolean,
+        val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
+        val originName: String = ""
 ) {
 
     fun getCode(): String {
@@ -35,13 +35,13 @@ data class Property(
         val propertyAnnotationCodeList = annotations.map { annotation -> annotation.getAnnotationString() }
 
         return ParsedKotlinDataClass.Property(
-            propertyAnnotationCodeList,
-            keyword,
-            name,
-            type,
-            value,
-            comment,
-            isLast
+                propertyAnnotationCodeList,
+                keyword,
+                name,
+                type,
+                value,
+                comment,
+                isLast
         )
 
     }
@@ -65,14 +65,15 @@ data class Property(
         fun fromParsedProperty(parsedProperty: ParsedKotlinDataClass.Property): Property {
             val annotations = parsedProperty.annotations.map { Annotation.fromAnnotationString(it) }
             return Property(
-                annotations = annotations,
-                keyword = parsedProperty.keyword,
-                name = parsedProperty.propertyName,
-                type = parsedProperty.propertyType,
-                value = parsedProperty.propertyValue,
-                comment = parsedProperty.propertyComment,
-                isLast = parsedProperty.isLastProperty,
-                refTypeId = -1
+                    annotations = annotations,
+                    keyword = parsedProperty.keyword,
+                    name = parsedProperty.propertyName,
+                    originName = parsedProperty.propertyName,
+                    type = parsedProperty.propertyType,
+                    value = parsedProperty.propertyValue,
+                    comment = parsedProperty.propertyComment,
+                    isLast = parsedProperty.isLastProperty,
+                    refTypeId = -1
             )
         }
     }

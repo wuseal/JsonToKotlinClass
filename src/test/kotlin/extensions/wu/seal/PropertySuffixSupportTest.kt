@@ -12,7 +12,6 @@ class PropertySuffixSupportTest {
 
 
     val expectResult = """data class Test(
-    @SerializedName("a")
     val aWu: Int = 0 // 1
 )"""
 

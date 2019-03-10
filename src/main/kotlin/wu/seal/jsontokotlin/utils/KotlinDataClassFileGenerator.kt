@@ -220,7 +220,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
                 append(packageDeclare)
                 append("\n\n")
             }
-            val importClassDeclaration = ImportClassDeclaration.getImportClassDeclaration()
+            val importClassDeclaration = ClassImportDeclaration.getImportClassDeclaration()
             if (importClassDeclaration.isNotBlank()) {
                 append(importClassDeclaration)
                 append("\n\n")

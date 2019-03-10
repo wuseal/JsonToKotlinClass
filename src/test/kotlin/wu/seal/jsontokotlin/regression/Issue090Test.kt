@@ -149,8 +149,7 @@ class Issue090Test {
     ]
   }
 }"""
-    val expectedResult = """
-data class Test(
+    val expectedResult = """data class Test(
     @SerializedName("_links")
     val links: Links = Links(),
     @SerializedName("attributes")
@@ -284,14 +283,31 @@ data class Test(
     @SerializedName("weight")
     val weight: String = ""
 ) {
-    data class Category(
-        @SerializedName("id")
-        val id: Int = 0, // 60
-        @SerializedName("name")
-        val name: String = "", // Laundry
-        @SerializedName("slug")
-        val slug: String = "" // laundry
+    data class Dimensions(
+        @SerializedName("height")
+        val height: String = "",
+        @SerializedName("length")
+        val length: String = "",
+        @SerializedName("width")
+        val width: String = ""
     )
+
+    data class Links(
+        @SerializedName("collection")
+        val collection: List<Collection> = listOf(),
+        @SerializedName("self")
+        val self: List<Self> = listOf()
+    ) {
+        data class Self(
+            @SerializedName("href")
+            val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products/1441
+        )
+
+        data class Collection(
+            @SerializedName("href")
+            val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products
+        )
+    }
 
     data class Tag(
         @SerializedName("id")
@@ -300,15 +316,6 @@ data class Test(
         val name: String = "", // Sale
         @SerializedName("slug")
         val slug: String = "" // sale
-    )
-
-    data class Dimensions(
-        @SerializedName("height")
-        val height: String = "",
-        @SerializedName("length")
-        val length: String = "",
-        @SerializedName("width")
-        val width: String = ""
     )
 
     data class Attribute(
@@ -324,6 +331,15 @@ data class Test(
         val variation: Boolean = false, // false
         @SerializedName("visible")
         val visible: Boolean = false // true
+    )
+
+    data class Category(
+        @SerializedName("id")
+        val id: Int = 0, // 60
+        @SerializedName("name")
+        val name: String = "", // Laundry
+        @SerializedName("slug")
+        val slug: String = "" // laundry
     )
 
     data class Image(
@@ -346,23 +362,6 @@ data class Test(
         @SerializedName("src")
         val src: String = "" // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
     )
-
-    data class Links(
-        @SerializedName("collection")
-        val collection: List<Collection> = listOf(),
-        @SerializedName("self")
-        val self: List<Self> = listOf()
-    ) {
-        data class Self(
-            @SerializedName("href")
-            val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products/1441
-        )
-
-        data class Collection(
-            @SerializedName("href")
-            val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products
-        )
-    }
 }"""
 
 
@@ -381,7 +380,7 @@ data class Test(
     @Test
     fun testIssue090() {
         val result = KotlinDataClassCodeMaker("Test", rawJson).makeKotlinDataClassCode()
-        result.trimMargin().should.be.equal(expectedResult.trimMargin())
+        result.should.equal(expectedResult)
     }
 
 }
