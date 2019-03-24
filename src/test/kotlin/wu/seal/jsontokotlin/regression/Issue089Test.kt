@@ -36,7 +36,7 @@ class Issue089Test {
     @SerializedName("day")
     val day: String = "", // 31
     @SerializedName("description")
-    val description: Description = Description()
+    val description: Description = Description(),
     @SerializedName("file_desc")
     val fileDesc: String = "", // текст примечания
     @SerializedName("file_name")
@@ -52,13 +52,13 @@ class Issue089Test {
     @SerializedName("usr_id")
     val usrId: Int = 0, // 55572
     @SerializedName("year_month")
-    val yearMonth: String = "", // 201810
+    val yearMonth: String = "" // 201810
 ) {
     data class Description(
         @SerializedName("cmis:objectTypeId")
         val cmisObjectTypeId: String = "", // D:esp:act
         @SerializedName("esp:author")
-        val espAuthor: String = "" // Уалиева Асель Мухаметбековна
+        val espAuthor: String = "", // Уалиева Асель Мухаметбековна
         @SerializedName("esp:create_date")
         val espCreateDate: String = "", // 2018.09.31
         @SerializedName("esp:doc_name")
@@ -68,7 +68,7 @@ class Issue089Test {
         @SerializedName("esp:reg_date")
         val espRegDate: String = "", // 2018.10.01
         @SerializedName("esp:reg_num")
-        val espRegNum: String = "", // 181000000103012/00022
+        val espRegNum: String = "" // 181000000103012/00022
     )
 }"""
 

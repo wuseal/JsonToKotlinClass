@@ -16,8 +16,8 @@ class OrderPropertyByAlphabeticalInterceptorTest {
 
     private val expected = """data class Test(
     val a: Int, // 2
-    val b: Int // 3
-    val c: Int, // 123
+    val b: Int, // 3
+    val c: Int // 123
 )"""
     @Before
     fun setUp() {

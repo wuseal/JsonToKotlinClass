@@ -211,7 +211,7 @@ class Issue090Test {
     @SerializedName("in_stock")
     val inStock: Boolean = false, // true
     @SerializedName("_links")
-    val links: Links = Links()
+    val links: Links = Links(),
     @SerializedName("manage_stock")
     val manageStock: Boolean = false, // true
     @SerializedName("menu_order")
@@ -281,15 +281,15 @@ class Issue090Test {
     @SerializedName("virtual")
     val virtual: Boolean = false, // false
     @SerializedName("weight")
-    val weight: String = "",
+    val weight: String = ""
 ) {
     data class Dimensions(
         @SerializedName("height")
-        val height: String = ""
+        val height: String = "",
         @SerializedName("length")
         val length: String = "",
         @SerializedName("width")
-        val width: String = "",
+        val width: String = ""
     )
 
     data class Attribute(
@@ -298,13 +298,13 @@ class Issue090Test {
         @SerializedName("name")
         val name: String = "", // Dispenser/Dish
         @SerializedName("options")
-        val options: List<String> = listOf()
+        val options: List<String> = listOf(),
         @SerializedName("position")
         val position: Int = 0, // 1
         @SerializedName("variation")
         val variation: Boolean = false, // false
         @SerializedName("visible")
-        val visible: Boolean = false, // true
+        val visible: Boolean = false // true
     )
 
     data class Image(
@@ -323,16 +323,16 @@ class Issue090Test {
         @SerializedName("name")
         val name: String = "", // TY-0223024_usn
         @SerializedName("position")
-        val position: Int = 0 // 0
+        val position: Int = 0, // 0
         @SerializedName("src")
-        val src: String = "", // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
+        val src: String = "" // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
     )
 
     data class Links(
         @SerializedName("collection")
-        val collection: List<Collection> = listOf()
+        val collection: List<Collection> = listOf(),
         @SerializedName("self")
-        val self: List<Self> = listOf(),
+        val self: List<Self> = listOf()
     ) {
         data class Self(
             @SerializedName("href")
