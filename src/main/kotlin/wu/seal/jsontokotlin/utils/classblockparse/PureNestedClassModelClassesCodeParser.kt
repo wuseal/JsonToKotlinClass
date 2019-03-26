@@ -39,13 +39,15 @@ class PureNestedClassModelClassesCodeParser(private val classesCode: String) {
     private fun toKotlinDataClass(parsedKotlinDataClass: ParsedKotlinDataClass): KotlinDataClass {
         val properties = parsedKotlinDataClass.properties.map {
             Property(
-                annotations = listOf(),
-                keyword = it.keyword,
-                name = it.propertyName,
-                type = it.propertyType,
-                comment = it.propertyComment,
-                value = it.propertyValue,
-                isLast = it.isLastProperty
+                    annotations = listOf(),
+                    keyword = it.keyword,
+                    originName = it.propertyName,
+                    name = it.propertyName,
+                    type = it.propertyType,
+                    value = it.propertyValue,
+                    comment = it.propertyComment,
+                    isLast = it.isLastProperty,
+                    originJsonValue = ""
             )
         }
         return KotlinDataClass(annotations = listOf(), name = parsedKotlinDataClass.name, properties = properties)

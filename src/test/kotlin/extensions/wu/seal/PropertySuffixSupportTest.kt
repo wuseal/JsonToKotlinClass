@@ -12,8 +12,7 @@ class PropertySuffixSupportTest {
 
 
     val expectResult = """data class Test(
-    @SerializedName("a")
-    val aWu: Int = 0 // 1
+    val aWu: Int // 1
 )"""
 
     @Before

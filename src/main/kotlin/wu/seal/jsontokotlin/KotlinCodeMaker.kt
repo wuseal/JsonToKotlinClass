@@ -112,9 +112,6 @@ class KotlinCodeMaker {
     }
 
     private fun appendClassName(stringBuilder: StringBuilder) {
-        val classAnnotation = KClassAnnotation.getClassAnnotation(className.toString())
-        stringBuilder.append(classAnnotation)
-        if (classAnnotation.isNotBlank()) stringBuilder.append("\n")
         if (inputElement?.isJsonNull == true || (inputElement as? JsonObject)?.entrySet()?.isEmpty() == true) {
             stringBuilder.append("class ").append(className).append("(\n")
         } else {
@@ -127,9 +124,7 @@ class KotlinCodeMaker {
 
         val size = jsonObject.entrySet().size
 
-        val entryList =
-                if (ConfigManager.isOrderByAlphabetical) jsonObject.entrySet().sortedBy { it.key }
-                else jsonObject.entrySet()
+        val entryList = jsonObject.entrySet()
         entryList.forEachIndexed { index, (property, jsonElementValue) ->
             val isLast = (index == size - 1)
 
@@ -207,7 +202,7 @@ class KotlinCodeMaker {
         if (innerValue == null) {
             innerValue = "null"
         }
-        val p = KProperty(property, getOutType(type, value), innerValue)
+        val p = KProperty(property, type, innerValue)
 
         stringBuilder.append(p.getPropertyStringBlock())
 

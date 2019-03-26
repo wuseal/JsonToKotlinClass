@@ -4,13 +4,32 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.applyInterceptor
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.generateKotlinDataClass
+import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
+import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationInterceptor
 
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
 
 class MinimalAnnotationInterceptorTest {
 
+    private val json ="""
+        {
+            "a": 1,
+             "a_b": 2,
+             "a c": 3
+        }
+    """.trimIndent()
+
+    private val excepted = """data class Test(
+    val a: Int, // 1
+    @SerializedName("a_b")
+    val aB: Int, // 2
+    @SerializedName("a c")
+    val aC: Int // 3
+)"""
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()
@@ -18,66 +37,11 @@ class MinimalAnnotationInterceptorTest {
 
     @Test
     fun intercept() {
-        val tobebParsedCode = """data class Data(
-    @SerializedName("UserID") val userID: Int? = 0, // 11
-    @SerializedName("name") val name: Name? = Name(),
-    @SerializedName("Email") val email: String? = "" // zhuleipro◎hotmail.com
-)"""
-        val kotlinDataClass =
-            KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
-        val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
-        val interceptedDataClass = interceptor.intercept(MakePropertyOriginNameInterceptor().intercept(kotlinDataClass))
-        interceptedDataClass.getCode().should.be.equal("""data class Data(
-    @SerializedName("UserID")
-    val userID: Int? = 0, // 11
-    val name: Name? = Name(),
-    @SerializedName("Email")
-    val email: String? = "" // zhuleipro◎hotmail.com
-)""")
+        val generateKotlinDataClass = json.generateKotlinDataClass()
+        val interceptedDataClass = generateKotlinDataClass.applyInterceptor(AddGsonAnnotationInterceptor())
+        .applyInterceptor(MinimalAnnotationKotlinDataClassInterceptor())
 
-    }
-
-    @Test
-    fun intercept2() {
-        val tobebParsedCode = """data class Data(
-    @SerializedName val userID: Int? = 0, // 11
-    @SerializedName("name") val name: Name? = Name(),
-    @SerializedName("Email") val email: String? = "" // zhuleipro◎hotmail.com
-)"""
-        val kotlinDataClass =
-            KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
-        val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
-        val interceptedDataClass = interceptor.intercept(MakePropertyOriginNameInterceptor().intercept(kotlinDataClass))
-        interceptedDataClass.getCode().should.be.equal("""data class Data(
-    @SerializedName
-    val userID: Int? = 0, // 11
-    val name: Name? = Name(),
-    @SerializedName("Email")
-    val email: String? = "" // zhuleipro◎hotmail.com
-)""")
-
-    }
-
-    @Test
-    fun intercept3() {
-        val tobebParsedCode = """data class Data(
-    @SerializedName val userID: Int? = 0, // 11
-    @SerializedName("name") val name: Name? = Name(),
-    @SerializedName("Email", default = "Email") val email: String? = "" // zhuleipro◎hotmail.com
-)"""
-        ConfigManager.customPropertyAnnotationFormatString ="@SerializedName(\"%s\", default = \"%s\")"
-        val kotlinDataClass =
-            KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(tobebParsedCode).getKotlinDataClass())
-        val interceptor = MinimalAnnotationKotlinDataClassInterceptor()
-        val interceptedDataClass = interceptor.intercept(MakePropertyOriginNameInterceptor().intercept(kotlinDataClass))
-        interceptedDataClass.getCode().should.be.equal("""data class Data(
-    @SerializedName
-    val userID: Int? = 0, // 11
-    val name: Name? = Name(),
-    @SerializedName("Email", default = "Email")
-    val email: String? = "" // zhuleipro◎hotmail.com
-)""")
-
+        interceptedDataClass.getCode().should.be.equal(excepted)
     }
 }
 

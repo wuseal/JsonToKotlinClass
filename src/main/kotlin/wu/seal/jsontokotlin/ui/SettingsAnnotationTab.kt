@@ -89,11 +89,11 @@ class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         annotationImportClass.layout = BoxLayout(annotationImportClass, BoxLayout.PAGE_AXIS)
         val importClassLable = JBLabel("Annotation Import Class : ")
         annotationImportClass.addComponentIntoVerticalBoxAlignmentLeft(importClassLable)
-        val annotationImportClassTextArea = JTextArea(ConfigManager.customAnnotationImportClassString)
+        val annotationImportClassTextArea = JTextArea(ConfigManager.customAnnotationClassImportdeclarationString)
         annotationImportClassTextArea.minimumSize = JBDimension(460, 40)
         annotationImportClassTextArea.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
-                ConfigManager.customAnnotationImportClassString = annotationImportClassTextArea.text
+                ConfigManager.customAnnotationClassImportdeclarationString = annotationImportClassTextArea.text
 
             }
 

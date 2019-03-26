@@ -8,6 +8,7 @@ import wu.seal.jsontokotlin.utils.*
  */
 
 fun getDefaultValue(propertyType: String): String {
+
     val rawType = getRawType(propertyType)
 
     return when {

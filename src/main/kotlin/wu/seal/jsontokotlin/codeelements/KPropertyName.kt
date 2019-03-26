@@ -33,17 +33,25 @@ object KPropertyName : KName(), IPropertyNameMaker {
 
     override fun makePropertyName(rawString: String, needTransformToLegalName: Boolean): String {
         return if (needTransformToLegalName) {
-            val camelCaseLegalName = makeCamelCaseLegalName(rawString)
-            if (camelCaseLegalName.isEmpty()) KPropertyName.makeCamelCaseLegalName("x-$rawString") else camelCaseLegalName
+            val camelCaseLegalName = makeLowerCamelCaseLegalNameOrEmptyName(rawString)
+            if (camelCaseLegalName.isEmpty()) KPropertyName.makeLowerCamelCaseLegalNameOrEmptyName("x-$rawString") else camelCaseLegalName
         } else {
             rawString
         }
     }
 
     /**
+     * get the none empty legal came case name
+     */
+    fun makeLowerCamelCaseLegalName(rawNameString:String) :String{
+
+        return makePropertyName(rawNameString, true)
+    }
+
+    /**
      * this function may return empty string when the raw string is only make of number and illegal character
      */
-    private fun makeCamelCaseLegalName(rawString: String): String {
+    fun makeLowerCamelCaseLegalNameOrEmptyName(rawString: String): String {
         /**
          * keep nameSeparator character
          */

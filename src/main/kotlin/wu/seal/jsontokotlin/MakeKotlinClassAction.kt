@@ -121,7 +121,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             jsonString: String,
             caret: Caret?
     ): Boolean {
-        ImportClassWriter.insertImportClassCode(project, document)
+        ClassImportDeclarationWriter.insertImportClassCode(project, document)
 
         val codeMaker: KotlinDataClassCodeMaker
         try {
