@@ -13,7 +13,7 @@
 
 # JsonToKotlinClass
 
-Hi, welcome to visit me! I am a plugin for generating Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin)
+Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin)
 
 ### Overview
 
@@ -186,9 +186,16 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * [wuseal](https://github.com/wuseal)
 * [kezhenxu94](https://github.com/kezhenxu94)
 
-### Contact Community
-#### Join QQ Group: 341755074
+### Acknowledgement
 
-# Stargazers over time
+The development of this plugin is powerly driven by JetBrains.
+
+### Join the Community
+
+| QQ Group |
+| -------- |
+| ![QQ Group](qq_qrcode.png "Scan QR code with QQ/TIM to join the group chat")
+
+### Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)
