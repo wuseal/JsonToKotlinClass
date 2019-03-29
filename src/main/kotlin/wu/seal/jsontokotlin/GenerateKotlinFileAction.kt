@@ -12,13 +12,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
-import com.squareup.kotlinpoet.*
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
-import java.lang.IllegalArgumentException
 
 
 /**
@@ -86,42 +84,16 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val codeMaker = KotlinCodeMaker(className, json)
         val generatedClassesString = try {
             val jsonSchema = Gson().fromJson<JsonSchema>(json, JsonSchema::class.java)
             if (jsonSchema.schema?.isNotBlank() != true) {
                 throw IllegalArgumentException("input string is not valid json schema")
             }
-            val requiredFields = jsonSchema.required
-            val s = FileSpec.builder("", className)
-                    .addType(TypeSpec.classBuilder(className)
-                            .addModifiers(KModifier.DATA)
-                            .primaryConstructor(FunSpec.constructorBuilder().apply {
-                                jsonSchema.properties.forEach { property, propertyDefinition ->
-                                    val type = JSON_SCHEMA_TYPE_MAPPINGS[propertyDefinition.type] ?: String::class
-                                    val typeName = if (property !in requiredFields) {
-                                        type.asTypeName().copy(nullable = true)
-                                    } else type.asTypeName()
-
-                                    addParameter(property, typeName)
-                                }
-                            }.build()).apply {
-                                jsonSchema.properties.forEach { property, propertyDefinition ->
-                                    val type = JSON_SCHEMA_TYPE_MAPPINGS[propertyDefinition.type] ?: String::class
-                                    val typeName = if (property !in requiredFields) {
-                                        type.asTypeName().copy(nullable = true)
-                                    } else type.asTypeName()
-
-                                    addProperty(PropertySpec.builder(property, typeName).initializer(property).build())
-                                }
-                            }
-                            .build())
-                    .build()
-                    .toString()
-                    .replace("import .*".toRegex(), "")
-                    .trim()
-            s
+            val generator = JsonSchemaDataClassGenerator(jsonSchema)
+            generator.generate(className)
+            generator.classes.joinToString("\n") { it.toString() }
         } catch (e: Exception) {
+            val codeMaker = KotlinCodeMaker(className, json)
             codeMaker.makeKotlinData()
         }
 
