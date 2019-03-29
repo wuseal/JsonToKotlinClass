@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder
 /**
  * JSON Converter Annotation Tab View
  */
-class SettingsAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
