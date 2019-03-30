@@ -41,7 +41,7 @@ This is a very cool tool for Kotlin developers, it can convert a JSON string to 
 * Press `ALT + K` for Windows or `Option + K` for Mac or right click on package -> `New`->`Kotlin data clas file from JSON` and continue as guided.
 
 ### Advanced usage
-Have a try with the settings dialog :stuck_out_tongue_winking_eye:
+Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 
 ### Features
 * Generating Kotlin data class from any legal JSON string or any **URLs that returns a JSON string as response** or **local file that contains JSON string**, for more detail about supported source types, refer to [the documentation](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_json_sources.md)

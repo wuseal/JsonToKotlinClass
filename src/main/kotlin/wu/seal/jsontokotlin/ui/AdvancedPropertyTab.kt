@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder
  *
  * Created by Seal.Wu on 2018/2/7.
  */
-class SettingsPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class AdvancedPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
