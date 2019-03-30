@@ -61,7 +61,7 @@ Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 * Generating kotlin data class property order by alphabetical
 * [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_extensions.md)
 
-### Generate Example 
+### Generate Example
 This is the example JSON from json.org
 
 ```json
@@ -174,8 +174,8 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Thank [@wangzhenguang](https://github.com/wangzhenguang) for reminding me of the details of the problem
 * Thank [@kezhenxu94](https://github.com/kezhenxu94/) for introducing CI/CD to save me a lot of time :)
 * Thank [iqbalhood](https://github.com/iqbalhood) for contributing logo for this project
-* Thank [akindone](https://github.com/akindone) for adding `order by alphabetical` featrue for `JsonToKotlinClass`
-* Thank [rafalbednarczuk](https://github.com/rafalbednarczuk) for adding `make keyword property valid` featrue for `JsonToKotlinClass`
+* Thank [akindone](https://github.com/akindone) for adding `order by alphabetical` feature for `JsonToKotlinClass`
+* Thank [rafalbednarczuk](https://github.com/rafalbednarczuk) for adding `make keyword property valid` feature for `JsonToKotlinClass`
 
 
 ### Find it useful ? :heart:
