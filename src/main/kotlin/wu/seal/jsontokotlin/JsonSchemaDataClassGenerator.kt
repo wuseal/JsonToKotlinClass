@@ -11,10 +11,10 @@ class JsonSchemaDataClassGenerator(private val jsonObjectDef: JsonObjectDef) {
         ?: jsonObjectDef.title
         ?: throw IllegalArgumentException("className cannot be null when jsonObjectDef.title is null")
 
-    val requiredFields = jsonObjectDef.required
+    val requiredFields = jsonObjectDef.required ?: emptyArray()
     val properties = if (ConfigManager.isOrderByAlphabetical) jsonObjectDef.properties.toSortedMap() else jsonObjectDef.properties
     val s = TypeSpec.classBuilder(clazz).apply {
-      if (!ConfigManager.isCommentOff) {
+      if (!ConfigManager.isCommentOff && (jsonObjectDef.description?.isNotBlank() == true)) {
         addKdoc(jsonObjectDef.description)
       }
       addModifiers(KModifier.DATA)
@@ -38,7 +38,6 @@ class JsonSchemaDataClassGenerator(private val jsonObjectDef: JsonObjectDef) {
           }
         }
       }.build())
-    }.apply {
       properties.forEach { property, propertyDefinition ->
         val type = JSON_SCHEMA_TYPE_MAPPINGS[propertyDefinition.type] ?: String::class
         if (type == Any::class) {
@@ -47,7 +46,7 @@ class JsonSchemaDataClassGenerator(private val jsonObjectDef: JsonObjectDef) {
           } else ClassName("", property.capitalize())
           addProperty(
               PropertySpec.builder(property, typeName).apply {
-                if (!ConfigManager.isCommentOff) {
+                if (!ConfigManager.isCommentOff && (propertyDefinition.description?.isNotBlank() == true)) {
                   addKdoc(propertyDefinition.description)
                 }
                 initializer(property)
@@ -60,7 +59,7 @@ class JsonSchemaDataClassGenerator(private val jsonObjectDef: JsonObjectDef) {
 
           addProperty(
               PropertySpec.builder(property, typeName).apply {
-                if (!ConfigManager.isCommentOff) {
+                if (!ConfigManager.isCommentOff && (propertyDefinition.description?.isNotBlank() == true)) {
                   addKdoc(propertyDefinition.description)
                 }
                 initializer(property)
