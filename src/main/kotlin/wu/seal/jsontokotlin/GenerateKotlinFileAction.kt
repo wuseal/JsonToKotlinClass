@@ -31,22 +31,18 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val module = LangDataKeys.MODULE.getData(dataContext) ?: return
 
             val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
-            val directory: PsiDirectory =
-                if (navigatable is PsiDirectory) {
-                    navigatable
-                } else if (navigatable is PsiFile) {
-                    navigatable.containingDirectory
-                } else {
+            val directory = when (navigatable) {
+                is PsiDirectory -> navigatable
+                is PsiFile -> navigatable.containingDirectory
+                else -> {
                     val root = ModuleRootManager.getInstance(module)
-                    var tempDirectory: PsiDirectory? = null
-                    for (file in root.sourceRoots) {
-                        tempDirectory = PsiManager.getInstance(project).findDirectory(file)
-                        if (tempDirectory != null) {
-                            break
-                        }
+                    root.sourceRoots.firstOrNull {
+                        PsiManager.getInstance(project).findDirectory(it) != null
+                    }?.let {
+                        PsiManager.getInstance(project).findDirectory(it)
                     }
-                    tempDirectory
-                } ?: return
+                }
+            } ?: return
 
             val directoryFactory = PsiDirectoryFactory.getInstance(directory.project)
             val packageName = directoryFactory.getQualifiedName(directory, false)
