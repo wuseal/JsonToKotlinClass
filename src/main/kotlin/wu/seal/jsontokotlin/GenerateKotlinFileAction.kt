@@ -36,11 +36,11 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                 is PsiFile -> navigatable.containingDirectory
                 else -> {
                     val root = ModuleRootManager.getInstance(module)
-                    root.sourceRoots.firstOrNull {
-                        PsiManager.getInstance(project).findDirectory(it) != null
-                    }?.let {
-                        PsiManager.getInstance(project).findDirectory(it)
-                    }
+                    root.sourceRoots
+                            .asSequence()
+                            .mapNotNull {
+                                PsiManager.getInstance(project).findDirectory(it)
+                            }.firstOrNull()
                 }
             } ?: return
 
