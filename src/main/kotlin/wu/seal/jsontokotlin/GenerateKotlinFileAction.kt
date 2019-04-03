@@ -51,14 +51,12 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val inputDialog = JsonInputDialog("", project)
             inputDialog.show()
             val className = inputDialog.getClassName()
-            val inputString = inputDialog.inputString
-            if (inputString.isEmpty()) {
-                return
-            }
+            val inputString = inputDialog.inputString.takeIf { it.isNotEmpty() } ?: return
+
             jsonString = inputString
             doGenerateKotlinDataClassFileAction(
                 className,
-                    inputString,
+                inputString,
                 packageDeclare,
                 project,
                 psiFileFactory,
