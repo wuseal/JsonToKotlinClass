@@ -103,30 +103,33 @@ fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
  */
 fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     var innerProperty = KClassName.getLegalClassName(property)
-    if (innerProperty.endsWith("ies")) {
-        innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
-    } else if (innerProperty.contains("List")) {
-        val firstLatterAfterListIndex = innerProperty.lastIndexOf("List") + 4
-        if (innerProperty.length > firstLatterAfterListIndex) {
-            val c = innerProperty[firstLatterAfterListIndex]
-            if (c in 'A'..'Z') {
-                val pre = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
-                val end = innerProperty.substring(firstLatterAfterListIndex, innerProperty.length)
+    when {
+        innerProperty.endsWith("s") -> {
+            innerProperty = innerProperty.substring(0, innerProperty.length - 1)
+        }
+
+        innerProperty.endsWith("ies") -> {
+            innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
+        }
+
+        innerProperty.contains("List") -> {
+            val firstLatterAfterListIndex = innerProperty.lastIndexOf("List") + 4
+            if (innerProperty.length > firstLatterAfterListIndex && innerProperty[firstLatterAfterListIndex] in 'A'..'Z') {
+                innerProperty = innerProperty.replaceFirst("List", "", false)
+            } else if (innerProperty.length == firstLatterAfterListIndex) {
+                innerProperty = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
+            }
+        }
+
+        innerProperty.contains("list") -> {
+            if (innerProperty == "list") {
+                innerProperty = "Item${Date().time.toString().last()}"
+            } else if (innerProperty.indexOf("list") == 0 && innerProperty.length >= 5) {
+                val end = innerProperty.substring(5)
+                val pre = (innerProperty[4] + "").toLowerCase()
                 innerProperty = pre + end
             }
-        } else if (innerProperty.length == firstLatterAfterListIndex) {
-            innerProperty = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
         }
-    } else if (innerProperty.contains("list")) {
-        if (innerProperty == "list") {
-            innerProperty = "Item${Date().time.toString().last()}"
-        } else if (innerProperty.indexOf("list") == 0 && innerProperty.length >= 5) {
-            val end = innerProperty.substring(5)
-            val pre = (innerProperty[4] + "").toLowerCase()
-            innerProperty = pre + end
-        }
-    } else if (innerProperty.endsWith("s")) {
-        innerProperty = innerProperty.substring(0, innerProperty.length - 1)
     }
 
     return innerProperty
