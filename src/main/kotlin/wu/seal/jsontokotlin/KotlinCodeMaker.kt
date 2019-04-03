@@ -3,7 +3,6 @@ package wu.seal.jsontokotlin
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.codeelements.KClassAnnotation
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
 import java.util.*
@@ -60,15 +59,18 @@ class KotlinCodeMaker {
                 //when [[[{}]]]
                 if (originElement.asJsonArray.onlyHasOneElementRecursive()) {
                     val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
-                    val adviceType = getArrayType("Any", originElement.asJsonArray).replace(Regex("Int|Float|String|Boolean"), "Any")
+                    val adviceType =
+                        getArrayType("Any", originElement.asJsonArray).replace(Regex("Int|Float|String|Boolean"), "Any")
                     unSupportJsonException.adviceType = adviceType
-                    unSupportJsonException.advice = """No need converting, just use $adviceType is enough for your json string"""
+                    unSupportJsonException.advice =
+                            """No need converting, just use $adviceType is enough for your json string"""
                     throw unSupportJsonException
                 } else {
                     //when [1,"a"]
                     val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
                     unSupportJsonException.adviceType = "List<Any>"
-                    unSupportJsonException.advice = """No need converting,  List<Any> may be a good class type for your json string"""
+                    unSupportJsonException.advice =
+                            """No need converting,  List<Any> may be a good class type for your json string"""
                     throw unSupportJsonException
                 }
             }
@@ -79,7 +81,8 @@ class KotlinCodeMaker {
              */
             val unSupportJsonException = UnSupportJsonException("Unsupported Json String")
             val adviceType = getArrayType("Any", originElement.asJsonArray).replace("AnyX", "Any")
-            unSupportJsonException.advice = """No need converting, just use $adviceType is enough for your json string"""
+            unSupportJsonException.advice =
+                    """No need converting, just use $adviceType is enough for your json string"""
             throw unSupportJsonException
         }
     }
@@ -121,68 +124,69 @@ class KotlinCodeMaker {
 
 
     private fun appendCodeMember(stringBuilder: StringBuilder, jsonObject: JsonObject) {
-
         val size = jsonObject.entrySet().size
+        jsonObject.entrySet().forEachIndexed { index, (property, jsonElementValue) ->
 
-        val entryList = jsonObject.entrySet()
-        entryList.forEachIndexed { index, (property, jsonElementValue) ->
             val isLast = (index == size - 1)
+            when {
+                jsonElementValue.isJsonNull -> addProperty(stringBuilder, property, DEFAULT_TYPE, null, isLast)
 
-            if (jsonElementValue.isJsonArray) {
-                var type = getArrayType(property, jsonElementValue.asJsonArray)
-
-                if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray) || jsonElementValue.asJsonArray.onlyHasOneObjectElementRecursive()
-                        || jsonElementValue.asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()) {
-
-                    val subCode = try {
-                        KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()
-                    } catch (e: UnSupportJsonException) {
-                        type = e.adviceType
-                        ""
-                    }
-                    toBeAppend.add(subCode)
+                jsonElementValue.isJsonPrimitive -> {
+                    val type = getPrimitiveType(jsonElementValue.asJsonPrimitive)
+                    addProperty(stringBuilder, property, type, jsonElementValue.asString, isLast)
                 }
-                addProperty(stringBuilder, property, type, "", isLast)
 
-            } else if (jsonElementValue.isJsonPrimitive) {
-                val type = getPrimitiveType(jsonElementValue.asJsonPrimitive)
-                addProperty(stringBuilder, property, type, jsonElementValue.asString, isLast)
-
-            } else if (jsonElementValue.isJsonObject) {
-                if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(jsonElementValue.asJsonObject)) {
-                    val mapKeyType = getMapKeyTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
-                    var mapValueType = getMapValueTypeConvertFromJsonObject(jsonElementValue.asJsonObject)
-                    if (mapValueIsObjectType(mapValueType)) {
-                        val subCode = try {
-                            KotlinCodeMaker(
-                                    getChildType(mapValueType),
-                                    jsonElementValue.asJsonObject.entrySet().first().value
-                            ).makeKotlinData()
-                        } catch (e: UnSupportJsonException) {
-                            mapValueType = e.adviceType
-                            ""
+                jsonElementValue.isJsonArray -> {
+                    jsonElementValue.asJsonArray.run {
+                        var type = getArrayType(property, this)
+                        if (isExpectedJsonObjArrayType(this) || onlyHasOneObjectElementRecursive()
+                            || onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
+                        ) {
+                            val subCode = try {
+                                KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()
+                            } catch (e: UnSupportJsonException) {
+                                type = e.adviceType
+                                ""
+                            }
+                            toBeAppend.add(subCode)
                         }
-                        toBeAppend.add(
-                                subCode
-                        )
+                        addProperty(stringBuilder, property, type, "", isLast)
                     }
-                    val mapType = "Map<$mapKeyType,$mapValueType>"
-                    addProperty(stringBuilder, property, mapType, "", isLast)
-
-                } else {
-                    var type = getJsonObjectType(property)
-                    val subCode = try {
-                        KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData()
-                    } catch (e: UnSupportJsonException) {
-                        type = e.adviceType
-                        ""
-                    }
-                    toBeAppend.add(subCode)
-                    addProperty(stringBuilder, property, type, "", isLast)
                 }
 
-            } else if (jsonElementValue.isJsonNull) {
-                addProperty(stringBuilder, property, DEFAULT_TYPE, null, isLast)
+                jsonElementValue.isJsonObject -> {
+                    jsonElementValue.asJsonObject.run {
+                        if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(this)) {
+                            val mapKeyType = getMapKeyTypeConvertFromJsonObject(this)
+                            var mapValueType = getMapValueTypeConvertFromJsonObject(this)
+                            if (mapValueIsObjectType(mapValueType)) {
+                                val subCode = try {
+                                    KotlinCodeMaker(
+                                        getChildType(mapValueType),
+                                        entrySet().first().value
+                                    ).makeKotlinData()
+                                } catch (e: UnSupportJsonException) {
+                                    mapValueType = e.adviceType
+                                    ""
+                                }
+                                toBeAppend.add(subCode)
+                            }
+                            val mapType = "Map<$mapKeyType,$mapValueType>"
+                            addProperty(stringBuilder, property, mapType, "", isLast)
+
+                        } else {
+                            var type = getJsonObjectType(property)
+                            val subCode = try {
+                                KotlinCodeMaker(getRawType(type), jsonElementValue).makeKotlinData()
+                            } catch (e: UnSupportJsonException) {
+                                type = e.adviceType
+                                ""
+                            }
+                            toBeAppend.add(subCode)
+                            addProperty(stringBuilder, property, type, "", isLast)
+                        }
+                    }
+                }
             }
         }
     }
@@ -192,11 +196,11 @@ class KotlinCodeMaker {
 
 
     private fun addProperty(
-            stringBuilder: StringBuilder,
-            property: String,
-            type: String,
-            value: String?,
-            isLast: Boolean = false
+        stringBuilder: StringBuilder,
+        property: String,
+        type: String,
+        value: String?,
+        isLast: Boolean = false
     ) {
 
         val p = KProperty(property, type, value ?: "null")
