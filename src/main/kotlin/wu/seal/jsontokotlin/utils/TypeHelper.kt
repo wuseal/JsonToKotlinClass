@@ -32,14 +32,14 @@ const val DEFAULT_TYPE = TYPE_ANY
 
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     return when {
-        jsonPrimitive.isBoolean -> "Boolean"
+        jsonPrimitive.isBoolean -> TYPE_BOOLEAN
         jsonPrimitive.isNumber -> when {
-            jsonPrimitive.asString.contains(".") -> "Double"
-            jsonPrimitive.asLong > Integer.MAX_VALUE -> "Long"
-            else -> "Int"
+            jsonPrimitive.asString.contains(".") -> TYPE_DOUBLE
+            jsonPrimitive.asLong > Integer.MAX_VALUE -> TYPE_LONG
+            else -> TYPE_INT
         }
-        jsonPrimitive.isString -> "String"
-        else -> "String"
+        jsonPrimitive.isString -> TYPE_STRING
+        else -> TYPE_STRING
     }
 }
 
@@ -80,22 +80,12 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
     val iterator = jsonElementValue.iterator()
     if (iterator.hasNext()) {
         val next = iterator.next()
-        subType =
-                if (next.isJsonPrimitive) {
-                    getPrimitiveType(next.asJsonPrimitive)
-
-                } else if (next.isJsonObject) {
-                    getJsonObjectType(preSubType)
-
-                } else if (next.isJsonArray) {
-                    if (jsonElementValue.size() == 1) {
-                        getArrayType(preSubType, next.asJsonArray)
-                    } else {
-                        DEFAULT_TYPE
-                    }
-                } else {
-                    DEFAULT_TYPE
-                }
+        subType = when {
+            next.isJsonPrimitive -> getPrimitiveType(next.asJsonPrimitive)
+            next.isJsonObject ->  getJsonObjectType(preSubType)
+            next.isJsonArray && jsonElementValue.size() == 1 -> getArrayType(preSubType, next.asJsonArray)
+            else -> DEFAULT_TYPE
+        }
         return "List<$subType>"
     }
     return "List<$subType>"
