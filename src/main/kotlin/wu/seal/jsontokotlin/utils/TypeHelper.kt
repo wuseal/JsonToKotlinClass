@@ -104,10 +104,6 @@ fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
 fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     var innerProperty = KClassName.getLegalClassName(property)
     when {
-        innerProperty.endsWith("s") -> {
-            innerProperty = innerProperty.substring(0, innerProperty.length - 1)
-        }
-
         innerProperty.endsWith("ies") -> {
             innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
         }
@@ -129,6 +125,10 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
                 val pre = (innerProperty[4] + "").toLowerCase()
                 innerProperty = pre + end
             }
+        }
+
+        innerProperty.endsWith("s") -> {
+            innerProperty = innerProperty.substring(0, innerProperty.length - 1)
         }
     }
 
