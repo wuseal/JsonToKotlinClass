@@ -74,7 +74,7 @@ class Issue121Test {
      * test issue #121 of Github Project issue
      */
     @Test
-    fun testIssue089() {
+    fun testIssue121() {
         val result = KotlinDataClassCodeMaker("Test", json).makeKotlinDataClassCode()
         result.trim().should.be.equal(expected)
     }
