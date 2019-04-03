@@ -198,22 +198,20 @@ class KotlinCodeMaker {
             value: String?,
             isLast: Boolean = false
     ) {
-        var innerValue = value
-        if (innerValue == null) {
-            innerValue = "null"
+
+        val p = KProperty(property, type, value ?: "null")
+        stringBuilder.apply {
+            append(p.getPropertyStringBlock())
+            if (!isLast) {
+                append(",")
+            }
+            val propertyComment = p.getPropertyComment()
+            if (propertyComment.isNotBlank()) {
+                append(" // ")
+                append(getCommentCode(propertyComment))
+            }
+            append("\n")
         }
-        val p = KProperty(property, type, innerValue)
-
-        stringBuilder.append(p.getPropertyStringBlock())
-
-        if (!isLast)
-            stringBuilder.append(",")
-
-        val propertyComment = p.getPropertyComment()
-        if (propertyComment.isNotBlank())
-            stringBuilder.append(" // ")
-                    .append(getCommentCode(propertyComment))
-        stringBuilder.append("\n")
     }
 
 }
