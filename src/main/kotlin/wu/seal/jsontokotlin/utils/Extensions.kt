@@ -135,3 +135,8 @@ fun JsonArray.filterOutNullElement(): JsonArray {
     }
 
 }
+
+/**
+ * Return true if this string contains any sequence of characters of the list
+ */
+fun String.containsAnyOf(list: List<CharSequence>) = list.any { this.contains(it) }
