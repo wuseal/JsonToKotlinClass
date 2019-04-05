@@ -32,14 +32,14 @@ const val DEFAULT_TYPE = TYPE_ANY
 
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     return when {
-        jsonPrimitive.isBoolean -> "Boolean"
+        jsonPrimitive.isBoolean -> TYPE_BOOLEAN
         jsonPrimitive.isNumber -> when {
-            jsonPrimitive.asString.contains(".") -> "Double"
-            jsonPrimitive.asLong > Integer.MAX_VALUE -> "Long"
-            else -> "Int"
+            jsonPrimitive.asString.contains(".") -> TYPE_DOUBLE
+            jsonPrimitive.asLong > Integer.MAX_VALUE -> TYPE_LONG
+            else -> TYPE_INT
         }
-        jsonPrimitive.isString -> "String"
-        else -> "String"
+        jsonPrimitive.isString -> TYPE_STRING
+        else -> TYPE_STRING
     }
 }
 
@@ -80,22 +80,12 @@ fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
     val iterator = jsonElementValue.iterator()
     if (iterator.hasNext()) {
         val next = iterator.next()
-        subType =
-                if (next.isJsonPrimitive) {
-                    getPrimitiveType(next.asJsonPrimitive)
-
-                } else if (next.isJsonObject) {
-                    getJsonObjectType(preSubType)
-
-                } else if (next.isJsonArray) {
-                    if (jsonElementValue.size() == 1) {
-                        getArrayType(preSubType, next.asJsonArray)
-                    } else {
-                        DEFAULT_TYPE
-                    }
-                } else {
-                    DEFAULT_TYPE
-                }
+        subType = when {
+            next.isJsonPrimitive -> getPrimitiveType(next.asJsonPrimitive)
+            next.isJsonObject ->  getJsonObjectType(preSubType)
+            next.isJsonArray && jsonElementValue.size() == 1 -> getArrayType(preSubType, next.asJsonArray)
+            else -> DEFAULT_TYPE
+        }
         return "List<$subType>"
     }
     return "List<$subType>"
@@ -113,30 +103,33 @@ fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
  */
 fun adjustPropertyNameForGettingArrayChildType(property: String): String {
     var innerProperty = KClassName.getLegalClassName(property)
-    if (innerProperty.endsWith("ies")) {
-        innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
-    } else if (innerProperty.contains("List")) {
-        val firstLatterAfterListIndex = innerProperty.lastIndexOf("List") + 4
-        if (innerProperty.length > firstLatterAfterListIndex) {
-            val c = innerProperty[firstLatterAfterListIndex]
-            if (c in 'A'..'Z') {
-                val pre = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
-                val end = innerProperty.substring(firstLatterAfterListIndex, innerProperty.length)
+    when {
+        innerProperty.endsWith("ies") -> {
+            innerProperty = innerProperty.substring(0, innerProperty.length - 3) + "y"
+        }
+
+        innerProperty.contains("List") -> {
+            val firstLatterAfterListIndex = innerProperty.lastIndexOf("List") + 4
+            if (innerProperty.length > firstLatterAfterListIndex && innerProperty[firstLatterAfterListIndex] in 'A'..'Z') {
+                innerProperty = innerProperty.replaceFirst("List", "", false)
+            } else if (innerProperty.length == firstLatterAfterListIndex) {
+                innerProperty = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
+            }
+        }
+
+        innerProperty.contains("list") -> {
+            if (innerProperty == "list") {
+                innerProperty = "Item${Date().time.toString().last()}"
+            } else if (innerProperty.indexOf("list") == 0 && innerProperty.length >= 5) {
+                val end = innerProperty.substring(5)
+                val pre = (innerProperty[4] + "").toLowerCase()
                 innerProperty = pre + end
             }
-        } else if (innerProperty.length == firstLatterAfterListIndex) {
-            innerProperty = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
         }
-    } else if (innerProperty.contains("list")) {
-        if (innerProperty == "list") {
-            innerProperty = "Item${Date().time.toString().last()}"
-        } else if (innerProperty.indexOf("list") == 0 && innerProperty.length >= 5) {
-            val end = innerProperty.substring(5)
-            val pre = (innerProperty[4] + "").toLowerCase()
-            innerProperty = pre + end
+
+        innerProperty.endsWith("s") -> {
+            innerProperty = innerProperty.substring(0, innerProperty.length - 1)
         }
-    } else if (innerProperty.endsWith("s")) {
-        innerProperty = innerProperty.substring(0, innerProperty.length - 1)
     }
 
     return innerProperty

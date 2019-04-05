@@ -33,22 +33,18 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val module = LangDataKeys.MODULE.getData(dataContext) ?: return
 
             val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
-            val directory: PsiDirectory =
-                if (navigatable is PsiDirectory) {
-                    navigatable
-                } else if (navigatable is PsiFile) {
-                    navigatable.containingDirectory
-                } else {
+            val directory = when (navigatable) {
+                is PsiDirectory -> navigatable
+                is PsiFile -> navigatable.containingDirectory
+                else -> {
                     val root = ModuleRootManager.getInstance(module)
-                    var tempDirectory: PsiDirectory? = null
-                    for (file in root.sourceRoots) {
-                        tempDirectory = PsiManager.getInstance(project).findDirectory(file)
-                        if (tempDirectory != null) {
-                            break
-                        }
-                    }
-                    tempDirectory
-                } ?: return
+                    root.sourceRoots
+                            .asSequence()
+                            .mapNotNull {
+                                PsiManager.getInstance(project).findDirectory(it)
+                            }.firstOrNull()
+                }
+            } ?: return
 
             val directoryFactory = PsiDirectoryFactory.getInstance(directory.project)
             val packageName = directoryFactory.getQualifiedName(directory, false)
@@ -57,14 +53,12 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val inputDialog = JsonInputDialog("", project)
             inputDialog.show()
             val className = inputDialog.getClassName()
-            val inputString = inputDialog.inputString
-            if (inputString.isEmpty()) {
-                return
-            }
+            val inputString = inputDialog.inputString.takeIf { it.isNotEmpty() } ?: return
+
             jsonString = inputString
             doGenerateKotlinDataClassFileAction(
                 className,
-                    inputString,
+                inputString,
                 packageDeclare,
                 project,
                 psiFileFactory,
