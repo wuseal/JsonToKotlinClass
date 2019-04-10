@@ -23,7 +23,7 @@ class Issue130Test {
     }
 
     /**
-     * test issue #121 of Github Project issue
+     * test issue #130 of Github Project issue
      */
     @Test
     fun testIssue130() {
