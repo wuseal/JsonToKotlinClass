@@ -138,4 +138,11 @@ class ExtensionsKtTest {
             jsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive().should.be.`false`
         }
     }
+
+    @Test
+    fun containsAnyOf() {
+        val s = "this is a awesome project !"
+        s.containsAnyOf(listOf("is", "true")).should.be.`true`
+        s.containsAnyOf(listOf("bad", "test")).should.be.`false`
+    }
 }
