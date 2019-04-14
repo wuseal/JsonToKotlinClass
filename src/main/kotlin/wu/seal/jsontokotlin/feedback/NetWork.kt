@@ -50,7 +50,7 @@ fun sendHistoryActionInfo() {
 fun sendData(url: String, log: String) {
     try {
         with(URL(url).openConnection() as HttpURLConnection) {
-            when(url) {
+            when (url) {
                 actionInfoUrl, configLogUrl -> {
                     doOutput = true
                     requestMethod = "POST"
@@ -74,8 +74,17 @@ fun sendData(url: String, log: String) {
             }
             disconnect()
         }
-    } catch(e: Exception) {
+    } catch (e: Exception) {
+
         e.printStackTrace()
-        PersistCache.saveExceptionInfo(log)
+
+        when (url) {
+
+            actionInfoUrl -> PersistCache.saveActionInfo(log)
+
+            exceptionLogUrl -> PersistCache.saveExceptionInfo(log)
+
+            else -> Unit//Do nothing
+        }
     }
 }
