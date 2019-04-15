@@ -70,6 +70,20 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         }
     }
 
+    private fun parseJSONSchemaOrNull(className: String, json: String) : String? {
+        return try {
+            val jsonSchema = Gson().fromJson<JsonSchema>(json, JsonSchema::class.java)
+            if (jsonSchema.schema?.isNotBlank() != true) {
+                throw IllegalArgumentException("input string is not valid json schema")
+            }
+            val generator = JsonSchemaDataClassGenerator(jsonSchema)
+            generator.generate(className)
+            generator.classes.joinToString("\n") { it.toString() }
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
     private fun doGenerateKotlinDataClassFileAction(
         className: String,
         json: String,
@@ -78,18 +92,9 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val generatedClassesString = try {
-            val jsonSchema = Gson().fromJson<JsonSchema>(json, JsonSchema::class.java)
-            if (jsonSchema.schema?.isNotBlank() != true) {
-                throw IllegalArgumentException("input string is not valid json schema")
-            }
-            val generator = JsonSchemaDataClassGenerator(jsonSchema)
-            generator.generate(className)
-            generator.classes.joinToString("\n") { it.toString() }
-        } catch (e: Exception) {
-            val codeMaker = KotlinCodeMaker(className, json)
-            codeMaker.makeKotlinData()
-        }
+        val generatedClassesString =
+          parseJSONSchemaOrNull(className, json)
+            ?: KotlinCodeMaker(className, json).makeKotlinData()
 
         val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(generatedClassesString)
 

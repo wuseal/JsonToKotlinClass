@@ -11,8 +11,8 @@ class JsonSchemaDataClassGenerator(private val jsonObjectDef: JsonObjectDef) {
         ?: jsonObjectDef.title
         ?: throw IllegalArgumentException("className cannot be null when jsonObjectDef.title is null")
 
-    val requiredFields = jsonObjectDef.required ?: emptyArray()
-    val properties = if (ConfigManager.isOrderByAlphabetical) jsonObjectDef.properties.toSortedMap() else jsonObjectDef.properties
+    val requiredFields = jsonObjectDef.required ?: emptyArray() // don't remove `?: emptyArray()`
+    val properties = jsonObjectDef.properties
     val s = TypeSpec.classBuilder(clazz).apply {
       if (!ConfigManager.isCommentOff && (jsonObjectDef.description?.isNotBlank() == true)) {
         addKdoc(jsonObjectDef.description)

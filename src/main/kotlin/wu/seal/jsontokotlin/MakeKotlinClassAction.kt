@@ -24,7 +24,7 @@ import java.util.*
  */
 class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
 
-    private val gson by lazy { Gson() }
+    private val gson = Gson()
 
     override fun actionPerformed(event: AnActionEvent) {
         var jsonString = ""
