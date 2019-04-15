@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin
 
-import com.google.gson.Gson
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
@@ -12,7 +11,6 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
-import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.ClassCodeFilter
@@ -70,20 +68,6 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         }
     }
 
-    private fun parseJSONSchemaOrNull(className: String, json: String) : String? {
-        return try {
-            val jsonSchema = Gson().fromJson<JsonSchema>(json, JsonSchema::class.java)
-            if (jsonSchema.schema?.isNotBlank() != true) {
-                throw IllegalArgumentException("input string is not valid json schema")
-            }
-            val generator = JsonSchemaDataClassGenerator(jsonSchema)
-            generator.generate(className)
-            generator.classes.joinToString("\n") { it.toString() }
-        } catch (_: Throwable) {
-            null
-        }
-    }
-
     private fun doGenerateKotlinDataClassFileAction(
         className: String,
         json: String,
@@ -92,9 +76,7 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val generatedClassesString =
-          parseJSONSchemaOrNull(className, json)
-            ?: KotlinCodeMaker(className, json).makeKotlinData()
+        val generatedClassesString = KotlinCodeMaker(className, json).makeKotlinData()
 
         val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(generatedClassesString)
 
