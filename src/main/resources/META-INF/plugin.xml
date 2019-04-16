@@ -66,7 +66,7 @@
 
     <actions>
         <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction"
-                text="Convert Json Into Kotlin Class"
+                text="Kotlin data classes from JSON"
                 description="convert a json string data into kotlin data class code">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt k"/>
