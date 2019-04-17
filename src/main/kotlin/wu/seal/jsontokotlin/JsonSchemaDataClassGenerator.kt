@@ -150,7 +150,7 @@ class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private v
     }
   }
 
-  /** resolves `ref` and `oneOf` then returns a real property definition */
+  /** resolves `ref`, `oneOf` and `allOf` then returns a real property definition */
   private fun getRealDefinition(def: PropertyDef): Pair<String? /* ClassName */, PropertyDef> {
     return when {
       (def.ref != null) -> Pair(def.tryGetClassName(), getRealDefinition(jsonSchema.resolveDefinition(def.ref)).second)
