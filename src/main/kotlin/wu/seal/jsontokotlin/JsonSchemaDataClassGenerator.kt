@@ -48,14 +48,14 @@ class JsonSchemaDataClassGenerator(private val jsonObjectDef: ObjectPropertyDef)
   private fun resolveType(property: String, requiredFields: Array<String>, propertyDefinition: PropertyDef): TypeName {
     val nullable = property !in requiredFields
     return when (propertyDefinition) {
-      is IntPropertyDef -> Int::class.asTypeName().copy(nullable = nullable)
-      is NumberPropertyDef -> Double::class.asTypeName().copy(nullable = nullable)
-      is BoolPropertyDef -> Boolean::class.asTypeName().copy(nullable = nullable)
-      is StringPropertyDef -> String::class.asTypeName().copy(nullable = nullable)
-      is EnumPropertyDef -> String::class.asTypeName().copy(nullable = nullable)
+      is IntPropertyDef -> ClassName.bestGuess("Int").copy(nullable = nullable)
+      is NumberPropertyDef -> ClassName.bestGuess("Double").copy(nullable = nullable)
+      is BoolPropertyDef -> ClassName.bestGuess("Boolean").copy(nullable = nullable)
+      is StringPropertyDef -> ClassName.bestGuess("String").copy(nullable = nullable)
+      is EnumPropertyDef -> ClassName.bestGuess("String").copy(nullable = nullable)
       is ArrayPropertyDef -> {
         val arrayParameterType = resolveType("", arrayOf(""), propertyDefinition.items)
-        ARRAY.parameterizedBy(arrayParameterType).copy(nullable = nullable)
+        ClassName.bestGuess("Array").parameterizedBy(arrayParameterType).copy(nullable = nullable)
       }
       is ObjectPropertyDef -> ClassName("", property.capitalize()).copy(nullable = nullable)
       else -> String::class.asTypeName().copy(nullable = nullable)
