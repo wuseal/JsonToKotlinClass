@@ -20,6 +20,7 @@ fun getDefaultValue(propertyType: String): String {
         rawType.contains("List<") -> "listOf()"
         rawType.contains("Map<") -> "mapOf()"
         rawType == TYPE_ANY -> "Any()"
+        rawType == TYPE_ARRAY -> "emptyArray()"
         else -> "$rawType()"
     }
 }

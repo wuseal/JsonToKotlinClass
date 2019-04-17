@@ -221,12 +221,12 @@ class KotlinCodeMakerTest {
     /**
      * The unique identifier for a product
      */
-    val id: kotlin.Int,
+    val id: Int,
     /**
      * Name of the product
      */
-    val name: kotlin.String,
-    val price: kotlin.Double?
+    val name: String,
+    val price: Double?
 )
 
 /**
@@ -236,12 +236,12 @@ data class TestData(
     /**
      * The unique identifier for a product
      */
-    val id: kotlin.Int,
+    val id: Int,
     /**
      * Name of the product
      */
-    val name: kotlin.String,
-    val price: kotlin.Double,
+    val name: String,
+    val price: Double,
     val nested: Nested?
 )
     """.trimIndent()
@@ -316,18 +316,18 @@ data class TestData(
 }
     """.trimIndent()
     val expected = """data class Nested(
-    val grades: kotlin.Array<kotlin.String>?,
-    val scores: kotlin.Array<kotlin.Double>?,
-    val happy: kotlin.Array<kotlin.Boolean>?,
+    val grades: Array<String>?,
+    val scores: Array<Double>?,
+    val happy: Array<Boolean>?,
     /**
      * The unique identifier for a product
      */
-    val id: kotlin.Int,
+    val id: Int,
     /**
      * Name of the product
      */
-    val name: kotlin.String,
-    val price: kotlin.Double?
+    val name: String,
+    val price: Double?
 )
 
 /**
@@ -337,12 +337,12 @@ data class TestData(
     /**
      * The unique identifier for a product
      */
-    val id: kotlin.Int,
+    val id: Int,
     /**
      * Name of the product
      */
-    val name: kotlin.String,
-    val price: kotlin.Double,
+    val name: String,
+    val price: Double,
     val nested: Nested?
 )
     """.trimIndent()
