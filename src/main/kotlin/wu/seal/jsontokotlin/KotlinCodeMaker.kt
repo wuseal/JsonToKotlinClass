@@ -49,7 +49,6 @@ class KotlinCodeMaker {
             generator.generate(className)
             generator.classes.joinToString("\n") { it.toString() }
         } catch (t: Throwable) {
-            t.printStackTrace()
             null
         }
     }
