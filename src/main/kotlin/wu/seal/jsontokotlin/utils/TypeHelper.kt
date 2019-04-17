@@ -21,7 +21,6 @@ const val TYPE_LONG = "Long"
 const val TYPE_DOUBLE = "Double"
 const val TYPE_ANY = "Any"
 const val TYPE_BOOLEAN = "Boolean"
-const val TYPE_ARRAY = "Array"
 
 const val MAP_DEFAULT_OBJECT_VALUE_TYPE = "MapValue"
 const val MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE = "Item"
@@ -72,7 +71,7 @@ fun getOutType(rawType: String, value: Any?): String {
 /**
  * get the type string without '?' character
  */
-fun getRawType(outputType: String): String = outputType.replace("?", "").replace("(.*\\.)|(<.*?>)".toRegex(), "")
+fun getRawType(outputType: String): String = outputType.replace("?", "").replace(".*\\.".toRegex(), "")
 
 fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
     val preSubType = adjustPropertyNameForGettingArrayChildType(propertyName)

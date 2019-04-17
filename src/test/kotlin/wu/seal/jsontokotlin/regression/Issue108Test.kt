@@ -69,19 +69,19 @@ class Issue108Test {
     /**
      * Начиная с: час (от 0 до 23)
      */
-    val hourMin: kotlin.Int?,
+    val hourMin: Int?,
     /**
      * Начиная с: минуты (от 0 до 59)
      */
-    val minuteMin: kotlin.Int?,
+    val minuteMin: Int?,
     /**
      * До: час (от 0 до 23)
      */
-    val hourMax: kotlin.Int?,
+    val hourMax: Int?,
     /**
      * До: минуты (от 0 до 59)
      */
-    val minuteMax: kotlin.Int?
+    val minuteMax: Int?
 )
     """.trimIndent()
     val result = KotlinCodeMaker("TestData", json).makeKotlinData()
