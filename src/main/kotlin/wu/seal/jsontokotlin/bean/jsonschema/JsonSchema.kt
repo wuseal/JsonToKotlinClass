@@ -7,7 +7,7 @@ class JsonSchema(
   val schema: String?,
   title: String = "",
   description: String = "",
-  type: String = "",
+  type: String? = "",
   properties: Map<String, PropertyDef>,
   required: Array<String>)
-  : JsonObjectDef(title, description, type, properties, required)
+  : ObjectPropertyDef(description, type, properties, required)

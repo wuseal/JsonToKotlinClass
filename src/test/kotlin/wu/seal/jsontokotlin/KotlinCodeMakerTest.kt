@@ -248,4 +248,91 @@ data class TestData(
     val result = KotlinCodeMaker("TestData", json).makeKotlinData()
     result.trim().should.be.equal(expected)
   }
+
+  @Test
+  fun testJsonSchemaWithArray() {
+    val json = """{
+  "${"$"}schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Product",
+  "description": "A product from Acme\u0027s catalog",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the product",
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    },
+    "nested": {
+      "type": "object",
+      "properties": {
+        "grades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id": {
+          "description": "The unique identifier for a product",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Name of the product",
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMinimum": true
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+}
+    """.trimIndent()
+    val expected = """data class Nested(
+    val grades: kotlin.Array<kotlin.String>?,
+    /**
+     * The unique identifier for a product
+     */
+    val id: kotlin.Int,
+    /**
+     * Name of the product
+     */
+    val name: kotlin.String,
+    val price: kotlin.Double?
+)
+
+/**
+ * A product from Acme's catalog
+ */
+data class TestData(
+    /**
+     * The unique identifier for a product
+     */
+    val id: kotlin.Int,
+    /**
+     * Name of the product
+     */
+    val name: kotlin.String,
+    val price: kotlin.Double,
+    val nested: Nested?
+)
+    """.trimIndent()
+    val result = KotlinCodeMaker("TestData", json).makeKotlinData()
+    result.trim().should.be.equal(expected)
+  }
 }

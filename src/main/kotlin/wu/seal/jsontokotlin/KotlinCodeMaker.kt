@@ -1,9 +1,11 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
+import thirdparties.RuntimeTypeAdapterFactory
+import wu.seal.jsontokotlin.bean.jsonschema.*
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
 import java.util.*
@@ -40,14 +42,26 @@ class KotlinCodeMaker {
 
     private fun parseJSONSchemaOrNull(className: String, json: String) : String? {
         return try {
-            val jsonSchema = Gson().fromJson<JsonSchema>(json, JsonSchema::class.java)
+            val rttaf = RuntimeTypeAdapterFactory.of(PropertyDef::class.java)
+              .registerSubtype(ObjectPropertyDef::class.java, "object")
+              .registerSubtype(StringPropertyDef::class.java, "string")
+              .registerSubtype(EnumPropertyDef::class.java, "enum")
+              .registerSubtype(IntPropertyDef::class.java, "integer")
+              .registerSubtype(NumberPropertyDef::class.java, "number")
+              .registerSubtype(BoolPropertyDef::class.java, "boolean")
+              .registerSubtype(ArrayPropertyDef::class.java, "array")
+            val gson = GsonBuilder()
+              .registerTypeAdapterFactory(rttaf)
+              .create()
+            val jsonSchema = gson.fromJson<JsonSchema>(json, JsonSchema::class.java)
             if (jsonSchema.schema?.isNotBlank() != true) {
                 throw IllegalArgumentException("input string is not valid json schema")
             }
             val generator = JsonSchemaDataClassGenerator(jsonSchema)
             generator.generate(className)
             generator.classes.joinToString("\n") { it.toString() }
-        } catch (_: Throwable) {
+        } catch (t: Throwable) {
+            t.printStackTrace()
             null
         }
     }
