@@ -279,6 +279,18 @@ data class TestData(
             "type": "string"
           }
         },
+        "scores": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "happy": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
         "id": {
           "description": "The unique identifier for a product",
           "type": "integer"
@@ -305,6 +317,8 @@ data class TestData(
     """.trimIndent()
     val expected = """data class Nested(
     val grades: kotlin.Array<kotlin.String>?,
+    val scores: kotlin.Array<kotlin.Double>?,
+    val happy: kotlin.Array<kotlin.Boolean>?,
     /**
      * The unique identifier for a product
      */
