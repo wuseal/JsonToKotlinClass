@@ -1,7 +1,5 @@
 package wu.seal.jsontokotlin.bean.jsonschema
 
-import java.util.*
-
 /**
  * Created by kezhenxu94 at 2019/4/16 13:07.
  *
@@ -31,3 +29,5 @@ open class EnumPropertyDef : ArrayList<String>(), PropertyDef
 open class ArrayPropertyDef(
   val items: PropertyDef
 ) : ObjectPropertyDef(), PropertyDef
+
+open class SimplifiedArrayPropertyDef : ArrayList<String>(), PropertyDef
