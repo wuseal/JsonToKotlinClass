@@ -128,8 +128,8 @@ class KotlinCodeMaker {
         val size = jsonObject.entrySet().size
 
         val entryList =
-            if (ConfigManager.isOrderByAlphabetical) jsonObject.entrySet().sortedBy { it.key }
-            else jsonObject.entrySet()
+                if (ConfigManager.isOrderByAlphabetical) jsonObject.entrySet().sortedBy { it.key }
+                else jsonObject.entrySet()
         entryList.forEachIndexed { index, (property, jsonElementValue) ->
             val isLast = (index == size - 1)
 
@@ -137,7 +137,7 @@ class KotlinCodeMaker {
                 var type = getArrayType(property, jsonElementValue.asJsonArray)
 
                 if (isExpectedJsonObjArrayType(jsonElementValue.asJsonArray) || jsonElementValue.asJsonArray.onlyHasOneObjectElementRecursive()
-                    || jsonElementValue.asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()) {
+                        || jsonElementValue.asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()) {
 
                     val subCode = try {
                         KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()
@@ -160,15 +160,15 @@ class KotlinCodeMaker {
                     if (mapValueIsObjectType(mapValueType)) {
                         val subCode = try {
                             KotlinCodeMaker(
-                                getChildType(mapValueType),
-                                jsonElementValue.asJsonObject.entrySet().first().value
+                                    getChildType(mapValueType),
+                                    jsonElementValue.asJsonObject.entrySet().first().value
                             ).makeKotlinData()
                         } catch (e: UnSupportJsonException) {
                             mapValueType = e.adviceType
                             ""
                         }
                         toBeAppend.add(
-                            subCode
+                                subCode
                         )
                     }
                     val mapType = "Map<$mapKeyType,$mapValueType>"
@@ -193,15 +193,15 @@ class KotlinCodeMaker {
     }
 
     private fun mapValueIsObjectType(mapValueType: String) = (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE
-        || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE))
+            || mapValueType.contains(MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE))
 
 
     private fun addProperty(
-        stringBuilder: StringBuilder,
-        property: String,
-        type: String,
-        value: String?,
-        isLast: Boolean = false
+            stringBuilder: StringBuilder,
+            property: String,
+            type: String,
+            value: String?,
+            isLast: Boolean = false
     ) {
         var innerValue = value
         if (innerValue == null) {
@@ -217,7 +217,7 @@ class KotlinCodeMaker {
         val propertyComment = p.getPropertyComment()
         if (propertyComment.isNotBlank())
             stringBuilder.append(" // ")
-                .append(getCommentCode(propertyComment))
+                    .append(getCommentCode(propertyComment))
         stringBuilder.append("\n")
     }
 
