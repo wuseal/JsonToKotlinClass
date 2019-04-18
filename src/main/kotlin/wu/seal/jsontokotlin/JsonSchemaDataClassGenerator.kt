@@ -6,7 +6,7 @@ import wu.seal.jsontokotlin.bean.jsonschema.JsonObjectDef
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.bean.jsonschema.PropertyDef
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-
+import kotlin.String
 
 class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private val mainClassName: String?) {
 
@@ -22,7 +22,7 @@ class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private v
     val classes = mutableMapOf<String, TypeSpec>()
 
     val properties = getProperties(jsonObjectDef)
-    val mainClassCode = TypeSpec.classBuilder(className).apply {
+    val classSpec = TypeSpec.classBuilder(className).apply {
       if (!ConfigManager.isCommentOff && (jsonObjectDef.description?.isNotBlank() == true)) {
         addKdoc(jsonObjectDef.description)
       }
@@ -45,7 +45,7 @@ class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private v
       }
     }.build()
 
-    classes[className] = mainClassCode
+    classes[className] = classSpec
 
     properties.forEach {
       val strTypeName = it.typeName.simpleName
@@ -71,10 +71,11 @@ class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private v
         addKdoc(enumDef.description)
       }
 
+      val typeName = ClassName("", enumType.simpleName!!)
       primaryConstructor(FunSpec.constructorBuilder().apply {
-        addParameter("value", Int::class)
+        addParameter("value", typeName)
       }.build())
-      addProperty(PropertySpec.builder("value", enumType).initializer("value").build())
+      addProperty(PropertySpec.builder("value", typeName).initializer("value").build())
 
       for (i in 0 until enumDef.enum.count()) {
         val constantValue: Any = if (enumType == Int::class)
@@ -125,29 +126,38 @@ class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private v
           ?: throw IllegalArgumentException("Array `items` must be defined (property: $propertyName)"), propertyName)
 
       val innerType = innerProperty.arrayTypeName ?: innerProperty.typeName
-      var arrayTypeName = ClassName("kotlin.collections", "List") //TODO array type customization
+      var arrayTypeName = ClassName("", List::class.simpleName!!) //TODO array type customization
           .parameterizedBy(innerType)
       if (jsonProp.isTypeNullable)
         arrayTypeName = arrayTypeName.copy(nullable = true)
 
       PropertyInfo(propertyName, jsonProp.description, jsonProp, innerProperty.realDef, innerProperty.typeName, arrayTypeName)
     } else {
-      var (jsonClassName, realDef) = getRealDefinition(jsonProp)
-      val jsonType = realDef.typeString
-
-      val type = JSON_SCHEMA_TYPE_MAPPINGS[jsonType] ?: Any::class //type can be null in `items` property
-          //?: throw IllegalArgumentException("Json type $jsonType not found")
-
-      var typeName = if (jsonType != null && (jsonClassName != null || type == Any::class || jsonProp.enum != null)) {
-        jsonClassName = jsonClassName ?: propertyName.capitalize()
-        ClassName("", jsonClassName)
-      } else type.asTypeName() //TODO handle `format` (like date-time)
-
-      if (jsonProp.isTypeNullable)
-        typeName = typeName.copy(nullable = true)
+      val (jsonClassName, realDef) = getRealDefinition(jsonProp)
+      val typeName = resolveType(realDef.typeString, jsonClassName, jsonProp, propertyName)
 
       PropertyInfo(propertyName, jsonProp.description, jsonProp, realDef, typeName)
     }
+  }
+
+  private fun resolveType(jsonType: String?, jsonClassName: String?, jsonProp: PropertyDef, propertyName: String): ClassName {
+    var typeName = when {
+      jsonType != null && (jsonClassName != null || jsonType == "object" || jsonProp.enum != null) -> {
+        val simpleName = jsonClassName ?: propertyName.capitalize()
+        ClassName("", simpleName)
+      }
+      JSON_SCHEMA_FORMAT_MAPPINGS.containsKey(jsonProp.format) -> {
+        ClassName.bestGuess(JSON_SCHEMA_FORMAT_MAPPINGS[jsonProp.format]!!)
+      }
+      else -> {
+        val type = JSON_SCHEMA_TYPE_MAPPINGS[jsonType] ?: Any::class //type can be null in `items` property
+        ClassName("", type.simpleName!!)
+      }
+    } //TODO handle `format` (like date-time)
+
+    if (jsonProp.isTypeNullable)
+      typeName = typeName.copy(nullable = true)
+    return typeName
   }
 
   /** resolves `ref`, `oneOf` and `allOf` then returns a real property definition */
