@@ -6,14 +6,14 @@ import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
 
 class JsonSchemaGeneratorTest {
-  @Before
-  fun setUp() {
-    TestConfig.setToTestInitState()
-  }
+    @Before
+    fun setUp() {
+        TestConfig.setToTestInitState()
+    }
 
-  @Test
-  fun testBasicJsonSchema() {
-    val json = """{
+    @Test
+    fun testBasicJsonSchema() {
+        val json = """{
   "${"$"}schema": "http://json-schema.org/draft-04/schema#",
   "title": "Product",
   "description": "A product from Acme\u0027s catalog",
@@ -59,7 +59,7 @@ class JsonSchemaGeneratorTest {
   ]
 }
     """.trimIndent()
-    val expected = """/**
+        val expected = """/**
  * A product from Acme's catalog
  */
 data class TestData(
@@ -87,13 +87,13 @@ data class Nested(
     val price: Double
 )
     """.trimIndent()
-    val result = KotlinCodeMaker("TestData", json).makeKotlinDataFromJsonSchema()
-    result.trim().should.be.equal(expected)
-  }
+        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("TestData", json)
+        result.trim().should.be.equal(expected)
+    }
 
-  @Test
-  fun testJsonSchemaNullableTypesSimple() {
-    val json = """{
+    @Test
+    fun testJsonSchemaNullableTypesSimple() {
+        val json = """{
   "${"$"}schema": "http://json-schema.org/draft-04/schema#",
   "title": "SharedUser",
   "type": "object",
@@ -117,7 +117,7 @@ data class Nested(
 }
     """.trimIndent()
 
-    val expected = """data class SharedUser(
+        val expected = """data class SharedUser(
     val userId: String?,
     /**
      * Пользователь принял приглашение
@@ -130,13 +130,13 @@ data class Nested(
 )
     """.trimIndent()
 
-    val result = KotlinCodeMaker("SharedUser", json).makeKotlinDataFromJsonSchema()
-    result.trim().should.be.equal(expected)
-  }
+        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("SharedUser", json)
+        result.trim().should.be.equal(expected)
+    }
 
-  @Test
-  fun testJsonSchemaJaggedArray() {
-    val json = """{
+    @Test
+    fun testJsonSchemaJaggedArray() {
+        val json = """{
   "${"$"}schema": "http://json-schema.org/draft-04/schema#",
   "title": "JaggedArrayTest",
   "type": "object",
@@ -158,17 +158,17 @@ data class Nested(
 }
     """.trimIndent()
 
-    val expected = """
+        val expected = """
       data class JaggedArrayTest(val jaggedStringArray: List<List<String>>?)
     """.trimIndent()
 
-    val result = KotlinCodeMaker("", json).makeKotlinDataFromJsonSchema()
-    result.trim().should.be.equal(expected)
-  }
+        val result = KotlinCodeMakerJsonSchema.parseJSONSchema(null, json)
+        result.trim().should.be.equal(expected)
+    }
 
-  @Test
-  fun testJsonSchemaWithArrayAndRef() {
-    val json = """{
+    @Test
+    fun testJsonSchemaWithArrayAndRef() {
+        val json = """{
   "${"$"}id": "https://example.com/arrays.schema.json",
   "${"$"}schema": "http://json-schema.org/draft-07/schema#",
   "description": "A representation of a person, company, organization, or place",
@@ -204,7 +204,7 @@ data class Nested(
 }
     """.trimIndent()
 
-    val expected = """/**
+        val expected = """/**
  * A representation of a person, company, organization, or place
  */
 data class Sample(val fruits: List<String>, val vegetables: List<veggie>)
@@ -221,13 +221,13 @@ data class veggie(
 )
     """.trimIndent()
 
-    val result = KotlinCodeMaker("Sample", json).makeKotlinDataFromJsonSchema()
-    result.trim().should.be.equal(expected)
-  }
+        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("Sample", json)
+        result.trim().should.be.equal(expected)
+    }
 
-  @Test
-  fun testJsonSchemaWithEnumsDefinition() {
-    val json = """{
+    @Test
+    fun testJsonSchemaWithEnumsDefinition() {
+        val json = """{
   "${"$"}schema": "http://json-schema.org/draft-04/schema#",
   "title": "LogEntry",
   "type": "object",
@@ -314,7 +314,7 @@ data class veggie(
 }
     """.trimIndent()
 
-    val expected = """data class LogEntry(
+        val expected = """data class LogEntry(
     val id: String?,
     val timestamp: org.threeten.bp.OffsetDateTime,
     val removed: Boolean,
@@ -344,13 +344,13 @@ enum class LogEventType(val value: Int) {
 }
     """.trimIndent()
 
-    val result = KotlinCodeMaker("LogEntry", json).makeKotlinDataFromJsonSchema()
-    result.trim().should.be.equal(expected)
-  }
+        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("LogEntry", json)
+        result.trim().should.be.equal(expected)
+    }
 
-  @Test
-  fun testJsonSchemaComplicated() {
-    val json = """{
+    @Test
+    fun testJsonSchemaComplicated() {
+        val json = """{
   ${"$"}schema": "http://json-schema.org/draft-04/schema#",
   "title": "JsonSerializer",
   "type": "object",
@@ -996,7 +996,7 @@ enum class LogEventType(val value: Int) {
 }
     """.trimIndent()
 
-    val expected = """/**
+        val expected = """/**
  * Serializes and deserializes objects into and from the JSON format.
  * The JsonSerializer enables you to control how objects are encoded into JSON.
  */
@@ -1387,10 +1387,10 @@ enum class StringEscapeHandling(val value: Int) {
     EscapeHtml(2);
 }""".trimIndent()
 
-    val result = KotlinCodeMaker("", json).makeKotlinDataFromJsonSchema()
-    result.trim().should.be.equal(expected)
-  }
+        val result = KotlinCodeMakerJsonSchema.parseJSONSchema(null, json)
+        result.trim().should.be.equal(expected)
+    }
 
-  
+
 }
 

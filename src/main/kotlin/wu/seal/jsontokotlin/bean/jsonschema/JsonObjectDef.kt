@@ -33,16 +33,16 @@ open class JsonObjectDef(
 
 ) {
 
-  /** returns correct JsonSchema type as string */
-  val typeString: String?
-    get() = if (type is ArrayList<*>) type.first { it != "null" } as String else type as? String
+    /** returns correct JsonSchema type as string */
+    val typeString: String?
+        get() = if (type is ArrayList<*>) type.first { it != "null" } as String else type as? String
 
-  /** returns true if the object can be null */
-  val isTypeNullable: Boolean
-    get() = when {
-      type is ArrayList<*> -> type.any { it == "null" }
-      oneOf?.any { it.type == "null" } == true -> true
-      else -> typeString == "null"
-    }
+    /** returns true if the object can be null */
+    val isTypeNullable: Boolean
+        get() = when {
+            type is ArrayList<*> -> type.any { it == "null" }
+            oneOf?.any { it.type == "null" } == true -> true
+            else -> typeString == "null"
+        }
 
 }
