@@ -21,12 +21,11 @@ class PropertyDef(
     val x_enumFlags: Boolean? = null
 
 ) : JsonObjectDef(type = type, properties = properties) {
-    fun tryGetClassName(): String? {
-        val possibleName = ref?.substringAfterLast('/')
 
-        return if(possibleName != "items") possibleName else null
-    }
+  fun tryGetClassName(): String? {
+    val possibleName = ref?.substringAfterLast('/')
 
-    fun getCastedEnum(): Array<Any>
-        = if(typeString == "integer") arrayOf(enum!!.map { (it as Double).toInt() }) else enum!!
+    return if (possibleName != "items") possibleName else null
+  }
+
 }

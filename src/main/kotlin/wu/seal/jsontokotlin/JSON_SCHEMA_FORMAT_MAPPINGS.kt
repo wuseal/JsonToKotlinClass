@@ -14,5 +14,6 @@ val JSON_SCHEMA_FORMAT_MAPPINGS = mapOf(
     "date" to "org.threeten.bp.LocalDate",
     "time" to "org.threeten.bp.LocalTime",
     "decimal" to BigDecimal::class.qualifiedName
-    //here can be another formats...
+
+    //here can be another formats
 )
