@@ -66,12 +66,12 @@ data class TestData(
     /**
      * The unique identifier for a product
      */
-    val id: kotlin.Int,
+    val id: Int,
     /**
      * Name of the product
      */
-    val name: kotlin.String,
-    val price: kotlin.Double,
+    val name: String,
+    val price: Double,
     val nested: Nested
 )
 
@@ -79,12 +79,12 @@ data class Nested(
     /**
      * The unique identifier for a product
      */
-    val id: kotlin.Int,
+    val id: Int,
     /**
      * Name of the product
      */
-    val name: kotlin.String,
-    val price: kotlin.Double
+    val name: String,
+    val price: Double
 )
     """.trimIndent()
     val result = KotlinCodeMaker("TestData", json).makeKotlinDataFromJsonSchema()
@@ -118,15 +118,15 @@ data class Nested(
     """.trimIndent()
 
     val expected = """data class SharedUser(
-    val userId: kotlin.String?,
+    val userId: String?,
     /**
      * Пользователь принял приглашение
      */
-    val allowed: kotlin.Boolean,
+    val allowed: Boolean,
     /**
      * Этот пользователь не имеет права изменять список/заказ (только читать)
      */
-    val readOnly: kotlin.Boolean
+    val readOnly: Boolean
 )
     """.trimIndent()
 
@@ -159,7 +159,7 @@ data class Nested(
     """.trimIndent()
 
     val expected = """
-      data class JaggedArrayTest(val jaggedStringArray: kotlin.collections.List<kotlin.collections.List<kotlin.String>>?)
+      data class JaggedArrayTest(val jaggedStringArray: List<List<String>>?)
     """.trimIndent()
 
     val result = KotlinCodeMaker("", json).makeKotlinDataFromJsonSchema()
@@ -207,17 +207,17 @@ data class Nested(
     val expected = """/**
  * A representation of a person, company, organization, or place
  */
-data class Sample(val fruits: kotlin.collections.List<kotlin.String>, val vegetables: kotlin.collections.List<veggie>)
+data class Sample(val fruits: List<String>, val vegetables: List<veggie>)
 
 data class veggie(
     /**
      * The name of the vegetable.
      */
-    val veggieName: kotlin.String,
+    val veggieName: String,
     /**
      * Do I like this vegetable?
      */
-    val veggieLike: kotlin.Boolean
+    val veggieLike: Boolean
 )
     """.trimIndent()
 
@@ -315,9 +315,9 @@ data class veggie(
     """.trimIndent()
 
     val expected = """data class LogEntry(
-    val id: kotlin.String?,
-    val timestamp: kotlin.String,
-    val removed: kotlin.Boolean,
+    val id: String?,
+    val timestamp: org.threeten.bp.OffsetDateTime,
+    val removed: Boolean,
     /**
      * Тип события
      */
@@ -325,19 +325,19 @@ data class veggie(
     /**
      * Подсобытие (набор значений зависит от действия)
      */
-    val typeB: kotlin.Int,
-    val ip: kotlin.String?,
-    val userId: kotlin.String?,
+    val typeB: Int,
+    val ip: String?,
+    val userId: String?,
     /**
      * ID устройства из коллекции Devices
      */
-    val deviceId: kotlin.String?,
-    val phone: kotlin.String?,
-    val hwid: kotlin.String?,
-    val osUserId: kotlin.String?
+    val deviceId: String?,
+    val phone: String?,
+    val hwid: String?,
+    val osUserId: String?
 )
 
-enum class LogEventType(val value: kotlin.Int) {
+enum class LogEventType(val value: Int) {
     Undefined(0),
 
     Auth(1);
@@ -1131,23 +1131,23 @@ data class JsonSerializer(
      * and the expected date format when reading JSON text.
      * The default value is "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK".
      */
-    val DateFormatString: kotlin.String?,
+    val DateFormatString: String?,
     /**
      * Gets or sets the culture used when reading JSON.
      * The default value is InvariantCulture.
      */
-    val Culture: kotlin.String?,
+    val Culture: String?,
     /**
      * Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a JsonReaderException.
      * A null value means there is no maximum.
      * The default value is null.
      */
-    val MaxDepth: kotlin.Int?,
+    val MaxDepth: Int?,
     /**
      * Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
      * The default value is false.
      */
-    val CheckAdditionalContent: kotlin.Boolean
+    val CheckAdditionalContent: Boolean
 )
 
 /**
@@ -1162,7 +1162,7 @@ data class ITraceWriter(
     val LevelFilter: TraceLevel
 )
 
-enum class TraceLevel(val value: kotlin.Int) {
+enum class TraceLevel(val value: Int) {
     Off(0),
 
     Error(1),
@@ -1177,7 +1177,7 @@ enum class TraceLevel(val value: kotlin.Int) {
 /**
  * Specifies type name handling options for the JsonSerializer.
  */
-enum class TypeNameHandling(val value: kotlin.Int) {
+enum class TypeNameHandling(val value: Int) {
     None(0),
 
     Objects(1),
@@ -1189,7 +1189,7 @@ enum class TypeNameHandling(val value: kotlin.Int) {
     Auto(4);
 }
 
-enum class FormatterAssemblyStyle(val value: kotlin.Int) {
+enum class FormatterAssemblyStyle(val value: Int) {
     Simple(0),
 
     Full(1);
@@ -1198,7 +1198,7 @@ enum class FormatterAssemblyStyle(val value: kotlin.Int) {
 /**
  * Indicates the method that will be used during deserialization for locating and loading assemblies.
  */
-enum class TypeNameAssemblyFormatHandling(val value: kotlin.Int) {
+enum class TypeNameAssemblyFormatHandling(val value: Int) {
     Simple(0),
 
     Full(1);
@@ -1208,7 +1208,7 @@ enum class TypeNameAssemblyFormatHandling(val value: kotlin.Int) {
  * Specifies reference handling options for the JsonSerializer.
  * Note that references cannot be preserved when a value is set via a non-default constructor such as types that implement ISerializable.
  */
-enum class PreserveReferencesHandling(val value: kotlin.Int) {
+enum class PreserveReferencesHandling(val value: Int) {
     None(0),
 
     Objects(1),
@@ -1221,7 +1221,7 @@ enum class PreserveReferencesHandling(val value: kotlin.Int) {
 /**
  * Specifies reference loop handling options for the JsonSerializer.
  */
-enum class ReferenceLoopHandling(val value: kotlin.Int) {
+enum class ReferenceLoopHandling(val value: Int) {
     Error(0),
 
     Ignore(1),
@@ -1232,7 +1232,7 @@ enum class ReferenceLoopHandling(val value: kotlin.Int) {
 /**
  * Specifies missing member handling options for the JsonSerializer.
  */
-enum class MissingMemberHandling(val value: kotlin.Int) {
+enum class MissingMemberHandling(val value: Int) {
     Ignore(0),
 
     Error(1);
@@ -1241,7 +1241,7 @@ enum class MissingMemberHandling(val value: kotlin.Int) {
 /**
  * Specifies null value handling options for the JsonSerializer.
  */
-enum class NullValueHandling(val value: kotlin.Int) {
+enum class NullValueHandling(val value: Int) {
     Include(0),
 
     Ignore(1);
@@ -1250,7 +1250,7 @@ enum class NullValueHandling(val value: kotlin.Int) {
 /**
  * Specifies default value handling options for the JsonSerializer.
  */
-enum class DefaultValueHandling(val value: kotlin.Int) {
+enum class DefaultValueHandling(val value: Int) {
     Include(0),
 
     Ignore(1),
@@ -1263,7 +1263,7 @@ enum class DefaultValueHandling(val value: kotlin.Int) {
 /**
  * Specifies how object creation is handled by the JsonSerializer.
  */
-enum class ObjectCreationHandling(val value: kotlin.Int) {
+enum class ObjectCreationHandling(val value: Int) {
     Auto(0),
 
     Reuse(1),
@@ -1274,7 +1274,7 @@ enum class ObjectCreationHandling(val value: kotlin.Int) {
 /**
  * Specifies how constructors are used when initializing objects during deserialization by the JsonSerializer.
  */
-enum class ConstructorHandling(val value: kotlin.Int) {
+enum class ConstructorHandling(val value: Int) {
     Default(0),
 
     AllowNonPublicDefaultConstructor(1);
@@ -1283,7 +1283,7 @@ enum class ConstructorHandling(val value: kotlin.Int) {
 /**
  * Specifies metadata property handling options for the JsonSerializer.
  */
-enum class MetadataPropertyHandling(val value: kotlin.Int) {
+enum class MetadataPropertyHandling(val value: Int) {
     Default(0),
 
     ReadAhead(1),
@@ -1291,9 +1291,9 @@ enum class MetadataPropertyHandling(val value: kotlin.Int) {
     Ignore(2);
 }
 
-data class StreamingContext(val State: StreamingContextStates, val Context: kotlin.Any?)
+data class StreamingContext(val State: StreamingContextStates, val Context: Any?)
 
-enum class StreamingContextStates(val value: kotlin.Int) {
+enum class StreamingContextStates(val value: Int) {
     CrossProcess(1),
 
     CrossMachine(2),
@@ -1316,7 +1316,7 @@ enum class StreamingContextStates(val value: kotlin.Int) {
 /**
  * Specifies formatting options for the JsonTextWriter.
  */
-enum class Formatting(val value: kotlin.Int) {
+enum class Formatting(val value: Int) {
     None(0),
 
     Indented(1);
@@ -1325,7 +1325,7 @@ enum class Formatting(val value: kotlin.Int) {
 /**
  * Specifies how dates are formatted when writing JSON text.
  */
-enum class DateFormatHandling(val value: kotlin.Int) {
+enum class DateFormatHandling(val value: Int) {
     IsoDateFormat(0),
 
     MicrosoftDateFormat(1);
@@ -1334,7 +1334,7 @@ enum class DateFormatHandling(val value: kotlin.Int) {
 /**
  * Specifies how to treat the time value when converting between string and DateTime.
  */
-enum class DateTimeZoneHandling(val value: kotlin.Int) {
+enum class DateTimeZoneHandling(val value: Int) {
     Local(0),
 
     Utc(1),
@@ -1347,7 +1347,7 @@ enum class DateTimeZoneHandling(val value: kotlin.Int) {
 /**
  * Specifies how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON text.
  */
-enum class DateParseHandling(val value: kotlin.Int) {
+enum class DateParseHandling(val value: Int) {
     None(0),
 
     DateTime(1),
@@ -1358,7 +1358,7 @@ enum class DateParseHandling(val value: kotlin.Int) {
 /**
  * Specifies how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
  */
-enum class FloatParseHandling(val value: kotlin.Int) {
+enum class FloatParseHandling(val value: Int) {
     Double(0),
 
     Decimal(1);
@@ -1368,7 +1368,7 @@ enum class FloatParseHandling(val value: kotlin.Int) {
  * Specifies float format handling options when writing special floating point numbers, e.g. NaN,
  * PositiveInfinity and NegativeInfinity with JsonWriter.
  */
-enum class FloatFormatHandling(val value: kotlin.Int) {
+enum class FloatFormatHandling(val value: Int) {
     String(0),
 
     Symbol(1),
@@ -1379,7 +1379,7 @@ enum class FloatFormatHandling(val value: kotlin.Int) {
 /**
  * Specifies how strings are escaped when writing JSON text.
  */
-enum class StringEscapeHandling(val value: kotlin.Int) {
+enum class StringEscapeHandling(val value: Int) {
     Default(0),
 
     EscapeNonAscii(1),
@@ -1390,5 +1390,7 @@ enum class StringEscapeHandling(val value: kotlin.Int) {
     val result = KotlinCodeMaker("", json).makeKotlinDataFromJsonSchema()
     result.trim().should.be.equal(expected)
   }
+
+  
 }
 
