@@ -71,7 +71,7 @@ fun getOutType(rawType: String, value: Any?): String {
 /**
  * get the type string without '?' character
  */
-fun getRawType(outputType: String): String = outputType.replace("?", "")
+fun getRawType(outputType: String): String = outputType.replace("?", "").replace(".*\\.".toRegex(), "")
 
 fun getArrayType(propertyName: String, jsonElementValue: JsonArray): String {
     val preSubType = adjustPropertyNameForGettingArrayChildType(propertyName)

@@ -3,6 +3,8 @@ package wu.seal.jsontokotlin
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import wu.seal.jsontokotlin.bean.jsonschema.GSON
+import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.codeelements.KProperty
 import wu.seal.jsontokotlin.utils.*
 import java.util.*
@@ -13,8 +15,9 @@ import java.util.*
  */
 class KotlinCodeMaker {
 
-    private var className: String? = null
-    private var inputElement: JsonElement? = null
+    private var className: String
+    private var inputText: String
+    private var inputElement: JsonElement
 
     private var originElement: JsonElement
 
@@ -26,15 +29,31 @@ class KotlinCodeMaker {
         originElement = Gson().fromJson<JsonElement>(inputText, JsonElement::class.java)
         this.inputElement = TargetJsonElement(inputText).getTargetJsonElementForGeneratingCode()
         this.className = className
+        this.inputText = inputText
     }
 
     constructor(className: String, jsonElement: JsonElement) {
         originElement = jsonElement
         this.inputElement = TargetJsonElement(jsonElement).getTargetJsonElementForGeneratingCode()
         this.className = className
+        this.inputText = jsonElement.toString()
     }
 
-    fun makeKotlinData(): String {
+    private fun parseJSONSchemaOrNull(className: String, json: String) : String? {
+        return try {
+            val jsonSchema = GSON.fromJson<JsonSchema>(json, JsonSchema::class.java)
+            if (jsonSchema.schema?.isNotBlank() != true) {
+                throw IllegalArgumentException("input string is not valid json schema")
+            }
+            val generator = JsonSchemaDataClassGenerator(jsonSchema)
+            generator.generate(className)
+            generator.classes.joinToString("\n") { it.toString() }
+        } catch (t: Throwable) {
+            null
+        }
+    }
+
+    private fun parseJSONString() : String {
         val stringBuilder = StringBuilder()
         stringBuilder.append("\n")
 
@@ -42,7 +61,7 @@ class KotlinCodeMaker {
         checkIsNotEmptyObjectJSONElement(jsonElement)
 
         appendClassName(stringBuilder)
-        appendCodeMember(stringBuilder, jsonElement?.asJsonObject!!)
+        appendCodeMember(stringBuilder, jsonElement.asJsonObject!!)
 
         stringBuilder.append(")")
         if (toBeAppend.isNotEmpty()) {
@@ -50,6 +69,11 @@ class KotlinCodeMaker {
         }
 
         return stringBuilder.toString()
+    }
+
+    fun makeKotlinData(): String {
+        return parseJSONSchemaOrNull(className, inputText)
+            ?: parseJSONString()
     }
 
     //the fucking code
@@ -115,7 +139,7 @@ class KotlinCodeMaker {
     }
 
     private fun appendClassName(stringBuilder: StringBuilder) {
-        if (inputElement?.isJsonNull == true || (inputElement as? JsonObject)?.entrySet()?.isEmpty() == true) {
+        if (inputElement.isJsonNull || (inputElement as? JsonObject)?.entrySet()?.isEmpty() == true) {
             stringBuilder.append("class ").append(className).append("(\n")
         } else {
             stringBuilder.append("data class ").append(className).append("(\n")
