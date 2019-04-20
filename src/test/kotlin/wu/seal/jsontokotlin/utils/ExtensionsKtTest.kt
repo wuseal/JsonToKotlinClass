@@ -137,6 +137,39 @@ class ExtensionsKtTest {
 
             jsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive().should.be.`false`
         }
+
+        val subArrayString = """[
+    [
+      {
+        "id": 1,
+        "question": "This is test question?",
+        "answer": "Ok i understand.",
+        "created": "2019-03-28T15:37:06+05:30",
+        "created_by": 0,
+        "modified": "2019-03-28T15:37:06+05:30",
+        "modified_by": 0,
+        "active": 1,
+        "is_del": 0
+      },
+      {
+        "id": 2,
+        "question": "What is soulmate?",
+        "answer": "answer",
+        "created": "2019-03-28T15:41:52+05:30",
+        "created_by": 0,
+        "modified": "2019-03-28T15:41:52+05:30",
+        "modified_by": 0,
+        "active": 1,
+        "is_del": 0
+      }
+    ]
+  ]
+    """.trimIndent()
+        gson.fromJson<JsonArray>(
+                subArrayString,
+                JsonArray::class.java
+        ).onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive().should.be.`true`
+
     }
 
     @Test

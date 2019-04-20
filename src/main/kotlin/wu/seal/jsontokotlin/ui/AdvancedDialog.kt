@@ -12,11 +12,11 @@ import javax.swing.JPanel
  * Created by Seal.Wu on 2017/9/13.
  */
 
-class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
+class AdvancedDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
     init {
         init()
-        title = "Settings"
+        title = "Advanced"
     }
 
 
@@ -45,16 +45,16 @@ class SettingsDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
         return tabbedPane
     }
 
-    private fun createOtherSettingTab() = SettingsOtherTab(true)
+    private fun createOtherSettingTab() = AdvancedOtherTab(true)
 
-    private fun createAnnotationTab() = SettingsAnnotationTab(true)
+    private fun createAnnotationTab() = AdvancedAnnotationTab(true)
 
 
     private fun createExtensionTab() = ExtensionsTab(true)
     private fun createPropertyTab(): JPanel {
 
 
-        return SettingsPropertyTab(true)
+        return AdvancedPropertyTab(true)
     }
 
 
