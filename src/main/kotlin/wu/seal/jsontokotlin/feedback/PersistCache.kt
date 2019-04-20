@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.feedback
 
 import java.io.File
-import java.util.*
+import java.util.Date
 
 /**
  *
@@ -30,8 +30,7 @@ fun main(args: Array<String>) {
 
 object PersistCache : IPersistCache {
 
-    private val usrHome = System.getProperty("user.home")
-    private val rootDir = "$usrHome/.jsontokotlin"
+    private val rootDir = "${DefaultCacheDirProvider().get()}/.jsontokotlin"
     private val exceptionDirPath = "$rootDir/exceptionLog"
 
     private val actionInfoPath = "$rootDir/actionInfo"

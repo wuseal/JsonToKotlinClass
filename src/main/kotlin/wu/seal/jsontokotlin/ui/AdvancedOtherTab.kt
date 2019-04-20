@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder
  * others settings tab in config settings dialog
  * Created by Seal.Wu on 2018/2/6.
  */
-class SettingsOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
 
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 

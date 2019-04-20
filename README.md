@@ -13,7 +13,7 @@
 
 # JsonToKotlinClass
 
-Hi, welcome to visit me! I am a plugin for generating Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin)
+Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin)
 
 ### Overview
 
@@ -41,7 +41,7 @@ This is a very cool tool for Kotlin developers, it can convert a JSON string to 
 * Press `ALT + K` for Windows or `Option + K` for Mac or right click on package -> `New`->`Kotlin data clas file from JSON` and continue as guided.
 
 ### Advanced usage
-Have a try with the settings dialog :stuck_out_tongue_winking_eye:
+Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 
 ### Features
 * Generating Kotlin data class from any legal JSON string or any **URLs that returns a JSON string as response** or **local file that contains JSON string**, for more detail about supported source types, refer to [the documentation](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_json_sources.md)
@@ -61,7 +61,7 @@ Have a try with the settings dialog :stuck_out_tongue_winking_eye:
 * Generating kotlin data class property order by alphabetical
 * [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_extensions.md)
 
-### Generate Example 
+### Generate Example
 This is the example JSON from json.org
 
 ```json
@@ -174,8 +174,8 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Thank [@wangzhenguang](https://github.com/wangzhenguang) for reminding me of the details of the problem
 * Thank [@kezhenxu94](https://github.com/kezhenxu94/) for introducing CI/CD to save me a lot of time :)
 * Thank [iqbalhood](https://github.com/iqbalhood) for contributing logo for this project
-* Thank [akindone](https://github.com/akindone) for adding `order by alphabetical` featrue for `JsonToKotlinClass`
-* Thank [rafalbednarczuk](https://github.com/rafalbednarczuk) for adding `make keyword property valid` featrue for `JsonToKotlinClass`
+* Thank [akindone](https://github.com/akindone) for adding `order by alphabetical` feature for `JsonToKotlinClass`
+* Thank [rafalbednarczuk](https://github.com/rafalbednarczuk) for adding `make keyword property valid` feature for `JsonToKotlinClass`
 
 
 ### Find it useful ? :heart:
@@ -186,9 +186,16 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * [wuseal](https://github.com/wuseal)
 * [kezhenxu94](https://github.com/kezhenxu94)
 
-### Contact Community
-#### Join QQ Group: 341755074
+### Acknowledgement
 
-# Stargazers over time
+The development of this plugin is powerly driven by JetBrains.
+
+### Join the Community
+
+| QQ Group |
+| -------- |
+| ![QQ Group](qq_qrcode.png "Scan QR code with QQ/TIM to join the group chat")
+
+### Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)
