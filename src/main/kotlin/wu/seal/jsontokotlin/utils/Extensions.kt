@@ -114,7 +114,7 @@ tailrec fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): 
         return false
     }
 
-    if (allItemAreObjectElement()) {
+    if (get(0).isJsonArray && get(0).asJsonArray.allItemAreObjectElement()) {
         return true
     }
 

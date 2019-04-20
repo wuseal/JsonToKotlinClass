@@ -60,7 +60,7 @@ val myInputValidator = MyInputValidator()
 class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(project, "Please input the class name and JSON String to generate Kotlin data class", "Generate Kotlin Data Class Code", IconLoader.getIcon("/icons/logo_96x96.png"), "", myInputValidator) {
     private lateinit var jsonContentEditor: Editor
 
-    private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
+    private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().disableHtmlEscaping().create()
 
     init {
         setOKButtonText("Generate")
@@ -100,11 +100,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(classNameInputContainer)
         centerContainer.addComponentIntoVerticalBoxAlignmentLeft(jsonInputContainer)
         messagePanel.add(centerContainer, BorderLayout.CENTER)
-        val settingButton = JButton("Settings")
-        settingButton.horizontalAlignment = SwingConstants.CENTER
-        settingButton.addActionListener(object : AbstractAction() {
+        val advancedButton = JButton("Advanced")
+        advancedButton.horizontalAlignment = SwingConstants.CENTER
+        advancedButton.addActionListener(object : AbstractAction() {
             override fun actionPerformed(e: ActionEvent) {
-                SettingsDialog(false).show()
+                AdvancedDialog(false).show()
             }
         })
         val formatButton = JButton("Format")
@@ -118,7 +118,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         settingContainer.border = JBEmptyBorder(0, 5, 5, 7)
         val boxLayout = BoxLayout(settingContainer, BoxLayout.LINE_AXIS)
         settingContainer.layout = boxLayout
-        settingContainer.add(settingButton)
+        settingContainer.add(advancedButton)
         settingContainer.add(Box.createHorizontalGlue())
         settingContainer.add(formatButton)
         messagePanel.add(settingContainer, BorderLayout.SOUTH)
