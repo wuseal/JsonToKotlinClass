@@ -33,12 +33,8 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        var fileName = className
-
-        fileName = changeKotlinFileNameIfCurrentDirectoryExistTheSameFileNameWithoutSuffix(fileName, directory)
-
         generateKotlinDataClassFile(
-            fileName,
+            changeKotlinFileNameIfCurrentDirectoryExistTheSameFileNameWithoutSuffix(className, directory),
             packageDeclare,
             removeDuplicateClassCode,
             project,

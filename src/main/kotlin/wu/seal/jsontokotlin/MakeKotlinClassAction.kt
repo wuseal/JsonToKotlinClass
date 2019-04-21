@@ -14,8 +14,7 @@ import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.ClassCodeFilter
-import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
+import wu.seal.jsontokotlin.utils.*
 import java.net.URL
 import java.util.*
 
@@ -37,7 +36,7 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
             val caret = event.getData(PlatformDataKeys.CARET)
             val editor = event.getData(PlatformDataKeys.EDITOR_EVEN_IF_INACTIVE)
             if (couldNotInsertCode(editor)) return
-            val document = editor!!.document
+            val document = editor?.document ?: return
             val editorText = document.text
             /**
              *  temp class name for insert
@@ -191,29 +190,24 @@ class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
      */
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCode(editorText: String): Boolean {
         try {
-            var couldGetAndReuseClassNameInCurrentEditFileForInsertCode = false
             val removeDocComment = editorText.replace(Regex("/\\*\\*(.|\n)*\\*/", RegexOption.MULTILINE), "")
             val removeDocCommentAndPackageDeclareText = removeDocComment
-                    .replace(Regex("^(?:\\s*package |\\s*import ).*$", RegexOption.MULTILINE), "")
-            if ((removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf(
-                            "class"
-                    )
-                            && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
-                            && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("(").not()
-                            && removeDocCommentAndPackageDeclareText.substringAfter("class").contains(":").not()
-                            && removeDocCommentAndPackageDeclareText.substringAfter("class").contains("=").not())
-                    || (removeDocCommentAndPackageDeclareText.indexOf("class") == removeDocCommentAndPackageDeclareText.lastIndexOf(
-                            "class"
-                    )
-                            && removeDocCommentAndPackageDeclareText.indexOf("class") != -1
-                            && removeDocCommentAndPackageDeclareText.substringAfter("class").substringAfter("(")
-                            .replace(Regex("\\s"), "").let { it == ")" || it == "){}" })
-            ) {
-                couldGetAndReuseClassNameInCurrentEditFileForInsertCode = true
+                .replace(Regex("^(?:\\s*package |\\s*import ).*$", RegexOption.MULTILINE), "")
+
+            removeDocCommentAndPackageDeclareText.run {
+                if (numberOf("class") == 1 &&
+                    (substringAfter("class").containsAnyOf(listOf("(", ":", "=")).not()
+                            || substringAfter("class").substringAfter("(").replace(
+                        Regex("\\s"),
+                        ""
+                    ).let { it == ")" || it == "){}" })
+                ) {
+                    return true
+                }
             }
-            return couldGetAndReuseClassNameInCurrentEditFileForInsertCode
         } catch (e: Throwable) {
-            return false
+            e.printStackTrace()
         }
+        return false
     }
 }

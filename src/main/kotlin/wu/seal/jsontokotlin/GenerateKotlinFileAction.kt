@@ -32,22 +32,18 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val module = LangDataKeys.MODULE.getData(dataContext) ?: return
 
             val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
-            val directory: PsiDirectory =
-                    if (navigatable is PsiDirectory) {
-                        navigatable
-                    } else if (navigatable is PsiFile) {
-                        navigatable.containingDirectory
-                    } else {
-                        val root = ModuleRootManager.getInstance(module)
-                        var tempDirectory: PsiDirectory? = null
-                        for (file in root.sourceRoots) {
-                            tempDirectory = PsiManager.getInstance(project).findDirectory(file)
-                            if (tempDirectory != null) {
-                                break
-                            }
-                        }
-                        tempDirectory
-                    } ?: return
+            val directory = when (navigatable) {
+                is PsiDirectory -> navigatable
+                is PsiFile -> navigatable.containingDirectory
+                else -> {
+                    val root = ModuleRootManager.getInstance(module)
+                    root.sourceRoots
+                            .asSequence()
+                            .mapNotNull {
+                                PsiManager.getInstance(project).findDirectory(it)
+                            }.firstOrNull()
+                }
+            } ?: return
 
             val directoryFactory = PsiDirectoryFactory.getInstance(directory.project)
             val packageName = directoryFactory.getQualifiedName(directory, false)
@@ -56,18 +52,16 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             val inputDialog = JsonInputDialog("", project)
             inputDialog.show()
             val className = inputDialog.getClassName()
-            val inputString = inputDialog.inputString
-            if (inputString.isEmpty()) {
-                return
-            }
+            val inputString = inputDialog.inputString.takeIf { it.isNotEmpty() } ?: return
+
             jsonString = inputString
             doGenerateKotlinDataClassFileAction(
-                    className,
-                    inputString,
-                    packageDeclare,
-                    project,
-                    psiFileFactory,
-                    directory
+                className,
+                inputString,
+                packageDeclare,
+                project,
+                psiFileFactory,
+                directory
             )
         } catch (e: UnSupportJsonException) {
             val advice = e.advice
@@ -88,8 +82,9 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
             psiFileFactory: PsiFileFactory,
             directory: PsiDirectory
     ) {
-        val codeMaker = KotlinCodeMaker(className, json)
-        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(codeMaker.makeKotlinData())
+        val generatedClassesString = KotlinCodeMaker(className, json).makeKotlinData()
+
+        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(generatedClassesString)
 
         if (ConfigManager.isInnerClassModel) {
 
