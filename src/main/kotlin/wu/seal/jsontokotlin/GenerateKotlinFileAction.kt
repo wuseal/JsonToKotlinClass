@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
+import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
@@ -62,19 +63,24 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
                 psiFileFactory,
                 directory
             )
+        } catch (e: UnSupportJsonException) {
+            val advice = e.advice
+            Messages.showInfoMessage(dealWithHtmlConvert(advice), "Tip")
         } catch (e: Throwable) {
             dealWithException(jsonString, e)
             throw e
         }
     }
 
+    private fun dealWithHtmlConvert(advice: String) = advice.replace("<", "&lt;").replace(">", "&gt;")
+
     private fun doGenerateKotlinDataClassFileAction(
-        className: String,
-        json: String,
-        packageDeclare: String,
-        project: Project?,
-        psiFileFactory: PsiFileFactory,
-        directory: PsiDirectory
+            className: String,
+            json: String,
+            packageDeclare: String,
+            project: Project?,
+            psiFileFactory: PsiFileFactory,
+            directory: PsiDirectory
     ) {
         val generatedClassesString = KotlinCodeMaker(className, json).makeKotlinData()
 
@@ -83,22 +89,22 @@ class GenerateKotlinFileAction : AnAction("GenerateKotlinClassFile") {
         if (ConfigManager.isInnerClassModel) {
 
             KotlinDataClassFileGenerator().generateSingleDataClassFile(
-                className,
-                packageDeclare,
-                removeDuplicateClassCode,
-                project,
-                psiFileFactory,
-                directory
+                    className,
+                    packageDeclare,
+                    removeDuplicateClassCode,
+                    project,
+                    psiFileFactory,
+                    directory
             )
 
         } else {
 
             KotlinDataClassFileGenerator().generateMultipleDataClassFiles(
-                removeDuplicateClassCode,
-                packageDeclare,
-                project,
-                psiFileFactory,
-                directory
+                    removeDuplicateClassCode,
+                    packageDeclare,
+                    project,
+                    psiFileFactory,
+                    directory
             )
 
         }
