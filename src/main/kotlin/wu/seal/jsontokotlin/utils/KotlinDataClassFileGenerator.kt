@@ -245,10 +245,10 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
     ): String {
         var newFileName = fileName
         val kotlinFileSuffix = ".kt"
-        val fileNamesWithoutSuffix =
+        val fileNamesInLowerCaseWithoutSuffix =
             directory.files.filter { it.name.endsWith(kotlinFileSuffix) }
-                .map { it.name.dropLast(kotlinFileSuffix.length) }
-        while (fileNamesWithoutSuffix.contains(newFileName)) {
+                .map { it.name.dropLast(kotlinFileSuffix.length).toLowerCase() }
+        while (fileNamesInLowerCaseWithoutSuffix.contains(newFileName.toLowerCase())) {
             newFileName += "X"
         }
         return newFileName
@@ -256,7 +256,9 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
 
     private fun changeClassNameIfCurrentListContains(classesNames: List<String>, className: String): String {
         var newClassName = className
-        while (classesNames.contains(newClassName)) {
+
+        var fileNamesInLowerCase = classesNames.map { it.toLowerCase() }
+        while (fileNamesInLowerCase.contains(newClassName.toLowerCase())) {
             newClassName += "X"
         }
         return newClassName
