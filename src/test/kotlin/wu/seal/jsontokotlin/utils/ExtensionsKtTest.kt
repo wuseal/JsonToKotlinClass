@@ -169,7 +169,6 @@ class ExtensionsKtTest {
                 subArrayString,
                 JsonArray::class.java
         ).onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive().should.be.`true`
-
     }
 
     @Test
