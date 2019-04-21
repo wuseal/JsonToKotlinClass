@@ -119,21 +119,21 @@ class ClassCodeParser(private val classBlockString: String) {
                 val noAnnotationString = stringBeforeLastColonWithoutComment.substringAfterLast(")").trim()
                 val splits = noAnnotationString.split(" ")
                 val propertyName =
-                    splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
+                    splits.filterIndexed { index, _ -> listOf(0).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
             stringBeforeLastColonWithoutComment.contains("@") -> {
                 val splits = stringBeforeLastColonWithoutComment.split(" ")
                 val propertyName =
-                    splits.filterIndexed { index, s -> listOf(0, 1).contains(index).not() }
+                    splits.filterIndexed { index, _ -> listOf(0, 1).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
             else -> {
                 val splits = stringBeforeLastColonWithoutComment.split(" ")
                 val propertyName =
-                    splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
+                    splits.filterIndexed { index, _ -> listOf(0).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
