@@ -94,7 +94,6 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         annotationImportClassTextArea.addFocusListener(object : FocusListener {
             override fun focusLost(e: FocusEvent?) {
                 ConfigManager.customAnnotationClassImportdeclarationString = annotationImportClassTextArea.text
-
             }
 
             override fun focusGained(e: FocusEvent?) {
