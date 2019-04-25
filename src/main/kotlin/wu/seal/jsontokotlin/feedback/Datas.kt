@@ -18,7 +18,7 @@ data class ConfigInfo(
         val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
         val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
         val isInnerClassMode: Boolean = ConfigManager.isInnerClassModel,
-        val customAnnotationImportClassString: String = ConfigManager.customAnnotationImportClassString,
+        val customAnnotationImportClassString: String = ConfigManager.customAnnotationClassImportdeclarationString,
         val customClassAnnotationFormatString: String = ConfigManager.customClassAnnotationFormatString,
         val customPropertyAnnotationFormatString: String = ConfigManager.customPropertyAnnotationFormatString,
         val enableMapType: Boolean = ConfigManager.enableMapType,

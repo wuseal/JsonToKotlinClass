@@ -33,12 +33,8 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        var fileName = className
-
-        fileName = changeKotlinFileNameIfCurrentDirectoryExistTheSameFileNameWithoutSuffix(fileName, directory)
-
         generateKotlinDataClassFile(
-            fileName,
+            changeKotlinFileNameIfCurrentDirectoryExistTheSameFileNameWithoutSuffix(className, directory),
             packageDeclare,
             removeDuplicateClassCode,
             project,
@@ -220,7 +216,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
                 append(packageDeclare)
                 append("\n\n")
             }
-            val importClassDeclaration = ImportClassDeclaration.getImportClassDeclaration()
+            val importClassDeclaration = ClassImportDeclaration.getImportClassDeclaration()
             if (importClassDeclaration.isNotBlank()) {
                 append(importClassDeclaration)
                 append("\n\n")

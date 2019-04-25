@@ -6,10 +6,12 @@ import wu.seal.jsontokotlin.ConfigManager
 /**
  * insert parent class declaration code
  */
-class ParentClassImportClassDeclarationInterceptor : IImportClassDeclarationInterceptor {
+class ParentClassClassImportDeclarationInterceptor : IImportClassDeclarationInterceptor {
 
-    override fun intercept(originImportClasses: String): String {
+    override fun intercept(originClassImportDeclaration: String): String {
+
         val parentClassImportDeclaration = "import ${ConfigManager.parenClassTemplate.substringBeforeLast("(").trim()}"
-        return "$originImportClasses\n$parentClassImportDeclaration".trim()
+
+        return "$originClassImportDeclaration\n$parentClassImportDeclaration".trim()
     }
 }

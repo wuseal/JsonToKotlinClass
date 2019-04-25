@@ -6,7 +6,7 @@ import org.junit.Test
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.test.TestConfig
 
-class ParentClassImportClassDeclarationInterceptorTest {
+class ParentClassClassImportDeclarationInterceptorTest {
 
     @Before
     fun before() {
@@ -16,7 +16,7 @@ class ParentClassImportClassDeclarationInterceptorTest {
     fun intercept() {
         ConfigManager.parenClassTemplate = "java.io.Serializable"
         val originImportCode = ""
-        val interceptedCode = ParentClassImportClassDeclarationInterceptor().intercept(originImportCode)
+        val interceptedCode = ParentClassClassImportDeclarationInterceptor().intercept(originImportCode)
         interceptedCode.should.equal("import java.io.Serializable")
 
     }

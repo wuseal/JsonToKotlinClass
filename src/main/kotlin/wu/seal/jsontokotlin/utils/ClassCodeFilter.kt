@@ -13,9 +13,7 @@ object ClassCodeFilter {
      */
     fun removeDuplicateClassCode(generateClassesString: String): String {
         return if (ConfigManager.isInnerClassModel.not()) {
-            val set = mutableSetOf<String>()
-            set.addAll(generateClassesString.split("\n\n"))
-            set.joinToString("\n\n")
+            generateClassesString.split("\n\n").distinct().joinToString("\n\n")
         } else {
             generateClassesString
         }

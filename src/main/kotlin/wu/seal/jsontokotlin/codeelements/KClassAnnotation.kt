@@ -13,6 +13,7 @@ import wu.seal.jsontokotlin.supporter.LoganSquareSupporter
 /**
  * class annotation for json lib
  */
+@Deprecated("Try to use interceptor to achive this goal")
 interface IClassAnnotation {
     /**
      * get the annotation string be in append before the class name
