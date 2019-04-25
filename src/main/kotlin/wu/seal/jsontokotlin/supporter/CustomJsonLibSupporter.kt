@@ -23,7 +23,7 @@ object CustomJsonLibSupporter : IJsonLibSupporter {
         get() = ConfigManager.customClassAnnotationFormatString
 
     override val annotationImportClassString: String
-        get() = ConfigManager.customAnnotationImportClassString
+        get() = ConfigManager.customAnnotationClassImportdeclarationString
 
 
     override fun getClassAnnotationBlockString(rawClassName: String): String {

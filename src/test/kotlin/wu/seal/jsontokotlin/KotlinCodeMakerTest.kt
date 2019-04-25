@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin
 
+import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
@@ -168,4 +169,184 @@ class KotlinCodeMakerTest {
         }
     }
 
+  @Test
+  fun testBasicJsonSchema() {
+    val json = """{
+  "${"$"}schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Product",
+  "description": "A product from Acme\u0027s catalog",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the product",
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    },
+    "nested": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The unique identifier for a product",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Name of the product",
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMinimum": true
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+}
+    """.trimIndent()
+    val expected = """data class Nested(
+    /**
+     * The unique identifier for a product
+     */
+    val id: Int,
+    /**
+     * Name of the product
+     */
+    val name: String,
+    val price: Double?
+)
+
+/**
+ * A product from Acme's catalog
+ */
+data class TestData(
+    /**
+     * The unique identifier for a product
+     */
+    val id: Int,
+    /**
+     * Name of the product
+     */
+    val name: String,
+    val price: Double,
+    val nested: Nested?
+)
+    """.trimIndent()
+    val result = KotlinCodeMaker("TestData", json).makeKotlinData()
+    result.trim().should.be.equal(expected)
+  }
+
+  @Test
+  fun testJsonSchemaWithArray() {
+    val json = """{
+  "${"$"}schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Product",
+  "description": "A product from Acme\u0027s catalog",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the product",
+      "type": "string"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMinimum": true
+    },
+    "nested": {
+      "type": "object",
+      "properties": {
+        "grades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scores": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "happy": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
+        "id": {
+          "description": "The unique identifier for a product",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Name of the product",
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMinimum": true
+        }
+      },
+      "required": ["id", "name"]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+}
+    """.trimIndent()
+    val expected = """data class Nested(
+    val grades: Array<String>?,
+    val scores: Array<Double>?,
+    val happy: Array<Boolean>?,
+    /**
+     * The unique identifier for a product
+     */
+    val id: Int,
+    /**
+     * Name of the product
+     */
+    val name: String,
+    val price: Double?
+)
+
+/**
+ * A product from Acme's catalog
+ */
+data class TestData(
+    /**
+     * The unique identifier for a product
+     */
+    val id: Int,
+    /**
+     * Name of the product
+     */
+    val name: String,
+    val price: Double,
+    val nested: Nested?
+)
+    """.trimIndent()
+    val result = KotlinCodeMaker("TestData", json).makeKotlinData()
+    result.trim().should.be.equal(expected)
+  }
 }

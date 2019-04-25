@@ -1,14 +1,15 @@
-package wu.seal.jsontokotlin.interceptor
+package wu.seal.jsontokotlin.interceptor.annotations.moshi
 
 import wu.seal.jsontokotlin.classscodestruct.Annotation
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.codeannotations.MoshiPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 
 /**
  * This interceptor try to add Moshi(code gen) annotation
  */
-class AddMoshiCodeGenAnnotationClassInterceptor :IKotlinDataClassInterceptor{
+class AddMoshiCodeGenAnnotationInterceptor : IKotlinDataClassInterceptor {
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
 

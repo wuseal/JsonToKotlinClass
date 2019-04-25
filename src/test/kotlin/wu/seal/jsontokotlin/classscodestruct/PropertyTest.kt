@@ -16,19 +16,19 @@ class PropertyTest {
 
     @Test
     fun getCode() {
-        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false)
+        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false, originJsonValue = "",originName = "")
         normalProperty.getCode().should.be.equal("""val name: Type""")
-        val withValueProperty = Property(listOf(), "val", "name", "Type", "Type()", "", false)
+        val withValueProperty = Property(listOf(), "val", "name", "Type", "Type()", "", false, originJsonValue = "",originName = "")
         withValueProperty.getCode().should.be.equal("""val name: Type = Type()""")
 
-        val withValueAndAnnotationProperty = Property(GsonPropertyAnnotationTemplate("name").getAnnotations(), "val", "name", "Type", "Type()", "", false)
+        val withValueAndAnnotationProperty = Property(GsonPropertyAnnotationTemplate("name").getAnnotations(), "val", "name", "Type", "Type()", "", false, originJsonValue = "",originName = "")
         withValueAndAnnotationProperty.getCode().should.be.equal("""@SerializedName("name")
 val name: Type = Type()""".trimIndent())
     }
 
     @Test
     fun toParsedProperty() {
-        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false)
+        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false, originJsonValue = "",originName = "")
 
         val normalParsedProperty = normalProperty.toParsedProperty()
 
@@ -42,13 +42,15 @@ val name: Type = Type()""".trimIndent())
         normalParsedProperty.isLastProperty.should.be.equal(normalProperty.isLast)
 
         val withValueProperty = Property(
-            GsonPropertyAnnotationTemplate("name").getAnnotations(),
-            "val",
-            "name",
-            "Type",
-            "Type()",
-            "",
-            false
+                GsonPropertyAnnotationTemplate("name").getAnnotations(),
+                "val",
+                "name",
+                "Type",
+                "Type()",
+                "",
+                false,
+                originJsonValue = "",
+                originName = ""
         )
         val parsedWithValueProperty = withValueProperty.toParsedProperty()
 
