@@ -122,7 +122,10 @@ class TargetJsonElement : ITargetJsonElement {
                 if (it.isJsonObject) {
                     val jsObj = it.asJsonObject
                     jsObj.entrySet().forEach { mp ->
-                        map[mp.key] = mp.value
+                        // fix #170
+                        if(map[mp.key] !is JsonNull ||  ConfigManager.propertyTypeStrategy  != PropertyTypeStrategy.AutoDeterMineNullableOrNot) {
+                            map[mp.key] = mp.value
+                        }
                     }
                 }
             }
