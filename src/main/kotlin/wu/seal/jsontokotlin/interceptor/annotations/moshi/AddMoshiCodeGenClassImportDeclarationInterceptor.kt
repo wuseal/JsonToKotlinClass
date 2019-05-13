@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin.interceptor.annotations.moshi
 
 import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
-import wu.seal.jsontokotlin.supporter.MoShiSupporter
 
 /**
  * try to add import class declarations of Moshi Generation

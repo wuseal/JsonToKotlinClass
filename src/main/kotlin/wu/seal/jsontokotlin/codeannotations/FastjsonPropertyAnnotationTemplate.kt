@@ -1,11 +1,15 @@
 package wu.seal.jsontokotlin.codeannotations
 
 import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.supporter.FastjsonSupporter
 
 class FastjsonPropertyAnnotationTemplate(val rawName: String) : AnnotationTemplate {
 
-    private val annotation = Annotation(FastjsonSupporter.propertyAnnotationFormat, rawName)
+    companion object{
+
+        const val propertyAnnotationFormat = "@JSONField(name = \"%s\")"
+    }
+
+    private val annotation = Annotation(propertyAnnotationFormat, rawName)
 
     override fun getCode(): String {
         return annotation.getAnnotationString()
