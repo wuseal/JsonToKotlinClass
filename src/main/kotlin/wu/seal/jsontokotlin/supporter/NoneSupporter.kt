@@ -1,8 +1,5 @@
 package wu.seal.jsontokotlin.supporter
 
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
-import wu.seal.jsontokotlin.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.utils.getIndent
 
 /**
