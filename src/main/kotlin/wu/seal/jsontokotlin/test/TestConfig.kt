@@ -2,7 +2,8 @@ package wu.seal.jsontokotlin.test
 
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
-import wu.seal.jsontokotlin.supporter.GsonSupporter
+import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 
 /**
  *
@@ -85,7 +86,7 @@ object TestConfig {
 
         newState.customPropertyAnnotationFormatString = customPropertyAnnotationFormatString
         newState.customClassAnnotationFormatString = customClassAnnotationFormatString
-        newState.customAnnotaionImportClassString = customAnnotaionImportClassString
+        newState.customAnnotationImportClassString = customAnnotaionImportClassString
         newState.enableMinimalAnnotation = enableMinimalAnnotation
         newState.parenClassTemplate = parenClassTemplate
         newState.isKeywordPropertyValid = isKeywordPropertyValid
@@ -104,7 +105,7 @@ object TestConfig {
         isNestedClassModel = state.isNestedClassModel
         customPropertyAnnotationFormatString = state.customPropertyAnnotationFormatString
         customClassAnnotationFormatString = state.customClassAnnotationFormatString
-        customAnnotaionImportClassString = state.customAnnotaionImportClassString
+        customAnnotaionImportClassString = state.customAnnotationImportClassString
         enableMinimalAnnotation = state.enableMinimalAnnotation
         parenClassTemplate = state.parenClassTemplate
         isKeywordPropertyValid = state.isKeywordPropertyValid
@@ -121,9 +122,9 @@ object TestConfig {
         var initWithDefaultValue = true
         var isNestedClassModel = true
 
-        var customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
+        var customPropertyAnnotationFormatString = GsonPropertyAnnotationTemplate.propertyAnnotationFormat
         var customClassAnnotationFormatString = ""
-        var customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
+        var customAnnotationImportClassString = AddGsonAnnotationClassImportDeclarationInterceptor.propertyAnnotationImportClassString
 
         var indent: Int = 4
 

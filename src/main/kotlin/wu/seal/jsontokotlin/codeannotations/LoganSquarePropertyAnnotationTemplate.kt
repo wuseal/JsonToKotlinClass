@@ -1,11 +1,13 @@
 package wu.seal.jsontokotlin.codeannotations
 
 import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.supporter.LoganSquareSupporter
 
 class LoganSquarePropertyAnnotationTemplate(val rawName: String) : AnnotationTemplate {
 
-    private val propertyAnnotationFormat = "@JsonField(name = arrayOf(\"%s\"))"
+    companion object {
+
+        const val propertyAnnotationFormat = "@JsonField(name = arrayOf(\"%s\"))"
+    }
 
     private val annotation = Annotation(propertyAnnotationFormat, rawName)
 
