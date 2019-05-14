@@ -1,11 +1,16 @@
 package wu.seal.jsontokotlin.codeannotations
 
 import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.supporter.MoShiSupporter
 
 class MoshiPropertyAnnotationTemplate(val rawName: String) : AnnotationTemplate {
 
-    private val annotation = Annotation(MoShiSupporter.propertyAnnotationFormat, rawName)
+    companion object {
+
+        const val propertyAnnotationFormat = "@Json(name = \"%s\")"
+
+    }
+
+    private val annotation = Annotation(propertyAnnotationFormat, rawName)
 
     override fun getCode(): String {
         return annotation.getAnnotationString()

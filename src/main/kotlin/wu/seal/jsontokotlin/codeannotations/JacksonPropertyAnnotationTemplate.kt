@@ -1,11 +1,15 @@
 package wu.seal.jsontokotlin.codeannotations
 
 import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.supporter.JacksonSupporter
 
 class JacksonPropertyAnnotationTemplate(val rawName: String) : AnnotationTemplate {
 
-    private val annotation = Annotation(JacksonSupporter.anotaionFormat, rawName)
+    companion object{
+
+        const val annotationFormat = "@JsonProperty(\"%s\")"
+    }
+
+    private val annotation = Annotation(annotationFormat, rawName)
 
     override fun getCode(): String {
         return annotation.getAnnotationString()
