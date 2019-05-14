@@ -22,27 +22,13 @@ class AdvancedDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
     override fun createCenterPanel(): JComponent? {
 
-        val tabbedPane = JBTabbedPane()
-
-        val propertyPanelTab = createPropertyTab()
-
-        val otherConfigTab = createOtherSettingTab()
-
-        val annotationTab = createAnnotationTab()
-
-        val extensionsTab = createExtensionTab()
-
-        tabbedPane.add("Property", propertyPanelTab)
-
-        tabbedPane.add("Annotation", annotationTab)
-
-        tabbedPane.add("Other", otherConfigTab)
-
-        tabbedPane.add("Extensions", extensionsTab)
-
-        tabbedPane.minimumSize = JBDimension(500, 300)
-
-        return tabbedPane
+        return JBTabbedPane().apply {
+            add("Property", createPropertyTab())
+            add("Annotation", createAnnotationTab())
+            add("Other", createOtherSettingTab())
+            add("Extensions", createExtensionTab())
+            minimumSize = JBDimension(500, 300)
+        }
     }
 
     private fun createOtherSettingTab() = AdvancedOtherTab(true)
