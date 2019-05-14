@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.utils.BACKSTAGE_NULLABLE_POSTFIX
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
@@ -92,7 +93,11 @@ data class KotlinDataClass(
 
         fun fromParsedKotlinDataClass(parsedKotlinDataClass: ParsedKotlinDataClass): KotlinDataClass {
             val annotations = parsedKotlinDataClass.annotations.map { Annotation.fromAnnotationString(it) }
-            val properties = parsedKotlinDataClass.properties.map { Property.fromParsedProperty(it) }
+            val propertyNames = parsedKotlinDataClass.properties.map { it.propertyName }
+            val properties = parsedKotlinDataClass.properties
+                .map { if (propertyNames.contains(it.propertyName + BACKSTAGE_NULLABLE_POSTFIX)) it.copy(propertyType = it.propertyType + "?") else it }
+                .filter { it.propertyName.endsWith(BACKSTAGE_NULLABLE_POSTFIX).not() }
+                .map { Property.fromParsedProperty(it) }
             return KotlinDataClass(
                 annotations = annotations,
                 id = -1,
