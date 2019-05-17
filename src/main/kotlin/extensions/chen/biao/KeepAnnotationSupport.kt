@@ -15,11 +15,11 @@ import javax.swing.JPanel
 object KeepAnnotationSupport : Extension() {
 
 
-    val configKey = "chen.biao.add_keep_annotation"
+    val configKey = "chen.biao.add_keep_annotation_enable"
 
     override fun createUI(): JPanel {
 
-        val checkBox = JCheckBox("add a keep annotation to the class").apply {
+        val checkBox = JCheckBox("Enable Add a Keep Annotation To The Class").apply {
             isSelected = getConfig(configKey).toBoolean()
             addActionListener {
                 setConfig(configKey, isSelected.toString())
@@ -52,24 +52,10 @@ object KeepAnnotationSupport : Extension() {
 
         val classAnnotationImportClassString = "import android.support.annotation.Keep"
 
-        return originClassImportDeclaration
-                .append(classAnnotationImportClassString)
+        return if (getConfig(configKey).toBoolean()) {
+            originClassImportDeclaration.append(classAnnotationImportClassString)
+        } else {
+            originClassImportDeclaration
+        }
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
