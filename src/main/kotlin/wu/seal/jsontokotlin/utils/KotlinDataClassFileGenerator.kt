@@ -1,12 +1,7 @@
 package wu.seal.jsontokotlin.utils
 
-import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor
-import com.intellij.codeInsight.actions.OptimizeImportsProcessor
-import com.intellij.codeInsight.actions.RearrangeCodeProcessor
-import com.intellij.codeInsight.actions.ReformatCodeProcessor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
-import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
@@ -226,16 +221,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
 
         executeCouldRollBackAction(project) {
             val file = psiFileFactory.createFileFromText("$fileName.kt", KotlinFileType(), kotlinFileContent)
-
-            val fileAdded = directory.add(file)
-
-            if (ConfigManager.enableAutoReformat) {
-                var processor: AbstractLayoutCodeProcessor =
-                    ReformatCodeProcessor(project, fileAdded as PsiFile, null, false)
-                processor = OptimizeImportsProcessor(processor)
-                processor = RearrangeCodeProcessor(processor)
-                processor.run()
-            }
+            directory.add(file)
         }
     }
 

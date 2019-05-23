@@ -34,7 +34,6 @@ object TestConfig {
     var indent: Int = 4
 
     var enableMapType: Boolean = true
-    var enableAutoReformat: Boolean = true
 
     var enableMinimalAnnotation = false
 
@@ -129,7 +128,7 @@ object TestConfig {
         var indent: Int = 4
 
         var enableMapType: Boolean = true
-        var enableAutoReformat: Boolean = true
+
         var enableMinimalAnnotation = false
 
         var parenClassTemplate = ""
