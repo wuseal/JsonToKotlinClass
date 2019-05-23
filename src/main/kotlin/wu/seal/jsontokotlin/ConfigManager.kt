@@ -35,13 +35,6 @@ object ConfigManager : IConfigManager {
             TestConfig.enableMapType = value
         } else PropertiesComponent.getInstance().setValue(ENABLE_MAP_TYP_KEY, value, false)
 
-    var enableAutoReformat: Boolean
-        get() = (TestConfig.isTestModel && TestConfig.enableAutoReformat)
-                || PropertiesComponent.getInstance().getBoolean(ENABLE_AUTO_REFORMAT, true)
-        set(value) = if (TestConfig.isTestModel) {
-            TestConfig.enableAutoReformat = value
-        } else PropertiesComponent.getInstance().setValue(ENABLE_AUTO_REFORMAT, value, true)
-
     var enableMinimalAnnotation: Boolean
         get() = if (TestConfig.isTestModel) {
             TestConfig.enableMinimalAnnotation
