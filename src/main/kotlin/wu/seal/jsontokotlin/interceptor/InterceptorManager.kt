@@ -17,6 +17,8 @@ import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiAnnotationClas
 import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiCodeGenAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiCodeGenClassImportDeclarationInterceptor
+import wu.seal.jsontokotlin.interceptor.annotations.serializable.AddSerializableAnnotationClassImportDeclarationInterceptor
+import wu.seal.jsontokotlin.interceptor.annotations.serializable.AddSerializableAnnotationInterceptor
 
 object InterceptorManager {
 
@@ -45,6 +47,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen -> add(AddMoshiCodeGenAnnotationInterceptor())
                 TargetJsonConverter.LoganSquare -> add(AddLoganSquareAnnotationInterceptor())
                 TargetJsonConverter.Custom -> add(AddCustomAnnotationInterceptor())
+                TargetJsonConverter.Serilizable -> add(AddSerializableAnnotationInterceptor())
             }
             if (ConfigManager.enableMinimalAnnotation) {
                 add(MinimalAnnotationKotlinDataClassInterceptor())
@@ -86,6 +89,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen->add(AddMoshiCodeGenClassImportDeclarationInterceptor())
                 TargetJsonConverter.LoganSquare->add(AddLoganSquareAnnotationClassImportDeclarationInterceptor())
                 TargetJsonConverter.Custom->add(AddCustomAnnotationClassImportDeclarationInterceptor())
+                TargetJsonConverter.Serilizable->add(AddSerializableAnnotationClassImportDeclarationInterceptor())
                 else->{}
             }
 
