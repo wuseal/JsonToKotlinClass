@@ -22,7 +22,6 @@ data class ConfigInfo(
         val customClassAnnotationFormatString: String = ConfigManager.customClassAnnotationFormatString,
         val customPropertyAnnotationFormatString: String = ConfigManager.customPropertyAnnotationFormatString,
         val enableMapType: Boolean = ConfigManager.enableMapType,
-        val enableAutoReformat: Boolean = ConfigManager.enableAutoReformat,
         val enableMinimalAnnotation: Boolean = ConfigManager.enableMinimalAnnotation,
         val parenClassTemplate: String = ConfigManager.parenClassTemplate,
         val keywordPropertyValid: Boolean = ConfigManager.keywordPropertyValid,
