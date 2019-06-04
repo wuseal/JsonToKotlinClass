@@ -5,6 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.applyInterceptor
 import wu.seal.jsontokotlin.generateKotlinDataClass
+import wu.seal.jsontokotlin.interceptor.annotations.serializable.AddSerializableAnnotationInterceptor
 import wu.seal.jsontokotlin.test.TestConfig
 
 class AddCustomAnnotationInterceptorTest {
@@ -28,7 +29,7 @@ data class Test(
     @Test
     fun intercept() {
 
-        val dataClass = json.generateKotlinDataClass().applyInterceptor(AddCustomAnnotationInterceptor())
+        val dataClass = json.generateKotlinDataClass().applyInterceptor(AddSerializableAnnotationInterceptor())
 
         dataClass.getCode().should.be.equal(expectedDataClass)
     }
