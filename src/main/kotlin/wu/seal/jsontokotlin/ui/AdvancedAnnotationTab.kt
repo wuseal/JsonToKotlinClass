@@ -228,6 +228,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             val radioButtonMoShiCodeGen = JRadioButton("MoShi (Codegen)")
             val radioButtonLoganSquare = JRadioButton("LoganSquare")
             val radioButtonCustom = JRadioButton("Others by customize")
+            var radioButtonSerilizable = JRadioButton("kotlinx.serialization")
 
             radioButtonNone.addActionListener {
                 ConfigManager.targetJsonConverterLib = TargetJsonConverter.None
@@ -271,6 +272,10 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
                 ConfigManager.targetJsonConverterLib = TargetJsonConverter.Custom
                 callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
             }
+            radioButtonSerilizable.addActionListener {
+                ConfigManager.targetJsonConverterLib = TargetJsonConverter.Serilizable
+                callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
+            }
 
             when(ConfigManager.targetJsonConverterLib ) {
                 TargetJsonConverter.None -> radioButtonNone.isSelected = true
@@ -282,6 +287,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
                 TargetJsonConverter.MoShi -> radioButtonMoShi.isSelected = true
                 TargetJsonConverter.MoshiCodeGen -> radioButtonMoShiCodeGen.isSelected = true
                 TargetJsonConverter.Custom -> radioButtonCustom.isSelected = true
+                TargetJsonConverter.Serilizable -> radioButtonSerilizable.isSelected = true
             }
 
             val buttonGroupProperty = ButtonGroup()
@@ -294,6 +300,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             buttonGroupProperty.add(radioButtonMoShiCodeGen)
             buttonGroupProperty.add(radioButtonLoganSquare)
             buttonGroupProperty.add(radioButtonCustom)
+            buttonGroupProperty.add(radioButtonSerilizable)
 
             gridLayout.add(radioButtonNone)
             gridLayout.add(radioButtonNoneWithCamelCase)
@@ -304,6 +311,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             gridLayout.add(radioButtonMoShiCodeGen)
             gridLayout.add(radioButtonLoganSquare)
             gridLayout.add(radioButtonCustom)
+            gridLayout.add(radioButtonSerilizable)
 
             gridLayout.size = JBDimension(480, 230)
             gridLayout.preferredSize = JBDimension(480, 230)
