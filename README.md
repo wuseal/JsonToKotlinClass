@@ -183,8 +183,9 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Share to others to help more people have a better develope expierience :heart:
 
 ### Authors
-* <a href="https://github.com/wuseal"><img src="https://avatars0.githubusercontent.com/u/9211902?s=60&v=4"></a>
-* [kezhenxu94](https://github.com/kezhenxu94)
+<a href="https://github.com/wuseal"><img src="https://avatars0.githubusercontent.com/u/9211902?s=60&v=4"></a>
+<a href="https://github.com/kezhenxu94"><img src="https://avatars1.githubusercontent.com/u/15965696?s=60&v=4"></a>
+<a href="https://github.com/smilechenbiao"><img src="https://avatars0.githubusercontent.com/u/23470318?s=60&v=4"></a>
 
 ### Acknowledgement
 
