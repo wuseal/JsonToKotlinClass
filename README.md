@@ -183,7 +183,7 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Share to others to help more people have a better develope expierience :heart:
 
 ### Authors
-Thank you for your support to this project
+* This project exists thanks to all the people who contribute.
 
 <a href="https://github.com/wuseal/JsonToKotlinClass/graphs/contributors"><img src="https://opencollective.com/jsontokotlin/contributors.svg?width=890" /></a>
 
