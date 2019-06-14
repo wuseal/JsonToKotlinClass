@@ -24,3 +24,8 @@ fun getDefaultValue(propertyType: String): String {
         else -> "$rawType()"
     }
 }
+
+
+fun getDefaultValueAllowNull(propertyType: String) =
+    if (propertyType.endsWith("?")) "null" else getDefaultValue(propertyType)
+
