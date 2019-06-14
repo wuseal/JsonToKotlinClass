@@ -189,7 +189,7 @@ This project exists thanks to all the people who contribute.
 
 ### Acknowledgement
 
-* The development of this plugin is powerly driven by JetBrains.
+The development of this plugin is powerly driven by JetBrains.
 
 ### Join the Community
 
