@@ -64,9 +64,12 @@ class AdvancedPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
 
 
         val line = com.intellij.util.xml.ui.TextPanel()
-        line.maximumSize = JBDimension(480, 1)
-        line.minimumSize = JBDimension(480, 1)
-        line.background = Color.GRAY
+                .apply {
+                    maximumSize = JBDimension(480, 1)
+                    minimumSize = JBDimension(480, 1)
+                    preferredSize = JBDimension(480, 1)
+                    background = Color.GRAY
+                }
 
         add(line)
 
@@ -115,9 +118,11 @@ class AdvancedPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
         add(Box.createVerticalStrut(JBUI.scale(10)))
 
         val lineSecond = com.intellij.util.xml.ui.TextPanel()
-        lineSecond.maximumSize = JBDimension(480, 1)
-        lineSecond.minimumSize = JBDimension(480, 1)
-        lineSecond.background = Color.GRAY
+                .apply {
+                    maximumSize = JBDimension(480, 1)
+                    minimumSize = JBDimension(480, 1)
+                    background = Color.GRAY
+                }
 
         add(lineSecond)
 
