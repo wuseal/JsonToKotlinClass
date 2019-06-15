@@ -33,6 +33,8 @@ interface IConfigManager {
     private val INIT_WITH_DEFAULT_VALUE_KEY: String
         get() = "jsonToKotlin_init_with_default_value_key"
 
+    private val DEFAULT_VALUE_STRATEGY_KEY: String
+        get() = "jsonToKotlin_default_value_strategy_key"
 
     private val USER_UUID_KEY: String
         get() = "jsonToKotlin_user_uuid_value_key"
@@ -53,7 +55,7 @@ interface IConfigManager {
 
     var isPropertiesVar: Boolean
         get() = if (isTestModel) TestConfig.isPropertiesVar else PropertiesComponent.getInstance().isTrueValue(
-            IS_PROPERTIES_VAR_KEY
+                IS_PROPERTIES_VAR_KEY
         )
         set(value) = if (isTestModel) {
             TestConfig.isPropertiesVar = value
@@ -64,8 +66,8 @@ interface IConfigManager {
 
     var isCommentOff: Boolean
         get() = if (isTestModel) TestConfig.isCommentOff else PropertiesComponent.getInstance().getBoolean(
-            IS_COMMENT_OFF,
-            true
+                IS_COMMENT_OFF,
+                true
         )
         set(value) = if (isTestModel) {
             TestConfig.isCommentOff = value
@@ -75,7 +77,7 @@ interface IConfigManager {
 
     var isOrderByAlphabetical: Boolean
         get() = if (isTestModel) TestConfig.isOrderByAlphabetical else PropertiesComponent.getInstance().getBoolean(
-            IS_ORDER_BY_ALPHABETICAL,
+                IS_ORDER_BY_ALPHABETICAL,
                 true
         )
         set(value) = if (isTestModel) {
@@ -86,8 +88,8 @@ interface IConfigManager {
 
     var targetJsonConverterLib: TargetJsonConverter
         get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(
-            PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
-                    ?: TargetJsonConverter.None.name
+                PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
+                        ?: TargetJsonConverter.None.name
         )
         set(value) = if (isTestModel) {
             TestConfig.targetJsonConvertLib = value
@@ -97,23 +99,34 @@ interface IConfigManager {
 
     var propertyTypeStrategy: PropertyTypeStrategy
         get() = if (TestConfig.isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(
-            PropertiesComponent.getInstance().getValue(
-                PROPERTY_TYPE_STRATEGY_KEY,
-                PropertyTypeStrategy.NotNullable.name
-            )
+                PropertiesComponent.getInstance().getValue(
+                        PROPERTY_TYPE_STRATEGY_KEY,
+                        PropertyTypeStrategy.NotNullable.name
+                )
         )
         set(value) = if (TestConfig.isTestModel) {
             TestConfig.propertyTypeStrategy = value
         } else PropertiesComponent.getInstance().setValue(PROPERTY_TYPE_STRATEGY_KEY, value.name)
 
-    var initWithDefaultValue: Boolean
-        get() = if (isTestModel) TestConfig.initWithDefaultValue else PropertiesComponent.getInstance().getBoolean(
-            INIT_WITH_DEFAULT_VALUE_KEY
-        )
+    var defaultValueStrategy: DefaultValueStrategy
+        get() = when {
+            isTestModel -> TestConfig.defaultValueStrategy
+            // set defaultValueStrategy = AvoidNull when 'init with default value' was selected in version before 3.3.0
+            PropertiesComponent.getInstance().getBoolean(INIT_WITH_DEFAULT_VALUE_KEY, false) -> {
+                PropertiesComponent.getInstance().unsetValue(INIT_WITH_DEFAULT_VALUE_KEY)
+                DefaultValueStrategy.AvoidNull.also {
+                    PropertiesComponent.getInstance().setValue(DEFAULT_VALUE_STRATEGY_KEY, it.name)
+                }
+            }
+
+            else -> DefaultValueStrategy.valueOf(
+                    PropertiesComponent.getInstance().getValue(DEFAULT_VALUE_STRATEGY_KEY)
+                            ?: DefaultValueStrategy.None.name)
+        }
         set(value) = if (isTestModel) {
-            TestConfig.initWithDefaultValue = value
+            TestConfig.defaultValueStrategy = value
         } else {
-            PropertiesComponent.getInstance().setValue(INIT_WITH_DEFAULT_VALUE_KEY, value)
+            PropertiesComponent.getInstance().setValue(DEFAULT_VALUE_STRATEGY_KEY, value.name)
         }
 
     var userUUID: String
@@ -125,9 +138,9 @@ interface IConfigManager {
 
     var customAnnotationClassImportdeclarationString: String
         get() = if (isTestModel) TestConfig.customAnnotaionImportClassString else PropertiesComponent.getInstance().getValue(
-            USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
-                    "import kotlinx.serialization.Serializable"+"\n"
-                    +"import kotlinx.serialization.Optional"
+                USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
+                "import kotlinx.serialization.Serializable" + "\n"
+                + "import kotlinx.serialization.Optional"
         )
         set(value) = if (isTestModel) {
             TestConfig.customAnnotaionImportClassString = value
@@ -137,8 +150,8 @@ interface IConfigManager {
 
     var customPropertyAnnotationFormatString: String
         get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(
-            USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING,
-            "@Optional\n@SerialName(\"%s\")"
+                USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING,
+                "@Optional\n@SerialName(\"%s\")"
         )
         set(value) = if (isTestModel) {
             TestConfig.customPropertyAnnotationFormatString = value
@@ -148,8 +161,8 @@ interface IConfigManager {
 
     var customClassAnnotationFormatString: String
         get() = if (isTestModel) TestConfig.customClassAnnotationFormatString else PropertiesComponent.getInstance().getValue(
-            USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING,
-            "@Serializable"
+                USER_CUSTOM_JSON_LIB_CLASS_ANNOTATION_FORMAT_STRING,
+                "@Serializable"
         )
         set(value) = if (isTestModel) {
             TestConfig.customClassAnnotationFormatString = value
@@ -159,8 +172,8 @@ interface IConfigManager {
 
     var isInnerClassModel: Boolean
         get() = if (isTestModel) TestConfig.isNestedClassModel else PropertiesComponent.getInstance().getBoolean(
-            INNER_CLASS_MODEL_KEY,
-            false
+                INNER_CLASS_MODEL_KEY,
+                false
         )
         set(value) = if (isTestModel) {
             TestConfig.isNestedClassModel = value

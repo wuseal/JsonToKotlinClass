@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.test.TestConfig
@@ -73,7 +74,7 @@ class Issue176Test {
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()
-        TestConfig.initWithDefaultValue = false
+        TestConfig.defaultValueStrategy = DefaultValueStrategy.None
         TestConfig.targetJsonConvertLib = TargetJsonConverter.None
     }
 
