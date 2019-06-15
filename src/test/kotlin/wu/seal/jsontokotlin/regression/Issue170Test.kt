@@ -1,11 +1,10 @@
 package wu.seal.jsontokotlin.regression
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
+
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.test.TestConfig
@@ -51,7 +50,7 @@ class Issue170Test {
     @Before
     fun setUp() {
         TestConfig.setToTestInitState()
-        TestConfig.initWithDefaultValue = false
+        TestConfig.defaultValueStrategy = DefaultValueStrategy.None
         TestConfig.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
     }
 

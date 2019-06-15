@@ -1,8 +1,9 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.TargetJsonConverter
 import extensions.ExtensionsCollector
+import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.DefaultValueStrategy
+import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.interceptor.annotations.custom.AddCustomAnnotationClassImportDeclarationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.custom.AddCustomAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.fastjson.AddFastJsonAnnotationInterceptor
@@ -32,7 +33,7 @@ object InterceptorManager {
 
             add(PropertyTypeNullableStrategyInterceptor())
 
-            if (ConfigManager.initWithDefaultValue) {
+            if (ConfigManager.defaultValueStrategy != DefaultValueStrategy.None) {
                 add(InitWithDefaultValueInterceptor())
             }
 

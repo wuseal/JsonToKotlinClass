@@ -113,7 +113,7 @@ class KotlinCodeMakerTest {
 
         TestConfig.isNestedClassModel = false
         TestConfig.targetJsonConvertLib = TargetJsonConverter.None
-        TestConfig.initWithDefaultValue = false
+        TestConfig.defaultValueStrategy = DefaultValueStrategy.None
         TestConfig.propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         println("json3 ====>\n${KotlinCodeMaker("Class3", json3).makeKotlinData()}")
     }
