@@ -28,24 +28,13 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
     constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
 
     init {
-        val boxPanel = JPanel()
-        boxPanel.layout = BoxLayout(boxPanel, BoxLayout.PAGE_AXIS)
-        val bordWidth = JBUI.scale(10)
-
-        boxPanel.border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
-
-        boxPanel.size = JBDimension(480, 350)
-        boxPanel.minimumSize = JBDimension(480, 350)
 
         val subBoxPanel = JPanel()
-
-        subBoxPanel.minimumSize = JBDimension(480, 150)
-
-        subBoxPanel.border = JBEmptyBorder(0, 10, 0, 0)
-
-        val subBoxLayout = BoxLayout(subBoxPanel, BoxLayout.PAGE_AXIS)
-
-        subBoxPanel.layout = subBoxLayout
+            .apply {
+                minimumSize = JBDimension(480, 150)
+                border = JBEmptyBorder(0, 10, 0, 0)
+                this.layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+            }
 
 
         addAnnotationClassImportCodeSettingPanel(subBoxPanel)
@@ -58,11 +47,19 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             subBoxPanel.isVisible = it
         }
 
-        boxPanel.add(annotationSelectPanel)
+        val boxPanel = JPanel()
+            .apply {
+                this.layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+                val bordWidth = JBUI.scale(10)
+                border = EmptyBorder(bordWidth, bordWidth, bordWidth, bordWidth)
+                size = JBDimension(480, 350)
+                minimumSize = JBDimension(480, 350)
 
-        boxPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
+                add(annotationSelectPanel)
+                add(Box.createVerticalStrut(JBUI.scale(10)))
+                add(subBoxPanel)
+            }
 
-        boxPanel.add(subBoxPanel)
 
         subBoxPanel.isVisible = ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom
 
@@ -72,108 +69,129 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
         border = JBEmptyBorder(0)
 
         val jbScrollPane = JBScrollPane(boxPanel)
+            .apply {
+                size = JBDimension(500, 320)
+                preferredSize = JBDimension(500, 320)
+                maximumSize = JBDimension(500, 320)
+                maximumSize = JBDimension(500, 320)
+                this.border = null
+            }
 
-        jbScrollPane.size = JBDimension(500, 320)
-        jbScrollPane.preferredSize = JBDimension(500, 320)
-        jbScrollPane.maximumSize = JBDimension(500, 320)
-        jbScrollPane.maximumSize = JBDimension(500, 320)
-
-        jbScrollPane.border = null
         addComponentIntoVerticalBoxAlignmentLeft(jbScrollPane)
 
     }
 
     private fun addAnnotationClassImportCodeSettingPanel(subBoxPanel: JPanel): JPanel {
-        val annotationImportClass = JPanel(true)
-        annotationImportClass.minimumSize = JBDimension(460, 60)
-        annotationImportClass.layout = BoxLayout(annotationImportClass, BoxLayout.PAGE_AXIS)
-        val importClassLable = JBLabel("Annotation Import Class : ")
-        annotationImportClass.addComponentIntoVerticalBoxAlignmentLeft(importClassLable)
+
         val annotationImportClassTextArea = JTextArea(ConfigManager.customAnnotationClassImportdeclarationString)
-        annotationImportClassTextArea.minimumSize = JBDimension(460, 40)
-        annotationImportClassTextArea.addFocusListener(object : FocusListener {
-            override fun focusLost(e: FocusEvent?) {
-                ConfigManager.customAnnotationClassImportdeclarationString = annotationImportClassTextArea.text
+            .apply {
+                minimumSize = JBDimension(460, 40)
+                addFocusListener(object : FocusListener {
+                    override fun focusLost(e: FocusEvent?) {
+                        ConfigManager.customAnnotationClassImportdeclarationString = text
+                    }
+
+                    override fun focusGained(e: FocusEvent?) {
+                    }
+
+                })
             }
 
-            override fun focusGained(e: FocusEvent?) {
-            }
-
-        })
         val jbScrollPaneClassFormat = JBScrollPane(annotationImportClassTextArea)
-        jbScrollPaneClassFormat.preferredSize = JBDimension(460, 40)
-        jbScrollPaneClassFormat.autoscrolls = true
-        jbScrollPaneClassFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        jbScrollPaneClassFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+            .apply {
+                preferredSize = JBDimension(460, 40)
+                autoscrolls = true
+                horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+            }
 
-        annotationImportClass.add(Box.createVerticalStrut(JBUI.scale(10)))
-
-        annotationImportClass.addComponentIntoVerticalBoxAlignmentLeft(jbScrollPaneClassFormat)
+        val annotationImportClass = JPanel(true)
+            .apply {
+                minimumSize = JBDimension(460, 60)
+                layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+                val importClassLable = JBLabel("Annotation Import Class : ")
+                addComponentIntoVerticalBoxAlignmentLeft(importClassLable)
+                add(Box.createVerticalStrut(JBUI.scale(10)))
+                addComponentIntoVerticalBoxAlignmentLeft(jbScrollPaneClassFormat)
+            }
 
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationImportClass)
         return annotationImportClass
     }
 
     private fun addPropertyAnnotationFormatSettingPanel(subBoxPanel: JPanel) {
-        val annotationStringPanel = JPanel(true)
-        annotationStringPanel.minimumSize = JBDimension(460, 60)
-        annotationStringPanel.layout = BoxLayout(annotationStringPanel, BoxLayout.PAGE_AXIS)
-        annotationStringPanel.addComponentIntoVerticalBoxAlignmentLeft(JBLabel("Property Annotation Format: "))
+
         val annotationFormatField = JTextArea(ConfigManager.customPropertyAnnotationFormatString)
+            .apply {
+                minimumSize = JBDimension(460, 40)
+                addFocusListener(object : FocusListener {
+                    override fun focusLost(e: FocusEvent?) {
+                        ConfigManager.customPropertyAnnotationFormatString = text
+                    }
 
-        annotationFormatField.minimumSize = JBDimension(460, 40)
-        annotationFormatField.addFocusListener(object : FocusListener {
-            override fun focusLost(e: FocusEvent?) {
-                ConfigManager.customPropertyAnnotationFormatString = annotationFormatField.text
+                    override fun focusGained(e: FocusEvent?) {
+                    }
+
+                })
             }
-
-            override fun focusGained(e: FocusEvent?) {
-            }
-
-        })
 
         val jbScrollPanePropertyFormat = JBScrollPane(annotationFormatField)
-        jbScrollPanePropertyFormat.preferredSize = JBDimension(460, 40)
-        jbScrollPanePropertyFormat.autoscrolls = true
-        jbScrollPanePropertyFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        jbScrollPanePropertyFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+            .apply {
+                preferredSize = JBDimension(460, 40)
+                autoscrolls = true
+                horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+            }
 
-        annotationStringPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
+        val annotationStringPanel = JPanel(true)
+            .apply {
+                minimumSize = JBDimension(460, 60)
+                layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+                addComponentIntoVerticalBoxAlignmentLeft(JBLabel("Property Annotation Format: "))
+                add(Box.createVerticalStrut(JBUI.scale(10)))
+                addComponentIntoVerticalBoxAlignmentLeft(jbScrollPanePropertyFormat)
+            }
 
-        annotationStringPanel.addComponentIntoVerticalBoxAlignmentLeft(jbScrollPanePropertyFormat)
 
         subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationStringPanel)
     }
 
     private fun addClassAnnotationFormatSettingPanel(subBoxPanel: JPanel) {
-        val annotationClasssFormatStringPanel = JPanel(true)
-        annotationClasssFormatStringPanel.minimumSize = JBDimension(460, 60)
-        annotationClasssFormatStringPanel.layout = BoxLayout(annotationClasssFormatStringPanel, BoxLayout.PAGE_AXIS)
-        annotationClasssFormatStringPanel.addComponentIntoVerticalBoxAlignmentLeft(JBLabel("Class Annotation Format: "))
+
         val annotationClassFormatField = JTextArea(ConfigManager.customClassAnnotationFormatString)
+            .apply {
+                minimumSize = JBDimension(460, 40)
+                addFocusListener(object : FocusListener {
+                    override fun focusLost(e: FocusEvent?) {
+                        ConfigManager.customClassAnnotationFormatString = text
+                    }
 
-        annotationClassFormatField.minimumSize = JBDimension(460, 40)
-        annotationClassFormatField.addFocusListener(object : FocusListener {
-            override fun focusLost(e: FocusEvent?) {
-                ConfigManager.customClassAnnotationFormatString = annotationClassFormatField.text
+                    override fun focusGained(e: FocusEvent?) {
+                    }
+
+                })
             }
-
-            override fun focusGained(e: FocusEvent?) {
-            }
-
-        })
 
         val jbScrollPaneClassAnnotationFormat = JBScrollPane(annotationClassFormatField)
-        jbScrollPaneClassAnnotationFormat.preferredSize = JBDimension(460, 40)
-        jbScrollPaneClassAnnotationFormat.autoscrolls = true
-        jbScrollPaneClassAnnotationFormat.horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        jbScrollPaneClassAnnotationFormat.verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+            .apply {
+                preferredSize = JBDimension(460, 40)
+                autoscrolls = true
+                horizontalScrollBarPolicy = JBScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+                verticalScrollBarPolicy = JBScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
 
-        annotationClasssFormatStringPanel.add(Box.createVerticalStrut(JBUI.scale(10)))
+            }
 
-        annotationClasssFormatStringPanel.addComponentIntoVerticalBoxAlignmentLeft(jbScrollPaneClassAnnotationFormat)
 
-        subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationClasssFormatStringPanel)
+        val annotationClassFormatStringPanel = JPanel(true)
+            .apply {
+                minimumSize = JBDimension(460, 60)
+                layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+                addComponentIntoVerticalBoxAlignmentLeft(JBLabel("Class Annotation Format: "))
+                add(Box.createVerticalStrut(JBUI.scale(10)))
+                addComponentIntoVerticalBoxAlignmentLeft(jbScrollPaneClassAnnotationFormat)
+            }
+
+        subBoxPanel.addComponentIntoVerticalBoxAlignmentLeft(annotationClassFormatStringPanel)
     }
 
 
@@ -210,6 +228,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             val radioButtonMoShiCodeGen = JRadioButton("MoShi (Codegen)")
             val radioButtonLoganSquare = JRadioButton("LoganSquare")
             val radioButtonCustom = JRadioButton("Others by customize")
+            var radioButtonSerilizable = JRadioButton("kotlinx.serialization")
 
             radioButtonNone.addActionListener {
                 ConfigManager.targetJsonConverterLib = TargetJsonConverter.None
@@ -253,17 +272,22 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
                 ConfigManager.targetJsonConverterLib = TargetJsonConverter.Custom
                 callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
             }
+            radioButtonSerilizable.addActionListener {
+                ConfigManager.targetJsonConverterLib = TargetJsonConverter.Serilizable
+                callBack(ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom)
+            }
 
-            when {
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.None -> radioButtonNone.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.NoneWithCamelCase -> radioButtonNoneWithCamelCase.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.Gson -> radioButtonGson.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.Jackson -> radioButtonJackson.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.FastJson -> radioButtonFastjson.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.LoganSquare -> radioButtonLoganSquare.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoShi -> radioButtonMoShi.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.MoshiCodeGen -> radioButtonMoShiCodeGen.isSelected = true
-                ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom -> radioButtonCustom.isSelected = true
+            when(ConfigManager.targetJsonConverterLib ) {
+                TargetJsonConverter.None -> radioButtonNone.isSelected = true
+                TargetJsonConverter.NoneWithCamelCase -> radioButtonNoneWithCamelCase.isSelected = true
+                TargetJsonConverter.Gson -> radioButtonGson.isSelected = true
+                TargetJsonConverter.Jackson -> radioButtonJackson.isSelected = true
+                TargetJsonConverter.FastJson -> radioButtonFastjson.isSelected = true
+                TargetJsonConverter.LoganSquare -> radioButtonLoganSquare.isSelected = true
+                TargetJsonConverter.MoShi -> radioButtonMoShi.isSelected = true
+                TargetJsonConverter.MoshiCodeGen -> radioButtonMoShiCodeGen.isSelected = true
+                TargetJsonConverter.Custom -> radioButtonCustom.isSelected = true
+                TargetJsonConverter.Serilizable -> radioButtonSerilizable.isSelected = true
             }
 
             val buttonGroupProperty = ButtonGroup()
@@ -276,6 +300,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             buttonGroupProperty.add(radioButtonMoShiCodeGen)
             buttonGroupProperty.add(radioButtonLoganSquare)
             buttonGroupProperty.add(radioButtonCustom)
+            buttonGroupProperty.add(radioButtonSerilizable)
 
             gridLayout.add(radioButtonNone)
             gridLayout.add(radioButtonNoneWithCamelCase)
@@ -286,6 +311,7 @@ class AdvancedAnnotationTab(layout: LayoutManager?, isDoubleBuffered: Boolean) :
             gridLayout.add(radioButtonMoShiCodeGen)
             gridLayout.add(radioButtonLoganSquare)
             gridLayout.add(radioButtonCustom)
+            gridLayout.add(radioButtonSerilizable)
 
             gridLayout.size = JBDimension(480, 230)
             gridLayout.preferredSize = JBDimension(480, 230)

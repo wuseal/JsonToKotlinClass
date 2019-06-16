@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.ui
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.Color
@@ -63,9 +64,12 @@ class AdvancedPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
 
 
         val line = com.intellij.util.xml.ui.TextPanel()
-        line.maximumSize = JBDimension(480, 1)
-        line.minimumSize = JBDimension(480, 1)
-        line.background = Color.GRAY
+                .apply {
+                    maximumSize = JBDimension(480, 1)
+                    minimumSize = JBDimension(480, 1)
+                    preferredSize = JBDimension(480, 1)
+                    background = Color.GRAY
+                }
 
         add(line)
 
@@ -114,22 +118,46 @@ class AdvancedPropertyTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : J
         add(Box.createVerticalStrut(JBUI.scale(10)))
 
         val lineSecond = com.intellij.util.xml.ui.TextPanel()
-        lineSecond.maximumSize = JBDimension(480, 1)
-        lineSecond.minimumSize = JBDimension(480, 1)
-        lineSecond.background = Color.GRAY
+                .apply {
+                    maximumSize = JBDimension(480, 1)
+                    minimumSize = JBDimension(480, 1)
+                    background = Color.GRAY
+                }
 
         add(lineSecond)
 
 
-        val initWithDefaultValueCheck = JCheckBox("Init With Default Value (Avoid Null)")
-        initWithDefaultValueCheck.isSelected = ConfigManager.initWithDefaultValue
+        val initDefaultValueAvoidNull = JCheckBox("Init With Default Value (Avoid Null)")
+                .apply {
+                    isSelected = ConfigManager.defaultValueStrategy == DefaultValueStrategy.AvoidNull
+                }
 
-        initWithDefaultValueCheck.addActionListener {
-            ConfigManager.initWithDefaultValue = initWithDefaultValueCheck.isSelected
+        val initDefaultValueAllowNull = JCheckBox("Init With Default Value Null When Property Is Nullable")
+                .apply {
+                    isSelected = ConfigManager.defaultValueStrategy == DefaultValueStrategy.AllowNull
+                }
+
+        initDefaultValueAvoidNull.addActionListener {
+            if(initDefaultValueAvoidNull.isSelected) {
+                ConfigManager.defaultValueStrategy = DefaultValueStrategy.AvoidNull
+                initDefaultValueAllowNull.isSelected = false
+            } else {
+                ConfigManager.defaultValueStrategy = DefaultValueStrategy.None
+            }
+        }
+
+        initDefaultValueAllowNull.addActionListener {
+            if(initDefaultValueAllowNull.isSelected) {
+                ConfigManager.defaultValueStrategy = DefaultValueStrategy.AllowNull
+                initDefaultValueAvoidNull.isSelected = false
+            } else {
+                ConfigManager.defaultValueStrategy = DefaultValueStrategy.None
+            }
         }
 
         add(Box.createVerticalStrut(JBUI.scale(10)))
-
-        addComponentIntoVerticalBoxAlignmentLeft(initWithDefaultValueCheck)
+        addComponentIntoVerticalBoxAlignmentLeft(initDefaultValueAvoidNull)
+        add(Box.createVerticalStrut(JBUI.scale(10)))
+        addComponentIntoVerticalBoxAlignmentLeft(initDefaultValueAllowNull)
     }
 }

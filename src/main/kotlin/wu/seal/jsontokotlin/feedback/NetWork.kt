@@ -8,9 +8,9 @@ import java.net.URL
  * Created by Seal.Wu on 2017/9/25.
  */
 
-const val actionInfoUrl = "http://jsontokotlin.sealwu.com:8008/sendActionInfo"
-const val exceptionLogUrl = "http://jsontokotlin.sealwu.com:8008/sendExceptionInfo"
-const val configLogUrl = "http://jsontokotlin.sealwu.com:8008/sendConfigInfo"
+const val actionInfoUrl = "https://jsontokotlin.sealwu.com:8443/sendActionInfo"
+const val exceptionLogUrl = "https://jsontokotlin.sealwu.com:8443/sendExceptionInfo"
+const val configLogUrl = "https://jsontokotlin.sealwu.com:8443/sendConfigInfo"
 //const val actionInfoUrl = "http://localhost:8008/sendActionInfo"
 //const val exceptionLogUrl = "http://localhost:8008/sendExceptionInfo"
 //const val configLogUrl = "http://localhost:8008/sendConfigInfo"
