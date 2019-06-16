@@ -25,6 +25,8 @@ const val TYPE_BOOLEAN = "Boolean"
 const val MAP_DEFAULT_OBJECT_VALUE_TYPE = "MapValue"
 const val MAP_DEFAULT_ARRAY_ITEM_VALUE_TYPE = "Item"
 
+const val BACKSTAGE_NULLABLE_POSTFIX = "_&^#"
+
 /**
  * the default type
  */
@@ -59,13 +61,25 @@ fun getChildType(arrayType: String): String = arrayType.replace(Regex("List<|>")
  * get the type output to the edit file
  */
 fun getOutType(rawType: String, value: Any?): String {
-    if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable) {
-        val innerRawType = rawType.replace("?", "").replace(">", "?>")
-        return innerRawType.plus("?")
-    } else if (ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.AutoDeterMineNullableOrNot && value == null) {
-        return rawType.plus("?")
+
+
+    return when (ConfigManager.propertyTypeStrategy) {
+        PropertyTypeStrategy.Nullable -> {
+            val innerRawType = rawType.replace("?", "").replace(">", "?>")
+            innerRawType.plus("?")
+        }
+        (PropertyTypeStrategy.AutoDeterMineNullableOrNot) -> {
+            if (value == null) {
+                rawType.plus("?")
+            } else {
+                rawType
+            }
+        }
+        else -> {
+            rawType.replace("?", "")
+        }
     }
-    return rawType
+
 }
 
 /**

@@ -1,8 +1,10 @@
 package wu.seal.jsontokotlin.test
 
+import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
-import wu.seal.jsontokotlin.supporter.GsonSupporter
+import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 
 /**
  *
@@ -21,7 +23,7 @@ object TestConfig {
     var isPropertiesVar = false
     var targetJsonConvertLib = TargetJsonConverter.Gson
     var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
-    var initWithDefaultValue = true
+    var defaultValueStrategy = DefaultValueStrategy.AvoidNull
     var isNestedClassModel = true
 
     var customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
@@ -33,7 +35,6 @@ object TestConfig {
     var indent: Int = 4
 
     var enableMapType: Boolean = true
-    var enableAutoReformat: Boolean = true
 
     var enableMinimalAnnotation = false
 
@@ -52,7 +53,7 @@ object TestConfig {
         isPropertiesVar = false
         targetJsonConvertLib = TargetJsonConverter.Gson
         propertyTypeStrategy = PropertyTypeStrategy.NotNullable
-        initWithDefaultValue = true
+        defaultValueStrategy = DefaultValueStrategy.AvoidNull
         isNestedClassModel = true
         customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
         customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
@@ -80,12 +81,12 @@ object TestConfig {
         newState.isPropertiesVar = isPropertiesVar
         newState.targetJsonConvertLib = targetJsonConvertLib
         newState.propertyTypeStrategy = propertyTypeStrategy
-        newState.initWithDefaultValue = initWithDefaultValue
+        newState.defaultValueStrategy = defaultValueStrategy
         newState.isNestedClassModel = isNestedClassModel
 
         newState.customPropertyAnnotationFormatString = customPropertyAnnotationFormatString
         newState.customClassAnnotationFormatString = customClassAnnotationFormatString
-        newState.customAnnotaionImportClassString = customAnnotaionImportClassString
+        newState.customAnnotationImportClassString = customAnnotaionImportClassString
         newState.enableMinimalAnnotation = enableMinimalAnnotation
         newState.parenClassTemplate = parenClassTemplate
         newState.isKeywordPropertyValid = isKeywordPropertyValid
@@ -100,11 +101,11 @@ object TestConfig {
         isPropertiesVar = state.isPropertiesVar
         targetJsonConvertLib = state.targetJsonConvertLib
         propertyTypeStrategy = state.propertyTypeStrategy
-        initWithDefaultValue = state.initWithDefaultValue
+        defaultValueStrategy = state.defaultValueStrategy
         isNestedClassModel = state.isNestedClassModel
         customPropertyAnnotationFormatString = state.customPropertyAnnotationFormatString
         customClassAnnotationFormatString = state.customClassAnnotationFormatString
-        customAnnotaionImportClassString = state.customAnnotaionImportClassString
+        customAnnotaionImportClassString = state.customAnnotationImportClassString
         enableMinimalAnnotation = state.enableMinimalAnnotation
         parenClassTemplate = state.parenClassTemplate
         isKeywordPropertyValid = state.isKeywordPropertyValid
@@ -118,17 +119,17 @@ object TestConfig {
         var isPropertiesVar = false
         var targetJsonConvertLib = TargetJsonConverter.Gson
         var propertyTypeStrategy = PropertyTypeStrategy.NotNullable
-        var initWithDefaultValue = true
+        var defaultValueStrategy = DefaultValueStrategy.AvoidNull
         var isNestedClassModel = true
 
-        var customPropertyAnnotationFormatString = GsonSupporter.propertyAnnotationFormat
+        var customPropertyAnnotationFormatString = GsonPropertyAnnotationTemplate.propertyAnnotationFormat
         var customClassAnnotationFormatString = ""
-        var customAnnotaionImportClassString = GsonSupporter.annotationImportClassString
+        var customAnnotationImportClassString = AddGsonAnnotationClassImportDeclarationInterceptor.propertyAnnotationImportClassString
 
         var indent: Int = 4
 
         var enableMapType: Boolean = true
-        var enableAutoReformat: Boolean = true
+
         var enableMinimalAnnotation = false
 
         var parenClassTemplate = ""

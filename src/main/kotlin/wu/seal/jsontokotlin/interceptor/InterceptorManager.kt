@@ -1,8 +1,9 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.TargetJsonConverter
 import extensions.ExtensionsCollector
+import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.DefaultValueStrategy
+import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.interceptor.annotations.custom.AddCustomAnnotationClassImportDeclarationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.custom.AddCustomAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.fastjson.AddFastJsonAnnotationInterceptor
@@ -17,6 +18,8 @@ import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiAnnotationClas
 import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiCodeGenAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.moshi.AddMoshiCodeGenClassImportDeclarationInterceptor
+import wu.seal.jsontokotlin.interceptor.annotations.serializable.AddSerializableAnnotationClassImportDeclarationInterceptor
+import wu.seal.jsontokotlin.interceptor.annotations.serializable.AddSerializableAnnotationInterceptor
 
 object InterceptorManager {
 
@@ -30,7 +33,7 @@ object InterceptorManager {
 
             add(PropertyTypeNullableStrategyInterceptor())
 
-            if (ConfigManager.initWithDefaultValue) {
+            if (ConfigManager.defaultValueStrategy != DefaultValueStrategy.None) {
                 add(InitWithDefaultValueInterceptor())
             }
 
@@ -45,6 +48,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen -> add(AddMoshiCodeGenAnnotationInterceptor())
                 TargetJsonConverter.LoganSquare -> add(AddLoganSquareAnnotationInterceptor())
                 TargetJsonConverter.Custom -> add(AddCustomAnnotationInterceptor())
+                TargetJsonConverter.Serilizable -> add(AddSerializableAnnotationInterceptor())
             }
             if (ConfigManager.enableMinimalAnnotation) {
                 add(MinimalAnnotationKotlinDataClassInterceptor())
@@ -86,6 +90,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen->add(AddMoshiCodeGenClassImportDeclarationInterceptor())
                 TargetJsonConverter.LoganSquare->add(AddLoganSquareAnnotationClassImportDeclarationInterceptor())
                 TargetJsonConverter.Custom->add(AddCustomAnnotationClassImportDeclarationInterceptor())
+                TargetJsonConverter.Serilizable->add(AddSerializableAnnotationClassImportDeclarationInterceptor())
                 else->{}
             }
 

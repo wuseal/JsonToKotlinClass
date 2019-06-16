@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.feedback
 
 import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.DefaultValueStrategy
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,14 +16,13 @@ data class ConfigInfo(
         val isCommentOff: Boolean = ConfigManager.isCommentOff,
         val isOrderByAlphabetical: Boolean = ConfigManager.isOrderByAlphabetical,
         val propertyTypeStrategy: String = ConfigManager.propertyTypeStrategy.name,
-        val initWithDefaultValue: Boolean = ConfigManager.initWithDefaultValue,
+        val defaultValueStrategy: DefaultValueStrategy = ConfigManager.defaultValueStrategy,
         val targetJsonConverterLib: String = ConfigManager.targetJsonConverterLib.name,
         val isInnerClassMode: Boolean = ConfigManager.isInnerClassModel,
         val customAnnotationImportClassString: String = ConfigManager.customAnnotationClassImportdeclarationString,
         val customClassAnnotationFormatString: String = ConfigManager.customClassAnnotationFormatString,
         val customPropertyAnnotationFormatString: String = ConfigManager.customPropertyAnnotationFormatString,
         val enableMapType: Boolean = ConfigManager.enableMapType,
-        val enableAutoReformat: Boolean = ConfigManager.enableAutoReformat,
         val enableMinimalAnnotation: Boolean = ConfigManager.enableMinimalAnnotation,
         val parenClassTemplate: String = ConfigManager.parenClassTemplate,
         val keywordPropertyValid: Boolean = ConfigManager.keywordPropertyValid,

@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.*
+import wu.seal.jsontokotlin.utils.BACKSTAGE_NULLABLE_POSTFIX
 import wu.seal.jsontokotlin.utils.filterOutNullElement
 import wu.seal.jsontokotlin.utils.onlyHasOneElementRecursive
 import wu.seal.jsontokotlin.utils.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive
@@ -110,6 +111,7 @@ class TargetJsonElement : ITargetJsonElement {
         fun getFullFieldElementFromArrayElement(jsonArray: JsonArray): JsonElement {
 
             val map = mutableMapOf<String, JsonElement>()
+            val nullableProperties = mutableSetOf<String>()
 
             if (jsonArray[0].isJsonArray) {
                 return getFullFieldElementFromArrayElement(jsonArray[0].asJsonArray)
@@ -122,8 +124,20 @@ class TargetJsonElement : ITargetJsonElement {
                 if (it.isJsonObject) {
                     val jsObj = it.asJsonObject
                     jsObj.entrySet().forEach { mp ->
-                        map[mp.key] = mp.value
+                        if (mp.value.isJsonNull) {
+                            nullableProperties.add(mp.key)
+                        } else {
+                            map[mp.key] = mp.value
+                        }
                     }
+                }
+            }
+
+            nullableProperties.forEach {
+                if (map.containsKey(it)) {
+                    map[it + BACKSTAGE_NULLABLE_POSTFIX] = JsonNull.INSTANCE
+                } else {
+                    map[it] = JsonNull.INSTANCE
                 }
             }
 
