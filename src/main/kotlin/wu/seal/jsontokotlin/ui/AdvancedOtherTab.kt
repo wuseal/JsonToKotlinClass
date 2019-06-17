@@ -74,9 +74,6 @@ class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
             ConfigManager.enableMinimalAnnotation = enableMinimalAnnotation.isSelected
         }
 
-        val enableAutoReformatNoteLable = JBLabel("(Note that the Indent option bellow would be ignored.)")
-        enableAutoReformatNoteLable.border = JBEmptyBorder(0, 25, 0, 0)
-
 
         val indentJPanel = JPanel()
         indentJPanel.border = JBEmptyBorder(0, 5, 0, 0)
@@ -158,9 +155,6 @@ class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
-
-        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
         boxPanel.addComponentIntoVerticalBoxAlignmentLeft(keywordPropertyValid)
 
         boxPanel.addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)
