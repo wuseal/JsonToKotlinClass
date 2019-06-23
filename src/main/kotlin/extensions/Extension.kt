@@ -56,7 +56,7 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassI
         }
 
         fun getConfig(key: String): String {
-            return getConfig(key)
+            return extension.getConfig(key)
         }
     }
 }
