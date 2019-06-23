@@ -77,11 +77,25 @@ object ClassNameSuffixSupport : Extension() {
                     }
                 }
 
+            val newPropertyDefaultValues = kotlinDataClass.properties.map {
+                val rawSubType = getChildType(getRawType(it.type))
+                when {
+                    it.value.isEmpty()-> it.value
+                    it.type.isMapType() -> {
+                        it.value//currently don't support map type
+                    }
+                    standTypes.contains(rawSubType) -> it.value
+                    else -> it.value.replace(rawSubType, rawSubType + suffix)
+                }
+            }
+
             val newProperties = kotlinDataClass.properties.mapIndexed { index, property ->
 
                 val newType = newPropertyTypes[index]
 
-                property.copy(type = newType)
+                val newValue = newPropertyDefaultValues[index]
+
+                property.copy(type = newType,value = newValue)
             }
 
 
