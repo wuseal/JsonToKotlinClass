@@ -43,7 +43,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.squareup:kotlinpoet:1.1.0'
+    compile ('com.squareup:kotlinpoet:1.1.0'){
+        exclude group: "org.jetbrains.kotlin"
+    }
 
     testImplementation('com.winterbe:expekt:0.5.0') {
         exclude group: "org.jetbrains.kotlin"
