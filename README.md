@@ -183,13 +183,13 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Share to others to help more people have a better develope expierience :heart:
 
 ### Authors
-* This project exists thanks to all the people who contribute.
+This project exists thanks to all the people who contribute.
 
 <a href="https://github.com/wuseal/JsonToKotlinClass/graphs/contributors"><img src="https://opencollective.com/jsontokotlin/contributors.svg?width=890" /></a>
 
 ### Acknowledgement
 
-* The development of this plugin is powerly driven by JetBrains.
+The development of this plugin is powerly driven by JetBrains.
 
 ### Join the Community
 
@@ -197,6 +197,8 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 | -------- |
 | ![QQ Group](qq_qrcode.png "Scan QR code with QQ/TIM to join the group chat")
 
+### Note：
+We analytics anonymous user behavior for improving plugin production, If you don't want this behavior enable, please contact us, we will provide a switch case for that.
 ### Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)

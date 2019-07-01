@@ -8,9 +8,6 @@ import wu.seal.jsontokotlin.codeannotations.CustomPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeannotations.FastjsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeannotations.LoganSquarePropertyAnnotationTemplate
-import wu.seal.jsontokotlin.supporter.FastjsonSupporter
-import wu.seal.jsontokotlin.supporter.GsonSupporter
-import wu.seal.jsontokotlin.supporter.LoganSquareSupporter
 import wu.seal.jsontokotlin.test.TestConfig
 
 class AnnotationTest {
@@ -38,18 +35,18 @@ class AnnotationTest {
         val rawName = "seal is a boy"
         val gsonAnnotationCode = GsonPropertyAnnotationTemplate(rawName).getCode()
         val gsonAnnotation = Annotation.fromAnnotationString(gsonAnnotationCode)
-        gsonAnnotation.annotationTemplate.should.be.equal(GsonSupporter.propertyAnnotationFormat)
+        gsonAnnotation.annotationTemplate.should.be.equal(GsonPropertyAnnotationTemplate.propertyAnnotationFormat)
         gsonAnnotation.rawName.should.be.equal(rawName)
 
         val fastjsonAnnotationCode = FastjsonPropertyAnnotationTemplate(rawName).getCode()
         val fastjsonAnnotation = Annotation.fromAnnotationString(fastjsonAnnotationCode)
-        fastjsonAnnotation.annotationTemplate.should.be.equal(FastjsonSupporter.propertyAnnotationFormat)
+        fastjsonAnnotation.annotationTemplate.should.be.equal(FastjsonPropertyAnnotationTemplate.propertyAnnotationFormat)
         fastjsonAnnotation.rawName.should.be.equal(rawName)
 
 
         val logansquareAnnotationCode = LoganSquarePropertyAnnotationTemplate(rawName).getCode()
         val logansquareAnnotation = Annotation.fromAnnotationString(logansquareAnnotationCode)
-        logansquareAnnotation.annotationTemplate.should.be.equal(LoganSquareSupporter.propertyAnnotationFormat)
+        logansquareAnnotation.annotationTemplate.should.be.equal(LoganSquarePropertyAnnotationTemplate.propertyAnnotationFormat)
         logansquareAnnotation.rawName.should.be.equal(rawName)
 
         val customAnnotationCode = CustomPropertyAnnotationTemplate(rawName).getCode()
