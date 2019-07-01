@@ -22,7 +22,7 @@ import java.util.*
  * Plugin action
  * Created by Seal.Wu on 2017/8/18.
  */
-class MakeKotlinClassAction : AnAction("MakeKotlinClass") {
+class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
 
     private val gson = Gson()
 

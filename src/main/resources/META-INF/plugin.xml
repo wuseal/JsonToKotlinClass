@@ -47,13 +47,10 @@
 
 
     <change-notes><![CDATA[
-       <br>[feature] Support Json Schema </br>
-       <br>[bugfix] Json Format change the value of Json Content</br>
-       <br>[enhancement] Change `Settings` to `Advanced` in the popup dialog</br>
-       <br>[bugfix] File Already Exists</br>
-       <br>[bugfix] wu.seal.jsontokotlin.UnSupportJsonException: Unsupported Json String</br>
-       <br>[bugfix] Kotlin Data Class don't generated as expected</br>
-       <br>[Bugfix] Incorrect properties orders bug</br>
+       <br>Bugs fix  </br>
+       <br>New Features </br>
+       <br>Note: This version no update jsonschema</br>
+
     ]]>
     </change-notes>
 
