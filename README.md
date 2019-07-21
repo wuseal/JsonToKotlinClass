@@ -191,12 +191,6 @@ This project exists thanks to all the people who contribute.
 
 The development of this plugin is powerly driven by JetBrains.
 
-### Join the Community
-
-| QQ Group |
-| -------- |
-| ![QQ Group](qq_qrcode.png "Scan QR code with QQ/TIM to join the group chat")
-
 ### Note：
 We analytics anonymous user behavior for improving plugin production, If you don't want this behavior enable, please contact us, we will provide a switch case for that.
 ### Stargazers over time
