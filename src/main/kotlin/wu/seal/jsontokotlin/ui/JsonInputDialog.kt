@@ -53,7 +53,14 @@ val myInputValidator = MyInputValidator()
 /**
  * Json input Dialog
  */
-class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(project, "Please input the JSON String and class name to generate Kotlin data class", "Generate Kotlin Data Class Code",null, "", myInputValidator) {
+class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(
+    project,
+    "Please input the JSON String and class name to generate Kotlin data class",
+    "Generate Kotlin Data Class Code",
+    null,
+    "",
+    myInputValidator
+) {
     private lateinit var jsonContentEditor: Editor
 
     private val prettyGson: Gson = GsonBuilder().setPrettyPrinting().serializeNulls().disableHtmlEscaping().create()
@@ -92,8 +99,8 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             .apply {
                 preferredSize = JBDimension(700, 400)
                 border = JBEmptyBorder(5, 0, 5, 5)
-                add(jsonInputTitleContainer,BorderLayout.NORTH)
-                add(jsonContentEditor.component,BorderLayout.CENTER)
+                add(jsonInputTitleContainer, BorderLayout.NORTH)
+                add(jsonContentEditor.component, BorderLayout.CENTER)
             }
 
         myField = createTextFieldComponent()
@@ -109,18 +116,18 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
         val centerInputContainer = JPanel(BorderLayout())
             .apply {
-                add(jsonInputContainer,BorderLayout.CENTER)
-                add(classNameInputContainer,BorderLayout.SOUTH)
+                add(jsonInputContainer, BorderLayout.CENTER)
+                add(classNameInputContainer, BorderLayout.SOUTH)
             }
 
         val settingContainer = createAdvancedPanel()
 
         val centerContainer = JPanel(BorderLayout())
             .apply {
-                add(centerInputContainer,BorderLayout.CENTER)
-                add(settingContainer,BorderLayout.SOUTH)
+                add(centerInputContainer, BorderLayout.CENTER)
+                add(settingContainer, BorderLayout.SOUTH)
             }
-        return  centerContainer
+        return centerContainer
     }
 
     private fun createAdvancedPanel(): JPanel {
@@ -138,7 +145,8 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         val projectLink =
             JLabel("<html><a href='https://github.com/wuseal/JsonToKotlinClass'>https://github.com/wuseal/JsonToKotlinClass</a></html>")
 
-        projectLink.maximumSize = JBDimension(210, 30)//if not add this line code，the `add(Box.createHorizontalGlue())`code will not do work
+        projectLink.maximumSize =
+            JBDimension(210, 30)//if not add this line code，the `add(Box.createHorizontalGlue())`code will not do work
 
         projectLink.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
@@ -263,11 +271,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
     override fun getInputString(): String = if (exitCode == 0) jsonContentEditor.document.text.trim() else ""
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return if (this.myField.text.isNullOrEmpty()) {
-            this.myField
-        } else {
-            jsonContentEditor.contentComponent
-        }
+        return jsonContentEditor.contentComponent
     }
 
     fun handleFormatJSONString() {
