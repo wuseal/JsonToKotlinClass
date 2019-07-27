@@ -12,7 +12,8 @@ data class KotlinDataClass(
     val name: String,
     val properties: List<Property>,
     val nestedClasses: List<KotlinDataClass> = listOf(),
-    val parentClassTemplate: String = ""
+    val parentClassTemplate: String = "",
+    val methods:List<Method> = listOf()
 ) {
 
     fun getCode(extraIndent: String = ""): String {
@@ -41,6 +42,12 @@ data class KotlinDataClass(
             if (parentClassTemplate.isNotBlank()) {
                 append(" : ")
                 append(parentClassTemplate)
+                if(methods?.size>0) {
+                    append("{").append("\n")
+                }
+                methods.forEach { method->
+                    append(method.code)
+                }
             }
             if (nestedClasses.isNotEmpty()) {
                 append(" {")
