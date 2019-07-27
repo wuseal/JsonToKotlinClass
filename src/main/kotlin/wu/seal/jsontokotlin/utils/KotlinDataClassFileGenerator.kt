@@ -231,7 +231,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         }
 
         executeCouldRollBackAction(project) {
-            val file = psiFileFactory.createFileFromText("$fileName.kt", KotlinFileType(), kotlinFileContent)
+            val file = psiFileFactory.createFileFromText("${fileName.trim('`')}.kt", KotlinFileType(), kotlinFileContent)
             directory.add(file)
         }
     }
