@@ -121,7 +121,6 @@ class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
             caret: Caret?
     ): Boolean {
         ClassImportDeclarationWriter.insertImportClassCode(project, document)
-
         val codeMaker: KotlinDataClassCodeMaker
         try {
             //passing current file directory along with className and json
