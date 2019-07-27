@@ -121,6 +121,15 @@ tailrec fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): 
     return get(0).asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
 }
 
+fun JsonArray.allChildrenAreEmptyArray(): Boolean {
+
+    if (size() == 0) {
+        return true
+    }
+
+    return all { (it as? JsonArray)?.allChildrenAreEmptyArray() ?: false }
+}
+
 
 /**
  * filter out all null json element of JsonArray

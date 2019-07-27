@@ -177,4 +177,32 @@ class ExtensionsKtTest {
         s.containsAnyOf(listOf("is", "true")).should.be.`true`
         s.containsAnyOf(listOf("bad", "test")).should.be.`false`
     }
+
+    @Test
+    fun  allChildrenAreEmptyArray() {
+        val emptyArray1 = """[
+            []
+            ]
+        """
+
+        val emptyArray2 = """[
+            [[]]
+            ]
+        """
+
+        val emptyArray3 = """[
+            [],[]
+            ]
+        """
+
+        val nonEmptyArray4 = """[
+            [{"name":"tom"}],[]
+            ]
+        """
+
+        gson.fromJson<JsonArray>(emptyArray1, JsonArray::class.java).allChildrenAreEmptyArray().should.be.`true`
+        gson.fromJson<JsonArray>(emptyArray2, JsonArray::class.java).allChildrenAreEmptyArray().should.be.`true`
+        gson.fromJson<JsonArray>(emptyArray3, JsonArray::class.java).allChildrenAreEmptyArray().should.be.`true`
+        gson.fromJson<JsonArray>(nonEmptyArray4, JsonArray::class.java).allChildrenAreEmptyArray().should.be.`false`
+    }
 }
