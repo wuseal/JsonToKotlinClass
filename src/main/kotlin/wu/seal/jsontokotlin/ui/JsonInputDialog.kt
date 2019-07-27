@@ -23,7 +23,9 @@ import java.awt.event.*
 import java.net.URI
 import java.net.URL
 import javax.swing.*
+import javax.swing.text.AttributeSet
 import javax.swing.text.JTextComponent
+import javax.swing.text.PlainDocument
 
 /**
  * Dialog widget relative
@@ -106,13 +108,13 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         myField = createTextFieldComponent()
 
         val classNameInputContainer = createLinearLayoutVertical()
-            .apply {
-                val classNameTitle = JBLabel("Class Name: ")
-                classNameTitle.border = JBEmptyBorder(5, 0, 5, 0)
-                addComponentIntoVerticalBoxAlignmentLeft(classNameTitle)
-                addComponentIntoVerticalBoxAlignmentLeft(myField)
-                preferredSize = JBDimension(500, 56)
-            }
+                .apply {
+                    val classNameTitle = JBLabel("Class Name:")
+                    classNameTitle.border = JBEmptyBorder(5, 0, 5, 0)
+                    addComponentIntoVerticalBoxAlignmentLeft(classNameTitle)
+                    addComponentIntoVerticalBoxAlignmentLeft(myField)
+                    preferredSize = JBDimension(500, 56)
+                }
 
         val centerInputContainer = JPanel(BorderLayout())
             .apply {
@@ -132,14 +134,14 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
     private fun createAdvancedPanel(): JPanel {
         val advancedButton = JButton("Advanced")
-            .apply {
-                horizontalAlignment = SwingConstants.CENTER
-                addActionListener(object : AbstractAction() {
-                    override fun actionPerformed(e: ActionEvent) {
-                        AdvancedDialog(false).show()
-                    }
-                })
-            }
+                .apply {
+                    horizontalAlignment = SwingConstants.CENTER
+                    addActionListener(object : AbstractAction() {
+                        override fun actionPerformed(e: ActionEvent) {
+                            AdvancedDialog(false).show()
+                        }
+                    })
+                }
 
         val tip = JLabel("Like this version? Please star here: ")
         val projectLink =
@@ -193,11 +195,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         val editor = editorFactory.createEditor(document, null, JsonFileType.INSTANCE, false)
 
         editor.component
-            .apply {
-                isEnabled = true
-                preferredSize = Dimension(640, 480)
-                autoscrolls = true
-            }
+                .apply {
+                    isEnabled = true
+                    preferredSize = Dimension(640, 480)
+                    autoscrolls = true
+                }
 
 
         val contentComponent = editor.contentComponent
@@ -214,16 +216,15 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
     override fun createTextFieldComponent(): JTextComponent {
 
         return JTextField()
-            .apply {
-                preferredSize = JBDimension(400, 40)
-                addKeyListener(object : KeyAdapter() {
-                    override fun keyTyped(e: KeyEvent) {
-                        if (e.keyChar == '˚') {
-                            e.consume()
+                .apply {
+                    preferredSize = JBDimension(400, 40)
+                    document = object : PlainDocument() {
+                        override fun insertString(offs: Int, str: String?, a: AttributeSet?) {
+                            str ?: return
+                            super.insertString(offs, str.filter { it.isLetterOrDigit() || it in listOf('_', '$') }.take(252), a)
                         }
                     }
-                })
-            }
+                }
     }
 
     private fun createPasteFromClipboardMenuItem() = JMenuItem("Paste from clipboard").apply {
@@ -266,7 +267,12 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
     /**
      * get the user input class name
      */
-    fun getClassName(): String = if (exitCode == 0) this.myField.text.trim() else ""
+    fun getClassName(): String {
+        return if (exitCode == 0) {
+            val name = myField.text.trim()
+            name.let { if (it.first().isDigit() || it.contains('$')) "`$it`" else it }
+        } else ""
+    }
 
     override fun getInputString(): String = if (exitCode == 0) jsonContentEditor.document.text.trim() else ""
 
@@ -301,7 +307,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 fun createLinearLayoutVertical(): JPanel {
 
     return JPanel()
-        .apply {
-            layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
-        }
+            .apply {
+                layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+            }
 }
