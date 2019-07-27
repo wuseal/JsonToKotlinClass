@@ -163,16 +163,18 @@ class KotlinCodeMaker {
                 jsonElementValue.isJsonArray -> {
                     jsonElementValue.asJsonArray.run {
                         var type = getArrayType(property, this)
-                        if (isExpectedJsonObjArrayType(this) || onlyHasOneObjectElementRecursive()
-                            || onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
-                        ) {
-                            val subCode = try {
-                                KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()
-                            } catch (e: UnSupportJsonException) {
-                                type = e.adviceType
-                                ""
+                        if(!allChildrenAreEmptyArray()) {
+                            if (isExpectedJsonObjArrayType(this) || onlyHasOneObjectElementRecursive()
+                                    || onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
+                            ) {
+                                val subCode = try {
+                                    KotlinCodeMaker(getChildType(getRawType(type)), jsonElementValue).makeKotlinData()
+                                } catch (e: UnSupportJsonException) {
+                                    type = e.adviceType
+                                    ""
+                                }
+                                toBeAppend.add(subCode)
                             }
-                            toBeAppend.add(subCode)
                         }
                         addProperty(stringBuilder, property, type, "", isLast)
                     }
