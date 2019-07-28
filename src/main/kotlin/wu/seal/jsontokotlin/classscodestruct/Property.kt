@@ -30,7 +30,9 @@ data class Property(
                     append(annotationsCode).append(separatorBetweenAnnotationAndProperty)
                 }
             }
-            append(keyword).append(" ").append(name).append(": ").append(type)
+            append(keyword).append(" ")
+            append(if (name.first().isDigit() || name.contains('$')) "`$name`" else name)
+            append(": ").append(type)
             if (value.isNotBlank()) {
                 append(" = ").append(value)
             }
