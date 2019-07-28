@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="178px" viewBox="0 0 180 178" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2@svg</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#108EE9" offset="100%"></stop>
+            <stop stop-color="#0A73CF" offset="0%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#05C2FF" offset="0%"></stop>
+            <stop stop-color="#00A3FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="play/ic_launcher_APP">
+            <g id="Group-2" transform="translate(0.000000, -3.000000)">
+                <g id="Group" transform="translate(0.000000, 3.945652)">
+                    <rect id="Rectangle" fill="url(#linearGradient-2)" transform="translate(90.000000, 88.500000) rotate(-20.000000) translate(-90.000000, -88.500000) " x="20" y="20" width="140" height="137"></rect>
+                    <rect id="Rectangle" fill="#FFFFFF" transform="translate(103.703797, 74.340239) rotate(-5.000000) translate(-103.703797, -74.340239) " x="33.7037972" y="5.84023881" width="140" height="137"></rect>
+                </g>
+                <text id="J" font-family="HannotateSC-W7, Hannotate SC" font-size="90" font-weight="bold" fill="#03A2F8">
+                    <tspan x="51.9733333" y="97.8087693">J</tspan>
+                </text>
+                <text id="K" font-family="HannotateSC-W7, Hannotate SC" font-size="90" font-weight="bold" fill="#03A2F8">
+                    <tspan x="102.443333" y="118.700442">K</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
