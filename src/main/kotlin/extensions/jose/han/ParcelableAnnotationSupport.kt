@@ -1,42 +1,25 @@
 package extensions.jose.han;
 
+import com.intellij.ide.BrowserUtil
 import com.intellij.ui.layout.panel
-import com.intellij.util.ui.JBDimension
 import extensions.Extension
-import extensions.wu.seal.PropertySuffixSupport
 import wu.seal.jsontokotlin.classscodestruct.Annotation
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import java.awt.Color
-import java.awt.event.FocusEvent
-import java.awt.event.FocusListener
 import javax.swing.JCheckBox
 import javax.swing.JPanel
-import javax.swing.JTextArea
-import javax.swing.JTextField
 
 /**
  *  @author jose.han
- *  @Date 2019/7/27
+ *  @Date 2019/7/27Ø
  */
 object ParcelableAnnotationSupport : Extension() {
 
     val configKey = "jose.han.add_parcelable_annotatioin_enable"
 
     override fun createUI(): JPanel {
-        val labelJField = JTextArea().apply {
-            text =  " android {\n" +
-                    "  ...\n" +
-                    "   androidExtensions {\n" +
-                    "    experimental = true\n" +
-                    "  }\n" +
-                    " }"
-            isEnabled = false
-            minimumSize = JBDimension(200, 200)
-            background = Color.BLACK
-        }
 
 
-        val checkBox = JCheckBox("Enable Parcelable Support").apply {
+        val checkBox = JCheckBox("Enable Parcelable Support ").apply {
             isSelected = ParcelableAnnotationSupport.getConfig(ParcelableAnnotationSupport.configKey).toBoolean()
             addActionListener {
                 ParcelableAnnotationSupport.setConfig(ParcelableAnnotationSupport.configKey, isSelected.toString())
@@ -45,8 +28,13 @@ object ParcelableAnnotationSupport : Extension() {
 
         return panel {
             row {
+
                 checkBox()
-                labelJField()
+                right {
+                    link("Need Some Config") {
+                        BrowserUtil.browse("https://github.com/wuseal/JsonToKotlinClass/blob/master/parceable_support_tip.md.md")
+                    }
+                }
             }
         }
     }
