@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="178" viewBox="0 0 180 178">
+  <defs>
+    <linearGradient id="group-2@svg-a" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#05C2FF"/>
+      <stop offset="100%" stop-color="#00A3FF"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(0 -8)">
+    <g transform="translate(0 8.946)">
+      <rect width="140" height="137" x="20" y="20" fill="url(#group-2@svg-a)" transform="rotate(-20 90 88.5)"/>
+      <rect width="140" height="137" x="33.704" y="5.84" fill="#FFF" transform="rotate(-5 103.704 74.34)"/>
+    </g>
+    <text fill="#03A2F8" font-family="PingFangSC-Semibold, PingFang SC" font-size="90" font-weight="500" transform="rotate(-5 73.317 65)">
+      <tspan x="49.107" y="97">J</tspan>
+    </text>
+    <text fill="#03A2F8" font-family="PingFangSC-Semibold, PingFang SC" font-size="90" font-weight="500" transform="rotate(-5 131.5 101)">
+      <tspan x="99.37" y="133">K</tspan>
+    </text>
+  </g>
+</svg>

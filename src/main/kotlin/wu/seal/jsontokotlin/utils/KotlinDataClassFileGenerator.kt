@@ -170,23 +170,34 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
     }
 
     fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
-        val classNameList = classes.map { it.name }
+        val notBeenReferencedClass = mutableListOf<ParsedKotlinDataClass>().apply {
+            addAll(classes)
+            removeAt(0)
+        }
 
-        /**
-         * Build Property Type reference to ParsedKotlinDataClass
-         * Only pre class property type could reference behind classes
-         */
-        classes.forEachIndexed { index, kotlinDataClass ->
-            kotlinDataClass.properties.forEachIndexed { _, property ->
-                val indexOfClassName =
-                    classNameList.firstIndexAfterSpecificIndex(getRawType(getChildType(property.propertyType)), index)
-                if (indexOfClassName != -1) {
-                    property.kotlinDataClassPropertyTypeRef = classes[indexOfClassName]
-                }
-            }
+        val classNameList = notBeenReferencedClass.map { it.name }.toMutableList()
+
+        classes.forEach {
+            buildClassTypeReference(it, classNameList, notBeenReferencedClass)
         }
 
         return classes
+    }
+
+    private fun buildClassTypeReference(tobeBuildTypeReferenceClass: ParsedKotlinDataClass, classNameList: MutableList<String>, notBeenReferencedClass: MutableList<ParsedKotlinDataClass>) {
+        tobeBuildTypeReferenceClass.properties.forEach { property ->
+            val indexOfClassName =
+                classNameList.indexOf(getRawType(getChildType(property.propertyType)))
+            if (indexOfClassName != -1) {
+                val referencedClass = notBeenReferencedClass[indexOfClassName]
+                notBeenReferencedClass.remove(referencedClass)
+                classNameList.removeAt(indexOfClassName)
+                property.kotlinDataClassPropertyTypeRef = referencedClass
+
+                buildClassTypeReference(referencedClass,classNameList,notBeenReferencedClass)
+
+            }
+        }
     }
 
     private fun generateKotlinDataClassFile(
@@ -220,7 +231,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
         }
 
         executeCouldRollBackAction(project) {
-            val file = psiFileFactory.createFileFromText("$fileName.kt", KotlinFileType(), kotlinFileContent)
+            val file = psiFileFactory.createFileFromText("${fileName.trim('`')}.kt", KotlinFileType(), kotlinFileContent)
             directory.add(file)
         }
     }
@@ -243,7 +254,7 @@ class KotlinDataClassFileGenerator(private val interceptors: List<IKotlinDataCla
     private fun changeClassNameIfCurrentListContains(classesNames: List<String>, className: String): String {
         var newClassName = className
 
-        var fileNamesInLowerCase = classesNames.map { it.toLowerCase() }
+        val fileNamesInLowerCase = classesNames.map { it.toLowerCase() }
         while (fileNamesInLowerCase.contains(newClassName.toLowerCase())) {
             newClassName += "X"
         }
