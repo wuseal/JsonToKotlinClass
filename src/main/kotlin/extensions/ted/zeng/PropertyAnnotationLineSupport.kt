@@ -1,9 +1,9 @@
 package extensions.ted.zeng
 
-import com.intellij.ui.layout.verticalPanel
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.classscodestruct.Property
+import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import javax.swing.JCheckBox
 import javax.swing.JPanel
 
@@ -21,7 +21,7 @@ object PropertyAnnotationLineSupport : Extension() {
                 setConfig(enable, isSelected.toString())
             }
         }
-        return verticalPanel {
+        return horizontalLinearLayout {
             checkBox()
         }
     }

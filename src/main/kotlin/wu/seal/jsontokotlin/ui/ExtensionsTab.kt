@@ -1,31 +1,23 @@
 package wu.seal.jsontokotlin.ui
 
-import com.intellij.ui.layout.panel
-import com.intellij.util.ui.JBDimension
+import com.intellij.util.ui.JBEmptyBorder
 import extensions.ExtensionsCollector
-import java.awt.Color
-import java.awt.FlowLayout
+import java.awt.BorderLayout
 import java.awt.LayoutManager
 import javax.swing.JPanel
 
-class ExtensionsTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
+class ExtensionsTab(layoutManager: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layoutManager, isDoubleBuffered) {
 
-    constructor(isDoubleBuffered: Boolean) : this(FlowLayout(), isDoubleBuffered)
+    constructor(isDoubleBuffered: Boolean) : this(BorderLayout(), isDoubleBuffered)
 
     init {
-
-        add(panel {
+        add(verticalLinearLayout {
             ExtensionsCollector.extensions.forEach {
-                row(separated = false) {
-                    it.createUI().apply {
-                        preferredSize = JBDimension(500, 0)
-                    }.invoke()
-                }
+                it.createUI().apply {
+                    border = JBEmptyBorder(5, 3, 5, 3)
+                }()
             }
-        }.apply {
-            minimumSize = JBDimension(500, 300)
-            preferredSize = JBDimension(500, 300)
-        })
+        },BorderLayout.CENTER)
     }
 
 }
