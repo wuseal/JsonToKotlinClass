@@ -17,13 +17,15 @@ interface IProperty {
 
 }
 
-class KProperty(private val rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
+class KProperty(rawPropertyName: String, private val propertyType: String, private val propertyValue: String) : IProperty {
+
+    private val noLinebreakPropertyName = rawPropertyName.replace("\n","\\n").take(255)
 
     override fun getPropertyStringBlock(): String {
 
         val blockBuilder = StringBuilder()
 
-        blockBuilder.append(NoneSupporter.getNoneLibSupporterProperty(rawPropertyName, propertyType))
+        blockBuilder.append(NoneSupporter.getNoneLibSupporterProperty(noLinebreakPropertyName, propertyType))
 
         return blockBuilder.toString()
     }
