@@ -193,9 +193,9 @@ The development of this plugin is powerly driven by JetBrains.
 
 ### Join the Community
 
-| QQ Group |
+| Slack |
 | -------- |
-| ![QQ Group](qq_qrcode.png "Scan QR code with QQ/TIM to join the group chat")
+| [Join JsonToKotlinClass Slack](https://join.slack.com/t/jsontokotlinclass/shared_invite/enQtNjk2NjM1MDM3MDA5LWYxYTI3ZDRlZTMyNDI2Mjg5NzZmZjQzM2ZlNjE5OTFmNWYyY2E0ZGEzZTQ3OWNhODEwOTUwYmU0YmRjZjQ5OGQ")
 
 ### Note：
 We analytics anonymous user behavior for improving plugin production, If you don't want this behavior enable, please contact us, we will provide a switch case for that.
