@@ -1,10 +1,9 @@
 package extensions.wu.seal
 
-import com.intellij.ui.layout.panel
 import com.intellij.util.ui.JBDimension
-import com.intellij.util.ui.JBEmptyBorder
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import wu.seal.jsontokotlin.utils.getChildType
 import wu.seal.jsontokotlin.utils.getRawType
 import java.awt.event.FocusEvent
@@ -47,13 +46,11 @@ object ClassNameSuffixSupport : Extension() {
             }
         }
 
-        return panel {
-            row {
-                checkBox()
-                prefixJField()
-            }
+        return horizontalLinearLayout {
+            checkBox()
+            prefixJField()
         }.apply {
-            border = JBEmptyBorder(6, 0, 0, 0)
+            maximumSize = JBDimension(600,40)
         }
     }
 
@@ -66,21 +63,21 @@ object ClassNameSuffixSupport : Extension() {
             val standTypes = listOf("Int", "Double", "Long", "String", "Boolean")
             val originName = kotlinDataClass.name
             val newPropertyTypes =
-                kotlinDataClass.properties.map {
-                    val rawSubType = getChildType(getRawType(it.type))
-                    when {
-                        it.type.isMapType() -> {
-                            it.type//currently don't support map type
+                    kotlinDataClass.properties.map {
+                        val rawSubType = getChildType(getRawType(it.type))
+                        when {
+                            it.type.isMapType() -> {
+                                it.type//currently don't support map type
+                            }
+                            standTypes.contains(rawSubType) -> it.type
+                            else -> it.type.replace(rawSubType, rawSubType + suffix)
                         }
-                        standTypes.contains(rawSubType) -> it.type
-                        else -> it.type.replace(rawSubType, rawSubType + suffix)
                     }
-                }
 
             val newPropertyDefaultValues = kotlinDataClass.properties.map {
                 val rawSubType = getChildType(getRawType(it.type))
                 when {
-                    it.value.isEmpty()-> it.value
+                    it.value.isEmpty() -> it.value
                     it.type.isMapType() -> {
                         it.value//currently don't support map type
                     }
@@ -95,7 +92,7 @@ object ClassNameSuffixSupport : Extension() {
 
                 val newValue = newPropertyDefaultValues[index]
 
-                property.copy(type = newType,value = newValue)
+                property.copy(type = newType, value = newValue)
             }
 
 

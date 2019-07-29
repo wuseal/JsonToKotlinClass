@@ -18,6 +18,7 @@ import com.intellij.util.ui.JBEmptyBorder
 import wu.seal.jsontokotlin.feedback.FormatJSONAction
 import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
+import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 import java.awt.*
 import java.awt.datatransfer.DataFlavor
 import java.awt.event.ActionEvent
@@ -25,6 +26,8 @@ import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.net.URI
 import java.net.URL
+import java.util.*
+import java.util.Timer
 import javax.swing.*
 import javax.swing.text.AttributeSet
 import javax.swing.text.JTextComponent
@@ -59,12 +62,12 @@ val myInputValidator = MyInputValidator()
  * Json input Dialog
  */
 class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(
-    project,
-    "Please input the JSON String and class name to generate Kotlin data class",
-    "Generate Kotlin Data Class Code",
-    null,
-    "",
-    myInputValidator
+        project,
+        "Please input the JSON String and class name to generate Kotlin data class",
+        "Generate Kotlin Data Class Code",
+        null,
+        "",
+        myInputValidator
 ) {
     private lateinit var jsonContentEditor: Editor
 
@@ -80,27 +83,27 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             font = font.deriveFont(14f)
         }
         val jsonTip =
-            JBLabel("Tips: you can use JSON string、http urls or local file just right click on text area").apply {
-                font = font.deriveFont(12f)
-            }
+                JBLabel("Tips: you can use JSON string、http urls or local file just right click on text area").apply {
+                    font = font.deriveFont(12f)
+                }
 
         val formatButton = JButton("JSON Format")
-            .apply {
-                addActionListener(object : AbstractAction() {
-                    override fun actionPerformed(p0: ActionEvent?) {
-                        handleFormatJSONString()
-                    }
-                })
-            }
+                .apply {
+                    addActionListener(object : AbstractAction() {
+                        override fun actionPerformed(p0: ActionEvent?) {
+                            handleFormatJSONString()
+                        }
+                    })
+                }
         val jsonInputTitleContainer = JPanel()
-            .apply {
-                border = JBEmptyBorder(0, 0, 5, 0)
-                layout = BoxLayout(this, BoxLayout.LINE_AXIS)
-                add(jsonTitle)
-                add(jsonTip)
-                add(Box.createHorizontalGlue())
-                add(formatButton)
-            }
+                .apply {
+                    border = JBEmptyBorder(0, 0, 5, 0)
+                    layout = BoxLayout(this, BoxLayout.LINE_AXIS)
+                    add(jsonTitle)
+                    add(jsonTip)
+                    add(Box.createHorizontalGlue())
+                    add(formatButton)
+                }
         val rightContainer = JPanel(BorderLayout()).apply {
 
             add(JLabel(myMessage).apply {
@@ -118,11 +121,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             border = JBEmptyBorder(0, 0, 0, 5)
         }
         return JPanel(BorderLayout())
-            .apply {
-                border = JBEmptyBorder(0, 0, 5, 0)
-                add(iconLabel, BorderLayout.WEST)
-                add(rightContainer, BorderLayout.CENTER)
-            }
+                .apply {
+                    border = JBEmptyBorder(0, 0, 5, 0)
+                    add(iconLabel, BorderLayout.WEST)
+                    add(rightContainer, BorderLayout.CENTER)
+                }
 
     }
 
@@ -130,58 +133,68 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         jsonContentEditor = createJsonContentEditor()
         myInputValidator.jsonInputEditor = jsonContentEditor
 
+        //remove ˚
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                SwingUtilities.invokeLater {
+                    executeCouldRollBackAction(project) {
+                        jsonContentEditor.document.setText("")
+                    }
+                }
+            }
+        }, 100)
 
         val jsonInputContainer = JPanel(BorderLayout())
-            .apply {
-                preferredSize = JBDimension(700, 400)
-                border = JBEmptyBorder(5, 0, 5, 5)
-                add(jsonContentEditor.component, BorderLayout.CENTER)
-            }
+                .apply {
+                    preferredSize = JBDimension(700, 400)
+                    border = JBEmptyBorder(5, 0, 5, 5)
+                    add(jsonContentEditor.component, BorderLayout.CENTER)
+                }
 
         myField = createTextFieldComponent()
 
         val classNameInputContainer = createLinearLayoutVertical()
-            .apply {
-                val classNameTitle = JBLabel("Class Name:")
-                classNameTitle.border = JBEmptyBorder(5, 0, 5, 0)
-                addComponentIntoVerticalBoxAlignmentLeft(classNameTitle)
-                addComponentIntoVerticalBoxAlignmentLeft(myField)
-                preferredSize = JBDimension(500, 56)
-                font = font.deriveFont(14f)
-            }
+                .apply {
+                    val classNameTitle = JBLabel("Class Name:")
+                    classNameTitle.border = JBEmptyBorder(5, 0, 5, 0)
+                    addComponentIntoVerticalBoxAlignmentLeft(classNameTitle)
+                    addComponentIntoVerticalBoxAlignmentLeft(myField)
+                    preferredSize = JBDimension(500, 56)
+                    font = font.deriveFont(14f)
+                }
 
         val centerInputContainer = JPanel(BorderLayout())
-            .apply {
-                add(jsonInputContainer, BorderLayout.CENTER)
-                add(classNameInputContainer, BorderLayout.SOUTH)
-            }
+                .apply {
+                    add(jsonInputContainer, BorderLayout.CENTER)
+                    add(classNameInputContainer, BorderLayout.SOUTH)
+                }
 
         val settingContainer = createAdvancedPanel()
 
         return JPanel(BorderLayout())
-            .apply {
-                add(centerInputContainer, BorderLayout.CENTER)
-                add(settingContainer, BorderLayout.SOUTH)
-            }
+                .apply {
+                    add(centerInputContainer, BorderLayout.CENTER)
+                    add(settingContainer, BorderLayout.SOUTH)
+                }
     }
 
     private fun createAdvancedPanel(): JPanel {
         val advancedButton = JButton("Advanced")
-            .apply {
-                horizontalAlignment = SwingConstants.CENTER
-                addActionListener(object : AbstractAction() {
-                    override fun actionPerformed(e: ActionEvent) {
-                        AdvancedDialog(false).show()
-                    }
-                })
-            }
+                .apply {
+                    horizontalAlignment = SwingConstants.CENTER
+                    addActionListener(object : AbstractAction() {
+                        override fun actionPerformed(e: ActionEvent) {
+                            AdvancedDialog(false).show()
+                        }
+                    })
+                }
 
         val tip = JLabel("Like this version? Please star here: ")
         val projectLink =
-            JLabel("<html><a href='https://github.com/wuseal/JsonToKotlinClass'>https://github.com/wuseal/JsonToKotlinClass</a></html>")
+                JLabel("<html><a href='https://github.com/wuseal/JsonToKotlinClass'>https://github.com/wuseal/JsonToKotlinClass</a></html>")
 
         projectLink.maximumSize =
-            JBDimension(210, 30)//if not add this line code，the `add(Box.createHorizontalGlue())`code will not do work
+                JBDimension(210, 30)//if not add this line code，the `add(Box.createHorizontalGlue())`code will not do work
 
         projectLink.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
@@ -197,14 +210,14 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             }
         })
         return JPanel()
-            .apply {
-                border = JBEmptyBorder(0, 0, 10, 7)
-                layout = BoxLayout(this, BoxLayout.LINE_AXIS)
-                add(advancedButton)
-                add(Box.createHorizontalGlue())
-                add(tip)
-                add(projectLink)
-            }
+                .apply {
+                    border = JBEmptyBorder(0, 0, 10, 7)
+                    layout = BoxLayout(this, BoxLayout.LINE_AXIS)
+                    add(advancedButton)
+                    add(Box.createHorizontalGlue())
+                    add(tip)
+                    add(projectLink)
+                }
     }
 
     private fun createJsonContentEditor(): Editor {
@@ -221,11 +234,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         val editor = editorFactory.createEditor(document, null, JsonFileType.INSTANCE, false)
 
         editor.component
-            .apply {
-                isEnabled = true
-                preferredSize = Dimension(640, 480)
-                autoscrolls = true
-            }
+                .apply {
+                    isEnabled = true
+                    preferredSize = Dimension(640, 480)
+                    autoscrolls = true
+                }
 
 
         val contentComponent = editor.contentComponent
@@ -242,19 +255,19 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
     override fun createTextFieldComponent(): JTextComponent {
 
         return JTextField()
-            .apply {
-                preferredSize = JBDimension(400, 40)
-                document = object : PlainDocument() {
-                    override fun insertString(offs: Int, str: String?, a: AttributeSet?) {
-                        str ?: return
-                        super.insertString(
-                            offs,
-                            str.filter { it.isLetterOrDigit() || it in listOf('_', '$') }.take(252),
-                            a
-                        )
+                .apply {
+                    preferredSize = JBDimension(400, 40)
+                    document = object : PlainDocument() {
+                        override fun insertString(offs: Int, str: String?, a: AttributeSet?) {
+                            str ?: return
+                            super.insertString(
+                                    offs,
+                                    str.filter { it.isLetterOrDigit() || it in listOf('_', '$') }.take(252),
+                                    a
+                            )
+                        }
                     }
                 }
-            }
     }
 
     private fun createPasteFromClipboardMenuItem() = JMenuItem("Paste from clipboard").apply {
@@ -337,7 +350,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 fun createLinearLayoutVertical(): JPanel {
 
     return JPanel()
-        .apply {
-            layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
-        }
+            .apply {
+                layout = BoxLayout(this, BoxLayout.PAGE_AXIS)
+            }
 }
