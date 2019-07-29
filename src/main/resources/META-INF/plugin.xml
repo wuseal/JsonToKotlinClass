@@ -47,10 +47,11 @@
 
 
     <change-notes><![CDATA[
+       <br>New UI&UX  </br>
        <br>Bugs fix  </br>
        <br>New Features </br>
-       <br>Note: This version no update jsonschema</br>
-
+       <br>Note:</br>
+       <a href="https://github.com/wuseal/JsonToKotlinClass/milestone/8"> detail update</a></br>
     ]]>
     </change-notes>
 
@@ -67,15 +68,15 @@
 
     <actions>
         <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction"
-                text="Kotlin data classes from JSON"
-                description="convert a json string data into kotlin data class code">
+                text="Kotlin Data Classes from JSON"
+                description="Convert a json string data into kotlin data class code">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt k"/>
         </action>
 
         <action id="wu.seal.wu.seal.jsontokotlin.GenerateKotlinFileAction"
                 class="wu.seal.jsontokotlin.GenerateKotlinFileAction"
-                text="Kotlin data class File from JSON"
+                text="Kotlin Data Class File from JSON"
                 icon="/icons/action.png"
                 description="Generate Kotlin data class File from JSON">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
@@ -88,5 +89,4 @@
             <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
         </component>
     </application-components>
-    <version/>
 </idea-plugin>
