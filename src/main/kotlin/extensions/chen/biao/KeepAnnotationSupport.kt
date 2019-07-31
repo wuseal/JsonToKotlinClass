@@ -1,9 +1,9 @@
 package extensions.chen.biao
 
-import com.intellij.ui.layout.panel
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.Annotation
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import javax.swing.JCheckBox
 import javax.swing.JPanel
 
@@ -19,17 +19,15 @@ object KeepAnnotationSupport : Extension() {
 
     override fun createUI(): JPanel {
 
-        val checkBox = JCheckBox("Enable Add a Keep Annotation To The Class").apply {
+        val checkBox = JCheckBox("Add @Keep Annotation On Class ").apply {
             isSelected = getConfig(configKey).toBoolean()
             addActionListener {
                 setConfig(configKey, isSelected.toString())
             }
         }
 
-        return panel {
-            row {
-                checkBox()
-            }
+        return horizontalLinearLayout {
+            checkBox()
         }
     }
 
