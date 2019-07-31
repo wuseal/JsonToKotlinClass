@@ -1,10 +1,9 @@
 package extensions.wu.seal
 
-import com.intellij.ui.layout.panel
 import com.intellij.util.ui.JBDimension
-import com.intellij.util.ui.JBEmptyBorder
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import extensions.Extension
+import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import java.awt.event.FocusEvent
 import java.awt.event.FocusListener
 import javax.swing.JCheckBox
@@ -41,13 +40,11 @@ object PropertySuffixSupport : Extension() {
             }
         }
 
-        return panel {
-            row {
-                checkBox()
-                suffixJField()
-            }
+        return horizontalLinearLayout {
+            checkBox()
+            suffixJField()
         }.apply {
-            border = JBEmptyBorder(6, 0, 0, 0)
+            maximumSize = JBDimension(600,40)
         }
     }
 
