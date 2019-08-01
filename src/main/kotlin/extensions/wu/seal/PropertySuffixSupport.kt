@@ -1,50 +1,28 @@
 package extensions.wu.seal
 
-import com.intellij.util.ui.JBDimension
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import java.awt.event.FocusEvent
-import java.awt.event.FocusListener
-import javax.swing.JCheckBox
+import wu.seal.jsontokotlin.ui.textInput
 import javax.swing.JPanel
-import javax.swing.JTextField
 
 object PropertySuffixSupport : Extension() {
 
     private const val suffixKeyEnable = "wu.seal.property_suffix_enable"
     private const val suffixKey = "wu.seal.property_suffix"
     override fun createUI(): JPanel {
-        val suffixJField = JTextField().apply {
-            text = getConfig(suffixKey)
-
-            addFocusListener(object : FocusListener {
-                override fun focusGained(e: FocusEvent?) {
-                }
-
-                override fun focusLost(e: FocusEvent?) {
-                    if (getConfig(suffixKeyEnable).toBoolean()) {
-                        setConfig(suffixKey, text)
-                    }
-                }
-            })
-            isEnabled = getConfig(suffixKeyEnable).toBoolean()
-            minimumSize = JBDimension(150, 25)
-        }
-
-        val checkBox = JCheckBox("Suffix append after every property: ").apply {
-            isSelected = getConfig(suffixKeyEnable).toBoolean()
-            addActionListener {
-                setConfig(suffixKeyEnable, isSelected.toString())
-                suffixJField.isEnabled = isSelected
-            }
-        }
-
         return horizontalLinearLayout {
-            checkBox()
-            suffixJField()
-        }.apply {
-            maximumSize = JBDimension(600,40)
+            val prefixJField = textInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) { it ->
+                if (getConfig(suffixKeyEnable).toBoolean()) {
+                    setConfig(suffixKey, it.text)
+                }
+            }
+            checkBox("Suffix append after every property: ", getConfig(suffixKeyEnable).toBoolean()) { isSelectedAfterClick ->
+                setConfig(suffixKeyEnable, isSelectedAfterClick.toString())
+                prefixJField.isEnabled = isSelectedAfterClick
+            }()
+            prefixJField()
         }
     }
 

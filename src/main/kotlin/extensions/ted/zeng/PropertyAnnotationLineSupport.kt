@@ -3,6 +3,7 @@ package extensions.ted.zeng
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.classscodestruct.Property
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import javax.swing.JCheckBox
 import javax.swing.JPanel
@@ -15,14 +16,12 @@ object PropertyAnnotationLineSupport : Extension() {
     private const val enable = "ted.zeng.property_annotation_in_same_line_enable"
 
     override fun createUI(): JPanel {
-        val checkBox = JCheckBox("Keep Annotation And Property In Same Line").apply {
-            isSelected = getConfig(enable).toBoolean()
-            addActionListener {
-                setConfig(enable, isSelected.toString())
-            }
-        }
         return horizontalLinearLayout {
-            checkBox()
+            checkBox("Keep Annotation And Property In Same Line",getConfig(enable).toBoolean()){
+                isSelectedAfterClick ->
+                setConfig(enable, isSelectedAfterClick.toString())
+            }()
+            fillSpace()
         }
     }
 

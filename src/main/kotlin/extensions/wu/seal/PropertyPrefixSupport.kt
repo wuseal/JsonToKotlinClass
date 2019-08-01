@@ -1,14 +1,11 @@
 package extensions.wu.seal
 
-import com.intellij.util.ui.JBDimension
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import java.awt.event.FocusEvent
-import java.awt.event.FocusListener
-import javax.swing.JCheckBox
+import wu.seal.jsontokotlin.ui.textInput
 import javax.swing.JPanel
-import javax.swing.JTextField
 
 object PropertyPrefixSupport : Extension() {
 
@@ -16,38 +13,18 @@ object PropertyPrefixSupport : Extension() {
     private const val prefixKey = "wu.seal.property_prefix"
 
     override fun createUI(): JPanel {
-        val prefixJField = JTextField().apply {
-            text = getConfig(prefixKey)
-
-            addFocusListener(object : FocusListener {
-                override fun focusGained(e: FocusEvent?) {
-                }
-
-                override fun focusLost(e: FocusEvent?) {
-                    if (getConfig(prefixKeyEnable).toBoolean()) {
-                        setConfig(prefixKey, text)
-                    }
-                }
-            })
-
-            isEnabled = getConfig(prefixKeyEnable).toBoolean()
-        }
-
-        val checkBox = JCheckBox("Prefix append before every property: ").apply {
-            isSelected = getConfig(prefixKeyEnable).toBoolean()
-            addActionListener {
-                setConfig(prefixKeyEnable, isSelected.toString())
-                prefixJField.isEnabled = isSelected
-            }
-        }
-
         return horizontalLinearLayout {
-            checkBox()
+            val prefixJField = textInput(getConfig(prefixKey), getConfig(prefixKeyEnable).toBoolean()) { it ->
+                if (getConfig(prefixKeyEnable).toBoolean()) {
+                    setConfig(prefixKey, it.text)
+                }
+            }
+            checkBox("Prefix append before every property: ", getConfig(prefixKeyEnable).toBoolean()) { isSelectedAfterClick ->
+                setConfig(prefixKeyEnable, isSelectedAfterClick.toString())
+                prefixJField.isEnabled = isSelectedAfterClick
+            }()
             prefixJField()
-        }.apply {
-            maximumSize = JBDimension(600,40)
         }
-
     }
 
 

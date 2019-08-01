@@ -15,11 +15,11 @@ object ExtensionsCollector {
      * all extensions
      */
     val extensions = listOf(
-        PropertyPrefixSupport,
-        PropertySuffixSupport,
-        KeepAnnotationSupport,
-        PropertyAnnotationLineSupport,
-        ClassNameSuffixSupport,
-        ParcelableAnnotationSupport
+            KeepAnnotationSupport,
+            PropertyAnnotationLineSupport,
+            ParcelableAnnotationSupport,
+            PropertyPrefixSupport,
+            PropertySuffixSupport,
+            ClassNameSuffixSupport
     )
 }
