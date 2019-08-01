@@ -15,6 +15,7 @@ import com.intellij.openapi.util.IconLoader
 import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.JBDimension
 import com.intellij.util.ui.JBEmptyBorder
+import wu.seal.jsontokotlin.feedback.ClickProjectURLAction
 import wu.seal.jsontokotlin.feedback.FormatJSONAction
 import wu.seal.jsontokotlin.feedback.sendActionInfo
 import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
@@ -198,6 +199,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
         projectLink.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
+                sendActionInfo(prettyGson.toJson(ClickProjectURLAction()))
                 Desktop.getDesktop().browse(URI("https://github.com/wuseal/JsonToKotlinClass"))
             }
 
