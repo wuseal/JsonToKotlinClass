@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.ui
 
-import com.intellij.util.ui.JBEmptyBorder
 import extensions.ExtensionsCollector
 import java.awt.BorderLayout
 import java.awt.LayoutManager
@@ -13,9 +12,7 @@ class ExtensionsTab(layoutManager: LayoutManager?, isDoubleBuffered: Boolean) : 
     init {
         add(verticalLinearLayout {
             ExtensionsCollector.extensions.forEach {
-                it.createUI().apply {
-                    border = JBEmptyBorder(5, 3, 5, 3)
-                }()
+                it.createUI()()
             }
         },BorderLayout.CENTER)
     }
