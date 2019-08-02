@@ -1,38 +1,17 @@
 package wu.seal.jsontokotlin.ui
 
-import com.intellij.ui.components.JBCheckBox
-import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.JBDimension
-import com.intellij.util.ui.JBEmptyBorder
-import com.intellij.util.ui.JBUI
 import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.utils.addComponentIntoVerticalBoxAlignmentLeft
 import java.awt.BorderLayout
-import java.awt.FlowLayout
-import java.awt.LayoutManager
-import java.awt.event.FocusEvent
-import java.awt.event.FocusListener
-import java.awt.event.KeyAdapter
-import java.awt.event.KeyEvent
-import javax.swing.Box
-import javax.swing.BoxLayout
 import javax.swing.JPanel
-import javax.swing.border.EmptyBorder
 
 /**
  * others settings tab in config settings dialog
  * Created by Seal.Wu on 2018/2/6.
  */
-class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layout, isDoubleBuffered) {
-
-    constructor(isDoubleBuffered: Boolean) : this(BorderLayout(), isDoubleBuffered)
-
+class AdvancedOtherTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDoubleBuffered) {
     init {
-
         val content = verticalLinearLayout {
-
             checkBox("Enable Comment", ConfigManager.isCommentOff.not()) {
                 ConfigManager.isCommentOff = it.not()
             }.putAlignLeft()
@@ -81,7 +60,5 @@ class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
             }()
         }
         add(content, BorderLayout.CENTER)
-
     }
-
 }

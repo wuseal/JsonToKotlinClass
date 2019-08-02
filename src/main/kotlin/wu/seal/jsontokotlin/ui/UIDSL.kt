@@ -66,6 +66,9 @@ class VerticalLinearLayoutBox : Box(BoxLayout.Y_AXIS) {
         add(createVerticalStrut(JBUI.scale(spaceHeight)))
     }
 
+    /**
+     * add this component with align left style
+     */
     fun <T : JComponent> T.putAlignLeft(): T {
         fixedSpace(lineSpaceHeight)
         this@VerticalLinearLayoutBox.add(horizontalLinearLayout {
