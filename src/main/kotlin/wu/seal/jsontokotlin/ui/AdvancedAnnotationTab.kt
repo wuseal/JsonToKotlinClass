@@ -16,7 +16,7 @@ import javax.swing.ScrollPaneConstants
  */
 class AdvancedAnnotationTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDoubleBuffered) {
     init {
-        val customizeAnnotationDetailPanel = verticalLinearLayout {
+        val customizeAnnotationConfigPanel = verticalLinearLayout {
             label("Annotation Import Class : ").putAlignLeft()
             textAreaInput(ConfigManager.customAnnotationClassImportdeclarationString) {
                 ConfigManager.customAnnotationClassImportdeclarationString = it.text
@@ -32,9 +32,9 @@ class AdvancedAnnotationTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), 
         }
         val content = verticalLinearLayout {
             AnnotationsSelectPanel(true) {
-                customizeAnnotationDetailPanel.isVisible = it
+                customizeAnnotationConfigPanel.isVisible = it
             }()
-            customizeAnnotationDetailPanel()
+            customizeAnnotationConfigPanel()
         }
 
         val scrollPanel = scrollPanel(JBDimension(500, 300)) {

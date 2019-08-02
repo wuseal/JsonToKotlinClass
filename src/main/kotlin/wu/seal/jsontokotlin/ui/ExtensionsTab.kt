@@ -1,20 +1,19 @@
 package wu.seal.jsontokotlin.ui
 
+import com.intellij.util.ui.JBDimension
 import extensions.ExtensionsCollector
 import java.awt.BorderLayout
-import java.awt.LayoutManager
 import javax.swing.JPanel
 
-class ExtensionsTab(layoutManager: LayoutManager?, isDoubleBuffered: Boolean) : JPanel(layoutManager, isDoubleBuffered) {
-
-    constructor(isDoubleBuffered: Boolean) : this(BorderLayout(), isDoubleBuffered)
-
+class ExtensionsTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDoubleBuffered) {
     init {
-        add(verticalLinearLayout {
-            ExtensionsCollector.extensions.forEach {
-                it.createUI()()
+        val content = scrollPanel(JBDimension(500, 300)) {
+            verticalLinearLayout {
+                ExtensionsCollector.extensions.forEach {
+                    it.createUI()()
+                }
             }
-        },BorderLayout.CENTER)
+        }
+        add(content, BorderLayout.CENTER)
     }
-
 }
