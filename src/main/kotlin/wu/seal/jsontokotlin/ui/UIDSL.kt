@@ -192,7 +192,7 @@ fun borderLayout(content: SimpleBorderLayout.() -> Unit): JPanel {
 /**
  * generate a label component
  */
-fun label(text: String, textSize: Int = 13): JLabel {
+fun label(text: String, textSize: Float = 13f): JLabel {
     return JBLabel(text).apply {
         font = font.deriveFont(textSize)
     }
@@ -230,6 +230,7 @@ fun link(text: String, linkURL: String, linkURLColor: String = "#5597EB", maxSiz
         addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
                 Desktop.getDesktop().browse(URI(linkURL))
+                onclick()
             }
 
             override fun mouseEntered(e: MouseEvent?) {
@@ -287,9 +288,9 @@ fun textAreaInput(initText: String, size: JBDimension = JBDimension(400, 50), en
     val document = editorFactory.createDocument("").apply {
         setReadOnly(false)
     }
-    val editor = editorFactory.createEditor(document, null, PlainTextFileType.INSTANCE, false)
+    val editor = editorFactory.createEditor(document, null, textLanguageType, false)
     editor.component.apply {
-        isEnabled = true
+        isEnabled = enabled
         autoscrolls = true
         preferredSize = size
     }
@@ -349,7 +350,7 @@ fun scrollPanel(size: JBDimension, content: () -> Component): JBScrollPane {
  */
 fun gridLayout(rows: Int, columns: Int, content: MyGridLayout.() -> Unit): JPanel {
     val gridLayout = MyGridLayout()
-    gridLayout.layout = GridLayout(5, columns, 10, 10)
+    gridLayout.layout = GridLayout(rows, columns, 10, 10)
     gridLayout.content()
     return gridLayout
 }

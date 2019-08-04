@@ -60,10 +60,10 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             icon("/icons/icon_json_input_dialog.png")()
             fixedSpace(5)
             verticalLinearLayout {
-                label(myMessage, 12).putAlignLeft()
+                label(myMessage, 12f).putAlignLeft()
                 horizontalLinearLayout {
-                    label("JSON Text: ", 12)()
-                    label("Tips: you can use JSON string、http urls or local file just right click on text area", 12)()
+                    label("JSON Text: ", 14f)()
+                    label("Tips: you can use JSON string、http urls or local file just right click on text area", 12f)()
                     fillSpace()
                     button("JSON Format") {
                         handleFormatJSONString()
@@ -95,7 +95,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             verticalLinearLayout {
                 fixedSpace(7)
                 horizontalLinearLayout {
-                    label("Class Name: ", 14)()
+                    label("Class Name: ", 14f)()
                     myField()
                 }()
                 fixedSpace(3)
