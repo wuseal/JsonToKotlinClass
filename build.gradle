@@ -32,8 +32,7 @@ patchPluginXml {
 }
 
 publishPlugin {
-    username System.getenv('username')
-    password System.getenv('password')
+    token System.getenv('token')
     channels System.getProperty('channels', "")
 }
 
