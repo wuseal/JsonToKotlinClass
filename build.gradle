@@ -20,7 +20,7 @@ apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
 
 group 'wu.seal'
-version '3.4.0'
+version '3.4.1'
 
 intellij {
     version '2017.1'
@@ -32,8 +32,7 @@ patchPluginXml {
 }
 
 publishPlugin {
-    username System.getenv('username')
-    password System.getenv('password')
+    token System.getenv('token')
     channels System.getProperty('channels', "")
 }
 
