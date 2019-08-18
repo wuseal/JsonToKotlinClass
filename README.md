@@ -56,7 +56,7 @@ Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 * Generating Kotlin `data class` as inner classes
 * [Formatting any legal JSON string](https://github.com/wuseal/JsonToKotlinClass/issues/18)
 * Generating Map Type when json key is primitive type
-* [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/44)
+* [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/194)
 * [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 * Generating kotlin data class property order by alphabetical
 * [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_extensions.md)
