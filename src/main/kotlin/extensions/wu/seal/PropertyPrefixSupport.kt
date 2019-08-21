@@ -33,8 +33,10 @@ object PropertyPrefixSupport : Extension() {
             val originProperties = kotlinDataClass.properties
             val newProperties = originProperties.map {
                 val prefix = getConfig(prefixKey)
-                val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
-                it.copy(name = newName)
+                if (it.name.isNotEmpty()) {
+                    val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
+                    it.copy(name = newName)
+                } else it
             }
             kotlinDataClass.copy(properties = newProperties)
         } else {
