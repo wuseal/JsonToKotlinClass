@@ -58,10 +58,6 @@ object InterceptorManager {
                 add(ParentClassTemplateKotlinDataClassInterceptor())
             }
 
-            if (ConfigManager.keywordPropertyValid) {
-                add(MakeKeywordNamedPropertyValidInterceptor())
-            }
-
             if (ConfigManager.isCommentOff) {
                 add(CommentOffInterceptor)
             }
@@ -73,6 +69,8 @@ object InterceptorManager {
         }.apply {
             //add extensions's interceptor
             addAll(ExtensionsCollector.extensions)
+        }.apply {
+            add(FinalKotlinDataClassWrapperInterceptor())
         }
     }
 
