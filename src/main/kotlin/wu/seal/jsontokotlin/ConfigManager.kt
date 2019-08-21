@@ -63,19 +63,6 @@ object ConfigManager : IConfigManager {
             }
         }
 
-    var keywordPropertyValid: Boolean
-        get() = if (TestConfig.isTestModel) {
-            TestConfig.isKeywordPropertyValid
-        } else {
-            PropertiesComponent.getInstance().getBoolean(KEYWORD_PROPERTY_VALID, true)
-        }
-        set (value) {
-            if (TestConfig.isTestModel) {
-                TestConfig.isKeywordPropertyValid = value
-            } else {
-                PropertiesComponent.getInstance().setValue(KEYWORD_PROPERTY_VALID, value, false)
-            }
-        }
     var extensionsConfig: String
         get() = if (TestConfig.isTestModel) {
             TestConfig.extensionsConfig
