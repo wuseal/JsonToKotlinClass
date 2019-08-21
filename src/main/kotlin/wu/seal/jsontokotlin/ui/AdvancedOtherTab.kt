@@ -75,14 +75,6 @@ class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
         }
 
 
-        val enableAutoReformat =
-                JBCheckBox("Auto reformatting generated code according to code style.")
-        val enableAutoReformatNoteLable = JBLabel("(Note that the Indent option bellow would be ignored.)")
-        enableAutoReformatNoteLable.border = JBEmptyBorder(0, 25, 0, 0)
-        enableAutoReformat.isSelected = ConfigManager.enableAutoReformat
-        enableAutoReformat.addActionListener { ConfigManager.enableAutoReformat = enableAutoReformat.isSelected }
-
-
         val indentJPanel = JPanel()
         indentJPanel.border = JBEmptyBorder(0, 5, 0, 0)
         indentJPanel.maximumSize = JBDimension(400, 30)
@@ -163,10 +155,6 @@ class AdvancedOtherTab(layout: LayoutManager?, isDoubleBuffered: Boolean) : JPan
 
         boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
 
-        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformat)
-        boxPanel.addComponentIntoVerticalBoxAlignmentLeft(enableAutoReformatNoteLable)
-
-        boxPanel.add(Box.createVerticalStrut(JBUI.scale(20)))
         boxPanel.addComponentIntoVerticalBoxAlignmentLeft(keywordPropertyValid)
 
         boxPanel.addComponentIntoVerticalBoxAlignmentLeft(indentJPanel)

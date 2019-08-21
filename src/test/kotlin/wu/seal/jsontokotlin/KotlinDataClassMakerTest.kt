@@ -193,12 +193,12 @@ data class Class(
 
 
         generatedClassList[0].properties[0].propertyType.should.be.equal("Test")
-        generatedClassList[0].properties[1].propertyType.should.be.equal("Value")
-        generatedClassList[2].properties[0].propertyType.should.be.equal("ValueX")
+        generatedClassList[0].properties[1].propertyType.should.be.equal("ValueX")
+        generatedClassList[1].properties[0].propertyType.should.be.equal("Value")
 
         generatedClassList[0].name.should.be.equal(className)
-        generatedClassList[1].name.should.be.equal("Value")
-        generatedClassList[2].name.should.be.equal("Test")
+        generatedClassList[1].name.should.be.equal("Test")
+        generatedClassList[2].name.should.be.equal("Value")
         generatedClassList[3].name.should.be.equal("ValueX")
 
     }

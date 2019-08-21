@@ -12,7 +12,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.3.2"
+    id "org.jetbrains.intellij" version "0.4.9"
 }
 
 apply plugin: 'idea'
@@ -20,15 +20,11 @@ apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
 
 group 'wu.seal'
-version '3.0.1'
+version '3.4.1'
 
 intellij {
     version '2017.1'
     pluginName 'JsonToKotlinClass'
-
-    publish {
-        pluginId '9960'
-    }
 }
 
 patchPluginXml {
@@ -36,8 +32,7 @@ patchPluginXml {
 }
 
 publishPlugin {
-    username System.getenv('username')
-    password System.getenv('password')
+    token System.getenv('token')
     channels System.getProperty('channels', "")
 }
 
@@ -47,6 +42,10 @@ repositories {
 }
 
 dependencies {
+    compile ('com.squareup:kotlinpoet:1.1.0'){
+        exclude group: "org.jetbrains.kotlin"
+    }
+
     testImplementation('com.winterbe:expekt:0.5.0') {
         exclude group: "org.jetbrains.kotlin"
     }

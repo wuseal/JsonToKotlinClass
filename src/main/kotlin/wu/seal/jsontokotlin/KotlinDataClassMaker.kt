@@ -11,7 +11,6 @@ import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 class KotlinDataClassMaker(private val rootClassName: String, private val json: String) {
 
 
-
     private val renamedClassNames = mutableListOf<Pair<String, String>>()
 
     fun makeKotlinDataClasses(): List<KotlinDataClass> {
@@ -35,7 +34,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
 
     // method to make in class data classes for JsonToKotlinClass, renames same class name to different
     private fun makeKotlinDataClasses(
-            removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>{
+            removeDuplicateClassCode: String): List<ParsedKotlinDataClass> {
 
         val kotlinClasses = generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode = removeDuplicateClassCode)
 
@@ -56,8 +55,7 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
     /**
      * generates Kotlin data classes without having any class name conflicts
      */
-    fun generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode: String) : List<ParsedKotlinDataClass>
-    {
+    fun generateKotlinDataClassesWithNonConflictNames(removeDuplicateClassCode: String): List<ParsedKotlinDataClass> {
         val classes =
                 getClassesStringList(removeDuplicateClassCode).map { ClassCodeParser(it).getKotlinDataClass() }
 
@@ -161,23 +159,36 @@ class KotlinDataClassMaker(private val rootClassName: String, private val json: 
      * builds the reference for each property in the data classes
      */
     fun buildTypeReference(classes: List<ParsedKotlinDataClass>): List<ParsedKotlinDataClass> {
-        val classNameList = classes.map { it.name }
 
-        /**
-         * Build Property Type reference to ParsedKotlinDataClass
-         * Only pre class property type could reference behind classes
-         */
-        classes.forEachIndexed { index, kotlinDataClass ->
-            kotlinDataClass.properties.forEachIndexed { _, property ->
-                val indexOfClassName =
-                        classNameList.firstIndexAfterSpecificIndex(getRawType(getChildType(property.propertyType)), index)
-                if (indexOfClassName != -1) {
-                    property.kotlinDataClassPropertyTypeRef = classes[indexOfClassName]
-                }
-            }
+        val notBeenReferencedClass = mutableListOf<ParsedKotlinDataClass>().apply {
+            addAll(classes)
+            removeAt(0)
+        }
+
+        val classNameList = notBeenReferencedClass.map { it.name }.toMutableList()
+
+        classes.forEach {
+            buildClassTypeReference(it, classNameList, notBeenReferencedClass)
         }
 
         return classes
+    }
+
+    private fun buildClassTypeReference(tobeBuildTypeReferenceClass: ParsedKotlinDataClass, classNameList: MutableList<String>, notBeenReferencedClass: MutableList<ParsedKotlinDataClass>) {
+        tobeBuildTypeReferenceClass.properties.forEach { property ->
+            val indexOfClassName =
+                    classNameList.indexOf(getRawType(getChildType(property.propertyType)))
+            if (indexOfClassName != -1) {
+                val referencedClass = notBeenReferencedClass[indexOfClassName]
+                notBeenReferencedClass.remove(referencedClass)
+                classNameList.removeAt(indexOfClassName)
+                notBeenReferencedClass.remove(referencedClass)
+                property.kotlinDataClassPropertyTypeRef = referencedClass
+
+                buildClassTypeReference(referencedClass,classNameList,notBeenReferencedClass)
+
+            }
+        }
     }
 
     private fun changeClassNameIfCurrentListContains(classesNames: List<String>, className: String): String {

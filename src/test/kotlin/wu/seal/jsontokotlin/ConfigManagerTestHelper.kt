@@ -25,7 +25,6 @@ class ConfigManagerTestHelper {
 
         traverseBoolConfigOnAction(ConfigManager::enableMapType) {
             traverseBoolConfigOnAction(ConfigManager::enableMinimalAnnotation) {
-                traverseBoolConfigOnAction(ConfigManager::initWithDefaultValue) {
                     traverseBoolConfigOnAction(ConfigManager::isCommentOff) {
                         traverseBoolConfigOnAction(ConfigManager::isInnerClassModel) {
                             traverseBoolConfigOnAction(ConfigManager::isPropertiesVar) {
@@ -33,7 +32,6 @@ class ConfigManagerTestHelper {
                             }
                         }
                     }
-                }
             }
         }
     }
@@ -42,7 +40,9 @@ class ConfigManagerTestHelper {
         traverseConfigOnAction(ConfigManager::indent, listOf(2,4,8)){
             traverseConfigOnAction(ConfigManager::propertyTypeStrategy, PropertyTypeStrategy.values().toList()){
                 traverseConfigOnAction(ConfigManager::targetJsonConverterLib,TargetJsonConverter.values().toList()){
-                    action()
+                    traverseConfigOnAction(ConfigManager::defaultValueStrategy, DefaultValueStrategy.values().toList()) {
+                        action()
+                    }
                 }
             }
         }

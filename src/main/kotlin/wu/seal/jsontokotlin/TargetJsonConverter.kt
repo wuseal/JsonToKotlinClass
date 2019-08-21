@@ -8,5 +8,5 @@ package wu.seal.jsontokotlin
  * This means which Json convert library you are using in you project
  */
 enum class TargetJsonConverter {
-    None, NoneWithCamelCase, Gson, FastJson, Jackson, MoShi, LoganSquare, Custom, MoshiCodeGen
+    None, NoneWithCamelCase, Gson, FastJson, Jackson, MoShi, LoganSquare, Custom, MoshiCodeGen,Serilizable
 }

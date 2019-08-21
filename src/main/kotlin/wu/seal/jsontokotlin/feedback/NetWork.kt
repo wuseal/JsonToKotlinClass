@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.feedback
 
-import com.google.gson.Gson
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -9,53 +8,25 @@ import java.net.URL
  * Created by Seal.Wu on 2017/9/25.
  */
 
-const val actionInfoUrl = "http://jsontokotlin.sealwu.com:8008/sendActionInfo"
-const val exceptionLogUrl = "http://jsontokotlin.sealwu.com:8008/sendExceptionInfo"
-const val configLogUrl = "http://jsontokotlin.sealwu.com:8008/sendConfigInfo"
+const val actionInfoUrl = "https://jsontokotlin.sealwu.com:8443/sendActionInfo"
+const val exceptionLogUrl = "https://jsontokotlin.sealwu.com:8443/sendExceptionInfo"
+const val configLogUrl = "https://jsontokotlin.sealwu.com:8443/sendConfigInfo"
 //const val actionInfoUrl = "http://localhost:8008/sendActionInfo"
 //const val exceptionLogUrl = "http://localhost:8008/sendExceptionInfo"
 //const val configLogUrl = "http://localhost:8008/sendConfigInfo"
 
 fun sendExceptionLog(log: String) {
-    try {
-        val connection = URL(exceptionLogUrl).openConnection() as HttpURLConnection
-        connection.doOutput = true
-        connection.doInput = true
-        connection.addRequestProperty("Content-Type", "application/text")
-        val outputStream = connection.outputStream
-        val writer = outputStream.writer()
-        writer.write(log)
-        writer.flush()
-        if (connection.responseCode != 200) {
-            println(connection.responseMessage + "\n" + connection.errorStream.reader().readText())
-        }
-    } catch(e: Exception) {
-        e.printStackTrace()
-        PersistCache.saveExceptionInfo(log)
-    }
+    sendData(exceptionLogUrl, log)
 }
 
 
 fun sendActionInfo(actionInfo: String) {
-    try {
-        val connection = URL(actionInfoUrl).openConnection() as HttpURLConnection
-        connection.doOutput = true
-        connection.requestMethod = "POST"
-        connection.addRequestProperty("Content-Type", "application/json;charset=UTF-8")
-
-        val outputStream = connection.outputStream
-        val writer = outputStream.writer()
-        writer.write(actionInfo)
-        writer.flush()
-        if (connection.responseCode != 200) {
-            println(connection.responseMessage + "\n" + connection.errorStream.reader().readText())
-        }
-    } catch(e: Exception) {
-        e.printStackTrace()
-        PersistCache.saveActionInfo(actionInfo)
-    }
+    sendData(actionInfoUrl, actionInfo)
 }
 
+fun sendConfigInfo() {
+    sendData(configLogUrl, getConfigInfo())
+}
 
 fun sendHistoryExceptionInfo() {
     Thread {
@@ -76,21 +47,46 @@ fun sendHistoryActionInfo() {
     PersistCache.deleteAllActionInfo()
 }
 
-fun sendConfigInfo() {
-    try {
-        val connection = URL(configLogUrl).openConnection() as HttpURLConnection
-        connection.doOutput = true
-        connection.requestMethod = "POST"
-        connection.addRequestProperty("Content-Type", "application/json;charset=UTF-8")
+fun sendData(url: String, log: String) {
+    Thread {
+        try {
+            with(URL(url).openConnection() as HttpURLConnection) {
+                when (url) {
+                    actionInfoUrl, configLogUrl -> {
+                        doOutput = true
+                        requestMethod = "POST"
+                        addRequestProperty("Content-Type", "application/json;charset=UTF-8")
+                    }
 
-        val outputStream = connection.outputStream
-        val writer = outputStream.writer()
-        writer.write(getConfigInfo())
-        writer.flush()
-        if (connection.responseCode != 200) {
-            println(connection.responseMessage + "\n" + connection.errorStream.reader().readText())
+                    exceptionLogUrl -> {
+                        doOutput = true
+                        doInput = true
+                        addRequestProperty("Content-Type", "application/text")
+                    }
+                }
+                outputStream.use {
+                    val writer = it.writer()
+                    writer.write(log)
+                    writer.flush()
+                }
+                if (responseCode != HttpURLConnection.HTTP_OK) {
+                    val a = responseMessage + "\n" + errorStream.use { it.reader().readText() }
+                    println(a)
+                }
+                disconnect()
+            }
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+
+            when (url) {
+
+                actionInfoUrl -> PersistCache.saveActionInfo(log)
+
+                exceptionLogUrl -> PersistCache.saveExceptionInfo(log)
+
+                else -> Unit//Do nothing
+            }
         }
-    } catch(e: Exception) {
-        e.printStackTrace()
-    }
+    }.start()
 }

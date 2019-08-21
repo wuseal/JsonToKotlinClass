@@ -40,8 +40,8 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassI
         return configs[key]?.asString ?: ""
     }
 
-    override fun intercept(originImportClasses: String): String {
-        return originImportClasses
+    override fun intercept(originClassImportDeclaration: String): String {
+        return originClassImportDeclaration
     }
 
     fun getTestHelper() = TestHelper(this)
@@ -56,7 +56,7 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassI
         }
 
         fun getConfig(key: String): String {
-            return getConfig(key)
+            return extension.getConfig(key)
         }
     }
 }

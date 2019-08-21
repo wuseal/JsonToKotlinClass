@@ -81,7 +81,7 @@ class ClassCodeParser(private val classBlockString: String) {
             } else {
                 removeCommentAndTypeProperty.trim().split(" ")[0]
             }
-            if (annotationPre.contains("@")) {
+            if (annotationPre.startsWith("@")) {
                 listOf(annotationPre)
             } else
                 listOf("")
@@ -100,7 +100,7 @@ class ClassCodeParser(private val classBlockString: String) {
                 val keyword = noAnnotationString.split(" ").first()
                 keyword
             }
-            stringBeforeLastColonWithoutComment.contains("@") -> {
+            stringBeforeLastColonWithoutComment.startsWith("@")-> {
                 val keyword = stringBeforeLastColonWithoutComment.split(" ")[1]
                 keyword
             }
@@ -119,21 +119,21 @@ class ClassCodeParser(private val classBlockString: String) {
                 val noAnnotationString = stringBeforeLastColonWithoutComment.substringAfterLast(")").trim()
                 val splits = noAnnotationString.split(" ")
                 val propertyName =
-                    splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
+                    splits.filterIndexed { index, _ -> listOf(0).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
-            stringBeforeLastColonWithoutComment.contains("@") -> {
+            stringBeforeLastColonWithoutComment.startsWith("@") -> {
                 val splits = stringBeforeLastColonWithoutComment.split(" ")
                 val propertyName =
-                    splits.filterIndexed { index, s -> listOf(0, 1).contains(index).not() }
+                    splits.filterIndexed { index, _ -> listOf(0, 1).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }
             else -> {
                 val splits = stringBeforeLastColonWithoutComment.split(" ")
                 val propertyName =
-                    splits.filterIndexed { index, s -> listOf(0).contains(index).not() }
+                    splits.filterIndexed { index, _ -> listOf(0).contains(index).not() }
                         .joinToString(" ")
                 propertyName
             }

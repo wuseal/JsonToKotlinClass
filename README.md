@@ -56,7 +56,7 @@ Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 * Generating Kotlin `data class` as inner classes
 * [Formatting any legal JSON string](https://github.com/wuseal/JsonToKotlinClass/issues/18)
 * Generating Map Type when json key is primitive type
-* [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/44)
+* [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/194)
 * [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 * Generating kotlin data class property order by alphabetical
 * [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_extensions.md)
@@ -183,8 +183,9 @@ Open the `build.gradle` in IntelliJ, open "Gradle" tool window, expand the proje
 * Share to others to help more people have a better develope expierience :heart:
 
 ### Authors
-* [wuseal](https://github.com/wuseal)
-* [kezhenxu94](https://github.com/kezhenxu94)
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/wuseal/JsonToKotlinClass/graphs/contributors"><img src="https://opencollective.com/jsontokotlin/contributors.svg?width=890" /></a>
 
 ### Acknowledgement
 
@@ -192,10 +193,12 @@ The development of this plugin is powerly driven by JetBrains.
 
 ### Join the Community
 
-| QQ Group |
+| Slack |
 | -------- |
-| ![QQ Group](qq_qrcode.png "Scan QR code with QQ/TIM to join the group chat")
+| [Join JsonToKotlinClass Slack](https://join.slack.com/t/jsontokotlinclass/shared_invite/enQtNjk2NjM1MDM3MDA5LWYxYTI3ZDRlZTMyNDI2Mjg5NzZmZjQzM2ZlNjE5OTFmNWYyY2E0ZGEzZTQ3OWNhODEwOTUwYmU0YmRjZjQ5OGQ")
 
+### Note：
+We analytics anonymous user behavior for improving plugin production, If you don't want this behavior enable, please contact us, we will provide a switch case for that.
 ### Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)

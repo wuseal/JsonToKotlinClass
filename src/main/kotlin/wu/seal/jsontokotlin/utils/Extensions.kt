@@ -58,7 +58,7 @@ private fun JsonArray.allItemAreObjectElement(): Boolean {
 /**
  * if Multidimensional Arrays only has one element
  */
-fun JsonArray.onlyHasOneElementRecursive(): Boolean {
+tailrec fun JsonArray.onlyHasOneElementRecursive(): Boolean {
 
     if (size() == 0) {
         return false
@@ -78,7 +78,7 @@ fun JsonArray.onlyHasOneElementRecursive(): Boolean {
 /**
  * if Multidimensional Arrays only has one element
  */
-fun JsonArray.onlyHasOneObjectElementRecursive(): Boolean {
+tailrec fun JsonArray.onlyHasOneObjectElementRecursive(): Boolean {
 
     if (size() == 0) {
         return false
@@ -101,7 +101,7 @@ fun JsonArray.onlyHasOneObjectElementRecursive(): Boolean {
 /**
  * if Multidimensional Arrays only has one dimension contains element and the elements  all are object element
  */
-fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): Boolean {
+tailrec fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): Boolean {
     if (size() == 0) {
         return false
     }
@@ -121,6 +121,15 @@ fun JsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive(): Boolean 
     return get(0).asJsonArray.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
 }
 
+fun JsonArray.allChildrenAreEmptyArray(): Boolean {
+
+    if (size() == 0) {
+        return true
+    }
+
+    return all { (it as? JsonArray)?.allChildrenAreEmptyArray() ?: false }
+}
+
 
 /**
  * filter out all null json element of JsonArray
@@ -135,3 +144,8 @@ fun JsonArray.filterOutNullElement(): JsonArray {
     }
 
 }
+
+/**
+ * Return true if this string contains any sequence of characters of the list
+ */
+fun String.containsAnyOf(list: List<CharSequence>) = list.any { this.contains(it) }

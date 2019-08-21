@@ -8,6 +8,7 @@ import wu.seal.jsontokotlin.utils.*
  */
 
 fun getDefaultValue(propertyType: String): String {
+
     val rawType = getRawType(propertyType)
 
     return when {
@@ -19,6 +20,12 @@ fun getDefaultValue(propertyType: String): String {
         rawType.contains("List<") -> "listOf()"
         rawType.contains("Map<") -> "mapOf()"
         rawType == TYPE_ANY -> "Any()"
+        rawType.contains("Array<") -> "emptyArray()"
         else -> "$rawType()"
     }
 }
+
+
+fun getDefaultValueAllowNull(propertyType: String) =
+    if (propertyType.endsWith("?")) "null" else getDefaultValue(propertyType)
+

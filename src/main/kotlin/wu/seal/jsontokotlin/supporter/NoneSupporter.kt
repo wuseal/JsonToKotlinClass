@@ -1,8 +1,5 @@
 package wu.seal.jsontokotlin.supporter
 
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.codeelements.KPropertyKeyword
-import wu.seal.jsontokotlin.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.utils.getIndent
 
 /**
@@ -35,14 +32,10 @@ object NoneSupporter : INoneLibSupporter {
         val blockBuilder = StringBuilder()
 
         blockBuilder.append(getIndent())
-        blockBuilder.append(KPropertyKeyword.get())
+        blockBuilder.append("val")
         blockBuilder.append(" ")
         blockBuilder.append(rawPropertyName)
         blockBuilder.append(": ").append(propertyType)
-        if (ConfigManager.initWithDefaultValue) {
-            blockBuilder.append(" = ").append(getDefaultValue(propertyType))
-        }
-
         return blockBuilder.toString()
     }
 

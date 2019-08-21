@@ -149,10 +149,7 @@ class Issue090Test {
     ]
   }
 }"""
-    val expectedResult = """
-data class Test(
-    @SerializedName("_links")
-    val links: Links = Links(),
+    val expectedResult = """data class Test(
     @SerializedName("attributes")
     val attributes: List<Attribute> = listOf(),
     @SerializedName("average_rating")
@@ -213,6 +210,8 @@ data class Test(
     val images: List<Image> = listOf(),
     @SerializedName("in_stock")
     val inStock: Boolean = false, // true
+    @SerializedName("_links")
+    val links: Links = Links(),
     @SerializedName("manage_stock")
     val manageStock: Boolean = false, // true
     @SerializedName("menu_order")
@@ -284,24 +283,6 @@ data class Test(
     @SerializedName("weight")
     val weight: String = ""
 ) {
-    data class Category(
-        @SerializedName("id")
-        val id: Int = 0, // 60
-        @SerializedName("name")
-        val name: String = "", // Laundry
-        @SerializedName("slug")
-        val slug: String = "" // laundry
-    )
-
-    data class Tag(
-        @SerializedName("id")
-        val id: Int = 0, // 91
-        @SerializedName("name")
-        val name: String = "", // Sale
-        @SerializedName("slug")
-        val slug: String = "" // sale
-    )
-
     data class Dimensions(
         @SerializedName("height")
         val height: String = "",
@@ -363,8 +344,25 @@ data class Test(
             val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products
         )
     }
-}"""
 
+    data class Tag(
+        @SerializedName("id")
+        val id: Int = 0, // 91
+        @SerializedName("name")
+        val name: String = "", // Sale
+        @SerializedName("slug")
+        val slug: String = "" // sale
+    )
+
+    data class Category(
+        @SerializedName("id")
+        val id: Int = 0, // 60
+        @SerializedName("name")
+        val name: String = "", // Laundry
+        @SerializedName("slug")
+        val slug: String = "" // laundry
+    )
+}"""
 
     /**
      * test before to init test enviroment
@@ -381,7 +379,7 @@ data class Test(
     @Test
     fun testIssue090() {
         val result = KotlinDataClassCodeMaker("Test", rawJson).makeKotlinDataClassCode()
-        result.trimMargin().should.be.equal(expectedResult.trimMargin())
+        result.trim().should.equal(expectedResult.trim())
     }
 
 }

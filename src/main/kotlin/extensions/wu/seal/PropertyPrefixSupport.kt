@@ -1,10 +1,9 @@
 package extensions.wu.seal
 
-import com.intellij.ui.layout.panel
 import com.intellij.util.ui.JBDimension
-import com.intellij.util.ui.JBEmptyBorder
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import extensions.Extension
+import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import java.awt.event.FocusEvent
 import java.awt.event.FocusListener
 import javax.swing.JCheckBox
@@ -31,10 +30,7 @@ object PropertyPrefixSupport : Extension() {
                 }
             })
 
-            minimumSize = JBDimension(150, 25)
-
             isEnabled = getConfig(prefixKeyEnable).toBoolean()
-
         }
 
         val checkBox = JCheckBox("Prefix append before every property: ").apply {
@@ -45,14 +41,13 @@ object PropertyPrefixSupport : Extension() {
             }
         }
 
-        return panel {
-            row {
-                checkBox()
-                prefixJField()
-            }
+        return horizontalLinearLayout {
+            checkBox()
+            prefixJField()
         }.apply {
-            border = JBEmptyBorder(6, 0, 0, 0)
+            maximumSize = JBDimension(600,40)
         }
+
     }
 
 
