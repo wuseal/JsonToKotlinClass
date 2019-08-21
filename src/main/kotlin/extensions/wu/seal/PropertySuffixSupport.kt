@@ -35,8 +35,10 @@ object PropertySuffixSupport : Extension() {
             val originProperties = kotlinDataClass.properties
             val newProperties = originProperties.map {
                 val suffix = getConfig(suffixKey)
-                val newName = it.name + suffix.first().toUpperCase() + suffix.substring(1)
-                it.copy(name = newName)
+                if (it.name.isNotEmpty()) {
+                    val newName = it.name + suffix.first().toUpperCase() + suffix.substring(1)
+                    it.copy(name = newName)
+                } else it
             }
             kotlinDataClass.copy(properties = newProperties)
         } else {
