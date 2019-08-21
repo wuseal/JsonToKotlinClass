@@ -32,10 +32,6 @@ class AdvancedOtherTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDou
                 ConfigManager.enableMinimalAnnotation = it
             }.putAlignLeft()
 
-            checkBox("Make keyword property names valid", ConfigManager.keywordPropertyValid) {
-                ConfigManager.keywordPropertyValid = it
-            }.putAlignLeft()
-
             horizontalLinearLayout {
                 label("Indent (number of space): ")()
                 textInput(ConfigManager.indent.toString()) {

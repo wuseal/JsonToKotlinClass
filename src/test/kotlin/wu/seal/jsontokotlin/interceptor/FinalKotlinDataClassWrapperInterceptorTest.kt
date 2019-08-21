@@ -7,7 +7,7 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
 
-class MakeKeywordNamedPropertyValidInterceptorTest {
+class FinalKotlinDataClassWrapperInterceptorTest {
 
     @Before
     fun before() {
@@ -18,14 +18,20 @@ class MakeKeywordNamedPropertyValidInterceptorTest {
     fun intercept() {
         val toBeParsedCode = """data class A(val in: String,
             val as: Int,
-            val dupa: Double
+            val dupa: Double,
+            val 1ab: Long,
+            val ab_c$""" + 'd' + """: String,
+            val : Int
 )"""
         val kotlinDataClass = KotlinDataClass.fromParsedKotlinDataClass(ClassCodeParser(toBeParsedCode).getKotlinDataClass())
-        val intercepted = MakeKeywordNamedPropertyValidInterceptor().intercept(kotlinDataClass)
+        val intercepted = FinalKotlinDataClassWrapperInterceptor().intercept(kotlinDataClass)
         intercepted.getCode().should.be.equal("""data class A(
     val `in`: String,
     val `as`: Int,
-    val dupa: Double
+    val dupa: Double,
+    val `1ab`: Long,
+    val `ab_c$"""+"d`"+""": String,
+    val : Int
 )""")
     }
 }
