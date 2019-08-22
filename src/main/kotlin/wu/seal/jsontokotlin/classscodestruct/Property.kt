@@ -9,7 +9,7 @@ data class Property(
         val type: String,
         val value: String,
         val comment: String,
-        val isLast: Boolean,
+        var isLast: Boolean,
         val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
         val originName: String,
         val originJsonValue: String? = ""
