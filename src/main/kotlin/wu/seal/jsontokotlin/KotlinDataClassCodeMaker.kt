@@ -28,7 +28,7 @@ private fun KotlinDataClass.getSplitClassCode(): String {
 
     val dataClasses: List<KotlinDataClass> = getSplitClasses()
 
-    return dataClasses.joinToString("\r\n\r\n") { it.getCurrentClassCode() }
+    return dataClasses.joinToString("\n\n") { it.getCurrentClassCode() }
 }
 
 fun KotlinDataClass.getSplitClasses(): List<KotlinDataClass> {

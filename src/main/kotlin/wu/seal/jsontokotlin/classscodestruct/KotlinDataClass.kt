@@ -29,12 +29,12 @@ data class KotlinDataClass(
             } else {
                 append("data class ").append(name).append("(").append("\n")
             }
-            properties.forEach { p ->
-                val code = p.getCode()
+            properties.forEachIndexed { index, property ->
+                val code = property.getCode()
                 val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
                 append(addIndentCode)
-                if (p.isLast.not()) append(",")
-                if (p.comment.isNotBlank()) append(" // ").append(getCommentCode(p.comment))
+                if (index != properties.size - 1) append(",")
+                if (property.comment.isNotBlank()) append(" // ").append(getCommentCode(property.comment))
                 append("\n")
             }
             append(")")
@@ -99,7 +99,7 @@ data class KotlinDataClass(
                 .filter { it.propertyName.endsWith(BACKSTAGE_NULLABLE_POSTFIX).not() }
                 .map { Property.fromParsedProperty(it) }
 
-            if(properties.isNotEmpty()) {
+            if (properties.isNotEmpty()) {
                 properties[properties.lastIndex].isLast = true
             }
 
