@@ -11,7 +11,7 @@ data class Property(
     val type: String,
     val value: String = "",
     val comment: String = "",
-    val isLast: Boolean = false,
+    var isLast: Boolean = false,
     val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
     val typeObject: KotlinDataClass? = null//property type ref to the Kotlin Data Class Struct Object
 ) {
@@ -31,9 +31,7 @@ data class Property(
                     append(annotationsCode).append(separatorBetweenAnnotationAndProperty)
                 }
             }
-            append(keyword).append(" ")
-            append(if (name.first().isDigit() || name.contains('$')) "`$name`" else name)
-            append(": ").append(type)
+            append(keyword).append(" ").append(name).append(": ").append(type)
             if (value.isNotBlank()) {
                 append(" = ").append(value)
             }

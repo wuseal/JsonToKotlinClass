@@ -25,7 +25,6 @@ data class ConfigInfo(
         val enableMapType: Boolean = ConfigManager.enableMapType,
         val enableMinimalAnnotation: Boolean = ConfigManager.enableMinimalAnnotation,
         val parenClassTemplate: String = ConfigManager.parenClassTemplate,
-        val keywordPropertyValid: Boolean = ConfigManager.keywordPropertyValid,
         val extensionsConfig: String = ConfigManager.extensionsConfig,
         val timeStamp: String = Date().time.toString(),
         val daytime: String = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date())

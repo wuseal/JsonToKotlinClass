@@ -152,16 +152,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
         return JTextField().apply {
             maximumSize = JBDimension(10000, 35)
-            document = object : PlainDocument() {
-                override fun insertString(offs: Int, str: String?, a: AttributeSet?) {
-                    str ?: return
-                    super.insertString(
-                            offs,
-                            str.filter { it.isLetterOrDigit() || it in listOf('_', '$') }.take(252),
-                            a
-                    )
-                }
-            }
+            document = NamingConventionDocument()
         }
     }
 

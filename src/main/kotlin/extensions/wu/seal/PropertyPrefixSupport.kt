@@ -2,6 +2,7 @@ package extensions.wu.seal
 
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.NamingConventionDocument
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import wu.seal.jsontokotlin.ui.textInput
@@ -18,6 +19,8 @@ object PropertyPrefixSupport : Extension() {
                 if (getConfig(prefixKeyEnable).toBoolean()) {
                     setConfig(prefixKey, it.text)
                 }
+            }.also{
+                it.document = NamingConventionDocument(80)
             }
             checkBox("Prefix append before every property: ", getConfig(prefixKeyEnable).toBoolean()) { isSelectedAfterClick ->
                 setConfig(prefixKeyEnable, isSelectedAfterClick.toString())
@@ -33,8 +36,10 @@ object PropertyPrefixSupport : Extension() {
             val originProperties = kotlinDataClass.properties
             val newProperties = originProperties.map {
                 val prefix = getConfig(prefixKey)
-                val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
-                it.copy(name = newName)
+                if (it.name.isNotEmpty()) {
+                    val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
+                    it.copy(name = newName)
+                } else it
             }
             kotlinDataClass.copy(properties = newProperties)
         } else {

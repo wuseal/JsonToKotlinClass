@@ -98,6 +98,11 @@ data class KotlinDataClass(
                 .map { if (propertyNames.contains(it.propertyName + BACKSTAGE_NULLABLE_POSTFIX)) it.copy(propertyType = it.propertyType + "?") else it }
                 .filter { it.propertyName.endsWith(BACKSTAGE_NULLABLE_POSTFIX).not() }
                 .map { Property.fromParsedProperty(it) }
+
+            if(properties.isNotEmpty()) {
+                properties[properties.lastIndex].isLast = true
+            }
+
             return KotlinDataClass(
                 annotations = annotations,
                 id = -1,
