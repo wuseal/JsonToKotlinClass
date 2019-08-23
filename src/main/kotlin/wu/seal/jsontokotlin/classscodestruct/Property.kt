@@ -3,16 +3,17 @@ package wu.seal.jsontokotlin.classscodestruct
 import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 
 data class Property(
-        val annotations: List<Annotation>,
-        val keyword: String,
-        val name: String,
-        val type: String,
-        val value: String,
-        val comment: String,
-        val isLast: Boolean,
-        val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
-        val originName: String,
-        val originJsonValue: String? = ""
+    val annotations: List<Annotation> = listOf(),
+    val keyword: String = "val",
+    val originName: String,
+    val originJsonValue: String? = "",
+    val name: String = originName,
+    val type: String,
+    val value: String = "",
+    val comment: String = "",
+    val isLast: Boolean = false,
+    val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
+    val typeObject: KotlinDataClass? = null//property type ref to the Kotlin Data Class Struct Object
 ) {
 
     private var separatorBetweenAnnotationAndProperty = "\n"

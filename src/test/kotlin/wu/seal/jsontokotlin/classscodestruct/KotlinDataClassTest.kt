@@ -15,8 +15,8 @@ class KotlinDataClassTest {
 
     @Test
     fun getCode() {
-        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false, originJsonValue = "",originName = "")
-        val withValueProperty = Property(listOf(), "val", "name", "Type", "Type()", "comment", true, originJsonValue = "",originName = "")
+        val normalProperty = Property(listOf(), "val", name = "name", type = "Type",  isLast = false, originJsonValue = "",originName = "")
+        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()", comment = "comment", isLast = true, originJsonValue = "",originName = "")
         val properties = listOf(normalProperty, withValueProperty)
         val dataClass = KotlinDataClass(-1, listOf(), "name", properties, listOf())
         dataClass.getCode().should.be.equal(
@@ -29,8 +29,8 @@ class KotlinDataClassTest {
 
     @Test
     fun toParsedKotlinDataClass() {
-        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false, originJsonValue = "",originName = "")
-        val withValueProperty = Property(listOf(), "val", "name", "Type", "Type()", "comment", true, originJsonValue = "",originName = "")
+        val normalProperty = Property(listOf(), "val", name = "name",type =  "Type",  isLast = false, originJsonValue = "",originName = "")
+        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()", comment = "comment",isLast =  true, originJsonValue = "",originName = "")
         val properties = listOf(normalProperty, withValueProperty)
         val dataClass = KotlinDataClass(-1, listOf(), "name", properties, listOf())
         val parsedKotlinDataClass = dataClass.toParsedKotlinDataClass()

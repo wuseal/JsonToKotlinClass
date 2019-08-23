@@ -14,7 +14,6 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
 
 
@@ -82,31 +81,24 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
             psiFileFactory: PsiFileFactory,
             directory: PsiDirectory
     ) {
-        val generatedClassesString = KotlinCodeMaker(className, json).makeKotlinData()
-
-        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(generatedClassesString)
-
+        val dataClass = KotlinDataClassMaker(className,json).makeKotlinDataClass()
         if (ConfigManager.isInnerClassModel) {
 
             KotlinDataClassFileGenerator().generateSingleDataClassFile(
-                    className,
                     packageDeclare,
-                    removeDuplicateClassCode,
+                    dataClass,
                     project,
                     psiFileFactory,
                     directory
             )
-
         } else {
-
             KotlinDataClassFileGenerator().generateMultipleDataClassFiles(
-                    removeDuplicateClassCode,
+                    dataClass,
                     packageDeclare,
                     project,
                     psiFileFactory,
                     directory
             )
-
         }
     }
 }

@@ -8,10 +8,10 @@ import wu.seal.jsontokotlin.utils.getIndent
 
 data class KotlinDataClass(
     val id: Int = -1, // -1 represent the default unknown id
-    val annotations: List<Annotation>,
+    val annotations: List<Annotation> = listOf(),
     val name: String,
-    val properties: List<Property>,
-    val nestedClasses: List<KotlinDataClass> = listOf(),
+    val properties: List<Property> = listOf(),
+    val nestedClasses: List<KotlinDataClass> = properties.mapNotNull { it.typeObject },
     val parentClassTemplate: String = ""
 ) {
 

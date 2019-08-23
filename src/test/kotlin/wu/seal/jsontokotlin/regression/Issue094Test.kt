@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Test
 import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
+import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**
@@ -25,7 +26,7 @@ class Issue094Test {
     @Test
     fun testIssue094() {
         TestConfig.setToTestInitState()
-        val generated = KotlinDataClassCodeMaker("A", testJson).makeKotlinDataClassCode()
+        val generated = KotlinDataClassCodeMaker(KotlinDataClassMaker("A", testJson).makeKotlinDataClass()).makeKotlinDataClassCode()
         generated.should.be.equal(expected)
     }
 }

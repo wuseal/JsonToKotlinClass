@@ -4,6 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
+import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue090Test {
@@ -217,7 +218,7 @@ class Issue090Test {
     @SerializedName("menu_order")
     val menuOrder: Int = 0, // 0
     @SerializedName("meta_data")
-    val metaData: List<Any> = listOf(),
+    val metaData: List<MetaData> = listOf(),
     @SerializedName("name")
     val name: String = "", // SOAP DISPENSER WITH ALL-PURPOSE VALVE
     @SerializedName("on_sale")
@@ -292,19 +293,22 @@ class Issue090Test {
         val width: String = ""
     )
 
-    data class Attribute(
+    data class Category(
         @SerializedName("id")
-        val id: Int = 0, // 0
+        val id: Int = 0, // 60
         @SerializedName("name")
-        val name: String = "", // Dispenser/Dish
-        @SerializedName("options")
-        val options: List<String> = listOf(),
-        @SerializedName("position")
-        val position: Int = 0, // 1
-        @SerializedName("variation")
-        val variation: Boolean = false, // false
-        @SerializedName("visible")
-        val visible: Boolean = false // true
+        val name: String = "", // Laundry
+        @SerializedName("slug")
+        val slug: String = "" // laundry
+    )
+
+    data class Tag(
+        @SerializedName("id")
+        val id: Int = 0, // 91
+        @SerializedName("name")
+        val name: String = "", // Sale
+        @SerializedName("slug")
+        val slug: String = "" // sale
     )
 
     data class Image(
@@ -328,6 +332,24 @@ class Issue090Test {
         val src: String = "" // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
     )
 
+    data class Attribute(
+        @SerializedName("id")
+        val id: Int = 0, // 0
+        @SerializedName("name")
+        val name: String = "", // Dispenser/Dish
+        @SerializedName("options")
+        val options: List<String> = listOf(),
+        @SerializedName("position")
+        val position: Int = 0, // 1
+        @SerializedName("variation")
+        val variation: Boolean = false, // false
+        @SerializedName("visible")
+        val visible: Boolean = false // true
+    )
+
+    class MetaData(
+    )
+
     data class Links(
         @SerializedName("collection")
         val collection: List<Collection> = listOf(),
@@ -344,24 +366,6 @@ class Issue090Test {
             val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products
         )
     }
-
-    data class Tag(
-        @SerializedName("id")
-        val id: Int = 0, // 91
-        @SerializedName("name")
-        val name: String = "", // Sale
-        @SerializedName("slug")
-        val slug: String = "" // sale
-    )
-
-    data class Category(
-        @SerializedName("id")
-        val id: Int = 0, // 60
-        @SerializedName("name")
-        val name: String = "", // Laundry
-        @SerializedName("slug")
-        val slug: String = "" // laundry
-    )
 }"""
 
     /**
@@ -378,7 +382,7 @@ class Issue090Test {
      */
     @Test
     fun testIssue090() {
-        val result = KotlinDataClassCodeMaker("Test", rawJson).makeKotlinDataClassCode()
+        val result = KotlinDataClassCodeMaker(KotlinDataClassMaker("Test", rawJson).makeKotlinDataClass()).makeKotlinDataClassCode()
         result.trim().should.equal(expectedResult.trim())
     }
 

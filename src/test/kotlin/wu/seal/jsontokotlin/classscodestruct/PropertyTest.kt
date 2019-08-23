@@ -16,19 +16,19 @@ class PropertyTest {
 
     @Test
     fun getCode() {
-        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false, originJsonValue = "",originName = "")
+        val normalProperty = Property(listOf(), "val", name = "name",type =  "Type",isLast =  false, originJsonValue = "",originName = "")
         normalProperty.getCode().should.be.equal("""val name: Type""")
-        val withValueProperty = Property(listOf(), "val", "name", "Type", "Type()", "", false, originJsonValue = "",originName = "")
+        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()",isLast = false, originJsonValue = "",originName = "")
         withValueProperty.getCode().should.be.equal("""val name: Type = Type()""")
 
-        val withValueAndAnnotationProperty = Property(GsonPropertyAnnotationTemplate("name").getAnnotations(), "val", "name", "Type", "Type()", "", false, originJsonValue = "",originName = "")
+        val withValueAndAnnotationProperty = Property(GsonPropertyAnnotationTemplate("name").getAnnotations(), "val", name = "name", type = "Type", value = "Type()", isLast =  false, originJsonValue = "",originName = "")
         withValueAndAnnotationProperty.getCode().should.be.equal("""@SerializedName("name")
 val name: Type = Type()""".trimIndent())
     }
 
     @Test
     fun toParsedProperty() {
-        val normalProperty = Property(listOf(), "val", "name", "Type", "", "", false, originJsonValue = "",originName = "")
+        val normalProperty = Property(listOf(), "val", name = "name", type = "Type", isLast =  false, originJsonValue = "",originName = "")
 
         val normalParsedProperty = normalProperty.toParsedProperty()
 
@@ -44,11 +44,10 @@ val name: Type = Type()""".trimIndent())
         val withValueProperty = Property(
                 GsonPropertyAnnotationTemplate("name").getAnnotations(),
                 "val",
-                "name",
-                "Type",
-                "Type()",
-                "",
-                false,
+                name = "name",
+               type =  "Type",
+               value =  "Type()",
+                isLast = false,
                 originJsonValue = "",
                 originName = ""
         )
