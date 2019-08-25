@@ -35,18 +35,4 @@ data class Property(
             }
         }
     }
-
-    fun getRawName(): String {
-
-        return if (annotations.isNotEmpty()) {
-            val notBlankRawNames = annotations.map { it.rawName }.filter { it.isNotBlank() }
-            if (notBlankRawNames.isNotEmpty()) {
-                notBlankRawNames[0]
-            } else {
-                ""
-            }
-        } else {
-            ""
-        }
-    }
 }
