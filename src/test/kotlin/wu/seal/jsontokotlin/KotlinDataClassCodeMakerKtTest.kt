@@ -47,7 +47,31 @@ class KotlinDataClassCodeMakerKtTest {
 """
         val dataClass = json.generateKotlinDataClass("C").resolveInnerConflictClassName()
         dataClass.name.should.be.equal("C")
+        dataClass.properties[2].type.should.be.equal("CX")
         dataClass.properties[2].typeObject!!.name.should.be.equal("CX")
+        dataClass.properties[2].typeObject!!.properties[1].type.should.be.equal("CXX")
         dataClass.properties[2].typeObject!!.properties[1].typeObject!!.name.should.be.equal("CXX")
+    }
+
+    @Test
+    fun resolveInnerConflictClassName1() {
+        val json = """
+                    {
+                      "a": 2,
+                      "b": 3,
+                      "c": {
+                        "say": "hello",
+                        "c": {
+                          "yes": "world"
+                        }
+                      }
+                    }
+"""
+        val dataClass = json.generateKotlinDataClass("A").resolveInnerConflictClassName()
+        dataClass.name.should.be.equal("A")
+        dataClass.properties[2].type.should.be.equal("C")
+        dataClass.properties[2].typeObject!!.name.should.be.equal("C")
+        dataClass.properties[2].typeObject!!.properties[1].type.should.be.equal("CX")
+        dataClass.properties[2].typeObject!!.properties[1].typeObject!!.name.should.be.equal("CX")
     }
 }

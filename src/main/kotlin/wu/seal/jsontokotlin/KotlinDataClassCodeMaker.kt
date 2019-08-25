@@ -36,7 +36,7 @@ fun KotlinDataClass.getSplitClasses(): List<KotlinDataClass> {
     splitClasses.apply {
         add(this@getSplitClasses)
         properties.forEach {
-            it.typeObject?.let {typeObject->
+            it.typeObject?.let { typeObject ->
                 addAll(typeObject.getSplitClasses())
             }
         }
@@ -45,33 +45,25 @@ fun KotlinDataClass.getSplitClasses(): List<KotlinDataClass> {
 }
 
 /**
- * Keep all class name inside this Kotlin Data Class unique against [existClassNames]
+ * Keep all class name inside this Kotlin Data Class unique against the [existClassNames]
  */
 fun KotlinDataClass.resolveInnerConflictClassName(existClassNames: IgnoreCaseStringSet = IgnoreCaseStringSet()): KotlinDataClass {
 
     var thisNoneConflictName = name
-    if (existClassNames.contains(name)) {
+    if (existClassNames.contains(thisNoneConflictName)) {
         thisNoneConflictName = getNoneConflictClassName(existClassNames, name)
     }
-    existClassNames.add(this.name)
+    existClassNames.add(thisNoneConflictName)
 
     val newProperties = mutableListOf<Property>()
 
     properties.forEach { property ->
         val refKotlinDataClassName = property.typeObject?.name
         if (refKotlinDataClassName != null) {
-            if (!existClassNames.add(refKotlinDataClassName)) {
-                //found the conflict name
-                val newRefKotlinDataClassName = getNoneConflictClassName(existClassNames, refKotlinDataClassName)
-                val newRefKotlinDataclass = property.typeObject.copy(name = newRefKotlinDataClassName)
-                    .resolveInnerConflictClassName(existClassNames)
-                val newPropertyType = property.type.replace(refKotlinDataClassName, newRefKotlinDataClassName)
-                val newProperty = property.copy(type = newPropertyType, typeObject = newRefKotlinDataclass)
-                newProperties.add(newProperty)
-            } else {
-                //No conflict add it to the new property list
-                newProperties.add(property)
-            }
+            //try to resolve it's type object's conflict class names add it to the new property list
+            val newRefKotlinDataclass = property.typeObject.resolveInnerConflictClassName(existClassNames)
+            val newProperty = property.copy(type = newRefKotlinDataclass.name, typeObject = newRefKotlinDataclass)
+            newProperties.add(newProperty)
         } else {
             //Not a Kotlin data class ref type property, add it to new properties list
             newProperties.add(property)
