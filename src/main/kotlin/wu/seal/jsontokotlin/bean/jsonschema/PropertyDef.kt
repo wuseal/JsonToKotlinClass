@@ -21,17 +21,4 @@ open class ObjectPropertyDef(
   val required: Array<String> = emptyArray()
 ) : PropertyDef
 
-open class IntPropertyDef : ObjectPropertyDef()
-
-open class NumberPropertyDef : ObjectPropertyDef()
-
-open class BoolPropertyDef : ObjectPropertyDef()
-
-open class StringPropertyDef : ObjectPropertyDef()
-
-open class EnumPropertyDef : ArrayList<String>(), PropertyDef
-
-open class ArrayPropertyDef(
-  val items: PropertyDef
-) : ObjectPropertyDef(), PropertyDef
 
