@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.feedback
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.intellij.openapi.ui.Messages
 import java.io.PrintWriter

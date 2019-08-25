@@ -1,16 +1,16 @@
 package wu.seal.jsontokotlin
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.winterbe.expekt.should
-import org.junit.Before
 import org.junit.Test
+
+import org.junit.Before
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_STRING
 
-/**
- * created by karthik on 2018/15/12
- *
- */
-class KotlinDataClassMakerTest {
+class DataClassGeneratorByJSONObjectTest {
+
     val json ="""
 {
     "glossary":{
@@ -39,13 +39,13 @@ class KotlinDataClassMakerTest {
 }
     """.trimIndent()
     @Before
-    fun setUp() {
+    fun before() {
         TestConfig.setToTestInitState()
     }
-
     @Test
-    fun testMakeKotlinDataClass() {
-        val dataClass = KotlinDataClassMaker("Test", json).makeKotlinDataClass()
+    fun generate() {
+        val jsonObject = Gson().fromJson(json,JsonObject::class.java)
+        val dataClass = DataClassGeneratorByJSONObject("Test", jsonObject).generate()
         dataClass.name.should.be.equal("Test")
         val p1 = dataClass.properties[0]
         p1.name.should.be.equal("glossary")
@@ -147,6 +147,5 @@ class KotlinDataClassMakerTest {
         glossDefP2.type.should.be.equal("List<String>")
         glossDefP2.originJsonValue.should.be.empty
         glossDefP2.typeObject.should.be.`null`
-
     }
 }

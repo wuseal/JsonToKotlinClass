@@ -34,7 +34,7 @@ object KPropertyName : KName(), IPropertyNameMaker {
     override fun makePropertyName(rawString: String, needTransformToLegalName: Boolean): String {
         return if (needTransformToLegalName) {
             val camelCaseLegalName = makeLowerCamelCaseLegalNameOrEmptyName(rawString)
-            if (camelCaseLegalName.isEmpty()) KPropertyName.makeLowerCamelCaseLegalNameOrEmptyName("x-$rawString") else camelCaseLegalName
+            if (camelCaseLegalName.isEmpty()) makeLowerCamelCaseLegalNameOrEmptyName("x-$rawString") else camelCaseLegalName
         } else {
             rawString
         }

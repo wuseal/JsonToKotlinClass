@@ -16,7 +16,3 @@ interface IPropertyKeyword {
 
 }
 
-object KPropertyKeyword : wu.seal.jsontokotlin.codeelements.IPropertyKeyword {
-    override fun get() = if (wu.seal.jsontokotlin.ConfigManager.isPropertiesVar) wu.seal.jsontokotlin.codeelements.KPropertyKeyword.varProperty else wu.seal.jsontokotlin.codeelements.KPropertyKeyword.valProperty
-
-}

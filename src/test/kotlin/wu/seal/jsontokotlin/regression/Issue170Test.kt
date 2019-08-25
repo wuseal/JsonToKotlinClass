@@ -6,6 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
+import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.test.TestConfig
 
@@ -59,7 +60,8 @@ class Issue170Test {
      */
     @Test
     fun testIssue130() {
-        val generated = KotlinDataClassCodeMaker("A", testJson).makeKotlinDataClassCode()
+        val generated = KotlinDataClassCodeMaker(
+            KotlinDataClassMaker("A", testJson).makeKotlinDataClass()).makeKotlinDataClassCode()
         generated.trim().should.be.equal(expected)
     }
 }

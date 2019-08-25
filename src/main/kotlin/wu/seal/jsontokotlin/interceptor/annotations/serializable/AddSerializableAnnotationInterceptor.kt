@@ -1,9 +1,7 @@
 package wu.seal.jsontokotlin.interceptor.annotations.serializable
 
-import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.classscodestruct.Annotation
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.CustomPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeannotations.SerializablePropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
