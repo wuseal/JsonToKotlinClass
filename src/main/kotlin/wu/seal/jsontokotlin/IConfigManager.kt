@@ -24,9 +24,6 @@ interface IConfigManager {
     private val IS_ORDER_BY_ALPHABETICAL: String
         get() = "is_order_by_alphabetical"
 
-    private val IS_PROPERTY_NULLABLE_KEY: String
-        get() = "jsonToKotlin_is_property_nullable_key"
-
     private val PROPERTY_TYPE_STRATEGY_KEY: String
         get() = "jsontokotlin_is_property_property_type_strategy_key"
 
@@ -98,13 +95,13 @@ interface IConfigManager {
         }
 
     var propertyTypeStrategy: PropertyTypeStrategy
-        get() = if (TestConfig.isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(
+        get() = if (isTestModel) TestConfig.propertyTypeStrategy else PropertyTypeStrategy.valueOf(
                 PropertiesComponent.getInstance().getValue(
                         PROPERTY_TYPE_STRATEGY_KEY,
                         PropertyTypeStrategy.NotNullable.name
                 )
         )
-        set(value) = if (TestConfig.isTestModel) {
+        set(value) = if (isTestModel) {
             TestConfig.propertyTypeStrategy = value
         } else PropertiesComponent.getInstance().setValue(PROPERTY_TYPE_STRATEGY_KEY, value.name)
 

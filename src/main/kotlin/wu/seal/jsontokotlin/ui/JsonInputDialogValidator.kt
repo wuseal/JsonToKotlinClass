@@ -10,7 +10,7 @@ class JsonInputDialogValidator : InputValidator {
     var jsonInputEditor: Editor? = null
 
     override fun checkInput(className: String): Boolean {
-        if (jsonInputEditor != null) return false
+        if (jsonInputEditor == null) return false
         return className.isNotBlank() && inputIsValidJson(jsonInputEditor!!.document.text)
     }
 

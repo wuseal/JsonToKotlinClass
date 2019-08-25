@@ -5,6 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
+import wu.seal.jsontokotlin.applyInterceptor
 import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.interceptor.InitWithDefaultValueInterceptor
 import wu.seal.jsontokotlin.interceptor.PropertyTypeNullableStrategyInterceptor
@@ -83,7 +84,7 @@ class ClassNameSuffixSupportTest {
 
         ClassNameSuffixSupport.getTestHelper().setConfig(suffixKeyEnable, "true")
         ClassNameSuffixSupport.getTestHelper().setConfig(suffixKey, "Dto")
-        val generatedCode = kotlinDataClass.applyInterceptors(listOf(ClassNameSuffixSupport)).getCode()
+        val generatedCode = kotlinDataClass.applyInterceptor(ClassNameSuffixSupport).getCode()
 
         generatedCode.trimMargin().should.equal(expectResult.trimMargin())
     }

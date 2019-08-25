@@ -26,7 +26,7 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassI
      * to keep the key primary, we could define it like : wu.seal.xxx using domain before the real config
      */
     protected fun setConfig(key: String, value: String) {
-        val configs = gson.fromJson<JsonObject>(ConfigManager.extensionsConfig, JsonObject::class.java) ?: JsonObject()
+        val configs = gson.fromJson(ConfigManager.extensionsConfig, JsonObject::class.java) ?: JsonObject()
         configs.addProperty(key, value)
         ConfigManager.extensionsConfig = gson.toJson(configs)
     }
@@ -36,7 +36,7 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassI
      * to keep the key primary, we could define it like : wu.seal.xxx  using domain before the real config
      */
     protected fun getConfig(key: String): String {
-        val configs = gson.fromJson<JsonObject>(ConfigManager.extensionsConfig, JsonObject::class.java) ?: JsonObject()
+        val configs = gson.fromJson(ConfigManager.extensionsConfig, JsonObject::class.java) ?: JsonObject()
         return configs[key]?.asString ?: ""
     }
 

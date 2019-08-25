@@ -21,7 +21,7 @@ class AdvancedOtherTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDou
             }.putAlignLeft()
 
             checkBox("Enable Inner Class Model", ConfigManager.isInnerClassModel) {
-                ConfigManager.isInnerClassModel
+                ConfigManager.isInnerClassModel = it
             }.putAlignLeft()
 
             checkBox("Enable Map Type when JSON Field Key Is Primitive Type", ConfigManager.enableMapType) {
