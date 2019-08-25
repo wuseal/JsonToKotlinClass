@@ -35,4 +35,3 @@ open class ArrayPropertyDef(
   val items: PropertyDef
 ) : ObjectPropertyDef(), PropertyDef
 
-open class SimplifiedArrayPropertyDef : ArrayList<String>(), PropertyDef

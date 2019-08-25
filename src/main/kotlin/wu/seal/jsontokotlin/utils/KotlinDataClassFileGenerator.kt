@@ -8,7 +8,7 @@ import wu.seal.jsontokotlin.filetype.KotlinFileType
 import wu.seal.jsontokotlin.getSplitClasses
 import wu.seal.jsontokotlin.resolveInnerConflictClassName
 
-class KotlinDataClassFileGenerator() {
+class KotlinDataClassFileGenerator {
 
     fun generateSingleDataClassFile(
         packageDeclare: String,

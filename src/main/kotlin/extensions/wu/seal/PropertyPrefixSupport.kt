@@ -15,7 +15,7 @@ object PropertyPrefixSupport : Extension() {
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
-            val prefixJField = textInput(getConfig(prefixKey), getConfig(prefixKeyEnable).toBoolean()) { it ->
+            val prefixJField = textInput(getConfig(prefixKey), getConfig(prefixKeyEnable).toBoolean()) {
                 if (getConfig(prefixKeyEnable).toBoolean()) {
                     setConfig(prefixKey, it.text)
                 }

@@ -131,7 +131,7 @@ class RuntimeTypeAdapterFactory<T> private constructor(private val baseType: Cla
    * have already been registered on this type adapter.
    */
   @JvmOverloads
-  fun registerSubtype(type: Class<out T>?, label: String? = type?.getSimpleName()): RuntimeTypeAdapterFactory<T> {
+  fun registerSubtype(type: Class<out T>?, label: String? = type?.simpleName): RuntimeTypeAdapterFactory<T> {
     if (type == null || label == null) {
       throw NullPointerException()
     }
@@ -183,7 +183,7 @@ class RuntimeTypeAdapterFactory<T> private constructor(private val baseType: Cla
         val srcType = value.javaClass
         val label = subtypeToLabel[srcType]
         val delegate = subtypeToDelegate[srcType] as? TypeAdapter<R>
-          ?: throw JsonParseException("cannot serialize " + srcType.getName()
+          ?: throw JsonParseException("cannot serialize " + srcType.name
             + "; did you forget to register a subtype?")// registration requires that subtype extends T
         val jsonObject = delegate.toJsonTree(value).asJsonObject
 
@@ -195,7 +195,7 @@ class RuntimeTypeAdapterFactory<T> private constructor(private val baseType: Cla
         val clone = JsonObject()
 
         if (jsonObject.has(typeFieldName)) {
-          throw JsonParseException("cannot serialize " + srcType.getName()
+          throw JsonParseException("cannot serialize " + srcType.name
             + " because it already defines a field named " + typeFieldName)
         }
         clone.add(typeFieldName, JsonPrimitive(label))

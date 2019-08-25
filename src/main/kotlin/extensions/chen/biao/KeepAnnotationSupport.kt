@@ -5,7 +5,6 @@ import wu.seal.jsontokotlin.classscodestruct.Annotation
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 /**
@@ -16,7 +15,7 @@ import javax.swing.JPanel
 object KeepAnnotationSupport : Extension() {
 
 
-    val configKey = "chen.biao.add_keep_annotation_enable"
+    private const val configKey = "chen.biao.add_keep_annotation_enable"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {

@@ -2,7 +2,6 @@ package wu.seal.jsontokotlin
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
-import wu.seal.jsontokotlin.bean.jsonschema.GSON
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 

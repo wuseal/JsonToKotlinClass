@@ -1,7 +1,5 @@
 package wu.seal.jsontokotlin.classscodestruct
 
-import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
-
 data class Property(
     val annotations: List<Annotation> = listOf(),
     val keyword: String = "val",
@@ -38,22 +36,6 @@ data class Property(
         }
     }
 
-    fun toParsedProperty(): ParsedKotlinDataClass.Property {
-
-        val propertyAnnotationCodeList = annotations.map { annotation -> annotation.getAnnotationString() }
-
-        return ParsedKotlinDataClass.Property(
-                propertyAnnotationCodeList,
-                keyword,
-                name,
-                type,
-                value,
-                comment,
-                isLast
-        )
-
-    }
-
     fun getRawName(): String {
 
         return if (annotations.isNotEmpty()) {
@@ -65,25 +47,6 @@ data class Property(
             }
         } else {
             ""
-        }
-    }
-
-    companion object {
-
-        fun fromParsedProperty(parsedProperty: ParsedKotlinDataClass.Property): Property {
-            val annotations = parsedProperty.annotations.map { Annotation.fromAnnotationString(it) }
-            return Property(
-                    annotations = annotations,
-                    keyword = parsedProperty.keyword,
-                    name = parsedProperty.propertyName,
-                    type = parsedProperty.propertyType,
-                    value = parsedProperty.propertyValue,
-                    comment = parsedProperty.propertyComment,
-                    isLast = parsedProperty.isLastProperty,
-                    refTypeId = -1,
-                    originName = parsedProperty.propertyName,
-                    originJsonValue = if (parsedProperty.propertyComment.trim().equals("null")) null else parsedProperty.propertyComment.trim()
-            )
         }
     }
 }

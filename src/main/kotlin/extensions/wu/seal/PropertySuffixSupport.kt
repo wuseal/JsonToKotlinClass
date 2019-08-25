@@ -14,7 +14,7 @@ object PropertySuffixSupport : Extension() {
     private const val suffixKey = "wu.seal.property_suffix"
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
-            val prefixJField = textInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) { it ->
+            val prefixJField = textInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) {
                 if (getConfig(suffixKeyEnable).toBoolean()) {
                     setConfig(suffixKey, it.text)
                 }

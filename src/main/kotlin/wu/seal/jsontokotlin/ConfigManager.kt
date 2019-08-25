@@ -11,10 +11,8 @@ object ConfigManager : IConfigManager {
 
     private const val INDENT_KEY = "json-to-kotlin-class-indent-space-number"
     private const val ENABLE_MAP_TYP_KEY = "json-to-kotlin-class-enable-map-type"
-    private const val ENABLE_AUTO_REFORMAT = "json-to-kotlin-class-enable-auto-reformat"
     private const val ENABLE_MINIMAL_ANNOTATION = "json-to-kotlin-class-enable-minimal-annotation"
     private const val PARENT_CLASS_TEMPLATE = "json-to-kotlin-class-parent-class-template"
-    private const val KEYWORD_PROPERTY_VALID = "json-to-kotlin-class-keyword-property-valid"
     private const val KEYWORD_PROPERTY_EXTENSIONS_CONFIG = "json-to-kotlin-class-keyword-extensions-config"
 
     var indent: Int

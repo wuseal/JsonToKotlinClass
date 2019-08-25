@@ -1,4 +1,4 @@
-package extensions.jose.han;
+package extensions.jose.han
 
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.Annotation
@@ -14,7 +14,7 @@ import javax.swing.JPanel
  */
 object ParcelableAnnotationSupport : Extension() {
 
-    val configKey = "jose.han.add_parcelable_annotatioin_enable"
+    const val configKey = "jose.han.add_parcelable_annotatioin_enable"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {

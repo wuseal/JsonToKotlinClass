@@ -1,9 +1,9 @@
 package wu.seal.jsontokotlin
 
+import com.google.gson.Gson
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.bean.jsonschema.GSON
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_DOUBLE
@@ -84,7 +84,7 @@ class DataClassGeneratorByJSONSchemaTest {
 
     @Test
     fun generate() {
-        val jsonSchema = GSON.fromJson(jsonSchemaJson, JsonSchema::class.java)
+        val jsonSchema = Gson().fromJson(jsonSchemaJson, JsonSchema::class.java)
         val dataClass = DataClassGeneratorByJSONSchema("Test", jsonSchema).generate()
         dataClass.name.should.be.equal("Test")
         dataClass.properties.size.should.be.equal(4)

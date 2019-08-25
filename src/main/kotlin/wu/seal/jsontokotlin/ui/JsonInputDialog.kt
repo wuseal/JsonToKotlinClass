@@ -24,9 +24,7 @@ import java.net.URL
 import java.util.*
 import java.util.Timer
 import javax.swing.*
-import javax.swing.text.AttributeSet
 import javax.swing.text.JTextComponent
-import javax.swing.text.PlainDocument
 
 /**
  * Dialog widget relative
@@ -213,7 +211,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         val currentText = jsonContentEditor.document.text
         if (currentText.isNotEmpty()) {
             try {
-                val jsonElement = prettyGson.fromJson<JsonElement>(currentText, JsonElement::class.java)
+                val jsonElement = prettyGson.fromJson(currentText, JsonElement::class.java)
                 val formatJSON = prettyGson.toJson(jsonElement)
                 jsonContentEditor.document.setText(formatJSON)
             } catch (e: Exception) {
