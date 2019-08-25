@@ -44,10 +44,6 @@ fun KotlinDataClass.getSplitClasses(): List<KotlinDataClass> {
     return splitClasses
 }
 
-fun KotlinDataClass.getCurrentClassCode():String {
-    return copy(nestedClasses = listOf()).getCode()
-}
-
 /**
  * Keep all class name inside this Kotlin Data Class unique against [existClassNames]
  */

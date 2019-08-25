@@ -18,7 +18,7 @@ class NestedClassModelClassesCodeParser(private val nestedClassCode: String) {
 
         val nestedSubClassesCode = nestedClassCode.substringAfter("\n) {\n").substringBeforeLast("}").trim()
         val nestedClasses = splitSubClasses(nestedSubClassesCode).map { NestedClassModelClassesCodeParser(it).parse() }
-        return parenKotlinDataClass.copy(nestedClasses = nestedClasses)
+        return parenKotlinDataClass.copy()
     }
 
 

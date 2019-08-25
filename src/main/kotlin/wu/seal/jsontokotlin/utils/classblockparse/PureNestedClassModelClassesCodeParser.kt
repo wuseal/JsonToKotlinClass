@@ -24,7 +24,7 @@ class PureNestedClassModelClassesCodeParser(private val classesCode: String) {
             val tobeParsedNestedClassesCode = trimedClassesCode.substringAfter("{").substringBeforeLast("}")
             val parentClass = parsedToKotlinDataClass(tobeParsedCode)
             val subClasses = getClassesStringList(tobeParsedNestedClassesCode).map { parsedToKotlinDataClass(it) }
-            parentClass.copy(nestedClasses = subClasses)
+            parentClass.copy()
         }
 
 

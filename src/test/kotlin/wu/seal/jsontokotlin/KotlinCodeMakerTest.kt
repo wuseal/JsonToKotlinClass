@@ -221,12 +221,12 @@ class KotlinCodeMakerTest {
     val id: Int, // The unique identifier for a product
     val name: String, // Name of the product
     val price: Double,
-    val nested: nested,
+    val nested: nested
 ) {
     data class nested(
         val id: Int, // The unique identifier for a product
         val name: String, // Name of the product
-        val price: Double,
+        val price: Double
     )
 }""".trimIndent()
     val result = KotlinDataClassMaker("TestData", json).makeKotlinDataClass().getCode()
@@ -303,7 +303,7 @@ class KotlinCodeMakerTest {
     val id: Int, // The unique identifier for a product
     val name: String, // Name of the product
     val price: Double,
-    val nested: nested,
+    val nested: nested
 ) {
     data class nested(
         val grades: List<String>,
@@ -311,7 +311,7 @@ class KotlinCodeMakerTest {
         val happy: List<Boolean>,
         val id: Int, // The unique identifier for a product
         val name: String, // Name of the product
-        val price: Double,
+        val price: Double
     )
 }""".trimIndent()
       val dataClass = KotlinDataClassMaker("TestData", json).makeKotlinDataClass()

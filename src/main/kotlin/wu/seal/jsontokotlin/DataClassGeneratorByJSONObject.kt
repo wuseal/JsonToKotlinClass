@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin
 
-import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.classscodestruct.Property
@@ -22,7 +21,7 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
             when {
                 jsonValue.isJsonNull -> {
                     val jsonValueNullProperty =
-                        Property(originName = jsonKey, originJsonValue = "null", type = DEFAULT_TYPE, comment = "null")
+                        Property(originName = jsonKey, originJsonValue = null, type = DEFAULT_TYPE, comment = "null")
                     properties.add(jsonValueNullProperty)
                 }
 

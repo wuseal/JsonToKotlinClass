@@ -11,7 +11,6 @@ data class KotlinDataClass(
     val annotations: List<Annotation> = listOf(),
     val name: String,
     val properties: List<Property> = listOf(),
-    val nestedClasses: List<KotlinDataClass> = properties.mapNotNull { it.typeObject },
     val parentClassTemplate: String = ""
 ) {
 
@@ -42,6 +41,7 @@ data class KotlinDataClass(
                 append(" : ")
                 append(parentClassTemplate)
             }
+            val nestedClasses = properties.mapNotNull { it.typeObject }
             if (nestedClasses.isNotEmpty()) {
                 append(" {")
                 append("\n")
@@ -74,19 +74,24 @@ data class KotlinDataClass(
     }
 
     fun applyInterceptors(interceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
-        var kotlinDataClass = this
-        interceptors.forEach {
-            kotlinDataClass = kotlinDataClass.applyInterceptorWithNestedClasses(it)
+        val newProperties = mutableListOf<Property>()
+        properties.forEach {
+            if (it.typeObject != null) {
+                newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(interceptors)))
+            } else {
+                newProperties.add(it)
+            }
         }
-        return kotlinDataClass
+        var newKotlinDataClass = copy(properties = newProperties)
+        interceptors.forEach {
+            newKotlinDataClass = it.intercept(newKotlinDataClass)
+        }
+        return newKotlinDataClass
     }
 
-    fun applyInterceptorWithNestedClasses(interceptor: IKotlinDataClassInterceptor): KotlinDataClass {
-        if (nestedClasses.isNotEmpty()) {
-            val newNestedClasses = nestedClasses.map { it.applyInterceptorWithNestedClasses(interceptor) }
-            return interceptor.intercept(this).copy(nestedClasses = newNestedClasses)
-        }
-        return interceptor.intercept(this)
+    fun getCurrentClassCode():String {
+        val newProperties = properties.map { it.copy(typeObject = null) }
+        return copy(properties = newProperties).getCode()
     }
 
     companion object {

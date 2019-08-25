@@ -284,13 +284,19 @@ class Issue090Test {
     @SerializedName("weight")
     val weight: String = ""
 ) {
-    data class Dimensions(
-        @SerializedName("height")
-        val height: String = "",
-        @SerializedName("length")
-        val length: String = "",
-        @SerializedName("width")
-        val width: String = ""
+    data class Attribute(
+        @SerializedName("id")
+        val id: Int = 0, // 0
+        @SerializedName("name")
+        val name: String = "", // Dispenser/Dish
+        @SerializedName("options")
+        val options: List<String> = listOf(),
+        @SerializedName("position")
+        val position: Int = 0, // 1
+        @SerializedName("variation")
+        val variation: Boolean = false, // false
+        @SerializedName("visible")
+        val visible: Boolean = false // true
     )
 
     data class Category(
@@ -302,13 +308,13 @@ class Issue090Test {
         val slug: String = "" // laundry
     )
 
-    data class Tag(
-        @SerializedName("id")
-        val id: Int = 0, // 91
-        @SerializedName("name")
-        val name: String = "", // Sale
-        @SerializedName("slug")
-        val slug: String = "" // sale
+    data class Dimensions(
+        @SerializedName("height")
+        val height: String = "",
+        @SerializedName("length")
+        val length: String = "",
+        @SerializedName("width")
+        val width: String = ""
     )
 
     data class Image(
@@ -332,40 +338,34 @@ class Issue090Test {
         val src: String = "" // https://resourceserver.in/demo/vp/wp-content/uploads/2018/11/TY-0223024_usn.jpg
     )
 
-    data class Attribute(
-        @SerializedName("id")
-        val id: Int = 0, // 0
-        @SerializedName("name")
-        val name: String = "", // Dispenser/Dish
-        @SerializedName("options")
-        val options: List<String> = listOf(),
-        @SerializedName("position")
-        val position: Int = 0, // 1
-        @SerializedName("variation")
-        val variation: Boolean = false, // false
-        @SerializedName("visible")
-        val visible: Boolean = false // true
-    )
-
-    class MetaData(
-    )
-
     data class Links(
         @SerializedName("collection")
         val collection: List<Collection> = listOf(),
         @SerializedName("self")
         val self: List<Self> = listOf()
     ) {
-        data class Self(
-            @SerializedName("href")
-            val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products/1441
-        )
-
         data class Collection(
             @SerializedName("href")
             val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products
         )
+
+        data class Self(
+            @SerializedName("href")
+            val href: String = "" // https://resourceserver.in/demo/vp/wp-json/wc/v2/products/1441
+        )
     }
+
+    class MetaData(
+    )
+
+    data class Tag(
+        @SerializedName("id")
+        val id: Int = 0, // 91
+        @SerializedName("name")
+        val name: String = "", // Sale
+        @SerializedName("slug")
+        val slug: String = "" // sale
+    )
 }"""
 
     /**

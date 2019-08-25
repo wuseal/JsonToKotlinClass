@@ -5,7 +5,6 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.filetype.KotlinFileType
-import wu.seal.jsontokotlin.getCurrentClassCode
 import wu.seal.jsontokotlin.getSplitClasses
 import wu.seal.jsontokotlin.resolveInnerConflictClassName
 
