@@ -319,4 +319,47 @@ class KotlinCodeMakerTest {
       val result = dataClass.getCode()
     result.trim().should.be.equal(expected)
   }
+
+
+    @Test
+    fun testJsonGenerateCode() {
+        val json = """
+        {
+        "text": "MXCHIP won a prize",
+        "id":1234,
+        "detail": {
+             "comp":"MXCHIP.Inc",
+             "from":"Shanghai",
+             "focus":"Internet of Things",
+             "module":[{"k":"EMW3165"},{"k":"EMW3166"},{"k":"EMW3167"},{"k":"EMW3168"}]
+           }
+        }
+        """.trimIndent()
+
+        val expect  = """
+        data class Test(
+            var detail: Detail = Detail(),
+            var id: Int = 0, // 1234
+            var text: String = "" // MXCHIP won a prize
+        )
+        
+        data class Detail(
+            var comp: String = "", // MXCHIP.Inc
+            var focus: String = "", // Internet of Things
+            var from: String = "", // Shanghai
+            var module: List<Module> = listOf()
+        )
+        
+        data class Module(
+            var k: String = "" // EMW3168
+        )
+        """.trimIndent()
+
+        TestConfig.targetJsonConvertLib = TargetJsonConverter.None
+        TestConfig.isPropertiesVar = true
+        TestConfig.defaultValueStrategy = DefaultValueStrategy.AllowNull
+        TestConfig.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
+        TestConfig.isNestedClassModel = false
+        KotlinCodeMaker("Test", json).makeKotlinData().should.be.equal(expect)
+    }
 }

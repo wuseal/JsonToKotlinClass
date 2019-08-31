@@ -149,4 +149,71 @@ class KotlinDataClassMakerTest {
         glossDefP2.typeObject.should.be.`null`
 
     }
+
+    @Test
+    fun testMakeKotlinDataClass2() {
+        val json = """
+        {
+        "text": "MXCHIP won a prize",
+        "id":1234,
+        "detail": {
+             "comp":"MXCHIP.Inc",
+             "from":"Shanghai",
+             "focus":"Internet of Things",
+             "module":[{"k":"EMW3165"},{"k":"EMW3166"},{"k":"EMW3167"},{"k":"EMW3168"}]
+           }
+        }
+        """.trimIndent()
+
+        json.generateKotlinDataClass().run {
+            name.should.be.equal("Test")
+            properties.size.should.be.equal(3)
+            properties[0].run {
+                name.should.be.equal("text")
+                originJsonValue.should.be.equal("MXCHIP won a prize")
+            }
+            properties[1].run {
+                name.should.be.equal("id")
+                originJsonValue.should.be.equal("1234")
+            }
+            properties[2].run {
+                name.should.be.equal("detail")
+                type.should.be.equal("Detail")
+                originJsonValue.should.be.equal("")
+                typeObject.should.not.be.`null`
+                typeObject!!.run {
+                    name.should.be.equal("Detail")
+                    properties.size.should.be.equal(4)
+                    properties[0].run {
+                        name.should.be.equal("comp")
+                        originJsonValue.should.equal("MXCHIP.Inc")
+                    }
+                    properties[1].run {
+                        name.should.be.equal("from")
+                        originJsonValue.should.equal("Shanghai")
+                    }
+                    properties[2].run {
+                        name.should.be.equal("focus")
+                        originJsonValue.should.equal("Internet of Things")
+                    }
+                    properties[3].run {
+                        name.should.be.equal("module")
+                        originJsonValue.should.equal("")
+                        type.should.be.equal("List<Module>")
+                        typeObject.should.not.be.`null`
+                        typeObject!!.run {
+                            name.should.be.equal("Module")
+                            properties.size.should.be.equal(1)
+                            properties[0].run {
+                                name.should.be.equal("k")
+                                originJsonValue.should.be.equal("EMW3168")
+                                type.should.be.equal(TYPE_STRING)
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }
