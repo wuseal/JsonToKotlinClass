@@ -62,7 +62,8 @@ fun KotlinDataClass.resolveInnerConflictClassName(existClassNames: IgnoreCaseStr
         if (refKotlinDataClassName != null) {
             //try to resolve it's type object's conflict class names add it to the new property list
             val newRefKotlinDataclass = property.typeObject.resolveInnerConflictClassName(existClassNames)
-            val newProperty = property.copy(type = newRefKotlinDataclass.name, typeObject = newRefKotlinDataclass)
+            val newType = property.type.replace(property.typeObject.name, newRefKotlinDataclass.name)
+            val newProperty = property.copy(type = newType, typeObject = newRefKotlinDataclass)
             newProperties.add(newProperty)
         } else {
             //Not a Kotlin data class ref type property, add it to new properties list
