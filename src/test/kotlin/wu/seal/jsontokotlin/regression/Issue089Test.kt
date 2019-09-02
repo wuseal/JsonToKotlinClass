@@ -4,6 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
+import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue089Test {
@@ -85,7 +86,7 @@ class Issue089Test {
      */
     @Test
     fun testIssue089() {
-        val result = KotlinDataClassCodeMaker("Test", json).makeKotlinDataClassCode()
+        val result = KotlinDataClassCodeMaker(KotlinDataClassMaker("Test", json).makeKotlinDataClass()).makeKotlinDataClassCode()
         result.trim().should.be.equal(expected)
     }
 }

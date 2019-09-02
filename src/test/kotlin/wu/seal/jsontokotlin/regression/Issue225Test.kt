@@ -6,27 +6,31 @@ import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
 import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
+
 /**
- * Created by kezhenxu at 2018/12/30 11:45
+ * Created by karthi
  *
- * @author kezhenxu (kezhenxu94 at 163 dot com)
- */
-class Issue094Test {
+ **/
+class Issue225Test {
+
     private val testJson = """
-    { "test": {} }
+    [{"a":0,"b":""},{"a":null,"b":null}]
     """.trimIndent()
+
     private val expected = """data class A(
-    @SerializedName("test")
-    val test: Test = Test()
-) {
-    class Test(
-    )
-}"""
+    @SerializedName("a")
+    val a: Int = 0, // 0
+    @SerializedName("b")
+    val b: String = ""
+)"""
+
+
 
     @Test
-    fun testIssue094() {
+    fun testIssue225() {
         TestConfig.setToTestInitState()
-        val generated = KotlinDataClassCodeMaker(KotlinDataClassMaker("A", testJson).makeKotlinDataClass()).makeKotlinDataClassCode()
+        val generated = KotlinDataClassCodeMaker(KotlinDataClassMaker("A",testJson).makeKotlinDataClass()).makeKotlinDataClassCode()
         generated.should.be.equal(expected)
     }
+
 }

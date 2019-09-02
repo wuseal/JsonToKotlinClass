@@ -13,8 +13,8 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
+import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.ClassCodeFilter
 import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
 
 
@@ -38,10 +38,10 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
                 else -> {
                     val root = ModuleRootManager.getInstance(module)
                     root.sourceRoots
-                            .asSequence()
-                            .mapNotNull {
-                                PsiManager.getInstance(project).findDirectory(it)
-                            }.firstOrNull()
+                        .asSequence()
+                        .mapNotNull {
+                            PsiManager.getInstance(project).findDirectory(it)
+                        }.firstOrNull()
                 }
             } ?: return
 
@@ -75,38 +75,33 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
     private fun dealWithHtmlConvert(advice: String) = advice.replace("<", "&lt;").replace(">", "&gt;")
 
     private fun doGenerateKotlinDataClassFileAction(
-            className: String,
-            json: String,
-            packageDeclare: String,
-            project: Project?,
-            psiFileFactory: PsiFileFactory,
-            directory: PsiDirectory
+        className: String,
+        json: String,
+        packageDeclare: String,
+        project: Project?,
+        psiFileFactory: PsiFileFactory,
+        directory: PsiDirectory
     ) {
-        val generatedClassesString = KotlinCodeMaker(className, json).makeKotlinData()
-
-        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(generatedClassesString)
-
+        val dataClass = KotlinDataClassMaker(className, json).makeKotlinDataClass()
+        val dataClassAfterApplyInterceptor =
+            dataClass.applyInterceptors(InterceptorManager.getEnabledKotlinDataClassInterceptors())
         if (ConfigManager.isInnerClassModel) {
 
             KotlinDataClassFileGenerator().generateSingleDataClassFile(
-                    className,
-                    packageDeclare,
-                    removeDuplicateClassCode,
-                    project,
-                    psiFileFactory,
-                    directory
+                packageDeclare,
+                dataClassAfterApplyInterceptor,
+                project,
+                psiFileFactory,
+                directory
             )
-
         } else {
-
             KotlinDataClassFileGenerator().generateMultipleDataClassFiles(
-                    removeDuplicateClassCode,
-                    packageDeclare,
-                    project,
-                    psiFileFactory,
-                    directory
+                dataClassAfterApplyInterceptor,
+                packageDeclare,
+                project,
+                psiFileFactory,
+                directory
             )
-
         }
     }
 }

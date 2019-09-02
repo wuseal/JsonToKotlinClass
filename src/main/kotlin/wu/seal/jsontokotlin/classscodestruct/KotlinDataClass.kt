@@ -1,17 +1,14 @@
 package wu.seal.jsontokotlin.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
-import wu.seal.jsontokotlin.utils.BACKSTAGE_NULLABLE_POSTFIX
-import wu.seal.jsontokotlin.utils.classblockparse.ParsedKotlinDataClass
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
 
 data class KotlinDataClass(
     val id: Int = -1, // -1 represent the default unknown id
-    val annotations: List<Annotation>,
+    val annotations: List<Annotation> = listOf(),
     val name: String,
-    val properties: List<Property>,
-    val nestedClasses: List<KotlinDataClass> = listOf(),
+    val properties: List<Property> = listOf(),
     val parentClassTemplate: String = ""
 ) {
 
@@ -29,12 +26,12 @@ data class KotlinDataClass(
             } else {
                 append("data class ").append(name).append("(").append("\n")
             }
-            properties.forEach { p ->
-                val code = p.getCode()
+            properties.forEachIndexed { index, property ->
+                val code = property.getCode()
                 val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
                 append(addIndentCode)
-                if (p.isLast.not()) append(",")
-                if (p.comment.isNotBlank()) append(" // ").append(getCommentCode(p.comment))
+                if (index != properties.size - 1) append(",")
+                if (property.comment.isNotBlank()) append(" // ").append(getCommentCode(property.comment))
                 append("\n")
             }
             append(")")
@@ -42,6 +39,7 @@ data class KotlinDataClass(
                 append(" : ")
                 append(parentClassTemplate)
             }
+            val nestedClasses = properties.mapNotNull { it.typeObject }
             if (nestedClasses.isNotEmpty()) {
                 append(" {")
                 append("\n")
@@ -64,48 +62,24 @@ data class KotlinDataClass(
         }
     }
 
-    fun toParsedKotlinDataClass(): ParsedKotlinDataClass {
-
-        val annotationCodeList = annotations.map { it.getAnnotationString() }
-
-        val parsedProperties = properties.map { it.toParsedProperty() }
-
-        return ParsedKotlinDataClass(annotationCodeList, name, parsedProperties)
-    }
-
     fun applyInterceptors(interceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
-        var kotlinDataClass = this
+        val newProperties = mutableListOf<Property>()
+        properties.forEach {
+            if (it.typeObject != null) {
+                newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(interceptors)))
+            } else {
+                newProperties.add(it)
+            }
+        }
+        var newKotlinDataClass = copy(properties = newProperties)
         interceptors.forEach {
-            kotlinDataClass = kotlinDataClass.applyInterceptorWithNestedClasses(it)
+            newKotlinDataClass = it.intercept(newKotlinDataClass)
         }
-        return kotlinDataClass
+        return newKotlinDataClass
     }
 
-    fun applyInterceptorWithNestedClasses(interceptor: IKotlinDataClassInterceptor): KotlinDataClass {
-        if (nestedClasses.isNotEmpty()) {
-            val newNestedClasses = nestedClasses.map { it.applyInterceptorWithNestedClasses(interceptor) }
-            return interceptor.intercept(this).copy(nestedClasses = newNestedClasses)
-        }
-        return interceptor.intercept(this)
+    fun getCurrentClassCode():String {
+        val newProperties = properties.map { it.copy(typeObject = null) }
+        return copy(properties = newProperties).getCode()
     }
-
-    companion object {
-
-        fun fromParsedKotlinDataClass(parsedKotlinDataClass: ParsedKotlinDataClass): KotlinDataClass {
-            val annotations = parsedKotlinDataClass.annotations.map { Annotation.fromAnnotationString(it) }
-            val propertyNames = parsedKotlinDataClass.properties.map { it.propertyName }
-            val properties = parsedKotlinDataClass.properties
-                .map { if (propertyNames.contains(it.propertyName + BACKSTAGE_NULLABLE_POSTFIX)) it.copy(propertyType = it.propertyType + "?") else it }
-                .filter { it.propertyName.endsWith(BACKSTAGE_NULLABLE_POSTFIX).not() }
-                .map { Property.fromParsedProperty(it) }
-            return KotlinDataClass(
-                annotations = annotations,
-                id = -1,
-                name = parsedKotlinDataClass.name,
-                properties = properties
-            )
-        }
-
-    }
-
 }
