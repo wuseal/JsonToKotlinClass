@@ -1,16 +1,14 @@
 package extensions.wu.seal
 
-import com.intellij.util.ui.JBDimension
 import extensions.Extension
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.ui.NamingConventionDocument
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
+import wu.seal.jsontokotlin.ui.textInput
 import wu.seal.jsontokotlin.utils.getChildType
 import wu.seal.jsontokotlin.utils.getRawType
-import java.awt.event.FocusEvent
-import java.awt.event.FocusListener
-import javax.swing.JCheckBox
 import javax.swing.JPanel
-import javax.swing.JTextField
 
 object ClassNameSuffixSupport : Extension() {
 
@@ -18,39 +16,20 @@ object ClassNameSuffixSupport : Extension() {
     private const val suffixKey = "wu.seal.class_name_suffix"
 
     override fun createUI(): JPanel {
-        val prefixJField = JTextField().apply {
-            text = getConfig(suffixKey)
-
-            addFocusListener(object : FocusListener {
-                override fun focusGained(e: FocusEvent?) {
-                }
-
-                override fun focusLost(e: FocusEvent?) {
-                    if (getConfig(suffixKeyEnable).toBoolean()) {
-                        setConfig(suffixKey, text)
-                    }
-                }
-            })
-
-            minimumSize = JBDimension(150, 25)
-
-            isEnabled = getConfig(suffixKeyEnable).toBoolean()
-
-        }
-
-        val checkBox = JCheckBox("Suffix append after every class name: ").apply {
-            isSelected = getConfig(suffixKeyEnable).toBoolean()
-            addActionListener {
-                setConfig(suffixKeyEnable, isSelected.toString())
-                prefixJField.isEnabled = isSelected
-            }
-        }
 
         return horizontalLinearLayout {
-            checkBox()
+            val prefixJField = textInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) {
+                if (getConfig(suffixKeyEnable).toBoolean()) {
+                    setConfig(suffixKey, it.text)
+                }
+            }.also{
+                it.document = NamingConventionDocument(80)
+            }
+            checkBox("Suffix append after every class name: ", getConfig(suffixKeyEnable).toBoolean()) { isSelectedAfterClick ->
+                setConfig(suffixKeyEnable, isSelectedAfterClick.toString())
+                prefixJField.isEnabled = isSelectedAfterClick
+            }()
             prefixJField()
-        }.apply {
-            maximumSize = JBDimension(600,40)
         }
     }
 

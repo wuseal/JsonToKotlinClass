@@ -38,8 +38,6 @@ class AdvancedDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
 
     private fun createExtensionTab() = ExtensionsTab(true)
     private fun createPropertyTab(): JPanel {
-
-
         return AdvancedPropertyTab(true)
     }
 

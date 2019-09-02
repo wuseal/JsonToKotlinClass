@@ -30,8 +30,6 @@ class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
         var jsonString = ""
         try {
             actionStart()
-
-
             val project = event.getData(PlatformDataKeys.PROJECT)
             val caret = event.getData(PlatformDataKeys.CARET)
             val editor = event.getData(PlatformDataKeys.EDITOR_EVEN_IF_INACTIVE)
@@ -125,7 +123,7 @@ class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
         val codeMaker: KotlinDataClassCodeMaker
         try {
             //passing current file directory along with className and json
-            codeMaker = KotlinDataClassCodeMaker(className, jsonString)
+            codeMaker = KotlinDataClassCodeMaker(KotlinDataClassMaker(className, jsonString).makeKotlinDataClass())
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
             Messages.showErrorDialog(e.message, "UnSupport Json")

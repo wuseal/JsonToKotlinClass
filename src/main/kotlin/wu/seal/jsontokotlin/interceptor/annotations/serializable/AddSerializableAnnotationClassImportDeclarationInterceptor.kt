@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.interceptor.annotations.serializable
 
-import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
 
 class AddSerializableAnnotationClassImportDeclarationInterceptor : IImportClassDeclarationInterceptor {
