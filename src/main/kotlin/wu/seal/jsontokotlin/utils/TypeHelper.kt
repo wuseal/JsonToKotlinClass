@@ -32,6 +32,8 @@ const val BACKSTAGE_NULLABLE_POSTFIX = "_&^#"
  */
 const val DEFAULT_TYPE = TYPE_ANY
 
+val NULLABLE_PRIMITIVE_TYPES = arrayOf(TYPE_INT, TYPE_LONG, TYPE_DOUBLE, TYPE_BOOLEAN).map { it.plus("?") }
+
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     return when {
         jsonPrimitive.isBoolean -> TYPE_BOOLEAN
@@ -215,4 +217,9 @@ fun getMapValueTypeConvertFromJsonObject(jsonObject: JsonObject): String {
         valueType = DEFAULT_TYPE
     }
     return valueType
+}
+
+
+fun getNonNullPrimitiveType(rawType: String): String {
+    return if (rawType in NULLABLE_PRIMITIVE_TYPES) rawType.replace("?", "") else rawType
 }
