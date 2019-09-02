@@ -1,7 +1,6 @@
 package extensions.xu.rui
 
 import com.winterbe.expekt.should
-import extensions.chen.biao.KeepAnnotationSupport
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.DefaultValueStrategy
@@ -35,7 +34,7 @@ class PrimitiveTypeNonNullableSupportTest {
     @Test
     fun interceptTest() {
         val kotlinDataClass = json.generateKotlinDataClass()
-        KeepAnnotationSupport.getTestHelper().setConfig("xu.rui.force_primitive_type_non-nullable", "true")
+        PrimitiveTypeNonNullableSupport.getTestHelper().setConfig("xu.rui.force_primitive_type_non-nullable", "true")
         val generatedCode = kotlinDataClass.applyInterceptors(listOf(PropertyTypeNullableStrategyInterceptor(), InitWithDefaultValueInterceptor(), PrimitiveTypeNonNullableSupport)).getCode()
         print(generatedCode)
         generatedCode.trimMargin().should.equal(expectResult.trimMargin())
