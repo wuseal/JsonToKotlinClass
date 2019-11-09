@@ -2,8 +2,6 @@ package wu.seal.jsontokotlin.regression
 
 import com.winterbe.expekt.should
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinCodeMaker
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
 import wu.seal.jsontokotlin.KotlinDataClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
