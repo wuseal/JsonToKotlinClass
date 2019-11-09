@@ -1,6 +1,7 @@
 package extensions
 
 import extensions.chen.biao.KeepAnnotationSupport
+import extensions.wu.seal.KeepAnnotationSupportForAndroidX
 import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.ClassNameSuffixSupport
@@ -18,6 +19,7 @@ object ExtensionsCollector {
      */
     val extensions = listOf(
         KeepAnnotationSupport,
+        KeepAnnotationSupportForAndroidX,
         PropertyAnnotationLineSupport,
         ParcelableAnnotationSupport,
         PropertyPrefixSupport,
