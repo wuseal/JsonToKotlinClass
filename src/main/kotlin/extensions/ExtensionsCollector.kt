@@ -1,9 +1,11 @@
 package extensions
 
 import extensions.chen.biao.KeepAnnotationSupport
+import extensions.wu.seal.KeepAnnotationSupportForAndroidX
 import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.ClassNameSuffixSupport
+import extensions.wu.seal.ForceInitDefaultValueWithOriginJsonValueSupport
 import extensions.wu.seal.PropertyPrefixSupport
 import extensions.wu.seal.PropertySuffixSupport
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
@@ -16,12 +18,14 @@ object ExtensionsCollector {
      * all extensions
      */
     val extensions = listOf(
-            KeepAnnotationSupport,
-            PropertyAnnotationLineSupport,
-            ParcelableAnnotationSupport,
-            PropertyPrefixSupport,
-            PropertySuffixSupport,
-            ClassNameSuffixSupport,
-            PrimitiveTypeNonNullableSupport
+        KeepAnnotationSupport,
+        KeepAnnotationSupportForAndroidX,
+        PropertyAnnotationLineSupport,
+        ParcelableAnnotationSupport,
+        PropertyPrefixSupport,
+        PropertySuffixSupport,
+        ClassNameSuffixSupport,
+        PrimitiveTypeNonNullableSupport,
+        ForceInitDefaultValueWithOriginJsonValueSupport
     )
 }
