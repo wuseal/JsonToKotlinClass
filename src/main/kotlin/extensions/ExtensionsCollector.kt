@@ -5,6 +5,7 @@ import extensions.wu.seal.KeepAnnotationSupportForAndroidX
 import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.ClassNameSuffixSupport
+import extensions.wu.seal.ForceInitDefaultValueWithOriginJsonValueSupport
 import extensions.wu.seal.PropertyPrefixSupport
 import extensions.wu.seal.PropertySuffixSupport
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
@@ -24,6 +25,7 @@ object ExtensionsCollector {
         PropertyPrefixSupport,
         PropertySuffixSupport,
         ClassNameSuffixSupport,
-        PrimitiveTypeNonNullableSupport
+        PrimitiveTypeNonNullableSupport,
+        ForceInitDefaultValueWithOriginJsonValueSupport
     )
 }
