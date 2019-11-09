@@ -178,7 +178,7 @@ class Issue176Test {
      */
     @Test
     fun testIssue176() {
-        val generated =  KotlinCodeMaker("Test",testJson).makeKotlinData()
+        val generated =  KotlinCodeMaker("Test", testJson).makeKotlinData()
         generated.trim().should.be.equal(expected)
     }
 }
