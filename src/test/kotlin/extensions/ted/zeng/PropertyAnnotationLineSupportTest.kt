@@ -3,6 +3,7 @@ package extensions.ted.zeng
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.KotlinCodeMaker
 import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.interceptor.annotations.fastjson.AddFastJsonAnnotationInterceptor
 import wu.seal.jsontokotlin.test.TestConfig
@@ -30,4 +31,14 @@ class PropertyAnnotationLineSupportTest {
         result.should.equal(expectResult)
     }
 
+    @Test
+    fun finalClassCodeTest() {
+        val expectResult = """data class Test(
+    @SerializedName("a") val a: String = "", // a
+    @SerializedName("Int") val int: Int = 0 // 2
+)"""
+        PropertyAnnotationLineSupport.getTestHelper().setConfig("ted.zeng.property_annotation_in_same_line_enable", "true")
+        val resultCode = KotlinCodeMaker("Test", json).makeKotlinData()
+        resultCode.should.be.equal(expectResult)
+    }
 }
