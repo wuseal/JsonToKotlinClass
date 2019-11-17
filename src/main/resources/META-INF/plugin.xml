@@ -48,7 +48,11 @@
 
     <change-notes><![CDATA[
        <br>Bugs fix  </br>
+       <br>1. fix option :Keep Annotation and property in single line</br>
        <br>New Features </br>
+       <br>1. AndroidX @Keep Annotation support</br>
+       <br>2. Support Init with default JSON value</br>
+       <br>3. Make dot to be word separate character</br>
        <br>Note:</br>
        <a href="https://github.com/wuseal/JsonToKotlinClass/milestone/11"> detail update</a></br>
     ]]>
