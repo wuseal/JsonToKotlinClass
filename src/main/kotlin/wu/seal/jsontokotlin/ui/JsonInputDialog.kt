@@ -63,7 +63,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
                     label("JSON Text: ", 14f)()
                     label("Tips: you can use JSON string、http urls or local file just right click on text area", 12f)()
                     fillSpace()
-                    button("JSON Format") {
+                    button("Format") {
                         handleFormatJSONString()
                     }()
                 }()
