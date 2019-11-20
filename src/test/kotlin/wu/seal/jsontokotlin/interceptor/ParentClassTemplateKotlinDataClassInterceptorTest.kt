@@ -4,7 +4,8 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.KotlinDataClassMaker
+import wu.seal.jsontokotlin.KotlinClassMaker
+import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
 class ParentClassTemplateKotlinDataClassInterceptorTest {
@@ -19,7 +20,7 @@ class ParentClassTemplateKotlinDataClassInterceptorTest {
         ConfigManager.parenClassTemplate = "java.io.Serializable()"
         val json = """{a:2}"""
         val kotlinDataClass =
-            KotlinDataClassMaker("Test",json).makeKotlinDataClass()
+            KotlinClassMaker("Test",json).makeKotlinDataClass() as KotlinDataClass
         val interceptedClass = ParentClassTemplateKotlinDataClassInterceptor().intercept(kotlinDataClass)
         interceptedClass.getCode().should.be.equal(
             """data class Test(
