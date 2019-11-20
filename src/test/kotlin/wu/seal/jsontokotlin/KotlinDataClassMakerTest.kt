@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_STRING
 
@@ -45,7 +46,7 @@ class KotlinDataClassMakerTest {
 
     @Test
     fun testMakeKotlinDataClass() {
-        val dataClass = KotlinDataClassMaker("Test", json).makeKotlinDataClass()
+        val dataClass = KotlinClassMaker("Test", json).makeKotlinDataClass() as KotlinDataClass
         dataClass.name.should.be.equal("Test")
         val p1 = dataClass.properties[0]
         p1.name.should.be.equal("glossary")

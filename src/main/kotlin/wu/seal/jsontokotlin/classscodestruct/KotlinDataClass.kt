@@ -1,18 +1,46 @@
 package wu.seal.jsontokotlin.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.utils.LogUtil
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
+import java.lang.IllegalStateException
 
 data class KotlinDataClass(
-    val id: Int = -1, // -1 represent the default unknown id
-    val annotations: List<Annotation> = listOf(),
-    val name: String,
-    val properties: List<Property> = listOf(),
-    val parentClassTemplate: String = ""
-) {
+        val id: Int = -1, // -1 represent the default unknown id
+        val annotations: List<Annotation> = listOf(),
+        override val name: String,
+        val properties: List<Property> = listOf(),
+        val parentClassTemplate: String = "",
+        override val modifiable: Boolean = true
+) : KotlinClass {
 
-    fun getCode(extraIndent: String = ""): String {
+    override val referencedClasses: List<KotlinClass>
+        get() {
+            return properties.mapNotNull { it.typeObject }
+        }
+
+    override fun rename(newName: String): KotlinClass = copy(name = newName)
+
+    override fun replaceReferencedClasses(referencedClasses: List<KotlinClass>): KotlinClass {
+        val propertiesReferencedKotlinClass = properties.filter { it.typeObject != null }
+        if (propertiesReferencedKotlinClass.size != referencedClasses.size) {
+            throw IllegalStateException("properties used kotlin classes size should be equal referenced classes size!")
+        }
+        var replaceRefClassIndex = 0
+        val newProperties = properties.map { property ->
+            property.typeObject?.let {
+                val newTypObj = referencedClasses[replaceRefClassIndex++] as KotlinDataClass
+                val newType = property.type.replace(property.typeObject.name,newTypObj.name)
+                LogUtil.i("replace type: ${property.type} to $newType")
+                return@let property.copy(type = newType, typeObject = newTypObj)
+            } ?: property
+        }
+
+        return copy(properties = newProperties)
+    }
+
+    override fun getCode(): String {
         val indent = getIndent()
         val code = buildString {
             if (annotations.isNotEmpty()) {
@@ -43,42 +71,32 @@ data class KotlinDataClass(
             if (nestedClasses.isNotEmpty()) {
                 append(" {")
                 append("\n")
-                val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode(extraIndent = indent) }
-                append(nestedClassesCode)
+                val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode() }
+                append(nestedClassesCode.lines().joinToString("\n") { if (it.isNotBlank()) "    $it" else it })
                 append("\n")
                 append("}")
             }
         }
-        return if (extraIndent.isNotEmpty()) {
-            code.split("\n").joinToString("\n") {
-                if (it.isNotBlank()) {
-                    extraIndent + it
-                } else {
-                    it
-                }
-            }
-        } else {
-            code
-        }
+        return code
     }
 
-    fun applyInterceptors(interceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
+    override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
         val newProperties = mutableListOf<Property>()
         properties.forEach {
             if (it.typeObject != null) {
-                newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(interceptors)))
+                newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(enabledKotlinDataClassInterceptors)))
             } else {
                 newProperties.add(it)
             }
         }
         var newKotlinDataClass = copy(properties = newProperties)
-        interceptors.forEach {
+        enabledKotlinDataClassInterceptors.forEach {
             newKotlinDataClass = it.intercept(newKotlinDataClass)
         }
         return newKotlinDataClass
     }
 
-    fun getCurrentClassCode():String {
+    override fun getOnlyCurrentCode(): String {
         val newProperties = properties.map { it.copy(typeObject = null) }
         return copy(properties = newProperties).getCode()
     }

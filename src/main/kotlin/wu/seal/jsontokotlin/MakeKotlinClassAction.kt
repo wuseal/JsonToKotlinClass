@@ -120,17 +120,17 @@ class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
     ): Boolean {
         ClassImportDeclarationWriter.insertImportClassCode(project, document)
 
-        val codeMaker: KotlinDataClassCodeMaker
+        val codeMaker: KotlinClassCodeMaker
         try {
             //passing current file directory along with className and json
-            codeMaker = KotlinDataClassCodeMaker(KotlinDataClassMaker(className, jsonString).makeKotlinDataClass())
+            codeMaker = KotlinClassCodeMaker(KotlinClassMaker(className, jsonString).makeKotlinDataClass())
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
             Messages.showErrorDialog(e.message, "UnSupport Json")
             return false
         }
 
-        val generateClassesString = codeMaker.makeKotlinDataClassCode()
+        val generateClassesString = codeMaker.makeKotlinClassCode()
 
         executeCouldRollBackAction(project) {
             var offset: Int

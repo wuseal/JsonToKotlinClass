@@ -6,6 +6,7 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.PropertyTypeStrategy
+import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.codeelements.KClassName
 import java.util.*
 

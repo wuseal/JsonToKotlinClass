@@ -9,15 +9,15 @@ import wu.seal.jsontokotlin.utils.*
  * Created by Seal.Wu on 2019-08-18
  * Description: Generate Kotlin Data class Struct from JSON Object
  */
-class DataClassGeneratorByJSONObject(private val className: String, private val jsonObjectAfterOptimize: JsonObject) {
+class DataClassGeneratorByJSONObject(private val className: String, private val jsonObject: JsonObject) {
 
     fun generate(): KotlinDataClass {
-        if (maybeJsonObjectBeMapType(jsonObjectAfterOptimize) && ConfigManager.enableMapType) {
-            throw IllegalArgumentException("Can't generate data class from a Map type JSONObjcet when enable Map Type : $jsonObjectAfterOptimize")
+        if (maybeJsonObjectBeMapType(jsonObject) && ConfigManager.enableMapType) {
+            throw IllegalArgumentException("Can't generate data class from a Map type JSONObjcet when enable Map Type : $jsonObject")
         }
         val properties = mutableListOf<Property>()
 
-        jsonObjectAfterOptimize.entrySet().forEach { (jsonKey, jsonValue) ->
+        jsonObject.entrySet().forEach { (jsonKey, jsonValue) ->
             when {
                 jsonValue.isJsonNull -> {
                     val jsonValueNullProperty =
