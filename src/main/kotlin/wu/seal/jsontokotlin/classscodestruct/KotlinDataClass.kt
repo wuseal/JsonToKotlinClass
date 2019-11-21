@@ -72,7 +72,7 @@ data class KotlinDataClass(
                 append(" {")
                 append("\n")
                 val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode() }
-                append(nestedClassesCode.lines().joinToString("\n") { if (it.isNotBlank()) "    $it" else it })
+                append(nestedClassesCode.lines().joinToString("\n") { if (it.isNotBlank()) "$indent$it" else it })
                 append("\n")
                 append("}")
             }
