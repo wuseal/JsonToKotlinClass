@@ -1,6 +1,8 @@
 package wu.seal.jsontokotlin.classscodestruct
 
+import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  * ListClass present the class is a class which extends List
@@ -13,7 +15,8 @@ data class ListClass(
         override val modifiable: Boolean = true
 ) : KotlinClass {
 
-    private val indent = "    "
+    private val indent = getIndent()
+
     override fun getOnlyCurrentCode(): String {
         return """
             class $name : ArrayList<${generics.name}>()
