@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.classscodestruct
 
-import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import wu.seal.jsontokotlin.utils.getIndent
 
@@ -30,11 +29,15 @@ data class ListClass(
     override fun rename(newName: String) = copy(name = newName)
 
     override fun getCode(): String {
-        return """
+        return if (generics.modifiable.not()) {
+            getOnlyCurrentCode()
+        } else {
+            """
             class $name : ArrayList<${generics.name}>(){
 ${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode().prependIndent("            $indent") }}
             }
         """.trimIndent()
+        }
     }
 
     override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinClass {
