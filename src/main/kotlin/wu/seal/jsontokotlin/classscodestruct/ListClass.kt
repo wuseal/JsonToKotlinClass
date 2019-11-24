@@ -9,31 +9,31 @@ import wu.seal.jsontokotlin.utils.getIndent
  */
 data class ListClass(
         override val name: String,
-        val generics: KotlinClass,
-        override val referencedClasses: List<KotlinClass> = listOf(generics),
+        override val generic: KotlinClass,
+        override val referencedClasses: List<KotlinClass> = listOf(generic),
         override val modifiable: Boolean = true
-) : KotlinClass {
+) : UnModifiableGenericClass() {
 
     private val indent = getIndent()
 
     override fun getOnlyCurrentCode(): String {
         return """
-            class $name : ArrayList<${generics.name}>()
+            class $name : ArrayList<${generic.name}>()
         """.trimIndent()
     }
 
-    override fun replaceReferencedClasses(referencedClasses: List<KotlinClass>): ListClass {
-        return copy(generics = referencedClasses[0], referencedClasses = referencedClasses)
+    override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): ListClass {
+        return copy(generic = replaceRule.values.toList()[0], referencedClasses = replaceRule.values.toList())
     }
 
     override fun rename(newName: String) = copy(name = newName)
 
     override fun getCode(): String {
-        return if (generics.modifiable.not()) {
+        return if (generic.modifiable.not()) {
             getOnlyCurrentCode()
         } else {
             """
-            class $name : ArrayList<${generics.name}>(){
+            class $name : ArrayList<${generic.name}>(){
 ${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode().prependIndent("            $indent") }}
             }
         """.trimIndent()
@@ -41,9 +41,9 @@ ${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode()
     }
 
     override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinClass {
-        val newGenerics = generics.applyInterceptors(enabledKotlinDataClassInterceptors)
+        val newGenerics = generic.applyInterceptors(enabledKotlinDataClassInterceptors)
         val newImportedClasses = referencedClasses.map { it.applyInterceptors(enabledKotlinDataClassInterceptors) }
-        return copy(generics = newGenerics, referencedClasses = newImportedClasses)
+        return copy(generic = newGenerics, referencedClasses = newImportedClasses)
     }
 }
 

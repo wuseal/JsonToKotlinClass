@@ -17,8 +17,10 @@ class KotlinClassCodeMaker(private val kotlinClass: KotlinClass) {
         return if (ConfigManager.isInnerClassModel) {
             kotlinClassForCodeGenerate.getCode()
         } else {
-            kotlinClassForCodeGenerate.resolveNameConflicts()
-                    .getAllUnModifiableClassesRecursively()
+            val resolveNameConflicts = kotlinClassForCodeGenerate.resolveNameConflicts()
+            val allModifiableClassesRecursivelyIncludeSelf = resolveNameConflicts
+                    .getAllModifiableClassesRecursivelyIncludeSelf()
+            allModifiableClassesRecursivelyIncludeSelf
                     .joinToString("\n\n") { it.getOnlyCurrentCode() }
         }
     }

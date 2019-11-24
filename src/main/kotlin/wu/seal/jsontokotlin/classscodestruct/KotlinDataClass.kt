@@ -13,28 +13,45 @@ data class KotlinDataClass(
         val properties: List<Property> = listOf(),
         val parentClassTemplate: String = "",
         override val modifiable: Boolean = true
-) : KotlinClass {
+) : ModifiableKotlinClass, NoGenericKotlinClass {
+
+    override val hasGeneric: Boolean = false
 
     override val referencedClasses: List<KotlinClass>
         get() {
-            return properties.mapNotNull { it.typeObject }
+            return properties.flatMap { property ->
+                mutableListOf(property.typeObject).apply {
+                    addAll(property.typeObject.getAllGenericsRecursively())
+                }
+            }
         }
 
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
-    override fun replaceReferencedClasses(referencedClasses: List<KotlinClass>): KotlinClass {
-        val propertiesReferencedKotlinClass = properties.filter { it.typeObject != null }
-        if (propertiesReferencedKotlinClass.size != referencedClasses.size) {
+    override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): KotlinClass {
+        val propertiesReferencedModifiableKotlinClass = properties.flatMap {
+            if (it.typeObject is GenericKotlinClass) {
+                it.typeObject.getAllGenericsRecursively().toMutableList().also { list -> list.add(it.typeObject) }
+            } else {
+                listOf(it.typeObject)
+            }
+        }.filter { it.modifiable }
+        if (propertiesReferencedModifiableKotlinClass.size != replaceRule.size) {
             throw IllegalStateException("properties used kotlin classes size should be equal referenced classes size!")
         }
-        var replaceRefClassIndex = 0
+        if (!replaceRule.all { it.key.modifiable }) {
+            throw IllegalStateException("to be replaced referenced class should be modifiable!")
+        }
         val newProperties = properties.map { property ->
-            property.typeObject?.let {
-                val newTypObj = referencedClasses[replaceRefClassIndex++] as KotlinDataClass
-                val newType = property.type.replace(property.typeObject.name,newTypObj.name)
-                LogUtil.i("replace type: ${property.type} to $newType")
-                return@let property.copy(type = newType, typeObject = newTypObj)
-            } ?: property
+            property.typeObject.let {
+                val newTypObj = when (it) {
+                    is GenericKotlinClass -> property.typeObject.replaceReferencedClasses(replaceRule)
+                    is ModifiableKotlinClass -> replaceRule[property.typeObject] ?: error("Modifiable Kotlin Class Must have a replacement")
+                    else -> it
+                }
+                LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
+                return@let property.copy(type = newTypObj.name, typeObject = newTypObj)
+            }
         }
 
         return copy(properties = newProperties)
@@ -67,7 +84,7 @@ data class KotlinDataClass(
                 append(" : ")
                 append(parentClassTemplate)
             }
-            val nestedClasses = properties.mapNotNull { it.typeObject }
+            val nestedClasses = referencedClasses.filter { it.modifiable }
             if (nestedClasses.isNotEmpty()) {
                 append(" {")
                 append("\n")
@@ -83,11 +100,7 @@ data class KotlinDataClass(
     override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
         val newProperties = mutableListOf<Property>()
         properties.forEach {
-            if (it.typeObject != null) {
-                newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(enabledKotlinDataClassInterceptors)))
-            } else {
-                newProperties.add(it)
-            }
+            newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(enabledKotlinDataClassInterceptors)))
         }
         var newKotlinDataClass = copy(properties = newProperties)
         enabledKotlinDataClassInterceptors.forEach {
@@ -97,7 +110,7 @@ data class KotlinDataClass(
     }
 
     override fun getOnlyCurrentCode(): String {
-        val newProperties = properties.map { it.copy(typeObject = null) }
+        val newProperties = properties.map { it.copy(typeObject = KotlinClass.ANY) }
         return copy(properties = newProperties).getCode()
     }
 }
