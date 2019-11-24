@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import wu.seal.jsontokotlin.utils.IgnoreCaseStringSet
+import wu.seal.jsontokotlin.utils.LogUtil
 
 /**
  * Kotlin Class Interface
@@ -23,6 +24,13 @@ interface KotlinClass {
      * Indicate if this class code could be modified
      */
     val modifiable: Boolean
+    /**
+     * Indicate if this class contains generic type
+     */
+    val hasGeneric: Boolean
+
+
+    val generic: KotlinClass
 
     /**
      * get the code (include referenced classes) string for writing into file or printing out
@@ -40,7 +48,8 @@ interface KotlinClass {
 
     fun rename(newName: String): KotlinClass
 
-    fun replaceReferencedClasses(referencedClasses: List<KotlinClass>): KotlinClass
+
+    fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): KotlinClass
 
     /**
      * Keep all class name inside this Kotlin Data Class unique against the [existClassNames]
@@ -51,8 +60,8 @@ interface KotlinClass {
             thisNoneConflictName = getNoneConflictClassName(existClassNames, name)
         }
         existClassNames.add(thisNoneConflictName)
-        val newReferencedClasses = referencedClasses.map { it.resolveNameConflicts(existClassNames) }
-        return rename(thisNoneConflictName).replaceReferencedClasses(newReferencedClasses)
+        val classReplaceRule = referencedClasses.filter { it.modifiable }.associateWith { it.resolveNameConflicts(existClassNames) }
+        return rename(thisNoneConflictName).replaceReferencedClasses(classReplaceRule)
     }
 
     /**
@@ -60,7 +69,11 @@ interface KotlinClass {
      */
     private fun getAllRefClassesRecursively(): List<KotlinClass> {
         val allRefClasses = mutableListOf<KotlinClass>()
+        if (referencedClasses.isEmpty()) {
+            return allRefClasses
+        }
         allRefClasses.addAll(referencedClasses)
+        LogUtil.i("getAllRefClassesRecursively added referenced class ${referencedClasses.map { it.name }}")
         allRefClasses.addAll(referencedClasses.flatMap { it.getAllRefClassesRecursively() })
         return allRefClasses
     }
@@ -68,19 +81,21 @@ interface KotlinClass {
     /**
      * Obtain all the unModifiable kotlin class reference by this class and referenced class by referenced class Recursively
      */
-    fun getAllUnModifiableRefClassesRecursively(): List<KotlinClass> {
+    fun getAllModifiableRefClassesRecursively(): List<KotlinClass> {
 
         return getAllRefClassesRecursively().filter { it.modifiable }
     }
 
     /**
-     * Obtain all the unModifiable kotlin class reference by this class and referenced class by referenced class Recursively
+     * Obtain all the modifiable kotlin class reference by this class and referenced class by referenced class Recursively
      * also include self class
      */
-    fun getAllUnModifiableClassesRecursively(): List<KotlinClass> {
+    fun getAllModifiableClassesRecursivelyIncludeSelf(): List<KotlinClass> {
 
-        return getAllUnModifiableRefClassesRecursively().toMutableList().apply {
-            add(0, this@KotlinClass)
+        return getAllModifiableRefClassesRecursively().toMutableList().apply {
+            if (modifiable) {
+                add(0, this@KotlinClass)
+            }
         }
     }
 
@@ -93,25 +108,25 @@ interface KotlinClass {
     }
 
     companion object {
-        val ANY = object : UnModifiableClass() {
+        val ANY = object : UnModifiableNoGenericClass() {
             override val name: String = "Any"
         }
-        val STRINNG = object : UnModifiableClass() {
+        val STRING = object : UnModifiableNoGenericClass() {
             override val name: String = "String"
         }
-        val BOOLEAN = object : UnModifiableClass() {
+        val BOOLEAN = object : UnModifiableNoGenericClass() {
             override val name: String = "Boolean"
         }
-        val INT = object : UnModifiableClass() {
+        val INT = object : UnModifiableNoGenericClass() {
             override val name: String = "Int"
         }
-        val DOUBLE = object : UnModifiableClass() {
+        val DOUBLE = object : UnModifiableNoGenericClass() {
             override val name: String = "Double"
         }
-        val FLOAT = object : UnModifiableClass() {
+        val FLOAT = object : UnModifiableNoGenericClass() {
             override val name: String = "Float"
         }
-        val LONG = object : UnModifiableClass() {
+        val LONG = object : UnModifiableNoGenericClass() {
             override val name: String = "Long"
         }
 

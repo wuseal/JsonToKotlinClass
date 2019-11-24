@@ -7,11 +7,12 @@ package wu.seal.jsontokotlin
 class KotlinCodeMaker(private val className: String, private val inputJson: String) {
 
     fun makeKotlinData(): String {
-        return KotlinClassCodeMaker(
-            KotlinClassMaker(
+        val kotlinClass = KotlinClassMaker(
                 className,
                 inputJson
-            ).makeKotlinDataClass()
+        ).makeKotlinDataClass()
+        return KotlinClassCodeMaker(
+                kotlinClass
         ).makeKotlinClassCode()
     }
 }

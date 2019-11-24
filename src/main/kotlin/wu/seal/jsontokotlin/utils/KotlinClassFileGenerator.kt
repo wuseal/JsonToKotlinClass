@@ -42,8 +42,8 @@ class KotlinClassFileGenerator {
     ) {
         val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
         val existsKotlinFileNames = IgnoreCaseStringSet().also { it.addAll(fileNamesWithoutSuffix) }
-        val splitClasses = kotlinClass.resolveNameConflicts(existsKotlinFileNames).getAllUnModifiableClassesRecursively()
-        val renameClassMap = getRenameClassMap(originNames = kotlinClass.getAllUnModifiableClassesRecursively().map { it.name },
+        val splitClasses = kotlinClass.resolveNameConflicts(existsKotlinFileNames).getAllModifiableClassesRecursivelyIncludeSelf()
+        val renameClassMap = getRenameClassMap(originNames = kotlinClass.getAllModifiableClassesRecursivelyIncludeSelf().map { it.name },
                 currentNames = splitClasses.map { it.name })
         splitClasses.forEach { splitDataClass ->
             generateKotlinClassFile(

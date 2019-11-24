@@ -38,7 +38,7 @@ class ListClassGeneratorByJSONArrayTest {
     @Test
     fun generateListClassWithDataClass() {
         val result =ListClassGeneratorByJSONArray("TestList", "[{p1:1}]").generate()
-        val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1")
+        val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1",typeObject = KotlinClass.INT)
         val itemClass = KotlinDataClass(name = "TestListItem",properties = listOf(dataClassProperty))
         result.should.be.equal(ListClass("TestList", itemClass))
     }

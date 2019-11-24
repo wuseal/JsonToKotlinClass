@@ -3,11 +3,7 @@ package wu.seal.jsontokotlin.utils
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
-import java.awt.Component
-import java.awt.Container
 import java.util.regex.Pattern
-import javax.swing.Box
-import javax.swing.BoxLayout
 
 /**
  * How many substring in the parent string
@@ -192,7 +188,7 @@ fun JsonPrimitive.toKotlinClass(): KotlinClass {
             asLong > Integer.MAX_VALUE -> KotlinClass.LONG
             else -> KotlinClass.INT
         }
-        isString -> KotlinClass.STRINNG
-        else -> KotlinClass.STRINNG
+        isString -> KotlinClass.STRING
+        else -> KotlinClass.STRING
     }
 }

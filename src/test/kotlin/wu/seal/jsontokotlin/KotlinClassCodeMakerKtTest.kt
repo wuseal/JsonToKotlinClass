@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.classscodestruct.GenericListClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_STRING
@@ -19,7 +20,7 @@ class KotlinClassCodeMakerKtTest {
     fun testGetAllUnModifiableRefClassesRecursively() {
         val json = """{a:2,b:3,c:{say:"hello"}}"""
         val dataClass = json.generateKotlinDataClass()
-        val splitClasses = dataClass.getAllUnModifiableClassesRecursively()
+        val splitClasses = dataClass.getAllModifiableClassesRecursivelyIncludeSelf()
         splitClasses.size.should.be.equal(2)
         splitClasses[0].should.instanceof(KotlinDataClass::class.java)
         val s0 = splitClasses[0] as KotlinDataClass
@@ -50,9 +51,10 @@ class KotlinClassCodeMakerKtTest {
         val dataClass = json.generateKotlinDataClass("C").resolveNameConflicts() as KotlinDataClass
         dataClass.name.should.be.equal("C")
         dataClass.properties[2].type.should.be.equal("CX")
-        dataClass.properties[2].typeObject!!.name.should.be.equal("CX")
-        dataClass.properties[2].typeObject!!.properties[1].type.should.be.equal("CXX")
-        dataClass.properties[2].typeObject!!.properties[1].typeObject!!.name.should.be.equal("CXX")
+        val typeObject = dataClass.properties[2].typeObject as KotlinDataClass
+        typeObject.name.should.be.equal("CX")
+        typeObject.properties[1].type.should.be.equal("CXX")
+        typeObject.properties[1].typeObject.name.should.be.equal("CXX")
     }
 
     @Test
@@ -72,9 +74,10 @@ class KotlinClassCodeMakerKtTest {
         val dataClass = json.generateKotlinDataClass("A").resolveNameConflicts() as KotlinDataClass
         dataClass.name.should.be.equal("A")
         dataClass.properties[2].type.should.be.equal("C")
-        dataClass.properties[2].typeObject!!.name.should.be.equal("C")
-        dataClass.properties[2].typeObject!!.properties[1].type.should.be.equal("CX")
-        dataClass.properties[2].typeObject!!.properties[1].typeObject!!.name.should.be.equal("CX")
+        val typeObject = dataClass.properties[2].typeObject as KotlinDataClass
+        typeObject.name.should.be.equal("C")
+        typeObject.properties[1].type.should.be.equal("CX")
+        typeObject.properties[1].typeObject.name.should.be.equal("CX")
     }
 
     @Test
@@ -109,7 +112,7 @@ class KotlinClassCodeMakerKtTest {
                 type.should.be.equal("Detail")
                 originJsonValue.should.be.equal("")
                 typeObject.should.not.be.`null`
-                typeObject!!.run {
+                (typeObject as KotlinDataClass).run {
                     name.should.be.equal("Detail")
                     properties.size.should.be.equal(4)
                     properties[0].run {
@@ -129,7 +132,7 @@ class KotlinClassCodeMakerKtTest {
                         originJsonValue.should.equal("")
                         type.should.be.equal("List<Module>")
                         typeObject.should.not.be.`null`
-                        typeObject!!.run {
+                        ((typeObject as GenericListClass).generic as KotlinDataClass).run {
                             name.should.be.equal("Module")
                             properties.size.should.be.equal(1)
                             properties[0].run {
