@@ -71,7 +71,7 @@ class Issue108Test {
     val hourMax: Int, // До: час (от 0 до 23)
     val minuteMax: Int // До: минуты (от 0 до 59)
 )""".trimIndent()
-    val result = KotlinClassMaker("TestData", json).makeKotlinDataClass().getCode()
+    val result = KotlinClassMaker("TestData", json).makeKotlinClass().getCode()
     result.trim().should.be.equal(expected)
   }
 }

@@ -47,7 +47,7 @@ class KotlinDataClassMakerTest {
 
     @Test
     fun testMakeKotlinDataClass() {
-        val dataClass = KotlinClassMaker("Test", json).makeKotlinDataClass() as KotlinDataClass
+        val dataClass = KotlinClassMaker("Test", json).makeKotlinClass() as KotlinDataClass
         dataClass.name.should.be.equal("Test")
         val p1 = dataClass.properties[0]
         p1.name.should.be.equal("glossary")

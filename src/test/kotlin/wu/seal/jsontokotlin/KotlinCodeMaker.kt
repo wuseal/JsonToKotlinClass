@@ -10,7 +10,7 @@ class KotlinCodeMaker(private val className: String, private val inputJson: Stri
         val kotlinClass = KotlinClassMaker(
                 className,
                 inputJson
-        ).makeKotlinDataClass()
+        ).makeKotlinClass()
         return KotlinClassCodeMaker(
                 kotlinClass
         ).makeKotlinClassCode()

@@ -33,7 +33,7 @@ class Issue225Test {
     @Test
     fun testIssue225() {
         TestConfig.setToTestInitState()
-        val generated = KotlinClassCodeMaker(KotlinClassMaker("A", testJson).makeKotlinDataClass()).makeKotlinClassCode()
+        val generated = KotlinClassCodeMaker(KotlinClassMaker("A", testJson).makeKotlinClass()).makeKotlinClassCode()
         generated.trimIndent().should.be.equal(expected)
     }
 

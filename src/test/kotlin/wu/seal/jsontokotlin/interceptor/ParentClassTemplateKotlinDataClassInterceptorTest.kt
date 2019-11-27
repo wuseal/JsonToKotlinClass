@@ -20,7 +20,7 @@ class ParentClassTemplateKotlinDataClassInterceptorTest {
         ConfigManager.parenClassTemplate = "java.io.Serializable()"
         val json = """{a:2}"""
         val kotlinDataClass =
-            KotlinClassMaker("Test",json).makeKotlinDataClass() as KotlinDataClass
+            KotlinClassMaker("Test",json).makeKotlinClass() as KotlinDataClass
         val interceptedClass = ParentClassTemplateKotlinDataClassInterceptor().intercept(kotlinDataClass)
         interceptedClass.getCode().should.be.equal(
             """data class Test(

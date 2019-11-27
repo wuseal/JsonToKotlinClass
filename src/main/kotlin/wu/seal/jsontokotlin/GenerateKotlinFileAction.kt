@@ -82,7 +82,7 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val kotlinClass = KotlinClassMaker(className, json).makeKotlinDataClass()
+        val kotlinClass = KotlinClassMaker(className, json).makeKotlinClass()
         val dataClassAfterApplyInterceptor =
             kotlinClass.applyInterceptors(InterceptorManager.getEnabledKotlinDataClassInterceptors())
         if (ConfigManager.isInnerClassModel) {

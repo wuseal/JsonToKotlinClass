@@ -7,7 +7,7 @@ import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
  * Generate kotlin data classes with root name 'Test'
  */
 fun String.generateKotlinDataClass(className: String = "Test") =
-    KotlinClassMaker(className, this).makeKotlinDataClass() as KotlinDataClass
+    KotlinClassMaker(className, this).makeKotlinClass() as KotlinDataClass
 
 
 fun KotlinDataClass.applyInterceptor(interceptor: IKotlinDataClassInterceptor): KotlinDataClass {
