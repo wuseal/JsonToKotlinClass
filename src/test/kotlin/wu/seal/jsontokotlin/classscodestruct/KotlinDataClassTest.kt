@@ -14,10 +14,10 @@ class KotlinDataClassTest {
 
     @Test
     fun getCode() {
-        val normalProperty = Property(listOf(), "val", name = "name", type = "Type",  isLast = false, originJsonValue = "",originName = "",typeObject = KotlinClass.ANY)
-        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()", comment = "comment", isLast = true, originJsonValue = "",originName = "",typeObject = KotlinClass.ANY)
+        val normalProperty = Property(listOf(), "val", name = "name", type = "Type",  originJsonValue = "",originName = "",typeObject = KotlinClass.ANY)
+        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()", comment = "comment", originJsonValue = "",originName = "",typeObject = KotlinClass.ANY)
         val properties = listOf(normalProperty, withValueProperty)
-        val dataClass = KotlinDataClass(-1, listOf(), "name", properties = properties)
+        val dataClass = KotlinDataClass( listOf(), "name", properties = properties)
         dataClass.getCode().should.be.equal(
             """data class name(
     val name: Type,

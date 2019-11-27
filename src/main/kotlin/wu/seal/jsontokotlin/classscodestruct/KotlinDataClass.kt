@@ -7,7 +7,6 @@ import wu.seal.jsontokotlin.utils.getIndent
 import java.lang.IllegalStateException
 
 data class KotlinDataClass(
-        val id: Int = -1, // -1 represent the default unknown id
         val annotations: List<Annotation> = listOf(),
         override val name: String,
         val properties: List<Property> = listOf(),
