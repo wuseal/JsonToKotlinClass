@@ -8,7 +8,7 @@ import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 
 class KotlinClassMaker(private val rootClassName: String, private val json: String) {
 
-    fun makeKotlinDataClass(): KotlinClass {
+    fun makeKotlinClass(): KotlinClass {
         return if (json.isJSONSchema()) {
             val jsonSchema = Gson().fromJson(json, JsonSchema::class.java)
             DataClassGeneratorByJSONSchema(rootClassName, jsonSchema).generate()

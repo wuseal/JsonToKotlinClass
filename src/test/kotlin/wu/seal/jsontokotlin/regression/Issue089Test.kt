@@ -86,7 +86,7 @@ class Issue089Test {
      */
     @Test
     fun testIssue089() {
-        val result = KotlinClassCodeMaker(KotlinClassMaker("Test", json).makeKotlinDataClass()).makeKotlinClassCode()
+        val result = KotlinClassCodeMaker(KotlinClassMaker("Test", json).makeKotlinClass()).makeKotlinClassCode()
         result.trim().should.be.equal(expected)
     }
 }

@@ -28,7 +28,7 @@ class Issue195Test {
     @Test
     fun testIssue195() {
         val generated = KotlinClassCodeMaker(
-            KotlinClassMaker("A", "{\"xxx\":[[]]}").makeKotlinDataClass()).makeKotlinClassCode()
+            KotlinClassMaker("A", "{\"xxx\":[[]]}").makeKotlinClass()).makeKotlinClassCode()
         generated.trim().should.be.equal(expected)
     }
 }
