@@ -17,6 +17,7 @@ import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.*
 import java.net.URL
 import java.util.*
+import kotlin.math.max
 
 /**
  * Plugin action
@@ -142,12 +143,12 @@ class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
                     offset = document.textLength
                 }
                 val lastPackageKeywordLineEndIndex = try {
-                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.last
                 } catch (e: Exception) {
                     -1
                 }
                 val lastImportKeywordLineEndIndex = try {
-                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.endInclusive
+                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.last
                 } catch (e: Exception) {
                     -1
                 }
@@ -162,7 +163,7 @@ class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
                 offset = document.textLength
             }
             document.insertString(
-                    Math.max(offset, 0),
+                    max(offset, 0),
                     ClassCodeFilter.removeDuplicateClassCode(generateClassesString)
             )
         }

@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.utils.ClassImportDeclaration
 import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
+import kotlin.math.max
 
 /**
  * to be a helper to insert Import class declare code
@@ -28,16 +29,16 @@ object ClassImportDeclarationWriter : IClassImportDeclarationWriter {
             if (importClassLineString !in text) {
 
                 val packageIndex = try {
-                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).find(text)!!.range.endInclusive
+                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).find(text)!!.range.last
                 } catch (e: Exception) {
                     -1
                 }
                 val lastImportKeywordIndex = try {
-                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(text).last().range.endInclusive
+                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(text).last().range.last
                 } catch (e: Exception) {
                     -1
                 }
-                val index = Math.max(lastImportKeywordIndex, packageIndex)
+                val index = max(lastImportKeywordIndex, packageIndex)
                 val insertIndex =
                         if (index == -1) 0 else editFile.getLineEndOffset(editFile.getLineNumber(index))
 

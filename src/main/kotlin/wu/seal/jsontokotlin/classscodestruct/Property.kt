@@ -9,7 +9,6 @@ data class Property(
     val type: String,
     val value: String = "",
     val comment: String = "",
-    var isLast: Boolean = false,
     val typeObject: KotlinClass,
     private var separatorBetweenAnnotationAndProperty:String = "\n"
 ) {
