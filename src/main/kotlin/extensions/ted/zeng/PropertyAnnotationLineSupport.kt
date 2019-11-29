@@ -12,20 +12,23 @@ import javax.swing.JPanel
  */
 object PropertyAnnotationLineSupport : Extension() {
 
-    private const val enable = "ted.zeng.property_annotation_in_same_line_enable"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val configKey = "ted.zeng.property_annotation_in_same_line_enable"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
-            checkBox("Keep Annotation And Property In Same Line",getConfig(enable).toBoolean()){
-                isSelectedAfterClick ->
-                setConfig(enable, isSelectedAfterClick.toString())
+            checkBox("Keep Annotation And Property In Same Line", getConfig(configKey).toBoolean()) { isSelectedAfterClick ->
+                setConfig(configKey, isSelectedAfterClick.toString())
             }()
             fillSpace()
         }
     }
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        if (getConfig(enable).toBoolean()) {
+        if (getConfig(configKey).toBoolean()) {
             kotlinDataClass.properties.forEach(Property::letLastAnnotationStayInSameLine)
         }
         return kotlinDataClass

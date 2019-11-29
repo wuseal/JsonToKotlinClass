@@ -13,7 +13,11 @@ import javax.swing.JPanel
 
 object PrimitiveTypeNonNullableSupport : Extension() {
 
-    private const val configKey = "xu.rui.force_primitive_type_non-nullable"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val configKey = "xu.rui.force_primitive_type_non-nullable"
 
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {

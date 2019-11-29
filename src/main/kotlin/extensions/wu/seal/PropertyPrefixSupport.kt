@@ -10,8 +10,8 @@ import javax.swing.JPanel
 
 object PropertyPrefixSupport : Extension() {
 
-    private const val prefixKeyEnable = "wu.seal.property_prefix_enable"
-    private const val prefixKey = "wu.seal.property_prefix"
+    const val prefixKeyEnable = "wu.seal.property_prefix_enable"
+    const val prefixKey = "wu.seal.property_prefix"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
@@ -19,7 +19,7 @@ object PropertyPrefixSupport : Extension() {
                 if (getConfig(prefixKeyEnable).toBoolean()) {
                     setConfig(prefixKey, it.text)
                 }
-            }.also{
+            }.also {
                 it.document = NamingConventionDocument(80)
             }
             checkBox("Prefix append before every property: ", getConfig(prefixKeyEnable).toBoolean()) { isSelectedAfterClick ->

@@ -15,7 +15,11 @@ import javax.swing.JPanel
 object KeepAnnotationSupport : Extension() {
 
 
-    private const val configKey = "chen.biao.add_keep_annotation_enable"
+    @Suppress("MemberVisibilityCanBePrivate")
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    const val configKey = "chen.biao.add_keep_annotation_enable"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {

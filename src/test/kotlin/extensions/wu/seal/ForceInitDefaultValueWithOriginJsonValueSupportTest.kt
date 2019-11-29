@@ -13,7 +13,7 @@ class ForceInitDefaultValueWithOriginJsonValueSupportTest {
     val expectResult = """data class Test(
     val a: Int = 1 // 1
 )"""
-    private  val configKey = "wu.seal.force_init_default_value_with_origin_json_value"
+    val configKey = "wu.seal.force_init_default_value_with_origin_json_value"
 
 
     @Before
@@ -23,9 +23,9 @@ class ForceInitDefaultValueWithOriginJsonValueSupportTest {
 
     @Test
     fun intercept() {
-        ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().setConfig(configKey,true.toString())
+        ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().setConfig(configKey, true.toString())
         val dataClass =
-            json.generateKotlinDataClass("Test").applyInterceptor(ForceInitDefaultValueWithOriginJsonValueSupport)
+                json.generateKotlinDataClass("Test").applyInterceptor(ForceInitDefaultValueWithOriginJsonValueSupport)
         val resultCode = dataClass.getCode()
         resultCode.should.be.equal(expectResult)
     }
