@@ -15,7 +15,11 @@ import javax.swing.JPanel
  */
 object ForceInitDefaultValueWithOriginJsonValueSupport : Extension() {
 
-    private const val configKey = "wu.seal.force_init_default_value_with_origin_json_value"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val configKey = "wu.seal.force_init_default_value_with_origin_json_value"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {

@@ -1,8 +1,19 @@
+package com.theapache64.j2k
+
 import extensions.chen.biao.KeepAnnotationSupport
+import extensions.jose.han.ParcelableAnnotationSupport
+import extensions.ted.zeng.PropertyAnnotationLineSupport
+import extensions.wu.seal.*
+import extensions.xu.rui.PrimitiveTypeNonNullableSupport
 import wu.seal.jsontokotlin.*
 import wu.seal.jsontokotlin.test.TestConfig
 
+
+/**
+ * To get Kotlin class code from JSON
+ */
 class JsonToKotlinBuilder() {
+
     init {
         TestConfig.apply {
 
@@ -26,10 +37,14 @@ class JsonToKotlinBuilder() {
         }
     }
 
+    /**
+     * To set property type to `var`, pass true.
+     */
     fun setPropertiesVar(isVar: Boolean): JsonToKotlinBuilder {
         TestConfig.isPropertiesVar = isVar
         return this
     }
+
 
     fun setPropertyTypeStrategy(strategy: PropertyTypeStrategy): JsonToKotlinBuilder {
         TestConfig.propertyTypeStrategy = strategy
@@ -93,8 +108,82 @@ class JsonToKotlinBuilder() {
         return this
     }
 
-    fun setKeepAnnotationOnClass(isInclude: Boolean): JsonToKotlinBuilder {
-        KeepAnnotationSupport.getTestHelper().setConfig("chen.biao.add_keep_annotation_enable", "true")
+    fun setKeepAnnotationOnClass(isEnable: Boolean): JsonToKotlinBuilder {
+        KeepAnnotationSupport.getTestHelper().setConfig(KeepAnnotationSupport.configKey, isEnable.toString())
+        return this
+    }
+
+    fun setKeepAnnotationOnClassAndroidX(isEnable: Boolean): JsonToKotlinBuilder {
+        KeepAnnotationSupportForAndroidX.getTestHelper().setConfig(KeepAnnotationSupportForAndroidX.configKey, isEnable.toString())
+        return this
+    }
+
+    fun setKeepAnnotationAndPropertyInSameLine(isEnable: Boolean): JsonToKotlinBuilder {
+        PropertyAnnotationLineSupport.getTestHelper().setConfig(PropertyAnnotationLineSupport.configKey, isEnable.toString())
+        return this
+    }
+
+    fun setParcelableSupport(isEnable: Boolean): JsonToKotlinBuilder {
+        ParcelableAnnotationSupport.getTestHelper().setConfig(ParcelableAnnotationSupport.configKey, isEnable.toString())
+        return this
+    }
+
+    fun setPropertyPrefix(prefix: String?): JsonToKotlinBuilder {
+        if (prefix != null) {
+            PropertyPrefixSupport.getTestHelper().apply {
+                setConfig(PropertyPrefixSupport.prefixKeyEnable, "true")
+                setConfig(PropertyPrefixSupport.prefixKey, prefix)
+            }
+        } else {
+            PropertyPrefixSupport.getTestHelper().apply {
+                setConfig(PropertyPrefixSupport.prefixKeyEnable, "false")
+                setConfig(PropertyPrefixSupport.prefixKey, "")
+            }
+        }
+        return this
+    }
+
+    fun setPropertySuffix(suffix: String?): JsonToKotlinBuilder {
+
+        if (suffix != null) {
+            PropertySuffixSupport.getTestHelper().apply {
+                setConfig(PropertySuffixSupport.suffixKeyEnable, "true")
+                setConfig(PropertySuffixSupport.suffixKey, suffix)
+            }
+        } else {
+            PropertySuffixSupport.getTestHelper().apply {
+                setConfig(PropertySuffixSupport.suffixKeyEnable, "false")
+                setConfig(PropertySuffixSupport.suffixKey, "")
+            }
+        }
+        return this
+    }
+
+    fun setClassSuffix(suffix: String?): JsonToKotlinBuilder {
+        if (suffix != null) {
+            ClassNameSuffixSupport.getTestHelper().apply {
+                setConfig(ClassNameSuffixSupport.suffixKeyEnable, "true")
+                setConfig(ClassNameSuffixSupport.suffixKey, suffix)
+            }
+        } else {
+            PropertySuffixSupport.getTestHelper().apply {
+                setConfig(ClassNameSuffixSupport.suffixKeyEnable, "false")
+                setConfig(ClassNameSuffixSupport.suffixKey, "")
+            }
+        }
+
+        return this
+    }
+
+    fun setForceInitDefaultValueWithOriginJsonValue(isEnable: Boolean): JsonToKotlinBuilder {
+        ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().setConfig(
+                ForceInitDefaultValueWithOriginJsonValueSupport.configKey,
+                isEnable.toString())
+        return this
+    }
+
+    fun setForcePrimitiveTypeNonNullable(isEnable: Boolean): JsonToKotlinBuilder {
+        PrimitiveTypeNonNullableSupport.getTestHelper().setConfig(PrimitiveTypeNonNullableSupport.configKey, isEnable.toString())
         return this
     }
 
