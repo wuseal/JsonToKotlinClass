@@ -39,45 +39,52 @@ class JsonToKotlinBuilder() {
 
     /**
      * To set property type to `var`, pass true.
+     * Default : false
      */
     fun setPropertiesVar(isVar: Boolean): JsonToKotlinBuilder {
         TestConfig.isPropertiesVar = isVar
         return this
     }
 
-
+    /**
+     * To set if the properties can be null or not
+     * Default: PropertyTypeStrategy.NotNullable
+     */
     fun setPropertyTypeStrategy(strategy: PropertyTypeStrategy): JsonToKotlinBuilder {
         TestConfig.propertyTypeStrategy = strategy
         return this
     }
 
+    /**
+     * To set default value.
+     * Default : DefaultValueStrategy.AvoidNull
+     */
     fun setDefaultValueStrategy(strategy: DefaultValueStrategy): JsonToKotlinBuilder {
         TestConfig.defaultValueStrategy = strategy
         return this
     }
 
+    /**
+     * To set JSON decoding/encoding library
+     * Default: TargetJsonConverter.Gson
+     */
     fun setAnnotationLib(library: TargetJsonConverter): JsonToKotlinBuilder {
         TestConfig.targetJsonConvertLib = library
         return this
     }
 
+    /**
+     * If enabled, value will be commented right to the property
+     */
     fun setComment(isEnable: Boolean): JsonToKotlinBuilder {
         TestConfig.isCommentOff = !isEnable
         return this
     }
 
 
-    fun build(input: String,
-              className: String): String {
-
-        return KotlinDataClassCodeMaker(
-                KotlinDataClassMaker(
-                        className,
-                        input
-                ).makeKotlinDataClass()
-        ).makeKotlinDataClassCode()
-    }
-
+    /**
+     * TODO: More comments need to be added
+     */
     fun setOrderByAlphabetic(isOrderByAlphabetic: Boolean): JsonToKotlinBuilder {
         TestConfig.isOrderByAlphabetical = isOrderByAlphabetic
         return this
@@ -185,6 +192,18 @@ class JsonToKotlinBuilder() {
     fun setForcePrimitiveTypeNonNullable(isEnable: Boolean): JsonToKotlinBuilder {
         PrimitiveTypeNonNullableSupport.getTestHelper().setConfig(PrimitiveTypeNonNullableSupport.configKey, isEnable.toString())
         return this
+    }
+
+
+    fun build(input: String,
+              className: String): String {
+
+        return KotlinDataClassCodeMaker(
+                KotlinDataClassMaker(
+                        className,
+                        input
+                ).makeKotlinDataClass()
+        ).makeKotlinDataClassCode()
     }
 
 
