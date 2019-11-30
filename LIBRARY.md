@@ -1,10 +1,10 @@
-# JsonToKoltinBuilder
+# JsonToKoltinBuilder - Java/Kotlin Library
 
-Intro goes here
+We also have a `Java/Kotlin` library. With this you can convert `JSON` to `Kotlin` code programmatically.
 
 ## Installation
 
-Download `jar` file from [here](library/out/library.jar) and add it to your project
+Download `jar` file from [here](library/out/JsonToKotlinClass-3.5.1_library.jar) and add it to your project
 
 ## Usage
 
