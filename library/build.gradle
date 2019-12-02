@@ -1,0 +1,27 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.60'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation "junit:junit:4.12"
+    testImplementation('com.winterbe:expekt:0.5.0') {
+        exclude group: "org.jetbrains.kotlin"
+    }
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
