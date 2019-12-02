@@ -39,6 +39,12 @@ fun main() {
             .setClassSuffix("MyClassSuffix")// optional, default : ""
             .setForceInitDefaultValueWithOriginJsonValue(true) // optional, default : false
             .setForcePrimitiveTypeNonNullable(true) // optional, default : false*/
+            .setCustomAnnotation(
+                    "import kotlinx.serialization.SerialName\n" +
+                            "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional",
+                    "@Serializable",
+                    "@Optional\n@SerialName(\"%s\")"
+            )
             .build(json1, "GlossResponse") // finally, get KotlinClassCode string
 
     println("json1 ====>\n${output}")
