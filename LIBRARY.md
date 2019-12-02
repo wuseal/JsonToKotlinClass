@@ -93,3 +93,18 @@ data class GlossResponse(
     )
 }
 ```
+
+## Custom Annotation
+
+To set custom annotation, you can call the `JsonToKotlinBuilder#setCustomAnnotation` method.
+
+```kotlin
+val output = JsonToKotlinBuilder()
+    .setCustomAnnotation(
+        "import kotlinx.serialization.SerialName\n" +
+                "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional",
+        "@Serializable",
+        "@Optional\n@SerialName(\"%s\")"
+    )
+    .build(input, "MyResponse")
+```

@@ -64,7 +64,25 @@ class JsonToKotlinBuilder() {
      * Default: TargetJsonConverter.None
      */
     fun setAnnotationLib(library: TargetJsonConverter): JsonToKotlinBuilder {
+
+        require(library != TargetJsonConverter.Custom) { "Call #setCustomAnnotation to set custom annotation" }
+
         TestConfig.targetJsonConvertLib = library
+        return this
+    }
+
+    fun setCustomAnnotation(
+            importClass: String,
+            classAnnotationFormat: String,
+            propertyAnnotationFormat: String
+    ): JsonToKotlinBuilder {
+        TestConfig.apply {
+            targetJsonConvertLib = TargetJsonConverter.Custom
+            customAnnotaionImportClassString = importClass
+            customClassAnnotationFormatString = classAnnotationFormat
+            customPropertyAnnotationFormatString = propertyAnnotationFormat
+        }
+
         return this
     }
 
