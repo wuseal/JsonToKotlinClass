@@ -49,7 +49,7 @@ fun main() {
                 { "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
                 ],
                 "authors": [
-                { "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" },
+                { "firstName": null, "lastName": "Asimov", "genre": "science fiction" },
                 { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
                 { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
                 ],
@@ -69,40 +69,27 @@ fun main() {
 
 ```kotlin
 data class GlossResponse(
-    @SerializedName("authors")
-    val authors: List<Author> = listOf(),
-    @SerializedName("musicians")
-    val musicians: List<Musician> = listOf(),
-    @SerializedName("programmers")
-    val programmers: List<Programmer> = listOf()
+    val authors: List<Author>,
+    val musicians: List<Musician>,
+    val programmers: List<Programmer>
 ) {
     data class Author(
-        @SerializedName("firstName")
-        val firstName: String = "", // Frank
-        @SerializedName("genre")
-        val genre: String = "", // christian fiction
-        @SerializedName("lastName")
-        val lastName: String = "" // Peretti
+        val firstName: String?, // Frank
+        val genre: String, // christian fiction
+        val lastName: String // Peretti
     )
 
     data class Musician(
-        @SerializedName("firstName")
-        val firstName: String = "", // Sergei
-        @SerializedName("instrument")
-        val instrument: String = "", // piano
-        @SerializedName("lastName")
-        val lastName: String = "" // Rachmaninoff
+        val firstName: String, // Sergei
+        val instrument: String, // piano
+        val lastName: String // Rachmaninoff
     )
 
     data class Programmer(
-        @SerializedName("email")
-        val email: String = "", // cccc
-        @SerializedName("firstName")
-        val firstName: String = "", // Elliotte
-        @SerializedName("isFirstName")
-        val isFirstName: String = "", // Brett
-        @SerializedName("lastName")
-        val lastName: String = "" // Harold
+        val email: String, // cccc
+        val firstName: String, // Elliotte
+        val isFirstName: String, // Brett
+        val lastName: String // Harold
     )
 }
 ```
