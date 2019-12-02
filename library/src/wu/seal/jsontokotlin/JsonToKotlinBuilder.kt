@@ -1,11 +1,10 @@
-package com.theapache64.j2k
+package wu.seal.jsontokotlin
 
 import extensions.chen.biao.KeepAnnotationSupport
 import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
-import wu.seal.jsontokotlin.*
 import wu.seal.jsontokotlin.test.TestConfig
 
 
@@ -21,9 +20,9 @@ class JsonToKotlinBuilder() {
             isCommentOff = false
             isOrderByAlphabetical = true
             isPropertiesVar = false
-            targetJsonConvertLib = TargetJsonConverter.Gson
+            targetJsonConvertLib = TargetJsonConverter.NoneWithCamelCase
             propertyTypeStrategy = PropertyTypeStrategy.NotNullable
-            defaultValueStrategy = DefaultValueStrategy.AvoidNull
+            defaultValueStrategy = DefaultValueStrategy.None
             isNestedClassModel = true
             customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
             customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
