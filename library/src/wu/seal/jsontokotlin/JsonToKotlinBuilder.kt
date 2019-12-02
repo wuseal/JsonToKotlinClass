@@ -24,10 +24,6 @@ class JsonToKotlinBuilder() {
             propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
             defaultValueStrategy = DefaultValueStrategy.None
             isNestedClassModel = true
-            customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
-            customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
-                    "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional"
-            customClassAnnotationFormatString = "@Serializable"
             enableMinimalAnnotation = false
             indent = 4
             parenClassTemplate = ""
