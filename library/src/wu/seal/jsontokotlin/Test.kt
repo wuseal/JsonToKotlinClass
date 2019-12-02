@@ -9,7 +9,7 @@ fun main() {
                 { "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
                 ],
                 "authors": [
-                { "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" },
+                { "firstName": null, "lastName": "Asimov", "genre": "science fiction" },
                 { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
                 { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
                 ],

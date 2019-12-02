@@ -21,7 +21,7 @@ class JsonToKotlinBuilder() {
             isOrderByAlphabetical = true
             isPropertiesVar = false
             targetJsonConvertLib = TargetJsonConverter.NoneWithCamelCase
-            propertyTypeStrategy = PropertyTypeStrategy.NotNullable
+            propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
             defaultValueStrategy = DefaultValueStrategy.None
             isNestedClassModel = true
             customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
