@@ -20,7 +20,7 @@ class JsonToKotlinBuilder() {
             isCommentOff = false
             isOrderByAlphabetical = true
             isPropertiesVar = false
-            targetJsonConvertLib = TargetJsonConverter.NoneWithCamelCase
+            targetJsonConvertLib = TargetJsonConverter.None
             propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
             defaultValueStrategy = DefaultValueStrategy.None
             isNestedClassModel = true
@@ -65,7 +65,7 @@ class JsonToKotlinBuilder() {
 
     /**
      * To set JSON decoding/encoding library
-     * Default: TargetJsonConverter.Gson
+     * Default: TargetJsonConverter.None
      */
     fun setAnnotationLib(library: TargetJsonConverter): JsonToKotlinBuilder {
         TestConfig.targetJsonConvertLib = library
