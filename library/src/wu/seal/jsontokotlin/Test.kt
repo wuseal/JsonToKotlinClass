@@ -1,6 +1,5 @@
-import com.theapache64.j2k.JsonToKotlinBuilder
+import wu.seal.jsontokotlin.JsonToKotlinBuilder
 import wu.seal.jsontokotlin.*
-import wu.seal.jsontokotlin.test.TestConfig
 
 fun main() {
 
@@ -20,7 +19,7 @@ fun main() {
                 ] } """
 
     val output = JsonToKotlinBuilder()
-            .setPropertiesVar(false) // optional, default : false
+            /*.setPropertiesVar(false) // optional, default : false
             .setPropertyTypeStrategy(PropertyTypeStrategy.AutoDeterMineNullableOrNot) // optional, default :  PropertyTypeStrategy.NotNullable
             .setDefaultValueStrategy(DefaultValueStrategy.AvoidNull) // optional, default : DefaultValueStrategy.AvoidNull
             .setAnnotationLib(TargetJsonConverter.MoshiCodeGen) // optional, default: TargetJsonConverter.Gson
@@ -39,7 +38,7 @@ fun main() {
             .setPropertySuffix("MySuffix") // optional, default : ""
             .setClassSuffix("MyClassSuffix")// optional, default : ""
             .setForceInitDefaultValueWithOriginJsonValue(true) // optional, default : false
-            .setForcePrimitiveTypeNonNullable(true) // optional, default : false
+            .setForcePrimitiveTypeNonNullable(true) // optional, default : false*/
             .build(json1, "GlossResponse") // finally, get KotlinClassCode string
 
     println("json1 ====>\n${output}")
