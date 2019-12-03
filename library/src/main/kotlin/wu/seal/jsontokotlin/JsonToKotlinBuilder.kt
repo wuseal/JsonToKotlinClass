@@ -138,7 +138,7 @@ class JsonToKotlinBuilder {
         return this
     }
 
-    fun setKeepAnnotationAndPropertyInSameLine(isEnable: Boolean): JsonToKotlinBuilder {
+    fun setAnnotationAndPropertyInSameLine(isEnable: Boolean): JsonToKotlinBuilder {
         PropertyAnnotationLineSupport.getTestHelper().setConfig(PropertyAnnotationLineSupport.configKey, isEnable.toString())
         return this
     }
