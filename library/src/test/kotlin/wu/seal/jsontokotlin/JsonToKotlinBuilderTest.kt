@@ -486,11 +486,167 @@ class JsonToKotlinBuilderTest {
     }
 
     @Test
-    fun setInnerClassModel() {
+    fun setInnerClassModelEnabled() {
+        val input = """
+            {
+                "glossary":{
+                    "title":"example glossary",
+                    "GlossDiv":{
+                        "title":"S",
+                        "GlossList":{
+                            "GlossEntry":{
+                                "ID":"SGML",
+                                "SortAs":"SGML",
+                                "GlossTerm":"Standard Generalized Markup Language",
+                                "Acronym":"SGML",
+                                "Abbrev":"ISO 8879:1986",
+                                "GlossDef":{
+                                    "para":"A meta-markup language, used to create markup languages such as DocBook.",
+                                    "GlossSeeAlso":[
+                                        "GML",
+                                        "XML"
+                                    ]
+                                },
+                                "GlossSee":"markup"
+                            }
+                        }
+                    }
+                }
+            }
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class GlossResponse(
+                val glossary: Glossary
+            ) {
+                data class Glossary(
+                    val title: String, // example glossary
+                    val GlossDiv: GlossDiv
+                ) {
+                    data class GlossDiv(
+                        val title: String, // S
+                        val GlossList: GlossList
+                    ) {
+                        data class GlossList(
+                            val GlossEntry: GlossEntry
+                        ) {
+                            data class GlossEntry(
+                                val ID: String, // SGML
+                                val SortAs: String, // SGML
+                                val GlossTerm: String, // Standard Generalized Markup Language
+                                val Acronym: String, // SGML
+                                val Abbrev: String, // ISO 8879:1986
+                                val GlossDef: GlossDef,
+                                val GlossSee: String // markup
+                            ) {
+                                data class GlossDef(
+                                    val para: String, // A meta-markup language, used to create markup languages such as DocBook.
+                                    val GlossSeeAlso: List<String>
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setOrderByAlphabetic(false)
+                .setInnerClassModel(true)
+                .build(input, "GlossResponse")
+        actualOutput.should.be.equal(expectedOutput)
+    }
+
+
+    @Test
+    fun setInnerClassModelDisabled() {
+        val input = """
+            {
+                "glossary":{
+                    "title":"example glossary",
+                    "GlossDiv":{
+                        "title":"S",
+                        "GlossList":{
+                            "GlossEntry":{
+                                "ID":"SGML",
+                                "SortAs":"SGML",
+                                "GlossTerm":"Standard Generalized Markup Language",
+                                "Acronym":"SGML",
+                                "Abbrev":"ISO 8879:1986",
+                                "GlossDef":{
+                                    "para":"A meta-markup language, used to create markup languages such as DocBook.",
+                                    "GlossSeeAlso":[
+                                        "GML",
+                                        "XML"
+                                    ]
+                                },
+                                "GlossSee":"markup"
+                            }
+                        }
+                    }
+                }
+            }
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class GlossResponse(
+                val glossary: Glossary
+            )
+
+            data class Glossary(
+                val title: String, // example glossary
+                val GlossDiv: GlossDiv
+            )
+
+            data class GlossDiv(
+                val title: String, // S
+                val GlossList: GlossList
+            )
+
+            data class GlossList(
+                val GlossEntry: GlossEntry
+            )
+
+            data class GlossEntry(
+                val ID: String, // SGML
+                val SortAs: String, // SGML
+                val GlossTerm: String, // Standard Generalized Markup Language
+                val Acronym: String, // SGML
+                val Abbrev: String, // ISO 8879:1986
+                val GlossDef: GlossDef,
+                val GlossSee: String // markup
+            )
+
+            data class GlossDef(
+                val para: String, // A meta-markup language, used to create markup languages such as DocBook.
+                val GlossSeeAlso: List<String>
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setOrderByAlphabetic(false)
+                .setInnerClassModel(false)
+                .build(input, "GlossResponse")
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setMapType() {
+        val input = """
+            {"user_name": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                val company_name: String, // ABC Ltd
+                val user_name: String // john
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setMapType(true)
+                .build(input, "User")
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
