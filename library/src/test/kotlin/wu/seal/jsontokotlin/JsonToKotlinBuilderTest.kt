@@ -46,7 +46,7 @@ class JsonToKotlinBuilderTest {
     @Test
     fun setPropertyTypeStrategyAutoDeterMineNullableOrNot() {
 
-       
+
         val input = """
             {"name": null}
         """.trimIndent()
@@ -67,7 +67,7 @@ class JsonToKotlinBuilderTest {
     @Test
     fun setPropertyTypeStrategyNullable() {
 
-       
+
         val input = """
             {"name": "john"}
         """.trimIndent()
@@ -88,7 +88,7 @@ class JsonToKotlinBuilderTest {
     @Test
     fun setPropertyTypeStrategyNotNullable() {
 
-       
+
         val input = """
             {"name": null}
         """.trimIndent()
@@ -673,46 +673,247 @@ class JsonToKotlinBuilderTest {
 
     @Test
     fun setIndent() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                      val company_name: String,
+                      val username: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setIndent(10)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setParentClassTemplate() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                val company_name: String,
+                val username: String
+            ) : Parcelable
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setParentClassTemplate("android.os.Parcelable")
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setKeepAnnotationOnClass() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            @Keep
+            data class User(
+                val company_name: String,
+                val username: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setKeepAnnotationOnClass(true)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setKeepAnnotationOnClassAndroidX() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            @Keep
+            data class User(
+                val company_name: String,
+                val username: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setKeepAnnotationOnClassAndroidX(true)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setKeepAnnotationAndPropertyInSameLine() {
+        val input = """
+            {"a":"a","Int":2}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                @SerializedName("a") val a: String,
+                @SerializedName("Int") val int: Int
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setAnnotationLib(TargetJsonConverter.Gson)
+                .setAnnotationAndPropertyInSameLine(true)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setParcelableSupport() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            @SuppressLint("ParcelCreator")
+            @Parcelize
+            data class User(
+                val company_name: String,
+                val username: String
+            ) : Parcelable
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setParcelableSupport(true)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setPropertyPrefix() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                val myprefix_Company_name: String,
+                val myprefix_Username: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setPropertyPrefix("myprefix_")
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setPropertySuffix() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                val company_name_mysuffix: String,
+                val username_mysuffix: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setPropertySuffix("_mysuffix")
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setClassSuffix() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class UserMySuffix(
+                val company_name: String,
+                val username: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setClassSuffix("MySuffix")
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setForceInitDefaultValueWithOriginJsonValue() {
+        val input = """
+            {
+              "users": [
+                {
+                  "username": "john",
+                  "company_name": "ABC Ltd"
+                },
+                {
+                  "username": "david",
+                  "company_name": "XYZ Ltd"
+                }
+              ]
+            }
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                val users: List<User> = listOf()
+            ) {
+                data class User(
+                    val company_name: String = "XYZ Ltd",
+                    val username: String = "david"
+                )
+            }
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setForceInitDefaultValueWithOriginJsonValue(true)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setForcePrimitiveTypeNonNullable() {
+        val input = """
+            { picture: { "id" : 1, "url" : "" } }
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class Test(
+                val picture: Picture?
+            ) {
+                data class Picture(
+                    val id: Int,
+                    val url: String?
+                )
+            }
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setPropertyTypeStrategy(PropertyTypeStrategy.Nullable)
+                .setForcePrimitiveTypeNonNullable(true)
+                .build(input, "Test")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
 
