@@ -1,9 +1,11 @@
 package wu.seal.jsontokotlin
 
 import com.winterbe.expekt.should
+import org.junit.Before
 import org.junit.Test
 
 class JsonToKotlinBuilderTest {
+
 
     @Test
     fun build() {
@@ -20,7 +22,6 @@ class JsonToKotlinBuilderTest {
 
         val actualOutput = JsonToKotlinBuilder().build(input, "User")
         actualOutput.should.be.equal(expectedOutput)
-
     }
 
     @Test
@@ -915,6 +916,4 @@ class JsonToKotlinBuilderTest {
 
         actualOutput.should.be.equal(expectedOutput)
     }
-
-
 }
