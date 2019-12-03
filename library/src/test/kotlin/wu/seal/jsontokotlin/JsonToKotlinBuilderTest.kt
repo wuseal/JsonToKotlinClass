@@ -631,26 +631,44 @@ class JsonToKotlinBuilderTest {
     }
 
     @Test
-    fun setMapType() {
+    fun setMapTypeEnabled() {
         val input = """
-            {"user_name": "john", "company_name": "ABC Ltd"}
+            {a:{1:1,2:2}}
         """.trimIndent()
 
         val expectedOutput = """
-            data class User(
-                val company_name: String, // ABC Ltd
-                val user_name: String // john
+            data class Model(
+                val a: Map<Int,Int>
             )
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
                 .setMapType(true)
-                .build(input, "User")
+                .build(input, "Model")
+
         actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
     fun setCreateAnnotationOnlyWhenNeeded() {
+        val input = """
+            {"username": "john", "company_name": "ABC Ltd"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            data class User(
+                @SerializedName("company_name")
+                val companyName: String, // ABC Ltd
+                val username: String // john
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setAnnotationLib(TargetJsonConverter.Gson)
+                .setCreateAnnotationOnlyWhenNeeded(true)
+                .build(input, "User")
+
+        actualOutput.should.be.equal(expectedOutput)
     }
 
     @Test
