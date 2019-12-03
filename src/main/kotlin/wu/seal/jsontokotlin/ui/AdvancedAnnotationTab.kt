@@ -84,8 +84,8 @@ class AdvancedAnnotationTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), 
                         ConfigManager.targetJsonConverterLib = TargetJsonConverter.LoganSquare
                     }().addToGroup()
 
-                    radioButton("kotlinx.serialization", ConfigManager.targetJsonConverterLib == TargetJsonConverter.Serilizable) {
-                        ConfigManager.targetJsonConverterLib = TargetJsonConverter.Serilizable
+                    radioButton("kotlinx.serialization", ConfigManager.targetJsonConverterLib == TargetJsonConverter.Serializable) {
+                        ConfigManager.targetJsonConverterLib = TargetJsonConverter.Serializable
                     }().addToGroup()
 
                     val customizeAnnotationRadioButton = radioButton("Others by customize", ConfigManager.targetJsonConverterLib == TargetJsonConverter.Custom) {
