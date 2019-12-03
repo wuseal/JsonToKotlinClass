@@ -17,7 +17,7 @@ class JsonToKotlinBuilder {
         TestConfig.apply {
 
             isTestModel = true
-            isCommentOff = false
+            isCommentOff = true
             isOrderByAlphabetical = true
             isPropertiesVar = false
             targetJsonConvertLib = TargetJsonConverter.None
