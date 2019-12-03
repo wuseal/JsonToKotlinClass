@@ -14,7 +14,7 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -32,7 +32,7 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                var name: String // john
+                var name: String
             )
         """.trimIndent()
 
@@ -46,14 +46,14 @@ class JsonToKotlinBuilderTest {
     @Test
     fun setPropertyTypeStrategyAutoDeterMineNullableOrNot() {
 
-        // Auto Determine
+       
         val input = """
             {"name": null}
         """.trimIndent()
 
         val expectedOutput = """
             data class User(
-                val name: Any? // null
+                val name: Any?
             )
         """.trimIndent()
 
@@ -67,14 +67,14 @@ class JsonToKotlinBuilderTest {
     @Test
     fun setPropertyTypeStrategyNullable() {
 
-        // PropertyTypeStrategy.Nullable
+       
         val input = """
             {"name": "john"}
         """.trimIndent()
 
         val expectedOutput = """
             data class User(
-                val name: String? // john
+                val name: String?
             )
         """.trimIndent()
 
@@ -88,14 +88,14 @@ class JsonToKotlinBuilderTest {
     @Test
     fun setPropertyTypeStrategyNotNullable() {
 
-        // PropertyTypeStrategy.NotNullable
+       
         val input = """
             {"name": null}
         """.trimIndent()
 
         val expectedOutput = """
             data class User(
-                val name: Any // null
+                val name: Any
             )
         """.trimIndent()
 
@@ -116,8 +116,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company: Any? = null, // null
-                val name: String = "" // john
+                val company: Any? = null,
+                val name: String = ""
             )
         """.trimIndent()
 
@@ -138,8 +138,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company: Any? = Any(), // null
-                val name: String = "" // john
+                val company: Any? = Any(),
+                val name: String = ""
             )
         """.trimIndent()
 
@@ -160,8 +160,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company: Any?, // null
-                val name: String // john
+                val company: Any?,
+                val name: String
             )
         """.trimIndent()
 
@@ -182,9 +182,9 @@ class JsonToKotlinBuilderTest {
         val expectedOutput = """
             data class User(
                 @SerializedName("company")
-                val company: String, // ABC Ltd
+                val company: String,
                 @SerializedName("name")
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -205,9 +205,9 @@ class JsonToKotlinBuilderTest {
         val expectedOutput = """
             data class User(
                 @Json(name = "company")
-                val company: String, // ABC Ltd
+                val company: String,
                 @Json(name = "name")
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -229,9 +229,9 @@ class JsonToKotlinBuilderTest {
             @JsonClass(generateAdapter = true)
             data class User(
                 @Json(name = "company")
-                val company: String, // ABC Ltd
+                val company: String,
                 @Json(name = "name")
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -252,9 +252,9 @@ class JsonToKotlinBuilderTest {
         val expectedOutput = """
             data class User(
                 @JSONField(name = "company")
-                val company: String, // ABC Ltd
+                val company: String,
                 @JSONField(name = "name")
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -275,9 +275,9 @@ class JsonToKotlinBuilderTest {
         val expectedOutput = """
             data class User(
                 @JsonProperty("company")
-                val company: String, // ABC Ltd
+                val company: String,
                 @JsonProperty("name")
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -299,9 +299,9 @@ class JsonToKotlinBuilderTest {
             @JsonObject
             data class User(
                 @JsonField(name = arrayOf("company"))
-                val company: String, // ABC Ltd
+                val company: String,
                 @JsonField(name = arrayOf("name"))
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -324,10 +324,10 @@ class JsonToKotlinBuilderTest {
             data class User(
                 @Optional
                 @SerialName("company")
-                val company: String, // ABC Ltd
+                val company: String,
                 @Optional
                 @SerialName("name")
-                val name: String // john
+                val name: String
             )
         """.trimIndent()
 
@@ -347,8 +347,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val companyName: String, // ABC Ltd
-                val userName: String // john
+                val companyName: String,
+                val userName: String
             )
         """.trimIndent()
 
@@ -368,8 +368,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company_name: String, // ABC Ltd
-                val user_name: String // john
+                val company_name: String,
+                val user_name: String
             )
         """.trimIndent()
 
@@ -392,10 +392,10 @@ class JsonToKotlinBuilderTest {
             data class User(
                 @Optional
                 @SerialName("company_name")
-                val companyName: String, // ABC Ltd
+                val companyName: String,
                 @Optional
                 @SerialName("user_name")
-                val userName: String // john
+                val userName: String
             )
         """.trimIndent()
 
@@ -455,8 +455,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company_name: String, // ABC Ltd
-                val user_name: String // john
+                val company_name: String,
+                val user_name: String
             )
         """.trimIndent()
 
@@ -474,8 +474,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val user_name: String, // john
-                val company_name: String // ABC Ltd
+                val user_name: String,
+                val company_name: String
             )
         """.trimIndent()
 
@@ -520,27 +520,27 @@ class JsonToKotlinBuilderTest {
                 val glossary: Glossary
             ) {
                 data class Glossary(
-                    val title: String, // example glossary
+                    val title: String,
                     val GlossDiv: GlossDiv
                 ) {
                     data class GlossDiv(
-                        val title: String, // S
+                        val title: String,
                         val GlossList: GlossList
                     ) {
                         data class GlossList(
                             val GlossEntry: GlossEntry
                         ) {
                             data class GlossEntry(
-                                val ID: String, // SGML
-                                val SortAs: String, // SGML
-                                val GlossTerm: String, // Standard Generalized Markup Language
-                                val Acronym: String, // SGML
-                                val Abbrev: String, // ISO 8879:1986
+                                val ID: String,
+                                val SortAs: String,
+                                val GlossTerm: String,
+                                val Acronym: String,
+                                val Abbrev: String,
                                 val GlossDef: GlossDef,
-                                val GlossSee: String // markup
+                                val GlossSee: String
                             ) {
                                 data class GlossDef(
-                                    val para: String, // A meta-markup language, used to create markup languages such as DocBook.
+                                    val para: String,
                                     val GlossSeeAlso: List<String>
                                 )
                             }
@@ -594,12 +594,12 @@ class JsonToKotlinBuilderTest {
             )
 
             data class Glossary(
-                val title: String, // example glossary
+                val title: String,
                 val GlossDiv: GlossDiv
             )
 
             data class GlossDiv(
-                val title: String, // S
+                val title: String,
                 val GlossList: GlossList
             )
 
@@ -608,17 +608,17 @@ class JsonToKotlinBuilderTest {
             )
 
             data class GlossEntry(
-                val ID: String, // SGML
-                val SortAs: String, // SGML
-                val GlossTerm: String, // Standard Generalized Markup Language
-                val Acronym: String, // SGML
-                val Abbrev: String, // ISO 8879:1986
+                val ID: String,
+                val SortAs: String,
+                val GlossTerm: String,
+                val Acronym: String,
+                val Abbrev: String,
                 val GlossDef: GlossDef,
-                val GlossSee: String // markup
+                val GlossSee: String
             )
 
             data class GlossDef(
-                val para: String, // A meta-markup language, used to create markup languages such as DocBook.
+                val para: String,
                 val GlossSeeAlso: List<String>
             )
         """.trimIndent()
@@ -658,8 +658,8 @@ class JsonToKotlinBuilderTest {
         val expectedOutput = """
             data class User(
                 @SerializedName("company_name")
-                val companyName: String, // ABC Ltd
-                val username: String // john
+                val companyName: String,
+                val username: String
             )
         """.trimIndent()
 
