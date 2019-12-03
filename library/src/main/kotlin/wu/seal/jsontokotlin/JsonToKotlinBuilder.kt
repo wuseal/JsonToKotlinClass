@@ -5,13 +5,19 @@ import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
+import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.ClassImportDeclaration
 
 
 /**
  * To get Kotlin class code from JSON
  */
 class JsonToKotlinBuilder {
+
+    companion object {
+        private const val IS_IMPORTS_ENABLED = true
+    }
 
     init {
         TestConfig.apply {
@@ -211,12 +217,27 @@ class JsonToKotlinBuilder {
     fun build(input: String,
               className: String): String {
 
-        return KotlinDataClassCodeMaker(
+        val imports = if (IS_IMPORTS_ENABLED) {
+            ClassImportDeclaration.applyImportClassDeclarationInterceptors(
+                    InterceptorManager.getEnabledImportClassDeclarationInterceptors()
+            )
+        } else {
+            ""
+        }
+
+        val classCode = KotlinDataClassCodeMaker(
                 KotlinDataClassMaker(
                         className,
                         input
                 ).makeKotlinDataClass()
         ).makeKotlinDataClassCode()
+
+        return if (imports.isNotBlank()) {
+            "$imports\n$classCode"
+        } else {
+            classCode
+        }
+
     }
 
 
