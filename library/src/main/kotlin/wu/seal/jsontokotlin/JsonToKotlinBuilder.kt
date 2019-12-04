@@ -15,9 +15,7 @@ import wu.seal.jsontokotlin.utils.ClassImportDeclaration
  */
 class JsonToKotlinBuilder {
 
-    companion object {
-        private const val IS_IMPORTS_ENABLED = true
-    }
+    var packageName = ""
 
     init {
         TestConfig.apply {
@@ -217,13 +215,9 @@ class JsonToKotlinBuilder {
     fun build(input: String,
               className: String): String {
 
-        val imports = if (IS_IMPORTS_ENABLED) {
-            ClassImportDeclaration.applyImportClassDeclarationInterceptors(
-                    InterceptorManager.getEnabledImportClassDeclarationInterceptors()
-            )
-        } else {
-            ""
-        }
+        val imports = ClassImportDeclaration.applyImportClassDeclarationInterceptors(
+                InterceptorManager.getEnabledImportClassDeclarationInterceptors()
+        )
 
         val classCode = KotlinDataClassCodeMaker(
                 KotlinDataClassMaker(
@@ -232,12 +226,23 @@ class JsonToKotlinBuilder {
                 ).makeKotlinDataClass()
         ).makeKotlinDataClassCode()
 
-        return if (imports.isNotBlank()) {
-            "$imports\n$classCode"
+        val importsAndClassCode = if (imports.isNotBlank()) {
+            "$imports\n\n$classCode"
         } else {
             classCode
         }
 
+        return if (packageName.isNotBlank()) {
+            "package $packageName\n\n$importsAndClassCode"
+        } else {
+            importsAndClassCode
+        }
+
+    }
+
+    fun setPackageName(packageName: String): JsonToKotlinBuilder {
+        this.packageName = packageName
+        return this
     }
 
 
