@@ -233,7 +233,7 @@ class JsonToKotlinBuilder {
         }
 
         return if (packageName.isNotBlank()) {
-            "package $packageName\n$importsAndClassCode"
+            "package $packageName\n\n$importsAndClassCode"
         } else {
             importsAndClassCode
         }
