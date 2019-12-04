@@ -965,4 +965,24 @@ class JsonToKotlinBuilderTest {
 
         actualOutput.should.be.equal(expectedOutput)
     }
+
+    @Test
+    fun setPackageName() {
+        val input = """
+            {"name":"john"}
+        """.trimIndent()
+
+        val expectedOutput = """
+            package com.my.package.name
+            
+            data class User(
+                val name: String
+            )
+        """.trimIndent()
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setPackageName("com.my.package.name")
+                .build(input, "User")
+        actualOutput.should.be.equal(expectedOutput)
+    }
 }
