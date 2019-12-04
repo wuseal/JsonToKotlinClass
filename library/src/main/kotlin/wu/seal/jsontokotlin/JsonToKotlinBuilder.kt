@@ -15,7 +15,7 @@ import wu.seal.jsontokotlin.utils.ClassImportDeclaration
  */
 class JsonToKotlinBuilder {
 
-    var packageName = ""
+    private var packageName = ""
 
     init {
         TestConfig.apply {
