@@ -9,27 +9,28 @@ Download `jar` file from [here](library/output/JsonToKotlinClass-3.5.1_library.j
 ## Usage
 
 ```kotlin
-val output = JsonToKotlinBuilder()
-    .setPropertiesVar(false) // optional, default : false
+val actualOutput = JsonToKotlinBuilder()
+    .setPackageName("com.my.package.name")
+    .enableVarProperties(false) // optional, default : false
     .setPropertyTypeStrategy(PropertyTypeStrategy.AutoDeterMineNullableOrNot) // optional, default :  PropertyTypeStrategy.NotNullable
     .setDefaultValueStrategy(DefaultValueStrategy.AvoidNull) // optional, default : DefaultValueStrategy.AvoidNull
-    .setAnnotationLib(TargetJsonConverter.MoshiCodeGen) // optional, default: TargetJsonConverter.Gson
-    .setComment(true) // optional, default : true
-    .setOrderByAlphabetic(true) // optional : default : true
-    .setInnerClassModel(true) // optional, default : true
-    .setMapType(true)// optional, default : false
-    .setCreateAnnotationOnlyWhenNeeded(true) // optional, default : false
+    .setAnnotationLib(TargetJsonConverter.MoshiCodeGen) // optional, default: TargetJsonConverter.None
+    .enableComments(true) // optional, default : false
+    .enableOrderByAlphabetic(true) // optional : default : false
+    .enableInnerClassModel(true) // optional, default : false
+    .enabelMapType(true)// optional, default : false
+    .enableCreateAnnotationOnlyWhenNeeded(true) // optional, default : false
     .setIndent(4)// optional, default : 4
     .setParentClassTemplate("android.os.Parcelable") // optional, default : ""
-    .setKeepAnnotationOnClass(true) // optional, default : false
-    .setKeepAnnotationOnClassAndroidX(true) // optional, default : false
-    .setKeepAnnotationAndPropertyInSameLine(true) // optional, default : false
-    .setParcelableSupport(true) // optional, default : false
+    .enableKeepAnnotationOnClass(true) // optional, default : false
+    .enableKeepAnnotationOnClassAndroidX(true) // optional, default : false
+    .enableAnnotationAndPropertyInSameLine(true) // optional, default : false
+    .enableParcelableSupport(true) // optional, default : false
     .setPropertyPrefix("MyPrefix") // optional, default : ""
     .setPropertySuffix("MySuffix") // optional, default : ""
     .setClassSuffix("MyClassSuffix")// optional, default : ""
-    .setForceInitDefaultValueWithOriginJsonValue(true) // optional, default : false
-    .setForcePrimitiveTypeNonNullable(true) // optional, default : false
+    .enableForceInitDefaultValueWithOriginJsonValue(true) // optional, default : false
+    .enableForcePrimitiveTypeNonNullable(true) // optional, default : false
     .build(json1, "GlossResponse") // finally, get KotlinClassCode string
 ```
 
@@ -38,7 +39,6 @@ val output = JsonToKotlinBuilder()
 **Code**
 
 ```kotlin
-import com.theapache64.j2k.JsonToKotlinBuilder
 
 fun main() {
 
@@ -59,7 +59,7 @@ fun main() {
                 ] } """
 
     val output = JsonToKotlinBuilder()
-            .build(json1, "GlossResponse") // finally, get KotlinClassCode string
+            .build(json1, "GlossResponse") 
 
     println(output)
 }
@@ -69,29 +69,29 @@ fun main() {
 
 ```kotlin
 data class GlossResponse(
+    val programmers: List<Programmer>,
     val authors: List<Author>,
-    val musicians: List<Musician>,
-    val programmers: List<Programmer>
-) {
-    data class Author(
-        val firstName: String?, // Frank
-        val genre: String, // christian fiction
-        val lastName: String // Peretti
-    )
+    val musicians: List<Musician>
+)
 
-    data class Musician(
-        val firstName: String, // Sergei
-        val instrument: String, // piano
-        val lastName: String // Rachmaninoff
-    )
+data class Programmer(
+    val isFirstName: String,
+    val lastName: String,
+    val email: String,
+    val firstName: String
+)
 
-    data class Programmer(
-        val email: String, // cccc
-        val firstName: String, // Elliotte
-        val isFirstName: String, // Brett
-        val lastName: String // Harold
-    )
-}
+data class Author(
+    val lastName: String,
+    val genre: String,
+    val firstName: String?
+)
+
+data class Musician(
+    val firstName: String,
+    val lastName: String,
+    val instrument: String
+)
 ```
 
 ## Custom Annotation
