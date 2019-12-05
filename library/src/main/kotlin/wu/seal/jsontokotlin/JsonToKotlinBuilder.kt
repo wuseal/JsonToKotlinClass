@@ -22,12 +22,12 @@ class JsonToKotlinBuilder {
 
             isTestModel = true
             isCommentOff = true
-            isOrderByAlphabetical = true
+            isOrderByAlphabetical = false
             isPropertiesVar = false
             targetJsonConvertLib = TargetJsonConverter.None
             propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
             defaultValueStrategy = DefaultValueStrategy.None
-            isNestedClassModel = true
+            isNestedClassModel = false
             enableMinimalAnnotation = false
             indent = 4
             parenClassTemplate = ""
@@ -40,7 +40,7 @@ class JsonToKotlinBuilder {
      * To set property type to `var`, pass true.
      * Default : false
      */
-    fun setPropertiesVar(isVar: Boolean): JsonToKotlinBuilder {
+    fun enableVarProperties(isVar: Boolean): JsonToKotlinBuilder {
         TestConfig.isPropertiesVar = isVar
         return this
     }
@@ -93,7 +93,7 @@ class JsonToKotlinBuilder {
     /**
      * If enabled, value will be commented right to the property
      */
-    fun setComment(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableComments(isEnable: Boolean): JsonToKotlinBuilder {
         TestConfig.isCommentOff = !isEnable
         return this
     }
@@ -102,22 +102,22 @@ class JsonToKotlinBuilder {
     /**
      * TODO: More comments need to be added
      */
-    fun setOrderByAlphabetic(isOrderByAlphabetic: Boolean): JsonToKotlinBuilder {
+    fun enableOrderByAlphabetic(isOrderByAlphabetic: Boolean): JsonToKotlinBuilder {
         TestConfig.isOrderByAlphabetical = isOrderByAlphabetic
         return this
     }
 
-    fun setInnerClassModel(isInnerClassModel: Boolean): JsonToKotlinBuilder {
+    fun enableInnerClassModel(isInnerClassModel: Boolean): JsonToKotlinBuilder {
         TestConfig.isNestedClassModel = isInnerClassModel
         return this
     }
 
-    fun setMapType(isMapType: Boolean): JsonToKotlinBuilder {
+    fun enabelMapType(isMapType: Boolean): JsonToKotlinBuilder {
         TestConfig.enableMapType = isMapType
         return this
     }
 
-    fun setCreateAnnotationOnlyWhenNeeded(isOnlyWhenNeeded: Boolean): JsonToKotlinBuilder {
+    fun enableCreateAnnotationOnlyWhenNeeded(isOnlyWhenNeeded: Boolean): JsonToKotlinBuilder {
         TestConfig.enableMinimalAnnotation = isOnlyWhenNeeded
         return this
     }
@@ -132,22 +132,22 @@ class JsonToKotlinBuilder {
         return this
     }
 
-    fun setKeepAnnotationOnClass(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableKeepAnnotationOnClass(isEnable: Boolean): JsonToKotlinBuilder {
         KeepAnnotationSupport.getTestHelper().setConfig(KeepAnnotationSupport.configKey, isEnable.toString())
         return this
     }
 
-    fun setKeepAnnotationOnClassAndroidX(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableKeepAnnotationOnClassAndroidX(isEnable: Boolean): JsonToKotlinBuilder {
         KeepAnnotationSupportForAndroidX.getTestHelper().setConfig(KeepAnnotationSupportForAndroidX.configKey, isEnable.toString())
         return this
     }
 
-    fun setAnnotationAndPropertyInSameLine(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableAnnotationAndPropertyInSameLine(isEnable: Boolean): JsonToKotlinBuilder {
         PropertyAnnotationLineSupport.getTestHelper().setConfig(PropertyAnnotationLineSupport.configKey, isEnable.toString())
         return this
     }
 
-    fun setParcelableSupport(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableParcelableSupport(isEnable: Boolean): JsonToKotlinBuilder {
         ParcelableAnnotationSupport.getTestHelper().setConfig(ParcelableAnnotationSupport.configKey, isEnable.toString())
         return this
     }
@@ -199,14 +199,14 @@ class JsonToKotlinBuilder {
         return this
     }
 
-    fun setForceInitDefaultValueWithOriginJsonValue(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableForceInitDefaultValueWithOriginJsonValue(isEnable: Boolean): JsonToKotlinBuilder {
         ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().setConfig(
                 ForceInitDefaultValueWithOriginJsonValueSupport.configKey,
                 isEnable.toString())
         return this
     }
 
-    fun setForcePrimitiveTypeNonNullable(isEnable: Boolean): JsonToKotlinBuilder {
+    fun enableForcePrimitiveTypeNonNullable(isEnable: Boolean): JsonToKotlinBuilder {
         PrimitiveTypeNonNullableSupport.getTestHelper().setConfig(PrimitiveTypeNonNullableSupport.configKey, isEnable.toString())
         return this
     }

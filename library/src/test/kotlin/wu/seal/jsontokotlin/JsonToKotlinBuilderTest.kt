@@ -1,11 +1,100 @@
 package wu.seal.jsontokotlin
 
 import com.winterbe.expekt.should
-import org.junit.Before
 import org.junit.Test
 
 class JsonToKotlinBuilderTest {
 
+
+    @Test
+    fun fullMethodTest() {
+        val json1 = """{ "programmers": [
+                { "isFirstName": "Brett", "lastName":"McLaughlin", "email": "aaaa" },
+                { "firstName": "Jason", "lastName":"Hunter", "email": "bbbb" },
+                { "firstName": "Elliotte", "lastName":"Harold", "email": "cccc" }
+                ],
+                "authors": [
+                { "firstName": null, "lastName": "Asimov", "genre": "science fiction" },
+                { "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
+                { "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
+                ],
+                "musicians": [
+                { "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },
+                { "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
+                ] } """
+
+        val actualOutput = JsonToKotlinBuilder()
+                .setPackageName("com.my.package.name")
+                .enableVarProperties(false) // optional, default : false
+                .setPropertyTypeStrategy(PropertyTypeStrategy.AutoDeterMineNullableOrNot) // optional, default :  PropertyTypeStrategy.NotNullable
+                .setDefaultValueStrategy(DefaultValueStrategy.AvoidNull) // optional, default : DefaultValueStrategy.AvoidNull
+                .setAnnotationLib(TargetJsonConverter.MoshiCodeGen) // optional, default: TargetJsonConverter.None
+                .enableComments(true) // optional, default : false
+                .enableOrderByAlphabetic(true) // optional : default : false
+                .enableInnerClassModel(true) // optional, default : false
+                .enabelMapType(true)// optional, default : false
+                .enableCreateAnnotationOnlyWhenNeeded(true) // optional, default : false
+                .setIndent(4)// optional, default : 4
+                .setParentClassTemplate("android.os.Parcelable") // optional, default : ""
+                .enableKeepAnnotationOnClass(true) // optional, default : false
+                .enableKeepAnnotationOnClassAndroidX(true) // optional, default : false
+                .enableAnnotationAndPropertyInSameLine(true) // optional, default : false
+                .enableParcelableSupport(true) // optional, default : false
+                .setPropertyPrefix("MyPrefix") // optional, default : ""
+                .setPropertySuffix("MySuffix") // optional, default : ""
+                .setClassSuffix("MyClassSuffix")// optional, default : ""
+                .enableForceInitDefaultValueWithOriginJsonValue(true) // optional, default : false
+                .enableForcePrimitiveTypeNonNullable(true) // optional, default : false
+                .build(json1, "GlossResponse") // finally, get KotlinClassCode string
+
+
+        val expectedOutput = """
+            package com.my.package.name
+
+            import com.squareup.moshi.Json
+            import com.squareup.moshi.JsonClass
+            import android.os.Parcelable
+            import android.support.annotation.Keep
+            import androidx.annotation.Keep
+            import kotlinx.android.parcel.Parcelize
+            import android.os.Parcelable
+
+            @SuppressLint("ParcelCreator")
+            @Parcelize
+            data class GlossResponseMyClassSuffix(
+                val MyPrefixAuthorsMySuffix: List<AuthorMyClassSuffix> = listOf(),
+                val MyPrefixMusiciansMySuffix: List<MusicianMyClassSuffix> = listOf(),
+                val MyPrefixProgrammersMySuffix: List<ProgrammerMyClassSuffix> = listOf()
+            ) : Parcelable {
+                @SuppressLint("ParcelCreator")
+                @Parcelize
+                data class AuthorMyClassSuffix(
+                    val MyPrefixFirstNameMySuffix: String? = "", // Frank
+                    val MyPrefixGenreMySuffix: String = "christian fiction", // christian fiction
+                    val MyPrefixLastNameMySuffix: String = "Peretti" // Peretti
+                ) : Parcelable
+
+                @SuppressLint("ParcelCreator")
+                @Parcelize
+                data class MusicianMyClassSuffix(
+                    val MyPrefixFirstNameMySuffix: String = "Sergei", // Sergei
+                    val MyPrefixInstrumentMySuffix: String = "piano", // piano
+                    val MyPrefixLastNameMySuffix: String = "Rachmaninoff" // Rachmaninoff
+                ) : Parcelable
+
+                @SuppressLint("ParcelCreator")
+                @Parcelize
+                data class ProgrammerMyClassSuffix(
+                    val MyPrefixEmailMySuffix: String = "cccc", // cccc
+                    val MyPrefixFirstNameMySuffix: String = "Elliotte", // Elliotte
+                    val MyPrefixIsFirstNameMySuffix: String = "Brett", // Brett
+                    val MyPrefixLastNameMySuffix: String = "Harold" // Harold
+                ) : Parcelable
+            }
+        """.trimIndent()
+
+        actualOutput.should.be.equal(expectedOutput)
+    }
 
     @Test
     fun build() {
@@ -39,7 +128,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setPropertiesVar(true)
+                .enableVarProperties(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -118,8 +207,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company: Any? = null,
-                val name: String = ""
+                val name: String = "",
+                val company: Any? = null
             )
         """.trimIndent()
 
@@ -140,8 +229,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company: Any? = Any(),
-                val name: String = ""
+                val name: String = "",
+                val company: Any? = Any()
             )
         """.trimIndent()
 
@@ -162,8 +251,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company: Any?,
-                val name: String
+                val name: String,
+                val company: Any?
             )
         """.trimIndent()
 
@@ -186,10 +275,10 @@ class JsonToKotlinBuilderTest {
             import com.google.gson.annotations.SerializedName
             
             data class User(
-                @SerializedName("company")
-                val company: String,
                 @SerializedName("name")
-                val name: String
+                val name: String,
+                @SerializedName("company")
+                val company: String
             )
         """.trimIndent()
 
@@ -212,10 +301,10 @@ class JsonToKotlinBuilderTest {
             import com.squareup.moshi.Json
             
             data class User(
-                @Json(name = "company")
-                val company: String,
                 @Json(name = "name")
-                val name: String
+                val name: String,
+                @Json(name = "company")
+                val company: String
             )
         """.trimIndent()
 
@@ -240,10 +329,10 @@ class JsonToKotlinBuilderTest {
             
             @JsonClass(generateAdapter = true)
             data class User(
-                @Json(name = "company")
-                val company: String,
                 @Json(name = "name")
-                val name: String
+                val name: String,
+                @Json(name = "company")
+                val company: String
             )
         """.trimIndent()
 
@@ -266,10 +355,10 @@ class JsonToKotlinBuilderTest {
             import com.alibaba.fastjson.annotation.JSONField
             
             data class User(
-                @JSONField(name = "company")
-                val company: String,
                 @JSONField(name = "name")
-                val name: String
+                val name: String,
+                @JSONField(name = "company")
+                val company: String
             )
         """.trimIndent()
 
@@ -292,10 +381,10 @@ class JsonToKotlinBuilderTest {
             import com.fasterxml.jackson.annotation.JsonProperty
             
             data class User(
-                @JsonProperty("company")
-                val company: String,
                 @JsonProperty("name")
-                val name: String
+                val name: String,
+                @JsonProperty("company")
+                val company: String
             )
         """.trimIndent()
 
@@ -320,10 +409,10 @@ class JsonToKotlinBuilderTest {
             
             @JsonObject
             data class User(
-                @JsonField(name = arrayOf("company"))
-                val company: String,
                 @JsonField(name = arrayOf("name"))
-                val name: String
+                val name: String,
+                @JsonField(name = arrayOf("company"))
+                val company: String
             )
         """.trimIndent()
 
@@ -350,11 +439,11 @@ class JsonToKotlinBuilderTest {
             @Serializable
             data class User(
                 @Optional
-                @SerialName("company")
-                val company: String,
-                @Optional
                 @SerialName("name")
-                val name: String
+                val name: String,
+                @Optional
+                @SerialName("company")
+                val company: String
             )
         """.trimIndent()
 
@@ -374,8 +463,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val companyName: String,
-                val userName: String
+                val userName: String,
+                val companyName: String
             )
         """.trimIndent()
 
@@ -395,8 +484,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company_name: String,
-                val user_name: String
+                val user_name: String,
+                val company_name: String
             )
         """.trimIndent()
 
@@ -423,11 +512,11 @@ class JsonToKotlinBuilderTest {
             @Serializable
             data class User(
                 @Optional
-                @SerialName("company_name")
-                val companyName: String,
-                @Optional
                 @SerialName("user_name")
-                val userName: String
+                val userName: String,
+                @Optional
+                @SerialName("company_name")
+                val companyName: String
             )
         """.trimIndent()
 
@@ -456,7 +545,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setComment(true)
+                .enableComments(true)
                 .build(input, "User")
         actualOutput.should.be.equal(expectedOutput)
     }
@@ -474,7 +563,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setComment(false)
+                .enableComments(false)
                 .build(input, "User")
         actualOutput.should.be.equal(expectedOutput)
     }
@@ -493,7 +582,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setOrderByAlphabetic(true)
+                .enableOrderByAlphabetic(true)
                 .build(input, "User")
         actualOutput.should.be.equal(expectedOutput)
     }
@@ -512,7 +601,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setOrderByAlphabetic(false)
+                .enableOrderByAlphabetic(false)
                 .build(input, "User")
         actualOutput.should.be.equal(expectedOutput)
     }
@@ -583,8 +672,8 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setOrderByAlphabetic(false)
-                .setInnerClassModel(true)
+                .enableOrderByAlphabetic(false)
+                .enableInnerClassModel(true)
                 .build(input, "GlossResponse")
         actualOutput.should.be.equal(expectedOutput)
     }
@@ -656,8 +745,8 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setOrderByAlphabetic(false)
-                .setInnerClassModel(false)
+                .enableOrderByAlphabetic(false)
+                .enableInnerClassModel(false)
                 .build(input, "GlossResponse")
         actualOutput.should.be.equal(expectedOutput)
     }
@@ -675,7 +764,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setMapType(true)
+                .enabelMapType(true)
                 .build(input, "Model")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -692,15 +781,15 @@ class JsonToKotlinBuilderTest {
             import com.google.gson.annotations.SerializedName
             
             data class User(
+                val username: String,
                 @SerializedName("company_name")
-                val companyName: String,
-                val username: String
+                val companyName: String
             )
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
                 .setAnnotationLib(TargetJsonConverter.Gson)
-                .setCreateAnnotationOnlyWhenNeeded(true)
+                .enableCreateAnnotationOnlyWhenNeeded(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -714,8 +803,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                      val company_name: String,
-                      val username: String
+                      val username: String,
+                      val company_name: String
             )
         """.trimIndent()
 
@@ -736,8 +825,8 @@ class JsonToKotlinBuilderTest {
             import android.os.Parcelable
             
             data class User(
-                val company_name: String,
-                val username: String
+                val username: String,
+                val company_name: String
             ) : Parcelable
         """.trimIndent()
 
@@ -760,13 +849,13 @@ class JsonToKotlinBuilderTest {
             
             @Keep
             data class User(
-                val company_name: String,
-                val username: String
+                val username: String,
+                val company_name: String
             )
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setKeepAnnotationOnClass(true)
+                .enableKeepAnnotationOnClass(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -784,13 +873,13 @@ class JsonToKotlinBuilderTest {
             
             @Keep
             data class User(
-                val company_name: String,
-                val username: String
+                val username: String,
+                val company_name: String
             )
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setKeepAnnotationOnClassAndroidX(true)
+                .enableKeepAnnotationOnClassAndroidX(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -814,7 +903,7 @@ class JsonToKotlinBuilderTest {
 
         val actualOutput = JsonToKotlinBuilder()
                 .setAnnotationLib(TargetJsonConverter.Gson)
-                .setAnnotationAndPropertyInSameLine(true)
+                .enableAnnotationAndPropertyInSameLine(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -828,19 +917,19 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             
-            import kotlinx.android.parcel.Parcelize
-            import android.os.Parcelable
-            
-            @SuppressLint("ParcelCreator")
-            @Parcelize
-            data class User(
-                val company_name: String,
-                val username: String
-            ) : Parcelable
+                import kotlinx.android.parcel.Parcelize
+                import android.os.Parcelable
+                
+                @SuppressLint("ParcelCreator")
+                @Parcelize
+                data class User(
+                    val username: String,
+                    val company_name: String
+                ) : Parcelable
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setParcelableSupport(true)
+                .enableParcelableSupport(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -854,8 +943,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val myprefix_Company_name: String,
-                val myprefix_Username: String
+                val myprefix_Username: String,
+                val myprefix_Company_name: String
             )
         """.trimIndent()
 
@@ -874,8 +963,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val company_name_mysuffix: String,
-                val username_mysuffix: String
+                val username_mysuffix: String,
+                val company_name_mysuffix: String
             )
         """.trimIndent()
 
@@ -894,8 +983,8 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class UserMySuffix(
-                val company_name: String,
-                val username: String
+                val username: String,
+                val company_name: String
             )
         """.trimIndent()
 
@@ -925,17 +1014,17 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             data class User(
-                val users: List<User> = listOf()
-            ) {
-                data class User(
-                    val company_name: String = "XYZ Ltd",
-                    val username: String = "david"
-                )
-            }
+                val users: List<UserX> = listOf()
+            )
+            
+            data class UserX(
+                val username: String = "david",
+                val company_name: String = "XYZ Ltd"
+            )
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setForceInitDefaultValueWithOriginJsonValue(true)
+                .enableForceInitDefaultValueWithOriginJsonValue(true)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
@@ -950,17 +1039,17 @@ class JsonToKotlinBuilderTest {
         val expectedOutput = """
             data class Test(
                 val picture: Picture?
-            ) {
-                data class Picture(
-                    val id: Int,
-                    val url: String?
-                )
-            }
+            )
+
+            data class Picture(
+                val id: Int,
+                val url: String?
+            )
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
                 .setPropertyTypeStrategy(PropertyTypeStrategy.Nullable)
-                .setForcePrimitiveTypeNonNullable(true)
+                .enableForcePrimitiveTypeNonNullable(true)
                 .build(input, "Test")
 
         actualOutput.should.be.equal(expectedOutput)
