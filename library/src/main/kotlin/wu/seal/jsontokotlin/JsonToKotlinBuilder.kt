@@ -140,11 +140,23 @@ class JsonToKotlinBuilder {
     }
 
     fun enableKeepAnnotationOnClass(isEnable: Boolean): JsonToKotlinBuilder {
+
+        if (isEnable) {
+            // disable androidx
+            KeepAnnotationSupportForAndroidX.getTestHelper().setConfig(KeepAnnotationSupportForAndroidX.configKey, false.toString())
+        }
+
         KeepAnnotationSupport.getTestHelper().setConfig(KeepAnnotationSupport.configKey, isEnable.toString())
         return this
     }
 
     fun enableKeepAnnotationOnClassAndroidX(isEnable: Boolean): JsonToKotlinBuilder {
+
+        if (isEnable) {
+            // @disable normal one
+            KeepAnnotationSupport.getTestHelper().setConfig(KeepAnnotationSupport.configKey, false.toString())
+        }
+
         KeepAnnotationSupportForAndroidX.getTestHelper().setConfig(KeepAnnotationSupportForAndroidX.configKey, isEnable.toString())
         return this
     }
