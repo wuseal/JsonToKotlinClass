@@ -49,45 +49,47 @@ class JsonToKotlinBuilderTest {
 
 
         val expectedOutput = """
-                package com.my.package.name
-                
-                import com.squareup.moshi.Json
-                import com.squareup.moshi.JsonClass
-                import android.os.Parcelable
-                import androidx.annotation.Keep
-                import kotlinx.android.parcel.Parcelize
-                import android.os.Parcelable
-                
+            package com.my.package.name
+
+            import com.squareup.moshi.Json
+            import com.squareup.moshi.JsonClass
+            import android.os.Parcelable
+            import androidx.annotation.Keep
+            import kotlinx.android.parcel.Parcelize
+            import android.os.Parcelable
+
+            @SuppressLint("ParcelCreator")
+            @Parcelize
+            data class GlossResponseMyClassSuffix(
+                val MyPrefixAuthorsMySuffix: List<AuthorMyClassSuffix> = listOf(),
+                val MyPrefixMusiciansMySuffix: List<MusicianMyClassSuffix> = listOf(),
+                val MyPrefixProgrammersMySuffix: List<ProgrammerMyClassSuffix> = listOf()
+            ) : Parcelable {
                 @SuppressLint("ParcelCreator")
                 @Parcelize
-                data class GlossResponseMyClassSuffix(
-                    val MyPrefixAuthorsMySuffix: List<AuthorMyClassSuffix> = listOf(),
-                    val MyPrefixMusiciansMySuffix: List<MusicianMyClassSuffix> = listOf(),
-                    val MyPrefixProgrammersMySuffix: List<ProgrammerMyClassSuffix> = listOf()
-                ) : Parcelable {
-                    @SuppressLint("ParcelCreator")
-                    @Parcelize
-                    data class AuthorMyClassSuffix(
-                        val MyPrefixFirstNameMySuffix: String? = "", // Frank
-                        val MyPrefixGenreMySuffix: String = "christian fiction", // christian fiction
-                        val MyPrefixLastNameMySuffix: String = "Peretti" // Peretti
-                    ) : Parcelable
-                    @SuppressLint("ParcelCreator")
-                    @Parcelize
-                    data class MusicianMyClassSuffix(
-                        val MyPrefixFirstNameMySuffix: String = "Sergei", // Sergei
-                        val MyPrefixInstrumentMySuffix: String = "piano", // piano
-                        val MyPrefixLastNameMySuffix: String = "Rachmaninoff" // Rachmaninoff
-                    ) : Parcelable
-                    @SuppressLint("ParcelCreator")
-                    @Parcelize
-                    data class ProgrammerMyClassSuffix(
-                        val MyPrefixEmailMySuffix: String = "cccc", // cccc
-                        val MyPrefixFirstNameMySuffix: String = "Elliotte", // Elliotte
-                        val MyPrefixIsFirstNameMySuffix: String = "Brett", // Brett
-                        val MyPrefixLastNameMySuffix: String = "Harold" // Harold
-                    ) : Parcelable
-                }
+                data class AuthorMyClassSuffix(
+                    val MyPrefixFirstNameMySuffix: String? = "", // Frank
+                    val MyPrefixGenreMySuffix: String = "christian fiction", // christian fiction
+                    val MyPrefixLastNameMySuffix: String = "Peretti" // Peretti
+                ) : Parcelable
+
+                @SuppressLint("ParcelCreator")
+                @Parcelize
+                data class MusicianMyClassSuffix(
+                    val MyPrefixFirstNameMySuffix: String = "Sergei", // Sergei
+                    val MyPrefixInstrumentMySuffix: String = "piano", // piano
+                    val MyPrefixLastNameMySuffix: String = "Rachmaninoff" // Rachmaninoff
+                ) : Parcelable
+
+                @SuppressLint("ParcelCreator")
+                @Parcelize
+                data class ProgrammerMyClassSuffix(
+                    val MyPrefixEmailMySuffix: String = "cccc", // cccc
+                    val MyPrefixFirstNameMySuffix: String = "Elliotte", // Elliotte
+                    val MyPrefixIsFirstNameMySuffix: String = "Brett", // Brett
+                    val MyPrefixLastNameMySuffix: String = "Harold" // Harold
+                ) : Parcelable
+            }
         """.trimIndent()
 
         actualOutput.should.be.equal(expectedOutput)
