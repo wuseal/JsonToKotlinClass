@@ -107,6 +107,7 @@ class JsonToKotlinBuilder {
         return this
     }
 
+
     fun enableInnerClassModel(isInnerClassModel: Boolean): JsonToKotlinBuilder {
         TestConfig.isNestedClassModel = isInnerClassModel
         return this
@@ -122,6 +123,12 @@ class JsonToKotlinBuilder {
         return this
     }
 
+    /**
+     * To set indent in output kotlin code.
+     *
+     * Default : 4
+     * @see <a href="https://github.com/theapache64/JsonToKotlinClass/blob/35fad98bd071feb3ce9493dd1c16866ed1dee7ca/library/src/test/kotlin/wu/seal/jsontokotlin/JsonToKotlinBuilderTest.kt#L799">test case</a>
+     */
     fun setIndent(indent: Int): JsonToKotlinBuilder {
         TestConfig.indent = indent
         return this
