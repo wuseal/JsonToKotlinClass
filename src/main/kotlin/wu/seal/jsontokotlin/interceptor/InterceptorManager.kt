@@ -50,9 +50,6 @@ object InterceptorManager {
                 TargetJsonConverter.Custom -> add(AddCustomAnnotationInterceptor())
                 TargetJsonConverter.Serilizable -> add(AddSerializableAnnotationInterceptor())
             }
-            if (ConfigManager.enableMinimalAnnotation) {
-                add(MinimalAnnotationKotlinDataClassInterceptor())
-            }
 
             if (ConfigManager.parenClassTemplate.isNotBlank()) {
                 add(ParentClassTemplateKotlinDataClassInterceptor())
@@ -70,6 +67,9 @@ object InterceptorManager {
             //add extensions's interceptor
             addAll(ExtensionsCollector.extensions)
         }.apply {
+            if (ConfigManager.enableMinimalAnnotation) {
+                add(MinimalAnnotationKotlinDataClassInterceptor())
+            }
             add(FinalKotlinDataClassWrapperInterceptor())
         }
     }
