@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.JsonObject
+import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.classscodestruct.Property
 import wu.seal.jsontokotlin.utils.*
@@ -9,60 +10,40 @@ import wu.seal.jsontokotlin.utils.*
  * Created by Seal.Wu on 2019-08-18
  * Description: Generate Kotlin Data class Struct from JSON Object
  */
-class DataClassGeneratorByJSONObject(private val className: String, private val jsonObjectAfterOptimize: JsonObject) {
+class DataClassGeneratorByJSONObject(private val className: String, private val jsonObject: JsonObject) {
 
     fun generate(): KotlinDataClass {
-        if (maybeJsonObjectBeMapType(jsonObjectAfterOptimize) && ConfigManager.enableMapType) {
-            throw IllegalArgumentException("Can't generate data class from a Map type JSONObjcet when enable Map Type : $jsonObjectAfterOptimize")
+        if (maybeJsonObjectBeMapType(jsonObject) && ConfigManager.enableMapType) {
+            throw IllegalArgumentException("Can't generate data class from a Map type JSONObjcet when enable Map Type : $jsonObject")
         }
         val properties = mutableListOf<Property>()
 
-        jsonObjectAfterOptimize.entrySet().forEach { (jsonKey, jsonValue) ->
+        jsonObject.entrySet().forEach { (jsonKey, jsonValue) ->
             when {
                 jsonValue.isJsonNull -> {
                     val jsonValueNullProperty =
-                        Property(originName = jsonKey, originJsonValue = null, type = DEFAULT_TYPE, comment = "null")
+                            Property(originName = jsonKey, originJsonValue = null, type = KotlinClass.ANY.name, comment = "null", typeObject = KotlinClass.ANY)
                     properties.add(jsonValueNullProperty)
                 }
 
                 jsonValue.isJsonPrimitive -> {
-                    val type = getPrimitiveType(jsonValue.asJsonPrimitive)
+                    val type = jsonValue.asJsonPrimitive.toKotlinClass()
                     val jsonValuePrimitiveProperty =
-                        Property(
-                            originName = jsonKey,
-                            originJsonValue = jsonValue.asString,
-                            type = type,
-                            comment = jsonValue.asString
-                        )
+                            Property(
+                                    originName = jsonKey,
+                                    originJsonValue = jsonValue.asString,
+                                    type = type.name,
+                                    comment = jsonValue.asString,
+                                    typeObject = type
+                            )
                     properties.add(jsonValuePrimitiveProperty)
                 }
 
                 jsonValue.isJsonArray -> {
-                    jsonValue.asJsonArray.apply {
-                        val type = getArrayType(jsonKey, this)
-                        var refKotlinDataClass: KotlinDataClass? = null
-                        if (!allChildrenAreEmptyArray()) {
-                            if (isExpectedJsonObjArrayType(this) || onlyHasOneObjectElementRecursive()
-                                || onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive()
-                            ) {
-                                val targetJsonElement =
-                                    TargetJsonElement(jsonValue).getTargetJsonElementForGeneratingCode()
-                                if (targetJsonElement.isJsonObject) {
-                                    val jObject = targetJsonElement.asJsonObject
-                                    refKotlinDataClass = DataClassGeneratorByJSONObject(
-                                        getChildType(getRawType(type)),
-                                        jObject
-                                    ).generate()
-
-                                } else {
-                                    throw IllegalStateException("Don't support No JSON Object Type for Generate Kotlin Data Class")
-                                }
-                            }
-                        }
-                        val jsonValueArrayProperty =
-                            Property(originName = jsonKey, value = "", type = type, typeObject = refKotlinDataClass)
-                        properties.add(jsonValueArrayProperty)
-                    }
+                    val arrayType = GenericListClassGeneratorByJSONArray(jsonKey, jsonValue.toString()).generate()
+                    val jsonValueArrayProperty =
+                            Property(originName = jsonKey, value = "", type = arrayType.name, typeObject = arrayType)
+                    properties.add(jsonValueArrayProperty)
                 }
                 jsonValue.isJsonObject -> {
                     jsonValue.asJsonObject.run {
@@ -72,11 +53,11 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
                             val mapValueType = getMapValueTypeConvertFromJsonObject(this)
                             if (mapValueIsObjectType(mapValueType)) {
                                 val targetJsonElement =
-                                    TargetJsonElement(entrySet().first().value).getTargetJsonElementForGeneratingCode()
+                                        TargetJsonElement(entrySet().first().value).getTargetJsonElementForGeneratingCode()
                                 if (targetJsonElement.isJsonObject) {
                                     refKotlinDataClass = DataClassGeneratorByJSONObject(
-                                        getChildType(mapValueType),
-                                        targetJsonElement.asJsonObject
+                                            getChildType(mapValueType),
+                                            targetJsonElement.asJsonObject
                                     ).generate()
                                 } else {
                                     throw IllegalStateException("Don't support No JSON Object Type for Generate Kotlin Data Class")
@@ -84,21 +65,21 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
                             }
                             val mapType = "Map<$mapKeyType,$mapValueType>"
                             val jsonValueObjectMapTypeProperty = Property(
-                                originName = jsonKey,
-                                originJsonValue = "",
-                                type = mapType,
-                                typeObject = refKotlinDataClass
+                                    originName = jsonKey,
+                                    originJsonValue = "",
+                                    type = mapType,
+                                    typeObject = refKotlinDataClass ?: KotlinClass.ANY
                             )
                             properties.add(jsonValueObjectMapTypeProperty)
                         } else {
                             var refKotlinDataClass: KotlinDataClass? = null
                             val type = getJsonObjectType(jsonKey)
                             val targetJsonElement =
-                                TargetJsonElement(this).getTargetJsonElementForGeneratingCode()
+                                    TargetJsonElement(this).getTargetJsonElementForGeneratingCode()
                             if (targetJsonElement.isJsonObject) {
                                 refKotlinDataClass = DataClassGeneratorByJSONObject(
-                                    getRawType(type),
-                                    targetJsonElement.asJsonObject
+                                        getRawType(type),
+                                        targetJsonElement.asJsonObject
                                 ).generate()
 
                             } else {
@@ -106,10 +87,10 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
                             }
 
                             val jsonValueObjectProperty = Property(
-                                originName = jsonKey,
-                                originJsonValue = "",
-                                type = type,
-                                typeObject = refKotlinDataClass
+                                    originName = jsonKey,
+                                    originJsonValue = "",
+                                    type = type,
+                                    typeObject = refKotlinDataClass
                             )
                             properties.add(jsonValueObjectProperty)
                         }
@@ -139,7 +120,7 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
         val nullablePropertiesNames = nullableBackstagePropertiesNames.map { it.removeSuffix(BACKSTAGE_NULLABLE_POSTFIX) }
         forEach {
             when {
-                nullablePropertiesNames.contains(it.name) -> newProperties.add(it.copy(originJsonValue = null,value = ""))
+                nullablePropertiesNames.contains(it.name) -> newProperties.add(it.copy(originJsonValue = null, value = ""))
                 nullableBackstagePropertiesNames.contains(it.name) -> {
                     //when hit the backstage property just continue, don't add it to new properties
                 }

@@ -15,12 +15,12 @@ class PropertyTest {
 
     @Test
     fun getCode() {
-        val normalProperty = Property(listOf(), "val", name = "name",type =  "Type",isLast =  false, originJsonValue = "",originName = "")
+        val normalProperty = Property(listOf(), "val", name = "name", type = "Type", originJsonValue = "", originName = "", typeObject = KotlinClass.ANY)
         normalProperty.getCode().should.be.equal("""val name: Type""")
-        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()",isLast = false, originJsonValue = "",originName = "")
+        val withValueProperty = Property(listOf(), "val", name = "name", type = "Type", value = "Type()", originJsonValue = "", originName = "", typeObject = KotlinClass.ANY)
         withValueProperty.getCode().should.be.equal("""val name: Type = Type()""")
 
-        val withValueAndAnnotationProperty = Property(GsonPropertyAnnotationTemplate("name").getAnnotations(), "val", name = "name", type = "Type", value = "Type()", isLast =  false, originJsonValue = "",originName = "")
+        val withValueAndAnnotationProperty = Property(GsonPropertyAnnotationTemplate("name").getAnnotations(), "val", name = "name", type = "Type", value = "Type()",originJsonValue = "", originName = "", typeObject = KotlinClass.ANY)
         withValueAndAnnotationProperty.getCode().should.be.equal("""@SerializedName("name")
 val name: Type = Type()""".trimIndent())
     }

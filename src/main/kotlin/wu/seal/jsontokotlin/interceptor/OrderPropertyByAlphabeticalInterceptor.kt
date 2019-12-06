@@ -8,24 +8,9 @@ class OrderPropertyByAlphabeticalInterceptor : IKotlinDataClassInterceptor {
 
     override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
 
-
-        val orderByAlphabeticalProperties = kotlinDataClass.properties.sortedBy { it.name }.resetIsLastFieldValueOfProperty()
-
+        val orderByAlphabeticalProperties = kotlinDataClass.properties.sortedBy { it.name }
 
         return kotlinDataClass.copy(properties = orderByAlphabeticalProperties)
     }
-
-
-    private fun List<Property>.resetIsLastFieldValueOfProperty(): List<Property> {
-
-        return mapIndexed { index, property ->
-
-            property.copy(isLast = index == lastIndex)
-
-        }
-
-    }
-
-
 }
 
