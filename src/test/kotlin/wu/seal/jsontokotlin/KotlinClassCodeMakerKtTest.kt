@@ -3,10 +3,12 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.classscodestruct.GenericListClass
+import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_STRING
 
-class KotlinDataClassCodeMakerKtTest {
+class KotlinClassCodeMakerKtTest {
 
     @Before
     fun setUp() {
@@ -15,22 +17,25 @@ class KotlinDataClassCodeMakerKtTest {
 
 
     @Test
-    fun getSplitClasses() {
+    fun testGetAllUnModifiableRefClassesRecursively() {
         val json = """{a:2,b:3,c:{say:"hello"}}"""
         val dataClass = json.generateKotlinDataClass()
-        val splitClasses = dataClass.getSplitClasses()
+        val splitClasses = dataClass.getAllModifiableClassesRecursivelyIncludeSelf()
         splitClasses.size.should.be.equal(2)
-        splitClasses[0].properties.size.should.be.equal(3)
-        splitClasses[0].name.should.equal("Test")
-        splitClasses[0].properties[2].typeObject.should.equal(splitClasses[1])
-        splitClasses[1].name.should.equal("C")
-        splitClasses[1].properties.size.should.equal(1)
-        splitClasses[1].properties[0].name.should.be.equal("say")
-        splitClasses[1].properties[0].type.should.be.equal(TYPE_STRING)
+        splitClasses[0].should.instanceof(KotlinDataClass::class.java)
+        val s0 = splitClasses[0] as KotlinDataClass
+        s0.properties.size.should.be.equal(3)
+        s0.name.should.equal("Test")
+        val s1 = splitClasses[1] as KotlinDataClass
+        s0.properties[2].typeObject.should.equal(s1)
+        s1.name.should.equal("C")
+        s1.properties.size.should.equal(1)
+        s1.properties[0].name.should.be.equal("say")
+        s1.properties[0].type.should.be.equal(TYPE_STRING)
     }
 
     @Test
-    fun resolveInnerConflictClassName() {
+    fun testResolveNameConflicts1() {
         val json = """
                     {
                       "a": 2,
@@ -43,16 +48,17 @@ class KotlinDataClassCodeMakerKtTest {
                       }
                     }
 """
-        val dataClass = json.generateKotlinDataClass("C").resolveInnerConflictClassName()
+        val dataClass = json.generateKotlinDataClass("C").resolveNameConflicts() as KotlinDataClass
         dataClass.name.should.be.equal("C")
         dataClass.properties[2].type.should.be.equal("CX")
-        dataClass.properties[2].typeObject!!.name.should.be.equal("CX")
-        dataClass.properties[2].typeObject!!.properties[1].type.should.be.equal("CXX")
-        dataClass.properties[2].typeObject!!.properties[1].typeObject!!.name.should.be.equal("CXX")
+        val typeObject = dataClass.properties[2].typeObject as KotlinDataClass
+        typeObject.name.should.be.equal("CX")
+        typeObject.properties[1].type.should.be.equal("CXX")
+        typeObject.properties[1].typeObject.name.should.be.equal("CXX")
     }
 
     @Test
-    fun resolveInnerConflictClassName1() {
+    fun testResolveNameConflicts2() {
         val json = """
                     {
                       "a": 2,
@@ -65,16 +71,17 @@ class KotlinDataClassCodeMakerKtTest {
                       }
                     }
 """
-        val dataClass = json.generateKotlinDataClass("A").resolveInnerConflictClassName()
+        val dataClass = json.generateKotlinDataClass("A").resolveNameConflicts() as KotlinDataClass
         dataClass.name.should.be.equal("A")
         dataClass.properties[2].type.should.be.equal("C")
-        dataClass.properties[2].typeObject!!.name.should.be.equal("C")
-        dataClass.properties[2].typeObject!!.properties[1].type.should.be.equal("CX")
-        dataClass.properties[2].typeObject!!.properties[1].typeObject!!.name.should.be.equal("CX")
+        val typeObject = dataClass.properties[2].typeObject as KotlinDataClass
+        typeObject.name.should.be.equal("C")
+        typeObject.properties[1].type.should.be.equal("CX")
+        typeObject.properties[1].typeObject.name.should.be.equal("CX")
     }
 
     @Test
-    fun resolveInnerConflictClassName2() {
+    fun testResolveNameConflicts3() {
         val json = """
         {
         "text": "MXCHIP won a prize",
@@ -87,7 +94,8 @@ class KotlinDataClassCodeMakerKtTest {
            }
         }
         """.trimIndent()
-        val dataClass = json.generateKotlinDataClass("Test").resolveInnerConflictClassName()
+        val generateKotlinDataClass = json.generateKotlinDataClass("Test")
+        val dataClass = generateKotlinDataClass.resolveNameConflicts() as KotlinDataClass
         dataClass.run {
             name.should.be.equal("Test")
             properties.size.should.be.equal(3)
@@ -104,7 +112,7 @@ class KotlinDataClassCodeMakerKtTest {
                 type.should.be.equal("Detail")
                 originJsonValue.should.be.equal("")
                 typeObject.should.not.be.`null`
-                typeObject!!.run {
+                (typeObject as KotlinDataClass).run {
                     name.should.be.equal("Detail")
                     properties.size.should.be.equal(4)
                     properties[0].run {
@@ -124,7 +132,7 @@ class KotlinDataClassCodeMakerKtTest {
                         originJsonValue.should.equal("")
                         type.should.be.equal("List<Module>")
                         typeObject.should.not.be.`null`
-                        typeObject!!.run {
+                        ((typeObject as GenericListClass).generic as KotlinDataClass).run {
                             name.should.be.equal("Module")
                             properties.size.should.be.equal(1)
                             properties[0].run {

@@ -3,8 +3,8 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
-import wu.seal.jsontokotlin.KotlinDataClassMaker
+import wu.seal.jsontokotlin.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.KotlinClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue090Test {
@@ -382,7 +382,7 @@ class Issue090Test {
      */
     @Test
     fun testIssue090() {
-        val result = KotlinDataClassCodeMaker(KotlinDataClassMaker("Test", rawJson).makeKotlinDataClass()).makeKotlinDataClassCode()
+        val result = KotlinClassCodeMaker(KotlinClassMaker("Test", rawJson).makeKotlinClass()).makeKotlinClassCode()
         result.trim().should.equal(expectedResult.trim())
     }
 

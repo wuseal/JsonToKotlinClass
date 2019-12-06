@@ -1,11 +1,9 @@
 package wu.seal.jsontokotlin.utils
 
 import com.google.gson.JsonArray
-import java.awt.Component
-import java.awt.Container
+import com.google.gson.JsonPrimitive
+import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import java.util.regex.Pattern
-import javax.swing.Box
-import javax.swing.BoxLayout
 
 /**
  * How many substring in the parent string
@@ -26,17 +24,39 @@ fun String.numberOf(subString: String): Int {
 private fun JsonArray.onlyHasOneElement(): Boolean {
     return size() == 1
 }
-
 /**
  * array only has object element
  */
-private fun JsonArray.allItemAreObjectElement(): Boolean {
+fun JsonArray.allItemAreNullElement(): Boolean {
     forEach {
-        if (it.isJsonObject.not() && it.isJsonNull.not()) {
+        if (it.isJsonNull.not()) {
             return false
         }
     }
-    return  true
+    return true
+}
+/**
+ * array only has object element
+ */
+fun JsonArray.allItemAreObjectElement(): Boolean {
+    forEach {
+        if (it.isJsonObject.not()) {
+            return false
+        }
+    }
+    return true
+}
+
+/**
+ * array only has array element
+ */
+fun JsonArray.allItemAreArrayElement(): Boolean {
+    forEach {
+        if (it.isJsonArray.not()) {
+            return false
+        }
+    }
+    return true
 }
 
 /**
@@ -122,7 +142,7 @@ fun JsonArray.filterOutNullElement(): JsonArray {
 
     val jsonElements = filter { it.isJsonNull.not() }
     return JsonArray().apply {
-        jsonElements.forEach {jsonElement->
+        jsonElements.forEach { jsonElement ->
             add(jsonElement)
         }
     }
@@ -133,3 +153,42 @@ fun JsonArray.filterOutNullElement(): JsonArray {
  * Return true if this string contains any sequence of characters of the list
  */
 fun String.containsAnyOf(list: List<CharSequence>) = list.any { this.contains(it) }
+
+fun JsonArray.allElementAreSamePrimitiveType(): Boolean {
+    var allElementAreSamePrimitiveType = true
+    forEach {
+        if (it.isJsonPrimitive.not()) {
+            allElementAreSamePrimitiveType = false
+            return allElementAreSamePrimitiveType
+        }
+        if (theSamePrimitiveType(this[0].asJsonPrimitive, it.asJsonPrimitive).not()) {
+            allElementAreSamePrimitiveType = false
+            return allElementAreSamePrimitiveType
+        }
+    }
+    return allElementAreSamePrimitiveType
+}
+
+private fun theSamePrimitiveType(first: JsonPrimitive, second: JsonPrimitive): Boolean {
+
+    val sameBoolean = first.isBoolean && second.isBoolean
+
+    val sameNumber = first.isNumber && second.isNumber
+
+    val sameString = first.isString && second.isString
+
+    return sameBoolean || sameNumber || sameString
+}
+
+fun JsonPrimitive.toKotlinClass(): KotlinClass {
+    return when {
+        isBoolean -> KotlinClass.BOOLEAN
+        isNumber -> when {
+            asString.contains(".") -> KotlinClass.DOUBLE
+            asLong > Integer.MAX_VALUE -> KotlinClass.LONG
+            else -> KotlinClass.INT
+        }
+        isString -> KotlinClass.STRING
+        else -> KotlinClass.STRING
+    }
+}

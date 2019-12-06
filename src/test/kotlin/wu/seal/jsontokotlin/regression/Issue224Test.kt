@@ -65,6 +65,11 @@ class Issue224Test {
         data class Definitions(
             val address: Address = Address()
         )
+
+        data class PropertiesX(
+            val billing_address: BillingAddress = BillingAddress(),
+            val shipping_address: ShippingAddress = ShippingAddress()
+        )
         
         data class Address(
             val properties: Properties = Properties(),
@@ -88,11 +93,6 @@ class Issue224Test {
         
         data class StreetAddress(
             val type: String = ""
-        )
-        
-        data class PropertiesX(
-            val billing_address: BillingAddress = BillingAddress(),
-            val shipping_address: ShippingAddress = ShippingAddress()
         )
         
         data class BillingAddress(

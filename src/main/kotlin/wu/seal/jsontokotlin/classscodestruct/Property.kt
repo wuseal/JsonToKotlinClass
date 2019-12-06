@@ -9,9 +9,7 @@ data class Property(
     val type: String,
     val value: String = "",
     val comment: String = "",
-    var isLast: Boolean = false,
-    val refTypeId: Int = -1, // the id of property type,if can't reference in current generate classes ,use the default value -1
-    val typeObject: KotlinDataClass? = null,//property type ref to the Kotlin Data Class Struct Object
+    val typeObject: KotlinClass,
     private var separatorBetweenAnnotationAndProperty:String = "\n"
 ) {
     fun letLastAnnotationStayInSameLine() {
