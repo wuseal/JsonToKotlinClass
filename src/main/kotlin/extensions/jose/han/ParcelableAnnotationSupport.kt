@@ -35,7 +35,9 @@ object ParcelableAnnotationSupport : Extension() {
             val classAnnotation1 = Annotation.fromAnnotationString(classAnnotationString1)
             val classAnnotation2 = Annotation.fromAnnotationString(classAnnotationString2)
 
-            return kotlinDataClass.copy(annotations = listOf(classAnnotation1, classAnnotation2), parentClassTemplate = "Parcelable")
+            val newAnnotations = mutableListOf(classAnnotation1,classAnnotation2).also { it.addAll(kotlinDataClass.annotations) }
+
+            return kotlinDataClass.copy(annotations = newAnnotations, parentClassTemplate = "Parcelable")
         } else {
             kotlinDataClass
         }
