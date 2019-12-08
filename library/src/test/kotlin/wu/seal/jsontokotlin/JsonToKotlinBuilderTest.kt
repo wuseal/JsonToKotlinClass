@@ -37,7 +37,6 @@ class JsonToKotlinBuilderTest {
                 .setIndent(4)// optional, default : 4
                 .setParentClassTemplate("android.os.Parcelable") // optional, default : ""
                 .enableKeepAnnotationOnClass(true) // optional, default : false
-                .enableKeepAnnotationOnClassAndroidX(true) // optional, default : false
                 .enableAnnotationAndPropertyInSameLine(true) // optional, default : false
                 .enableParcelableSupport(true) // optional, default : false
                 .setPropertyPrefix("MyPrefix") // optional, default : ""
@@ -60,34 +59,42 @@ class JsonToKotlinBuilderTest {
 
             @SuppressLint("ParcelCreator")
             @Parcelize
+            @Keep
+            @JsonClass(generateAdapter = true)
             data class GlossResponseMyClassSuffix(
-                val MyPrefixAuthorsMySuffix: List<AuthorMyClassSuffix> = listOf(),
-                val MyPrefixMusiciansMySuffix: List<MusicianMyClassSuffix> = listOf(),
-                val MyPrefixProgrammersMySuffix: List<ProgrammerMyClassSuffix> = listOf()
+                @Json(name = "authors") val MyPrefixAuthorsMySuffix: List<AuthorMyClassSuffix> = listOf(),
+                @Json(name = "musicians") val MyPrefixMusiciansMySuffix: List<MusicianMyClassSuffix> = listOf(),
+                @Json(name = "programmers") val MyPrefixProgrammersMySuffix: List<ProgrammerMyClassSuffix> = listOf()
             ) : Parcelable {
                 @SuppressLint("ParcelCreator")
                 @Parcelize
+                @Keep
+                @JsonClass(generateAdapter = true)
                 data class AuthorMyClassSuffix(
-                    val MyPrefixFirstNameMySuffix: String? = "", // Frank
-                    val MyPrefixGenreMySuffix: String = "christian fiction", // christian fiction
-                    val MyPrefixLastNameMySuffix: String = "Peretti" // Peretti
+                    @Json(name = "firstName") val MyPrefixFirstNameMySuffix: String? = "", // Frank
+                    @Json(name = "genre") val MyPrefixGenreMySuffix: String = "christian fiction", // christian fiction
+                    @Json(name = "lastName") val MyPrefixLastNameMySuffix: String = "Peretti" // Peretti
                 ) : Parcelable
 
                 @SuppressLint("ParcelCreator")
                 @Parcelize
+                @Keep
+                @JsonClass(generateAdapter = true)
                 data class MusicianMyClassSuffix(
-                    val MyPrefixFirstNameMySuffix: String = "Sergei", // Sergei
-                    val MyPrefixInstrumentMySuffix: String = "piano", // piano
-                    val MyPrefixLastNameMySuffix: String = "Rachmaninoff" // Rachmaninoff
+                    @Json(name = "firstName") val MyPrefixFirstNameMySuffix: String = "Sergei", // Sergei
+                    @Json(name = "instrument") val MyPrefixInstrumentMySuffix: String = "piano", // piano
+                    @Json(name = "lastName") val MyPrefixLastNameMySuffix: String = "Rachmaninoff" // Rachmaninoff
                 ) : Parcelable
 
                 @SuppressLint("ParcelCreator")
                 @Parcelize
+                @Keep
+                @JsonClass(generateAdapter = true)
                 data class ProgrammerMyClassSuffix(
-                    val MyPrefixEmailMySuffix: String = "cccc", // cccc
-                    val MyPrefixFirstNameMySuffix: String = "Elliotte", // Elliotte
-                    val MyPrefixIsFirstNameMySuffix: String = "Brett", // Brett
-                    val MyPrefixLastNameMySuffix: String = "Harold" // Harold
+                    @Json(name = "email") val MyPrefixEmailMySuffix: String = "cccc", // cccc
+                    @Json(name = "firstName") val MyPrefixFirstNameMySuffix: String = "Elliotte", // Elliotte
+                    @Json(name = "isFirstName") val MyPrefixIsFirstNameMySuffix: String = "Brett", // Brett
+                    @Json(name = "lastName") val MyPrefixLastNameMySuffix: String = "Harold" // Harold
                 ) : Parcelable
             }
         """.trimIndent()
@@ -447,7 +454,7 @@ class JsonToKotlinBuilderTest {
         """.trimIndent()
 
         val actualOutput = JsonToKotlinBuilder()
-                .setAnnotationLib(TargetJsonConverter.Serilizable)
+                .setAnnotationLib(TargetJsonConverter.Serializable)
                 .build(input, "User")
 
         actualOutput.should.be.equal(expectedOutput)
