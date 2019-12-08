@@ -92,6 +92,7 @@ class JsonToKotlinBuilder {
 
     /**
      * If enabled, value will be commented right to the property
+     * Default: false
      */
     fun enableComments(isEnable: Boolean): JsonToKotlinBuilder {
         TestConfig.isCommentOff = !isEnable
@@ -100,7 +101,8 @@ class JsonToKotlinBuilder {
 
 
     /**
-     * TODO: More comments need to be added
+     * If enabled properties will be ordered in alphabetic order
+     * Default : false
      */
     fun enableOrderByAlphabetic(isOrderByAlphabetic: Boolean): JsonToKotlinBuilder {
         TestConfig.isOrderByAlphabetical = isOrderByAlphabetic
@@ -108,6 +110,10 @@ class JsonToKotlinBuilder {
     }
 
 
+    /**
+     * If enabled, classes will be nested with it's parent class.
+     * Default : false
+     */
     fun enableInnerClassModel(isInnerClassModel: Boolean): JsonToKotlinBuilder {
         TestConfig.isNestedClassModel = isInnerClassModel
         return this
