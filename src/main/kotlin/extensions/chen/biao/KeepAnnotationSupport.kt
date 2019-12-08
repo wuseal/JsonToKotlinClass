@@ -38,7 +38,9 @@ object KeepAnnotationSupport : Extension() {
 
             val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
 
-            return kotlinDataClass.copy(annotations = listOf(classAnnotation))
+            val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinDataClass.annotations) }
+
+            return kotlinDataClass.copy(annotations = newAnnotations)
         } else {
             kotlinDataClass
         }
