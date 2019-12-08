@@ -119,7 +119,7 @@ class JsonToKotlinBuilder {
         return this
     }
 
-    fun enabelMapType(isMapType: Boolean): JsonToKotlinBuilder {
+    fun enableMapType(isMapType: Boolean): JsonToKotlinBuilder {
         TestConfig.enableMapType = isMapType
         return this
     }
