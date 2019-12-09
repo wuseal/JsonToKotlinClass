@@ -111,7 +111,7 @@ class JsonToKotlinBuilder {
 
 
     /**
-     * If enabled, classes will be nested with it's parent class.
+     * If enabled, classes will be nested with in it's parent class.
      * Default : false
      */
     fun enableInnerClassModel(isInnerClassModel: Boolean): JsonToKotlinBuilder {
@@ -119,6 +119,9 @@ class JsonToKotlinBuilder {
         return this
     }
 
+    /**
+     * 
+     */
     fun enableMapType(isMapType: Boolean): JsonToKotlinBuilder {
         TestConfig.enableMapType = isMapType
         return this
