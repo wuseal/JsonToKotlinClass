@@ -4,7 +4,7 @@ We also have a `Java/Kotlin` library. With this you can convert `JSON` to `Kotli
 
 ## Installation
 
-Download `jar` file from [here](library/output/JsonToKotlinClass-3.5.1_library.jar) and add it to your project
+Download `jar` file from [here](library/output/JsonToKotlinClassLibrary-v3.5.1.jar) and add it to your project
 
 ## Usage
 
