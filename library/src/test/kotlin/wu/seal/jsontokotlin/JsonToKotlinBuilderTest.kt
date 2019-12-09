@@ -53,7 +53,7 @@ class JsonToKotlinBuilderTest {
             import com.squareup.moshi.Json
             import com.squareup.moshi.JsonClass
             import android.os.Parcelable
-            import androidx.annotation.Keep
+            import android.support.annotation.Keep
             import kotlinx.android.parcel.Parcelize
             import android.os.Parcelable
 
