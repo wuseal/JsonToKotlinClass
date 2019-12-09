@@ -14,6 +14,10 @@ import javax.swing.JPanel
  */
 object ParcelableAnnotationSupport : Extension() {
 
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
     const val configKey = "jose.han.add_parcelable_annotatioin_enable"
 
     override fun createUI(): JPanel {
