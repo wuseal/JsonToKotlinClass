@@ -48,7 +48,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen -> add(AddMoshiCodeGenAnnotationInterceptor())
                 TargetJsonConverter.LoganSquare -> add(AddLoganSquareAnnotationInterceptor())
                 TargetJsonConverter.Custom -> add(AddCustomAnnotationInterceptor())
-                TargetJsonConverter.Serilizable -> add(AddSerializableAnnotationInterceptor())
+                TargetJsonConverter.Serializable -> add(AddSerializableAnnotationInterceptor())
             }
 
             if (ConfigManager.parenClassTemplate.isNotBlank()) {
@@ -88,7 +88,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen->add(AddMoshiCodeGenClassImportDeclarationInterceptor())
                 TargetJsonConverter.LoganSquare->add(AddLoganSquareAnnotationClassImportDeclarationInterceptor())
                 TargetJsonConverter.Custom->add(AddCustomAnnotationClassImportDeclarationInterceptor())
-                TargetJsonConverter.Serilizable->add(AddSerializableAnnotationClassImportDeclarationInterceptor())
+                TargetJsonConverter.Serializable->add(AddSerializableAnnotationClassImportDeclarationInterceptor())
                 else->{}
             }
 
