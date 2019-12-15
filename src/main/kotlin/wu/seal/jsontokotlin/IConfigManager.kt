@@ -136,8 +136,7 @@ interface IConfigManager {
     var customAnnotationClassImportdeclarationString: String
         get() = if (isTestModel) TestConfig.customAnnotaionImportClassString else PropertiesComponent.getInstance().getValue(
                 USER_CUSTOM_JSON_LIB_ANNOTATION_IMPORT_CLASS, "import kotlinx.serialization.SerialName\n" +
-                "import kotlinx.serialization.Serializable" + "\n"
-                + "import kotlinx.serialization.Optional"
+                "import kotlinx.serialization.Serializable"
         )
         set(value) = if (isTestModel) {
             TestConfig.customAnnotaionImportClassString = value
@@ -148,7 +147,7 @@ interface IConfigManager {
     var customPropertyAnnotationFormatString: String
         get() = if (isTestModel) TestConfig.customPropertyAnnotationFormatString else PropertiesComponent.getInstance().getValue(
                 USER_CUSTOM_JSON_LIB_ANNOTATION_FORMAT_STRING,
-                "@Optional\n@SerialName(\"%s\")"
+                "@SerialName(\"%s\")"
         )
         set(value) = if (isTestModel) {
             TestConfig.customPropertyAnnotationFormatString = value

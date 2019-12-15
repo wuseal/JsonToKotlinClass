@@ -6,7 +6,7 @@ class SerializablePropertyAnnotationTemplate(val rawName: String) : AnnotationTe
 
     companion object{
 
-        const val annotationFormat = "@Optional\n@SerialName(\"%s\")"
+        const val annotationFormat = "@SerialName(\"%s\")"
     }
 
     private val annotation = Annotation(annotationFormat, rawName)
