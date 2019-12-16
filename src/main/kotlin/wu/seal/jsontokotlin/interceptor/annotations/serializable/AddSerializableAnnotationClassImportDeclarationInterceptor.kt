@@ -8,7 +8,7 @@ class AddSerializableAnnotationClassImportDeclarationInterceptor : IImportClassD
 
 
         val propertyAnnotationImportClassString = "import kotlinx.serialization.SerialName\n" +
-                "import kotlinx.serialization.Serializable"+"\nimport kotlinx.serialization.Optional"
+                "import kotlinx.serialization.Serializable"
 
         return originClassImportDeclaration.append(propertyAnnotationImportClassString)
     }

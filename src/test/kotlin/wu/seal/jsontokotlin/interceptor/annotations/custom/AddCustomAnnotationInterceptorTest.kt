@@ -14,7 +14,6 @@ class AddCustomAnnotationInterceptorTest {
 
     private val expectedDataClass = """@Serializable
 data class Test(
-    @Optional
     @SerialName("M_property"")
     val mProperty: Int // 123
 )"""
