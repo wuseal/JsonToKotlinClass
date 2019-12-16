@@ -26,9 +26,9 @@ object TestConfig {
     var defaultValueStrategy = DefaultValueStrategy.AvoidNull
     var isNestedClassModel = true
 
-    var customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
+    var customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
     var customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
-            "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional"
+            "import kotlinx.serialization.Serializable"
 
     var customClassAnnotationFormatString = "@Serializable"
 
@@ -55,9 +55,9 @@ object TestConfig {
         propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         defaultValueStrategy = DefaultValueStrategy.AvoidNull
         isNestedClassModel = true
-        customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
+        customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
         customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
-                "import kotlinx.serialization.Serializable" + "\n" + "import kotlinx.serialization.Optional"
+                "import kotlinx.serialization.Serializable"
 
         customClassAnnotationFormatString = "@Serializable"
 

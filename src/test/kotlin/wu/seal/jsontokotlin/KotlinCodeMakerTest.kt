@@ -123,7 +123,7 @@ class KotlinCodeMakerTest {
     fun makeKotlinDataWithCustomAnnotation() {
         TestConfig.targetJsonConvertLib = TargetJsonConverter.Custom
         TestConfig.isNestedClassModel = false
-        TestConfig.customPropertyAnnotationFormatString = "@Optional\n@SerialName(\"%s\")"
+        TestConfig.customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
         TestConfig.customClassAnnotationFormatString = "@Serializable"
         TestConfig.customAnnotaionImportClassString =
                 "import kotlinx.serialization.SerialName\nimport kotlinx.serialization.Serializable"
