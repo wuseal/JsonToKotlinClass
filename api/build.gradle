@@ -46,9 +46,6 @@ dependencies {
     // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // Moshi
-    implementation("com.squareup.moshi:moshi-kotlin:1.9.2")
-
     // Use MySQL Connector-J
     compile 'mysql:mysql-connector-java'
     testCompile("org.springframework.boot:spring-boot-starter-test")

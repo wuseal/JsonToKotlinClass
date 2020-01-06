@@ -14,24 +14,24 @@ import javax.persistence.*
 @Table(name = "ACTION_INFO")
 @GenerateNoArgsConstruct
 data class ActionInfo @JsonCreator constructor(
-        @JsonProperty("id")
+        @field:JsonProperty("id")
         @Id
         @Column(name = "ID")
         @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Int,
-        @JsonProperty("uuid")
+        @field:JsonProperty("uuid")
         @Column(name = "UUID")
         val uuid: String,
-        @JsonProperty("pluginVersion")
+        @field:JsonProperty("pluginVersion")
         @Column(name = "PLUGIN_VERSION")
         val pluginVersion: String,
-        @JsonProperty("actionType")
+        @field:JsonProperty("actionType")
         @Column(name = "ACTION_NAME")
         val actionType: String,
-        @JsonProperty("time")
+        @field:JsonProperty("time")
         @Column(name = "TIME_STAMP")
         val time: String,
-        @JsonProperty("daytime")
+        @field:JsonProperty("daytime")
         @Column(name = "DAY_TIME")
         val daytime: String
 )
@@ -42,18 +42,18 @@ data class ActionInfo @JsonCreator constructor(
 data class ConfigInfo(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        @JsonProperty("id")
+        @field:JsonProperty("id")
         val id: Int,
-        @JsonProperty("uuid") val uuid: String,
-        @JsonProperty("pluginVersion") val pluginVersion: String,
-        @JsonProperty("isPropertiesVar") val isPropertiesVar: Boolean,
-        @JsonProperty("isCommentOff") val isCommentOff: Boolean,
-        @JsonProperty("isPropertyNullable") val isPropertyNullable: Boolean,
-        @JsonProperty("initWithDefaultValue") val initWithDefaultValue: Boolean,
-        @JsonProperty("targetJsonConverterLib") val targetJsonConverterLib: String,
-        @JsonProperty("isInnerClassMode") val isInnerClassMode: Boolean,
-        @JsonProperty("timeStamp") val timeStamp: String,
-        @JsonProperty("daytime") val daytime: String
+        @field:JsonProperty("uuid") val uuid: String,
+        @field:JsonProperty("pluginVersion") val pluginVersion: String,
+        @field:JsonProperty("isPropertiesVar") val isPropertiesVar: Boolean,
+        @field:JsonProperty("isCommentOff") val isCommentOff: Boolean,
+        @field:JsonProperty("isPropertyNullable") val isPropertyNullable: Boolean,
+        @field:JsonProperty("initWithDefaultValue") val initWithDefaultValue: Boolean,
+        @field:JsonProperty("targetJsonConverterLib") val targetJsonConverterLib: String,
+        @field:JsonProperty("isInnerClassMode") val isInnerClassMode: Boolean,
+        @field:JsonProperty("timeStamp") val timeStamp: String,
+        @field:JsonProperty("daytime") val daytime: String
 
 )
 
