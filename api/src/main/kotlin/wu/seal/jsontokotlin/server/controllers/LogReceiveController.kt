@@ -49,10 +49,5 @@ class LogReceiveController {
         return "Hi, This is a Home Page!"
     }
 
-    @PostMapping("/generate")
-    fun generate(@RequestBody request: GenerateRequest): String {
-        return "This page generate JSON for you! ${request.annotationLib}"
-    }
-
 
 }

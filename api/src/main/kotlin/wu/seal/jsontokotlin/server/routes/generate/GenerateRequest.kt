@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 
 data class GenerateRequest(
+        @JsonProperty("json")
+        val json: String,
+
         @JsonProperty("annotation_lib")
         val annotationLib: String?, // MOSHI_CODE_GEN
         @JsonProperty("class_suffix")
