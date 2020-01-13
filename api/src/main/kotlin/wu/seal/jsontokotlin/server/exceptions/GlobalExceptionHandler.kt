@@ -24,7 +24,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     @ResponseBody
-    fun handleBadHttpRequest(e: HttpMessageNotReadableException): BaseResponse<Nothing> {
+    fun handleBadHttpRequest(e: Exception): BaseResponse<Nothing> {
         return BaseResponse(null, true, 1000, e.message!!)
     }
 }
