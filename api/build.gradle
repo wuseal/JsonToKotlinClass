@@ -48,5 +48,6 @@ dependencies {
 
     // Use MySQL Connector-J
     compile 'mysql:mysql-connector-java'
+    compile files('libs/JsonToKotlinClassLibrary-3.5.1-alpha01.jar')
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
