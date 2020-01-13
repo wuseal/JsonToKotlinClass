@@ -10,7 +10,6 @@ import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.library.JsonToKotlinBuilder
-import wu.seal.jsontokotlin.server.exceptions.InvalidJsonInputException
 import wu.seal.jsontokotlin.server.routes.generate.GenerateRequest
 import wu.seal.jsontokotlin.server.routes.generate.GenerateResponse
 
@@ -24,7 +23,8 @@ class GenerateController {
 
         val builder = JsonToKotlinBuilder()
 
-        // Setting annotation library
+        // Integrating REST request params with builder class
+
         if (request.annotationLib != null) {
             builder.setAnnotationLib(TargetJsonConverter.valueOf(request.annotationLib))
         }
