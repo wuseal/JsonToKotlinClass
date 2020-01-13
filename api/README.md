@@ -45,7 +45,7 @@ All the API endpoints return the same data structure as below
 
 - Method : **POST**
 - URL : [/api/generate](http://baseapiurlgoeshere.com/api/generate)
-- MockURL : [api/generate](http://theapache64.com/mock_api/get_json/j2k/api/generate?json=sem&class_name=quam&is_skip_auth=true)
+- MockURL : [api/generate](http://theapache64.com/mock_api/get_json/j2k/api/generate?json=felis&class_name=habitant&is_skip_auth=true)
 
 **Descriptions**
 
@@ -56,7 +56,7 @@ To generate kotlin code from given input JSON
 |-----------|----------|------|---------------|-------------|
 |json|true|String||JSON input string|
 |class_name|true|String||Class name of the output parent class|
-|annotation_lib|false|String|`None`|Annotation library to be used. Possible values are `None`,`NoneWithCamelCase`,`Gson`,`FastJson`,`Jackson`,`MoShi`,`LoganSquare`,`Custom`,`MoshiCodeGen`,`Serializable`|
+|annotation_lib|false|String|None|Annotation library to be used. Possible values are `None`,`NoneWithCamelCase`,`Gson`,`FastJson`,`Jackson`,`MoShi`,`LoganSquare`,`Custom`,`MoshiCodeGen`,`Serializable`|
 |class_suffix|false|String||Suffix to be added to every class name|
 |default_value_strategy|false|String|None|Possible values are `AvoidNull`, `AllowNull`, `None`|
 |indent|false|Integer|4|Output indent|
@@ -76,7 +76,7 @@ To generate kotlin code from given input JSON
 |parent_class_template|false|String|||
 |property_prefix|false|String|||
 |property_suffix|false|String|||
-|property_type_strategy|false|String|`AutoDeterMineNullableOrNot`|Possible values are `NotNullable`, `Nullable`,`AutoDeterMineNullableOrNot`.|
+|property_type_strategy|false|String|AutoDeterMineNullableOrNot|Possible values are `NotNullable`, `Nullable`,`AutoDeterMineNullableOrNot`.|
 
 
 **Response Body**
