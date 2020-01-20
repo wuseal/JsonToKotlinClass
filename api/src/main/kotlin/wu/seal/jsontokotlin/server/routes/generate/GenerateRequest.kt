@@ -50,18 +50,25 @@ class GenerateRequest(
 
         @JsonProperty("is_order_by_alphabetic_enabled")
         val isOrderByAlphabeticEnabled: Boolean? = null, // true
+
         @JsonProperty("is_parcelable_support_enabled")
         val isParcelableSupportEnabled: Boolean? = null, // true
+
         @JsonProperty("is_property_and_annotation_in_same_line_enabled")
         val isPropertyAndAnnotationInSameLineEnabled: Boolean? = null, // true
+
         @JsonProperty("package_name")
         val packageName: String? = null, // com.my.package.name
+
         @JsonProperty("parent_class_template")
         val parentClassTemplate: String? = null, // android.os.Parcelable
+
         @JsonProperty("property_prefix")
         val propertyPrefix: String? = null, // MY_PREFIX
+
         @JsonProperty("property_suffix")
         val propertySuffix: String? = null, // MY_SUFFIX
+
         @JsonProperty("property_type_strategy")
         val propertyTypeStrategy: String? = null // AUTO_DETERMINE_NULLABLE_OR_NOT
 )
