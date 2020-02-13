@@ -85,8 +85,7 @@ To generate kotlin code from given input JSON
   "data" : {
     "code" : "data class MyJsonClass(\n    val name: String\n)"
   },
-  "error" : true,
-  "error_code" : -1,
+  "error" : false,
   "message" : "OK"
 }
 ```
