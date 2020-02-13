@@ -1,7 +1,5 @@
 package wu.seal.jsontokotlin
 
-import com.intellij.ide.AppLifecycleListener
-import com.intellij.openapi.components.ApplicationComponent
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
