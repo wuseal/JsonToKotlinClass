@@ -112,7 +112,7 @@ class GenerateController {
         val json = builder.build(request.json, request.className)
         return GenerateResponse(
                 GenerateResponse.Data(json),
-                true,
+                false,
                 -1,
                 "OK"
         )
