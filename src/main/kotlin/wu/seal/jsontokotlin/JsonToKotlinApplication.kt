@@ -1,6 +1,10 @@
 package wu.seal.jsontokotlin
 
+import com.intellij.ide.AppLifecycleListener
 import com.intellij.openapi.components.ApplicationComponent
+import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.startup.StartupActivity
 import wu.seal.jsontokotlin.feedback.PLUGIN_VERSION
 import wu.seal.jsontokotlin.feedback.sendConfigInfo
 import wu.seal.jsontokotlin.feedback.sendHistoryActionInfo
@@ -12,9 +16,9 @@ import wu.seal.jsontokotlin.utils.LogUtil
  * Created by Seal.wu on 2017/8/21.
  */
 
-class JsonToKotlinApplication : ApplicationComponent {
+class JsonToKotlinApplication : StartupActivity, DumbAware {
 
-    override fun initComponent() {
+    override fun runActivity(project: Project) {
 
         LogUtil.i("init JSON To Kotlin Class version ==$PLUGIN_VERSION")
 
@@ -27,11 +31,5 @@ class JsonToKotlinApplication : ApplicationComponent {
                 LogUtil.e(e.message.toString(),e)
             }
         }.start()
-    }
-
-    override fun disposeComponent() {}
-
-    override fun getComponentName(): String {
-        return "wu.seal.jsontokotlin.JsonToKotlinApplication"
     }
 }
