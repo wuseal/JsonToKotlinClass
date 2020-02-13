@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin
 
 import com.winterbe.expekt.should
 import org.junit.Test
+import wu.seal.jsontokotlin.library.JsonToKotlinBuilder
 
 class JsonToKotlinBuilderTest {
 

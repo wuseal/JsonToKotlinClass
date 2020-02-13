@@ -1,10 +1,11 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.library
 
 import extensions.chen.biao.KeepAnnotationSupport
 import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
+import wu.seal.jsontokotlin.*
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.ClassImportDeclaration
