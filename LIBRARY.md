@@ -4,7 +4,15 @@ We also have a `Java/Kotlin` library. With this you can convert `JSON` to `Kotli
 
 ## Installation
 
-Download `jar` file from [here](library/output/JsonToKotlinClassLibrary-v3.5.1.jar) and add it to your project
+Download `jar` file from [here](library/output/JsonToKotlinClassLibrary-3.5.1-alpha01.jar) and add it to your project.
+
+
+If your project is not in `Kotlin`, don't forgot to add kotlin runtime dependency.
+
+```groovy
+// replace `1.3.61` with latest kotlin runtime version
+implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.3.61'  
+```
 
 ## Usage
 
