@@ -1,12 +1,13 @@
-package wu.seal.jsontokotlin.server.controllers
+package wu.seal.jsontokotlinclass.server
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
-import wu.seal.jsontokotlin.server.routes.generate.GenerateRequest
+import wu.seal.jsontokotlinclass.server.controllers.GenerateController
+import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
 
 class GenerateControllerTest {
 

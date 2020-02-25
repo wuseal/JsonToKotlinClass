@@ -1,15 +1,11 @@
-package wu.seal.jsontokotlin.server.exceptions
+package wu.seal.jsontokotlinclass.server.exceptions
 
-import javassist.tools.web.BadHttpRequest
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
-import wu.seal.jsontokotlin.server.routes.base.BaseResponse
+import wu.seal.jsontokotlinclass.server.models.routes.base.BaseResponse
 import java.lang.Exception
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
