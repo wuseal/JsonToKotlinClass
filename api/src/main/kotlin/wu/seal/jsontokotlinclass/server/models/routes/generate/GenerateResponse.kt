@@ -1,7 +1,7 @@
-package wu.seal.jsontokotlin.server.routes.generate
+package wu.seal.jsontokotlinclass.server.models.routes.generate
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import wu.seal.jsontokotlin.server.routes.base.BaseResponse
+import wu.seal.jsontokotlinclass.server.models.routes.base.BaseResponse
 
 
 class GenerateResponse(data: Data, error: Boolean, errorCode: Int, message: String) :

@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin.server.routes.generate
+package wu.seal.jsontokotlinclass.server.models.routes.generate
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

@@ -1,26 +1,22 @@
-package wu.seal.jsontokotlin.server.controllers
+package wu.seal.jsontokotlinclass.server.controllers
 
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.ResponseStatus
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.library.JsonToKotlinBuilder
-import wu.seal.jsontokotlin.server.routes.generate.GenerateRequest
-import wu.seal.jsontokotlin.server.routes.generate.GenerateResponse
+import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
+import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateResponse
 
 @Controller
 class GenerateController {
 
-    @PostMapping("/api/generate")
+    @PostMapping("/generate")
     @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
     fun generate(@RequestBody request: GenerateRequest): GenerateResponse {
-
         val builder = JsonToKotlinBuilder()
 
         // Integrating REST request params with builder class
