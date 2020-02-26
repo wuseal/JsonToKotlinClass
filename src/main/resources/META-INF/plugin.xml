@@ -66,7 +66,7 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <postStartupActivity implementation="wu.seal.jsontokotlin.JsonToKotlinApplication"/>
     </extensions>
 
     <actions>
@@ -86,10 +86,4 @@
         </action>
 
     </actions>
-
-    <application-components>
-        <component>
-            <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
-        </component>
-    </application-components>
 </idea-plugin>

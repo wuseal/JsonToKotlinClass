@@ -10,15 +10,21 @@ import javax.swing.JPanel
 
 object PropertySuffixSupport : Extension() {
 
-    private const val suffixKeyEnable = "wu.seal.property_suffix_enable"
-    private const val suffixKey = "wu.seal.property_suffix"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val suffixKeyEnable = "wu.seal.property_suffix_enable"
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val suffixKey = "wu.seal.property_suffix"
+
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
             val prefixJField = textInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) {
                 if (getConfig(suffixKeyEnable).toBoolean()) {
                     setConfig(suffixKey, it.text)
                 }
-            }.also{
+            }.also {
                 it.document = NamingConventionDocument(80)
             }
             checkBox("Suffix append after every property: ", getConfig(suffixKeyEnable).toBoolean()) { isSelectedAfterClick ->

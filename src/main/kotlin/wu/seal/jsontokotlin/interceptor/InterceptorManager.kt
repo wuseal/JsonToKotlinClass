@@ -48,10 +48,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen -> add(AddMoshiCodeGenAnnotationInterceptor())
                 TargetJsonConverter.LoganSquare -> add(AddLoganSquareAnnotationInterceptor())
                 TargetJsonConverter.Custom -> add(AddCustomAnnotationInterceptor())
-                TargetJsonConverter.Serilizable -> add(AddSerializableAnnotationInterceptor())
-            }
-            if (ConfigManager.enableMinimalAnnotation) {
-                add(MinimalAnnotationKotlinDataClassInterceptor())
+                TargetJsonConverter.Serializable -> add(AddSerializableAnnotationInterceptor())
             }
 
             if (ConfigManager.parenClassTemplate.isNotBlank()) {
@@ -70,6 +67,9 @@ object InterceptorManager {
             //add extensions's interceptor
             addAll(ExtensionsCollector.extensions)
         }.apply {
+            if (ConfigManager.enableMinimalAnnotation) {
+                add(MinimalAnnotationKotlinDataClassInterceptor())
+            }
             add(FinalKotlinDataClassWrapperInterceptor())
         }
     }
@@ -88,7 +88,7 @@ object InterceptorManager {
                 TargetJsonConverter.MoshiCodeGen->add(AddMoshiCodeGenClassImportDeclarationInterceptor())
                 TargetJsonConverter.LoganSquare->add(AddLoganSquareAnnotationClassImportDeclarationInterceptor())
                 TargetJsonConverter.Custom->add(AddCustomAnnotationClassImportDeclarationInterceptor())
-                TargetJsonConverter.Serilizable->add(AddSerializableAnnotationClassImportDeclarationInterceptor())
+                TargetJsonConverter.Serializable->add(AddSerializableAnnotationClassImportDeclarationInterceptor())
                 else->{}
             }
 

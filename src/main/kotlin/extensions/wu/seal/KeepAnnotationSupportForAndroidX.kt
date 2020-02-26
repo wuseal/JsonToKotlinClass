@@ -14,8 +14,11 @@ import javax.swing.JPanel
  */
 object KeepAnnotationSupportForAndroidX : Extension() {
 
-
-    private const val configKey = "wu.seal.add_keep_annotation_enable_androidx"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val configKey = "wu.seal.add_keep_annotation_enable_androidx"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
@@ -34,7 +37,9 @@ object KeepAnnotationSupportForAndroidX : Extension() {
 
             val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
 
-            return kotlinDataClass.copy(annotations = listOf(classAnnotation))
+            val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinDataClass.annotations) }
+
+            return kotlinDataClass.copy(annotations = newAnnotations)
         } else {
             kotlinDataClass
         }
