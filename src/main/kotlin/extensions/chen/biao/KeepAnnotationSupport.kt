@@ -15,7 +15,11 @@ import javax.swing.JPanel
 object KeepAnnotationSupport : Extension() {
 
 
-    private const val configKey = "chen.biao.add_keep_annotation_enable"
+    @Suppress("MemberVisibilityCanBePrivate")
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    const val configKey = "chen.biao.add_keep_annotation_enable"
 
     override fun createUI(): JPanel {
         return horizontalLinearLayout {
@@ -34,7 +38,9 @@ object KeepAnnotationSupport : Extension() {
 
             val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
 
-            return kotlinDataClass.copy(annotations = listOf(classAnnotation))
+            val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinDataClass.annotations) }
+
+            return kotlinDataClass.copy(annotations = newAnnotations)
         } else {
             kotlinDataClass
         }

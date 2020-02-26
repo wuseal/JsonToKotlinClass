@@ -12,8 +12,13 @@ import javax.swing.JPanel
 
 object ClassNameSuffixSupport : Extension() {
 
-    private const val suffixKeyEnable = "wu.seal.class_name_suffix_enable"
-    private const val suffixKey = "wu.seal.class_name_suffix"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val suffixKeyEnable = "wu.seal.class_name_suffix_enable"
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val suffixKey = "wu.seal.class_name_suffix"
 
     override fun createUI(): JPanel {
 
@@ -22,7 +27,7 @@ object ClassNameSuffixSupport : Extension() {
                 if (getConfig(suffixKeyEnable).toBoolean()) {
                     setConfig(suffixKey, it.text)
                 }
-            }.also{
+            }.also {
                 it.document = NamingConventionDocument(80)
             }
             checkBox("Suffix append after every class name: ", getConfig(suffixKeyEnable).toBoolean()) { isSelectedAfterClick ->
