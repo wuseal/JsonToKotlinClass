@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.classscodestruct
 
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.utils.numberOf
 
 data class Annotation(val annotationTemplate: String, val rawName: String) {

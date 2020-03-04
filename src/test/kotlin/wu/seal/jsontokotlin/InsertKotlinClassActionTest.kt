@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
 
-class MakeKotlinClassActionTest {
+class InsertKotlinClassActionTest {
 
     @Before
     fun before() {
@@ -14,7 +14,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForEmtpyString() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = ""
         action.couldGetAndReuseClassNameInCurrentEditFileForInsertCode(emptyString).should.be.`false`
 
@@ -23,7 +23,7 @@ class MakeKotlinClassActionTest {
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForSpecialString() {
         TestConfig.setToTestInitState()
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
 
         action.couldGetAndReuseClassNameInCurrentEditFileForInsertCode(specialString).should.be.`false`
 
@@ -31,14 +31,14 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForOnlyPackageNameDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = "package wu.seal.jsontokotlin"
         action.couldGetAndReuseClassNameInCurrentEditFileForInsertCode(emptyString).should.be.`false`
     }
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForPackageAndCommentDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
 
@@ -55,7 +55,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForPackageAndOnlyOneClassNameDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test"""
@@ -64,7 +64,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeWithClassBodyOnlyParentheses() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test()"""
@@ -73,7 +73,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeWithClassBodyOnlyParenthesesAndCurlyBraces() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test(){     }"""
@@ -82,7 +82,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeWithClassBodyWithProperty() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test(val a:String="1")"""
@@ -91,7 +91,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeWithClassBodyWithFunction() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test{fun c(){}}"""
@@ -100,7 +100,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForPackageAndNotOnlyOneClassNameDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test
@@ -110,7 +110,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForPackageAndOnlyOneClassNameWithCommentContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             /**
@@ -124,7 +124,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForPackageAndOnlyOneClassNameWithPackageNameContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlinclass.supporter
                             /**
@@ -138,7 +138,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun couldGetAndReuseClassNameInCurrentEditFileForInsertCodeForPackageAndOnlyOneClassNameWithImportPackageNameContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             /**
@@ -154,7 +154,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCurrentEditFileTemClassNameForPackageAndOnlyOneClassNameDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test
@@ -165,7 +165,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCurrentEditFileTemClassNameForInsertCodeWithClassBodyOnlyParentheses() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test()"""
@@ -174,7 +174,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCurrentEditFileTemClassNameForPackageAndOnlyOneClassNameWithCommentContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             /**
@@ -188,7 +188,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCurrentEditFileTemClassNameForPackageAndOnlyOneClassNameWithPackageNameContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlinclass.supporter
                             /**
@@ -202,7 +202,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCurrentEditFileTemClassNameForPackageAndOnlyOneClassNameWithImportPackageNameContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             /**
@@ -217,7 +217,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCleanTextForPackageAndOnlyOneClassNameDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test"""
@@ -227,7 +227,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCleanTextForInsertCodeWithClassBodyOnlyParentheses() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test()"""
@@ -236,7 +236,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCleanTextForInsertCodeWithClassBodyOnlyParenthesesAndCurlyBraces() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             class Test(){     }"""
@@ -245,7 +245,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCleanTextForPackageAndOnlyOneClassNameWithCommentContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             /**
@@ -265,7 +265,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCleanTextForPackageAndOnlyOneClassNameWithPackageNameContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlinclass.supporter
                             /**
@@ -284,7 +284,7 @@ class MakeKotlinClassActionTest {
 
     @Test
     fun getCleanTextForPackageAndOnlyOneClassNameWithImportPackageNameContainsClassStringDeclare() {
-        val action = MakeKotlinClassAction()
+        val action = InsertKotlinClassAction()
         val emptyString = """
                             package wu.seal.jsontokotlin.supporter
                             /**

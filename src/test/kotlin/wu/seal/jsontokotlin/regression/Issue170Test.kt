@@ -4,10 +4,10 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.KotlinClassCodeMaker
-import wu.seal.jsontokotlin.KotlinClassMaker
-import wu.seal.jsontokotlin.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue170Test {
@@ -61,7 +61,7 @@ class Issue170Test {
     @Test
     fun testIssue130() {
         val generated = KotlinClassCodeMaker(
-            KotlinClassMaker("A", testJson).makeKotlinClass()).makeKotlinClassCode()
+                KotlinClassMaker("A", testJson).makeKotlinClass()).makeKotlinClassCode()
         generated.trim().should.be.equal(expected)
     }
 }

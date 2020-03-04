@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 
 class ParentClassTemplateKotlinDataClassInterceptor : IKotlinDataClassInterceptor {

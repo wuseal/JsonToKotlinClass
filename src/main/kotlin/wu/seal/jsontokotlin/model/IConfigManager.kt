@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.model
 
 import com.intellij.ide.util.PropertiesComponent
 import wu.seal.jsontokotlin.test.TestConfig

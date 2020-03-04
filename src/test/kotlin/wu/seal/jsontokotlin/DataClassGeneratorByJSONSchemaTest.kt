@@ -8,6 +8,7 @@ import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
 
 class DataClassGeneratorByJSONSchemaTest {
     private val jsonSchemaJson = """

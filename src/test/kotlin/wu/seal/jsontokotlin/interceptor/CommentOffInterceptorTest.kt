@@ -4,7 +4,6 @@ import com.winterbe.expekt.should
 import org.junit.Test
 
 import org.junit.Before
-import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 

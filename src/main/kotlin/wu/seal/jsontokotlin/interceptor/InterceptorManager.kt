@@ -1,9 +1,9 @@
 package wu.seal.jsontokotlin.interceptor
 
 import extensions.ExtensionsCollector
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.interceptor.annotations.custom.AddCustomAnnotationClassImportDeclarationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.custom.AddCustomAnnotationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.fastjson.AddFastJsonAnnotationInterceptor

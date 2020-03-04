@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.utils
 
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 
 /**
  * Class Code Filter

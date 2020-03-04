@@ -2,6 +2,10 @@ package wu.seal.jsontokotlin
 
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
 import kotlin.reflect.KMutableProperty0
 
@@ -39,7 +43,7 @@ class ConfigManagerTestHelper {
     private fun testAllNoBoolConfigWithAction(action: () -> Unit) {
         traverseConfigOnAction(ConfigManager::indent, listOf(2,4,8)){
             traverseConfigOnAction(ConfigManager::propertyTypeStrategy, PropertyTypeStrategy.values().toList()){
-                traverseConfigOnAction(ConfigManager::targetJsonConverterLib,TargetJsonConverter.values().toList()){
+                traverseConfigOnAction(ConfigManager::targetJsonConverterLib, TargetJsonConverter.values().toList()){
                     traverseConfigOnAction(ConfigManager::defaultValueStrategy, DefaultValueStrategy.values().toList()) {
                         action()
                     }

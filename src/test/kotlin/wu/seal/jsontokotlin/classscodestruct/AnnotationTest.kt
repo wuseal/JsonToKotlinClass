@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin.classscodestruct
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.codeannotations.CustomPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeannotations.FastjsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate

@@ -2,7 +2,7 @@ package wu.seal.jsontokotlin.feedback
 
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.extensions.PluginId
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**

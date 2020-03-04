@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils.classgenerator
 
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.classscodestruct.GenericListClass

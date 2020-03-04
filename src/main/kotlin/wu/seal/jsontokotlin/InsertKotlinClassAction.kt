@@ -13,6 +13,7 @@ import wu.seal.jsontokotlin.feedback.StartAction
 import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.feedback.sendActionInfo
+import wu.seal.jsontokotlin.model.UnSupportJsonException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.*
 import java.net.URL
@@ -23,7 +24,7 @@ import kotlin.math.max
  * Plugin action
  * Created by Seal.Wu on 2017/8/18.
  */
-class MakeKotlinClassAction : AnAction("Kotlin data classes from JSON") {
+class InsertKotlinClassAction : AnAction("Kotlin data classes from JSON") {
 
     private val gson = Gson()
 
