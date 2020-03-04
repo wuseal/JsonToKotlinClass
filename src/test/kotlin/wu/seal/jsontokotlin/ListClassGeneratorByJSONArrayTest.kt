@@ -3,13 +3,13 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.classscodestruct.ListClass
 import wu.seal.jsontokotlin.classscodestruct.Property
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.classgenerator.ListClassGeneratorByJSONArray
 
 class ListClassGeneratorByJSONArrayTest {
 
@@ -37,7 +37,7 @@ class ListClassGeneratorByJSONArrayTest {
 
     @Test
     fun generateListClassWithDataClass() {
-        val result =ListClassGeneratorByJSONArray("TestList", "[{p1:1}]").generate()
+        val result = ListClassGeneratorByJSONArray("TestList", "[{p1:1}]").generate()
         val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1",typeObject = KotlinClass.INT)
         val itemClass = KotlinDataClass(name = "TestListItem",properties = listOf(dataClassProperty))
         result.should.be.equal(ListClass("TestList", itemClass))
@@ -45,7 +45,7 @@ class ListClassGeneratorByJSONArrayTest {
 
     @Test
     fun generateListClassWithListClass() {
-        val result =ListClassGeneratorByJSONArray("TestList", "[[]]").generate()
+        val result = ListClassGeneratorByJSONArray("TestList", "[[]]").generate()
         result.should.be.equal(ListClass("TestList", ListClass("TestListSubList", KotlinClass.ANY)))
     }
 }

@@ -1,10 +1,6 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
 import com.google.gson.*
-import wu.seal.jsontokotlin.utils.BACKSTAGE_NULLABLE_POSTFIX
-import wu.seal.jsontokotlin.utils.filterOutNullElement
-import wu.seal.jsontokotlin.utils.onlyHasOneElementRecursive
-import wu.seal.jsontokotlin.utils.onlyHasOneSubArrayAndAllItemsAreObjectElementRecursive
 
 /**
  * This class aim at filtering out the expected Json Element to be convert from Json array

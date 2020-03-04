@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.codeannotations
 
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.classscodestruct.Annotation
 
 class CustomPropertyAnnotationTemplate(val rawName: String) : AnnotationTemplate {

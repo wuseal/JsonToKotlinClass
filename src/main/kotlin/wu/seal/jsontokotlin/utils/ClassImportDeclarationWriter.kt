@@ -1,10 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
-import wu.seal.jsontokotlin.utils.ClassImportDeclaration
-import wu.seal.jsontokotlin.utils.executeCouldRollBackAction
 import kotlin.math.max
 
 /**

@@ -1,8 +1,8 @@
 package extensions.xu.rui
 
 import extensions.Extension
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.ui.checkBox

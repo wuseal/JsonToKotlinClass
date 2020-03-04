@@ -1,6 +1,8 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils.classgenerator
 
 import com.google.gson.JsonObject
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.utils.TargetJsonElement
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.classscodestruct.Property

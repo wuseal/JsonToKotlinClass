@@ -1,5 +1,8 @@
 package wu.seal.jsontokotlin
 
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
+
 /**
  * Kotlin code maker
  * Created by seal.wu on 2017/8/21.

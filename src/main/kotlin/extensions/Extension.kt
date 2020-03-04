@@ -2,7 +2,7 @@ package extensions
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import javax.swing.JPanel

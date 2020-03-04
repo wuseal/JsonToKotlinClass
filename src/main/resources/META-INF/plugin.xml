@@ -70,7 +70,7 @@
     </extensions>
 
     <actions>
-        <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction"
+        <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.InsertKotlinClassAction"
                 text="Kotlin Data Classes from JSON"
                 description="Convert a json string data into kotlin data class code">
             <add-to-group group-id="GenerateGroup" anchor="last"/>

@@ -1,4 +1,4 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.Project

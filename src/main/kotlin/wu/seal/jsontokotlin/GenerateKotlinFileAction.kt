@@ -14,8 +14,11 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.UnSupportJsonException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.KotlinClassFileGenerator
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 
 /**

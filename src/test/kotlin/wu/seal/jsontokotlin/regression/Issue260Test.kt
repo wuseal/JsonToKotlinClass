@@ -6,7 +6,7 @@ import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.wu.seal.KeepAnnotationSupportForAndroidX
 import org.junit.Test
 import wu.seal.jsontokotlin.KotlinCodeMaker
-import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue260Test {

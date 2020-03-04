@@ -7,6 +7,7 @@ import wu.seal.jsontokotlin.classscodestruct.GenericListClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 /**
  * created by karthik on 2018/15/12

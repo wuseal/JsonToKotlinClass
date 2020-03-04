@@ -1,8 +1,8 @@
 package wu.seal.jsontokotlin.test
 
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.PropertyTypeStrategy
-import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 

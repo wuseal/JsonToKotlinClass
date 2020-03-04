@@ -1,5 +1,6 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 import wu.seal.jsontokotlin.interceptor.InterceptorManager

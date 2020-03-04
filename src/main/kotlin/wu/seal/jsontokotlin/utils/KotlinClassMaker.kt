@@ -1,10 +1,13 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONObject
+import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
+import wu.seal.jsontokotlin.utils.classgenerator.ListClassGeneratorByJSONArray
 
 class KotlinClassMaker(private val rootClassName: String, private val json: String) {
 
@@ -15,7 +18,7 @@ class KotlinClassMaker(private val rootClassName: String, private val json: Stri
         } else {
             when {
                 json.isJSONObject() -> DataClassGeneratorByJSONObject(rootClassName, Gson().fromJson(json, JsonObject::class.java)).generate()
-                json.isJSONArray() -> ListClassGeneratorByJSONArray(rootClassName,json).generate()
+                json.isJSONArray() -> ListClassGeneratorByJSONArray(rootClassName, json).generate()
                 else -> throw IllegalStateException("Can't generate Kotlin Data Class from a no JSON Object/JSON Object Array")
             }
         }

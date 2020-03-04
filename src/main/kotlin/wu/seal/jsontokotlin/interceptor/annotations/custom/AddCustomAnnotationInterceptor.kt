@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.interceptor.annotations.custom
 
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.classscodestruct.Annotation
 import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.codeannotations.CustomPropertyAnnotationTemplate

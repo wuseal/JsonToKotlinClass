@@ -1,60 +1,57 @@
-package wu.seal.jsontokotlin
+package wu.seal.jsontokotlin.utils.classgenerator
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.classscodestruct.GenericListClass
 import wu.seal.jsontokotlin.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.classscodestruct.ListClass
 import wu.seal.jsontokotlin.utils.*
 
 /**
- * Created by Seal.Wu on 2019-11-23
- * Generate `List<$ItemType>` from json array string and json array's json key
+ * Created by Seal.Wu on 2019-11-20
+ * Generate List Class from JsonArray String
  */
-class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArrayString: String) {
+class ListClassGeneratorByJSONArray(private val className: String, jsonArrayString: String) {
 
     private val tag = "ListClassGeneratorByJSONArray"
     private val jsonArray: JsonArray = Gson().fromJson(jsonArrayString, JsonArray::class.java)
 
-    fun generate(): GenericListClass {
+    fun generate(): ListClass {
 
         when {
             jsonArray.size() == 0 -> {
-                LogUtil.i("$tag jsonArray size is 0, return GenericListClass with generic type ANY")
-                return GenericListClass(generic = KotlinClass.ANY)
+                LogUtil.i("$tag jsonArray size is 0, return ListClass with generic type ANY")
+                return ListClass(name = className, generic = KotlinClass.ANY)
             }
             jsonArray.allItemAreNullElement() -> {
-                LogUtil.i("$tag jsonArray allItemAreNullElement, return GenericListClass with generic type ${KotlinClass.ANY.name}")
-                return GenericListClass(generic = KotlinClass.ANY)
+                LogUtil.i("$tag jsonArray allItemAreNullElement, return ListClass with generic type ${KotlinClass.ANY.name}")
+                return ListClass(name = className, generic = KotlinClass.ANY)
             }
             jsonArray.allElementAreSamePrimitiveType() -> {
                 val elementKotlinClass = jsonArray[0].asJsonPrimitive.toKotlinClass()
-                LogUtil.i("$tag jsonArray allElementAreSamePrimitiveType, return GenericListClass with generic type ${elementKotlinClass.name}")
-                return GenericListClass(generic = elementKotlinClass)
+                LogUtil.i("$tag jsonArray allElementAreSamePrimitiveType, return ListClass with generic type ${elementKotlinClass.name}")
+                return ListClass(name = className, generic = elementKotlinClass)
             }
             jsonArray.allItemAreObjectElement() -> {
                 val fatJsonObject = getFatJsonObject(jsonArray)
-                val itemObjClassName = getRecommendItemName(jsonKey)
+                val itemObjClassName = "${className}Item"
                 val dataClassFromJsonObj = DataClassGeneratorByJSONObject(itemObjClassName, fatJsonObject).generate()
-                LogUtil.i("$tag jsonArray allItemAreObjectElement, return GenericListClass with generic type ${dataClassFromJsonObj.name}")
-                return GenericListClass(generic = dataClassFromJsonObj)
+                LogUtil.i("$tag jsonArray allItemAreObjectElement, return ListClass with generic type ${dataClassFromJsonObj.name}")
+                return ListClass(className, dataClassFromJsonObj)
             }
             jsonArray.allItemAreArrayElement() -> {
                 val fatJsonArray = getFatJsonArray(jsonArray)
-                val genericListClassFromFatJsonArray = GenericListClassGeneratorByJSONArray(jsonKey, fatJsonArray.toString()).generate()
-                LogUtil.i("$tag jsonArray allItemAreArrayElement, return GenericListClass with generic type ${genericListClassFromFatJsonArray.name}")
-                return GenericListClass(generic =  genericListClassFromFatJsonArray)
+                val itemArrayClassName = "${className}SubList"
+                val listClassFromFatJsonArray = ListClassGeneratorByJSONArray(itemArrayClassName, fatJsonArray.toString()).generate()
+                LogUtil.i("$tag jsonArray allItemAreArrayElement, return ListClass with generic type ${listClassFromFatJsonArray.name}")
+                return ListClass(className, listClassFromFatJsonArray)
             }
             else -> {
-                LogUtil.i("$tag jsonArray exception shouldn't come here, return GenericListClass with generic type ANY")
-                return GenericListClass(generic = KotlinClass.ANY)
+                LogUtil.i("$tag jsonArray exception shouldn't come here, return ListClass with generic type ANY")
+                return ListClass(name = className, generic = KotlinClass.ANY)
             }
         }
-    }
-
-    private fun getRecommendItemName(jsonKey: String): String {
-        return adjustPropertyNameForGettingArrayChildType(jsonKey)
     }
 
     private fun getFatJsonArray(jsonArray: JsonArray): JsonArray {
