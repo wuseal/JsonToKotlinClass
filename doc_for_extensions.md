@@ -34,7 +34,7 @@ Customize your own plugin by these steps, and you will have your own plugin, in 
    package extensions.wu.seal
 
    import extensions.Extension
-   import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+   import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
    import javax.swing.JPanel
 
    object AllUpperCase :Extension(){

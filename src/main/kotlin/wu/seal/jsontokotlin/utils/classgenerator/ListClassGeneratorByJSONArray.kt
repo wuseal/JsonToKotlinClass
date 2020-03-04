@@ -4,8 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonNull
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.classscodestruct.ListClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.ListClass
 import wu.seal.jsontokotlin.utils.*
 
 /**

@@ -1,8 +1,8 @@
 package wu.seal.jsontokotlin.interceptor.annotations.gson
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
-import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.codeannotations.GsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 
 class AddGsonAnnotationInterceptor : IKotlinDataClassInterceptor {

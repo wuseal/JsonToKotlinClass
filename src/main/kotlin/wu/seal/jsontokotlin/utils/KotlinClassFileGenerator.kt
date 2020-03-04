@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin.utils
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
-import wu.seal.jsontokotlin.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.filetype.KotlinFileType
 
 class KotlinClassFileGenerator {

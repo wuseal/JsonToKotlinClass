@@ -2,7 +2,7 @@ package wu.seal.jsontokotlin.utils
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
-import wu.seal.jsontokotlin.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import java.util.regex.Pattern
 
 /**

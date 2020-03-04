@@ -1,9 +1,9 @@
 package wu.seal.jsontokotlin.interceptor.annotations.logansquare
 
-import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.LoganSquarePropertyAnnotationTemplate
-import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.codeannotations.LoganSquarePropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 
 class AddLoganSquareAnnotationInterceptor : IKotlinDataClassInterceptor {

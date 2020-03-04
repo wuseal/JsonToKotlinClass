@@ -3,8 +3,8 @@ package wu.seal.jsontokotlin.utils
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
-import wu.seal.jsontokotlin.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.jsonschema.JsonSchema
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONObject
 import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
 import wu.seal.jsontokotlin.utils.classgenerator.ListClassGeneratorByJSONArray

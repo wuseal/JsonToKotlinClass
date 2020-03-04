@@ -1,8 +1,8 @@
 package extensions.chen.biao
 
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import javax.swing.JPanel

@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 
 /**
  * interceptor to make the code to be like the minimal annotation

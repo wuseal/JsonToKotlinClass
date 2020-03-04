@@ -3,8 +3,8 @@ package extensions.xu.rui
 import extensions.Extension
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import wu.seal.jsontokotlin.utils.NULLABLE_PRIMITIVE_TYPES

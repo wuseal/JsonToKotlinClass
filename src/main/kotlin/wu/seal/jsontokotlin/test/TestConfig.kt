@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin.test
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.model.TargetJsonConverter
-import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeannotations.GsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 
 /**
