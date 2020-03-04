@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 
 class MakePropertiesNameToBeCamelCaseInterceptor : IKotlinDataClassInterceptor {
 

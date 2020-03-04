@@ -1,8 +1,8 @@
 package wu.seal.jsontokotlin.interceptor.annotations.jackson
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.JacksonPropertyAnnotationTemplate
-import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.codeannotations.JacksonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 
 

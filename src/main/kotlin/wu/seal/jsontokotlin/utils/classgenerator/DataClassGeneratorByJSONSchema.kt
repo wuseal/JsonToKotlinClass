@@ -1,11 +1,11 @@
 package wu.seal.jsontokotlin.utils.classgenerator
 
-import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
-import wu.seal.jsontokotlin.classscodestruct.GenericListClass
-import wu.seal.jsontokotlin.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.classscodestruct.Property
-import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.model.jsonschema.JsonSchema
+import wu.seal.jsontokotlin.model.classscodestruct.GenericListClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.Property
+import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.utils.*
 
 class DataClassGeneratorByJSONSchema(private val rootClassName: String, private val jsonSchema: JsonSchema) {

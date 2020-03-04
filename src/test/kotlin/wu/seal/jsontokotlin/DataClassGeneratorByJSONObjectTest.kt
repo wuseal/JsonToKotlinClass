@@ -6,9 +6,9 @@ import com.winterbe.expekt.should
 import org.junit.Test
 
 import org.junit.Before
-import wu.seal.jsontokotlin.classscodestruct.GenericListClass
-import wu.seal.jsontokotlin.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.GenericListClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONObject
 

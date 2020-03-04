@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
 class ParentClassTemplateKotlinDataClassInterceptorTest {

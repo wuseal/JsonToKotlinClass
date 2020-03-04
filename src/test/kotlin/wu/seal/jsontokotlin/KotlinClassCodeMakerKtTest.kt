@@ -3,8 +3,8 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.classscodestruct.GenericListClass
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.GenericListClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_STRING
 

@@ -1,8 +1,8 @@
 package wu.seal.jsontokotlin.interceptor.annotations.fastjson
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.FastjsonPropertyAnnotationTemplate
-import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.codeannotations.FastjsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
 
 class AddFastJsonAnnotationInterceptor : IKotlinDataClassInterceptor {
