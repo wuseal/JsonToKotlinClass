@@ -44,7 +44,7 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 val fatJsonArray = getFatJsonArray(jsonArray)
                 val genericListClassFromFatJsonArray = GenericListClassGeneratorByJSONArray(jsonKey, fatJsonArray.toString()).generate()
                 LogUtil.i("$tag jsonArray allItemAreArrayElement, return GenericListClass with generic type ${genericListClassFromFatJsonArray.name}")
-                return GenericListClass(generic =  genericListClassFromFatJsonArray)
+                return GenericListClass(generic = genericListClassFromFatJsonArray)
             }
             else -> {
                 LogUtil.i("$tag jsonArray exception shouldn't come here, return GenericListClass with generic type ANY")
@@ -86,6 +86,13 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
                 // and will not be generated in final code
                 fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+            } else if (fatJsonObject.has(key)) {
+                if (fatJsonObject[key].isJsonObject && value.isJsonObject) {
+                    val newValue = getFatJsonObject(JsonArray().apply { add(fatJsonObject[key]);add(value) })
+                    fatJsonObject.add(key, newValue)
+                } else {
+                    fatJsonObject.add(key, value)
+                }
             } else {
                 fatJsonObject.add(key, value)
             }
