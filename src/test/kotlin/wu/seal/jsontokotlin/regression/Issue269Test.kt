@@ -1549,7 +1549,7 @@ class Issue269Test {
 
 
     @Test
-    fun testIssue241ForInnerClassModel() {
+    fun testIssue269ForInnerClassModel() {
         TestConfig.setToTestInitState()
         TestConfig.isCommentOff = true
         TestConfig.isNestedClassModel = true
@@ -1561,7 +1561,7 @@ class Issue269Test {
     }
 
     @Test
-    fun testIssue241ForSplitClassModel() {
+    fun testIssue269ForSplitClassModel() {
         TestConfig.setToTestInitState()
         TestConfig.isCommentOff = true
         TestConfig.isNestedClassModel = false
