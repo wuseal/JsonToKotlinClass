@@ -2,28 +2,33 @@ package wu.seal.jsontokotlin.interceptor.annotations.custom
 
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.model.codeannotations.CustomPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 
-class AddCustomAnnotationInterceptor : IKotlinDataClassInterceptor {
+class AddCustomAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val addCustomAnnotationProperties = kotlinDataClass.properties.map {
+        if (kotlinClass is KotlinDataClass) {
+            val addCustomAnnotationProperties = kotlinClass.properties.map {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
 
-            val annotations = CustomPropertyAnnotationTemplate(it.originName).getAnnotations()
+                val annotations = CustomPropertyAnnotationTemplate(it.originName).getAnnotations()
 
-            it.copy(annotations = annotations,name = camelCaseName)
+                it.copy(annotations = annotations,name = camelCaseName)
+            }
+
+            val classAnnotationString = ConfigManager.customClassAnnotationFormatString
+
+            val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
+
+            return kotlinClass.copy(properties = addCustomAnnotationProperties,annotations = listOf(classAnnotation))
+        } else {
+            return kotlinClass
         }
-
-        val classAnnotationString = ConfigManager.customClassAnnotationFormatString
-
-        val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
-
-        return kotlinDataClass.copy(properties = addCustomAnnotationProperties,annotations = listOf(classAnnotation))
     }
 }

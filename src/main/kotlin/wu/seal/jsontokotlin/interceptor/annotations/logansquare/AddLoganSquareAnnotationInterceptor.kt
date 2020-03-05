@@ -1,27 +1,32 @@
 package wu.seal.jsontokotlin.interceptor.annotations.logansquare
 
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.model.codeannotations.LoganSquarePropertyAnnotationTemplate
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 
-class AddLoganSquareAnnotationInterceptor : IKotlinDataClassInterceptor {
+class AddLoganSquareAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val addLoganSquareAnnotationProperties = kotlinDataClass.properties.map {
+        if (kotlinClass is KotlinDataClass) {
+            val addLoganSquareAnnotationProperties = kotlinClass.properties.map {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
 
-            it.copy(annotations =  LoganSquarePropertyAnnotationTemplate(it.originName).getAnnotations(),name = camelCaseName)
+                it.copy(annotations =  LoganSquarePropertyAnnotationTemplate(it.originName).getAnnotations(),name = camelCaseName)
+            }
+
+            val classAnnotationString = "@JsonObject"
+
+            val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
+
+
+            return kotlinClass.copy(properties = addLoganSquareAnnotationProperties,annotations = listOf(classAnnotation))
+        } else {
+            return kotlinClass
         }
-
-        val classAnnotationString = "@JsonObject"
-
-        val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
-
-
-        return kotlinDataClass.copy(properties = addLoganSquareAnnotationProperties,annotations = listOf(classAnnotation))
     }
 }

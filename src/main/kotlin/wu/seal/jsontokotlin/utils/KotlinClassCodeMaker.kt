@@ -2,7 +2,7 @@ package wu.seal.jsontokotlin.utils
 
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 
 class KotlinClassCodeMaker(private val kotlinClass: KotlinClass) {
@@ -12,7 +12,7 @@ class KotlinClassCodeMaker(private val kotlinClass: KotlinClass) {
         return makeKotlinClassCode(interceptors)
     }
 
-    private fun makeKotlinClassCode(interceptors: List<IKotlinDataClassInterceptor>): String {
+    private fun makeKotlinClassCode(interceptors: List<IKotlinClassInterceptor<KotlinClass>>): String {
         var kotlinClassForCodeGenerate = kotlinClass
         kotlinClassForCodeGenerate = kotlinClassForCodeGenerate.applyInterceptors(interceptors)
         return if (ConfigManager.isInnerClassModel) {

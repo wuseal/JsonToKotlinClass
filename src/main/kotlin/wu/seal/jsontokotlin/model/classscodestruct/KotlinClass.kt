@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.utils.IgnoreCaseStringSet
 import wu.seal.jsontokotlin.utils.LogUtil
 
@@ -42,9 +42,9 @@ interface KotlinClass {
      */
     fun getOnlyCurrentCode(): String
 
-    fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinClass = this
+    fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass = this
 
-    fun applyInterceptor(dataClassInterceptor: IKotlinDataClassInterceptor): KotlinClass = applyInterceptors(listOf(dataClassInterceptor))
+    fun <T : KotlinClass> applyInterceptor(classInterceptor: IKotlinClassInterceptor<T>): KotlinClass = applyInterceptors(listOf(classInterceptor))
 
     fun rename(newName: String): KotlinClass
 

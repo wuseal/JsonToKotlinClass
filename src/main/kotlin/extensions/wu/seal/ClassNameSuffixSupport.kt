@@ -1,6 +1,7 @@
 package extensions.wu.seal
 
 import extensions.Extension
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.ui.NamingConventionDocument
 import wu.seal.jsontokotlin.ui.checkBox
@@ -39,51 +40,52 @@ object ClassNameSuffixSupport : Extension() {
     }
 
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val suffix = getConfig(suffixKey)
-
-        return if (getConfig(suffixKeyEnable).toBoolean() && suffix.isNotEmpty()) {
-            val standTypes = listOf("Int", "Double", "Long", "String", "Boolean")
-            val originName = kotlinDataClass.name
-            val newPropertyTypes =
-                    kotlinDataClass.properties.map {
-                        val rawSubType = getChildType(getRawType(it.type))
-                        when {
-                            it.type.isMapType() -> {
-                                it.type//currently don't support map type
+        return if (kotlinClass is KotlinDataClass) {
+            val suffix = getConfig(suffixKey)
+            return if (getConfig(suffixKeyEnable).toBoolean() && suffix.isNotEmpty()) {
+                val standTypes = listOf("Int", "Double", "Long", "String", "Boolean")
+                val originName = kotlinClass.name
+                val newPropertyTypes =
+                        kotlinClass.properties.map {
+                            val rawSubType = getChildType(getRawType(it.type))
+                            when {
+                                it.type.isMapType() -> {
+                                    it.type//currently don't support map type
+                                }
+                                standTypes.contains(rawSubType) -> it.type
+                                else -> it.type.replace(rawSubType, rawSubType + suffix)
                             }
-                            standTypes.contains(rawSubType) -> it.type
-                            else -> it.type.replace(rawSubType, rawSubType + suffix)
                         }
-                    }
 
-            val newPropertyDefaultValues = kotlinDataClass.properties.map {
-                val rawSubType = getChildType(getRawType(it.type))
-                when {
-                    it.value.isEmpty() -> it.value
-                    it.type.isMapType() -> {
-                        it.value//currently don't support map type
+                val newPropertyDefaultValues = kotlinClass.properties.map {
+                    val rawSubType = getChildType(getRawType(it.type))
+                    when {
+                        it.value.isEmpty() -> it.value
+                        it.type.isMapType() -> {
+                            it.value//currently don't support map type
+                        }
+                        standTypes.contains(rawSubType) -> it.value
+                        else -> it.value.replace(rawSubType, rawSubType + suffix)
                     }
-                    standTypes.contains(rawSubType) -> it.value
-                    else -> it.value.replace(rawSubType, rawSubType + suffix)
                 }
+
+                val newProperties = kotlinClass.properties.mapIndexed { index, property ->
+
+                    val newType = newPropertyTypes[index]
+
+                    val newValue = newPropertyDefaultValues[index]
+
+                    property.copy(type = newType, value = newValue)
+                }
+                kotlinClass.copy(name = originName + suffix, properties = newProperties)
+            } else {
+                kotlinClass
             }
-
-            val newProperties = kotlinDataClass.properties.mapIndexed { index, property ->
-
-                val newType = newPropertyTypes[index]
-
-                val newValue = newPropertyDefaultValues[index]
-
-                property.copy(type = newType, value = newValue)
-            }
-
-
-            kotlinDataClass.copy(name = originName + suffix, properties = newProperties)
 
         } else {
-            kotlinDataClass
+            kotlinClass
         }
 
     }

@@ -3,23 +3,26 @@ package wu.seal.jsontokotlin.interceptor.annotations.gson
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.model.codeannotations.GsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 
-class AddGsonAnnotationInterceptor : IKotlinDataClassInterceptor {
-
-
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+class AddGsonAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
 
-        val addGsonAnnotationProperties = kotlinDataClass.properties.map {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+        return if (kotlinClass is KotlinDataClass) {
+            val addGsonAnnotationProperties = kotlinClass.properties.map {
 
-            it.copy(annotations =  GsonPropertyAnnotationTemplate(it.originName).getAnnotations(),name = camelCaseName)
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+
+                it.copy(annotations = GsonPropertyAnnotationTemplate(it.originName).getAnnotations(), name = camelCaseName)
+            }
+            kotlinClass.copy(properties = addGsonAnnotationProperties)
+        } else {
+            kotlinClass
         }
 
-
-        return kotlinDataClass.copy(properties = addGsonAnnotationProperties)
     }
 
 }

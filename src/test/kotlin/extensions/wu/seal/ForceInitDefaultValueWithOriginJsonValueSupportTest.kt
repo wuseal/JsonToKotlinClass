@@ -3,7 +3,6 @@ package extensions.wu.seal
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.applyInterceptor
 import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 

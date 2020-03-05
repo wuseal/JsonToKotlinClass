@@ -3,21 +3,26 @@ package wu.seal.jsontokotlin.interceptor.annotations.moshi
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.model.codeannotations.MoshiPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 
-class AddMoshiAnnotationInterceptor : IKotlinDataClassInterceptor {
+class AddMoshiAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val addMoshiCodeGenAnnotationProperties = kotlinDataClass.properties.map {
+        if (kotlinClass is KotlinDataClass) {
+            val addMoshiCodeGenAnnotationProperties = kotlinClass.properties.map {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
 
-            it.copy(annotations = MoshiPropertyAnnotationTemplate(it.originName).getAnnotations(), name = camelCaseName)
+                it.copy(annotations = MoshiPropertyAnnotationTemplate(it.originName).getAnnotations(), name = camelCaseName)
+            }
+
+            return kotlinClass.copy(properties = addMoshiCodeGenAnnotationProperties)
+        } else {
+            return kotlinClass
         }
-
-        return kotlinDataClass.copy(properties = addMoshiCodeGenAnnotationProperties)
 
     }
 }

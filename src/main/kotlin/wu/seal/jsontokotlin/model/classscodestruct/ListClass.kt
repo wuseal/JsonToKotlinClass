@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.utils.getIndent
 
 /**
@@ -40,9 +40,9 @@ ${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode()
         }
     }
 
-    override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinClass {
-        val newGenerics = generic.applyInterceptors(enabledKotlinDataClassInterceptors)
-        val newImportedClasses = referencedClasses.map { it.applyInterceptors(enabledKotlinDataClassInterceptors) }
+    override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
+        val newGenerics = generic.applyInterceptors(enabledKotlinClassInterceptors)
+        val newImportedClasses = referencedClasses.map { it.applyInterceptors(enabledKotlinClassInterceptors) }
         return copy(generic = newGenerics, referencedClasses = newImportedClasses)
     }
 }

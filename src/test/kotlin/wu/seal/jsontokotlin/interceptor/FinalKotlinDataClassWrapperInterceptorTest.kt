@@ -16,7 +16,7 @@ class FinalKotlinDataClassWrapperInterceptorTest {
     @Test
     fun intercept() {
         with("""{"in":"","as":1,"dupa":1.0,"1ab":99999999999999,"ab_c${"$"}d":"","":1}""") {
-            generateKotlinDataClass("A").applyInterceptors(listOf(CommentOffInterceptor, FinalKotlinDataClassWrapperInterceptor()))
+            generateKotlinDataClass("A").applyInterceptors(listOf(CommentOffInterceptor, FinalKotlinClassWrapperInterceptor()))
         }.getCode().should.be.equal("""data class A(
     val `in`: String,
     val `as`: Int,

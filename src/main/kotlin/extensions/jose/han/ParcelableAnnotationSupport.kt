@@ -2,6 +2,7 @@ package extensions.jose.han
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
@@ -30,21 +31,23 @@ object ParcelableAnnotationSupport : Extension() {
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(configKey).toBoolean()) {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-            val classAnnotationString1 = "@SuppressLint(\"ParcelCreator\")"
-            val classAnnotationString2 = "@Parcelize"
+        if (kotlinClass is KotlinDataClass) {
+            if (getConfig(configKey).toBoolean()) {
 
-            val classAnnotation1 = Annotation.fromAnnotationString(classAnnotationString1)
-            val classAnnotation2 = Annotation.fromAnnotationString(classAnnotationString2)
+                val classAnnotationString1 = "@SuppressLint(\"ParcelCreator\")"
+                val classAnnotationString2 = "@Parcelize"
 
-            val newAnnotations = mutableListOf(classAnnotation1,classAnnotation2).also { it.addAll(kotlinDataClass.annotations) }
+                val classAnnotation1 = Annotation.fromAnnotationString(classAnnotationString1)
+                val classAnnotation2 = Annotation.fromAnnotationString(classAnnotationString2)
 
-            return kotlinDataClass.copy(annotations = newAnnotations, parentClassTemplate = "Parcelable")
-        } else {
-            kotlinDataClass
+                val newAnnotations = mutableListOf(classAnnotation1, classAnnotation2).also { it.addAll(kotlinClass.annotations) }
+
+                return kotlinClass.copy(annotations = newAnnotations, parentClassTemplate = "Parcelable")
+            }
         }
+        return kotlinClass
     }
 
     override fun intercept(originClassImportDeclaration: String): String {

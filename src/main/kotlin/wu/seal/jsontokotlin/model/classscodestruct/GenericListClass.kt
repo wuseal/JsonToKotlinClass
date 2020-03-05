@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.utils.LogUtil
 
 /**
@@ -27,8 +27,8 @@ data class GenericListClass(override val generic: KotlinClass) : UnModifiableGen
         }
     }
 
-    override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): GenericListClass {
-        return copy(generic = generic.applyInterceptors(enabledKotlinDataClassInterceptors))
+    override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
+        return copy(generic = generic.applyInterceptors(enabledKotlinClassInterceptors))
     }
 
 }

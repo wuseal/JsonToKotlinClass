@@ -2,6 +2,7 @@ package extensions.chen.biao
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
@@ -30,19 +31,23 @@ object KeepAnnotationSupport : Extension() {
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        return if (getConfig(configKey).toBoolean()) {
+        if (kotlinClass is KotlinDataClass) {
+            return if (getConfig(configKey).toBoolean()) {
 
-            val classAnnotationString = "@Keep"
+                val classAnnotationString = "@Keep"
 
-            val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
+                val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
 
-            val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinDataClass.annotations) }
+                val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinClass.annotations) }
 
-            return kotlinDataClass.copy(annotations = newAnnotations)
+                return kotlinClass.copy(annotations = newAnnotations)
+            } else {
+                kotlinClass
+            }
         } else {
-            kotlinDataClass
+            return kotlinClass
         }
 
     }
