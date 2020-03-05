@@ -1,15 +1,21 @@
 package wu.seal.jsontokotlin.interceptor
 
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 
 
-class OrderPropertyByAlphabeticalInterceptor : IKotlinDataClassInterceptor {
+class OrderPropertyByAlphabeticalInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
+        if (kotlinClass is KotlinDataClass) {
 
-        val orderByAlphabeticalProperties = kotlinDataClass.properties.sortedBy { it.name }
+            val orderByAlphabeticalProperties = kotlinClass.properties.sortedBy { it.name }
 
-        return kotlinDataClass.copy(properties = orderByAlphabeticalProperties)
+            return kotlinClass.copy(properties = orderByAlphabeticalProperties)
+        } else {
+            return kotlinClass
+        }
+
     }
 }
 

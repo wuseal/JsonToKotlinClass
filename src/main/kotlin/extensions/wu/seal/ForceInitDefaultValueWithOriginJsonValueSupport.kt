@@ -1,6 +1,7 @@
 package extensions.wu.seal
 
 import extensions.Extension
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.ui.checkBox
@@ -33,21 +34,27 @@ object ForceInitDefaultValueWithOriginJsonValueSupport : Extension() {
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(configKey).toBoolean()) {
-            val newP = kotlinDataClass.properties.map {
-                val newV = if (it.originJsonValue.isNullOrBlank()) getDefaultValue(it.type) else {
-                    if (it.type == TYPE_STRING) {
-                        """"${it.originJsonValue}""""
-                    } else {
-                        it.originJsonValue
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
+
+        if (kotlinClass is KotlinDataClass) {
+
+            return if (getConfig(configKey).toBoolean()) {
+                val newP = kotlinClass.properties.map {
+                    val newV = if (it.originJsonValue.isNullOrBlank()) getDefaultValue(it.type) else {
+                        if (it.type == TYPE_STRING) {
+                            """"${it.originJsonValue}""""
+                        } else {
+                            it.originJsonValue
+                        }
                     }
+                    it.copy(value = newV)
                 }
-                it.copy(value = newV)
+                kotlinClass.copy(properties = newP)
+            } else {
+                kotlinClass
             }
-            kotlinDataClass.copy(properties = newP)
         } else {
-            kotlinDataClass
+            return  kotlinClass
         }
     }
 }

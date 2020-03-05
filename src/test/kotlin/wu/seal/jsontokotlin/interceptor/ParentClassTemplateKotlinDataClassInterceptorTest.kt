@@ -21,7 +21,7 @@ class ParentClassTemplateKotlinDataClassInterceptorTest {
         val json = """{a:2}"""
         val kotlinDataClass =
             KotlinClassMaker("Test", json).makeKotlinClass() as KotlinDataClass
-        val interceptedClass = ParentClassTemplateKotlinDataClassInterceptor().intercept(kotlinDataClass)
+        val interceptedClass = ParentClassTemplateKotlinClassInterceptor().intercept(kotlinDataClass)
         interceptedClass.getCode().should.be.equal(
             """data class Test(
     val a: Int // 2

@@ -4,25 +4,29 @@ import wu.seal.jsontokotlin.model.classscodestruct.Annotation
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.model.codeannotations.MoshiPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 
 /**
  * This interceptor try to add Moshi(code gen) annotation
  */
-class AddMoshiCodeGenAnnotationInterceptor : IKotlinDataClassInterceptor {
+class AddMoshiCodeGenAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val addMoshiCodeGenAnnotationProperties = kotlinDataClass.properties.map {
+        if (kotlinClass is KotlinDataClass) {
+            val addMoshiCodeGenAnnotationProperties = kotlinClass.properties.map {
 
-            val camelCaseName = KPropertyName.makePropertyName(it.originName, true)
-            it.copy(annotations =  MoshiPropertyAnnotationTemplate(it.originName).getAnnotations(),name = camelCaseName)
+                val camelCaseName = KPropertyName.makePropertyName(it.originName, true)
+                it.copy(annotations = MoshiPropertyAnnotationTemplate(it.originName).getAnnotations(), name = camelCaseName)
+            }
+            val classAnnotationString = "@JsonClass(generateAdapter = true)"
+
+            val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
+
+            return kotlinClass.copy(properties = addMoshiCodeGenAnnotationProperties, annotations = listOf(classAnnotation))
+        } else {
+            return kotlinClass
         }
-
-        val classAnnotationString = "@JsonClass(generateAdapter = true)"
-
-        val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
-
-        return kotlinDataClass.copy(properties = addMoshiCodeGenAnnotationProperties,annotations = listOf(classAnnotation))
     }
 }

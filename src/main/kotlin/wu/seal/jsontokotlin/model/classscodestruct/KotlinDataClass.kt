@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.utils.LogUtil
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
@@ -96,13 +96,14 @@ data class KotlinDataClass(
         return code
     }
 
-    override fun applyInterceptors(enabledKotlinDataClassInterceptors: List<IKotlinDataClassInterceptor>): KotlinDataClass {
+
+    override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
         val newProperties = mutableListOf<Property>()
         properties.forEach {
-            newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(enabledKotlinDataClassInterceptors)))
+            newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(enabledKotlinClassInterceptors)))
         }
-        var newKotlinDataClass = copy(properties = newProperties)
-        enabledKotlinDataClassInterceptors.forEach {
+        var newKotlinDataClass: KotlinClass = copy(properties = newProperties)
+        enabledKotlinClassInterceptors.forEach {
             newKotlinDataClass = it.intercept(newKotlinDataClass)
         }
         return newKotlinDataClass
