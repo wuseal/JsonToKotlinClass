@@ -5,7 +5,7 @@ import org.junit.Test
 
 import org.junit.Before
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.ListClass
 import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.test.TestConfig
@@ -39,7 +39,7 @@ class ListClassGeneratorByJSONArrayTest {
     fun generateListClassWithDataClass() {
         val result = ListClassGeneratorByJSONArray("TestList", "[{p1:1}]").generate()
         val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1",typeObject = KotlinClass.INT)
-        val itemClass = KotlinDataClass(name = "TestListItem",properties = listOf(dataClassProperty))
+        val itemClass = DataClass(name = "TestListItem",properties = listOf(dataClassProperty))
         result.should.be.equal(ListClass("TestList", itemClass))
     }
 

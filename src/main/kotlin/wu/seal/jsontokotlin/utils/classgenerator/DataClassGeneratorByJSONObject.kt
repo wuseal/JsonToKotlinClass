@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.utils.TargetJsonElement
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.utils.*
 
@@ -14,7 +14,7 @@ import wu.seal.jsontokotlin.utils.*
  */
 class DataClassGeneratorByJSONObject(private val className: String, private val jsonObject: JsonObject) {
 
-    fun generate(): KotlinDataClass {
+    fun generate(): DataClass {
         if (maybeJsonObjectBeMapType(jsonObject) && ConfigManager.enableMapType) {
             throw IllegalArgumentException("Can't generate data class from a Map type JSONObjcet when enable Map Type : $jsonObject")
         }
@@ -50,14 +50,14 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
                 jsonValue.isJsonObject -> {
                     jsonValue.asJsonObject.run {
                         if (ConfigManager.enableMapType && maybeJsonObjectBeMapType(this)) {
-                            var refKotlinDataClass: KotlinDataClass? = null
+                            var refDataClass: DataClass? = null
                             val mapKeyType = getMapKeyTypeConvertFromJsonObject(this)
                             val mapValueType = getMapValueTypeConvertFromJsonObject(this)
                             if (mapValueIsObjectType(mapValueType)) {
                                 val targetJsonElement =
                                         TargetJsonElement(entrySet().first().value).getTargetJsonElementForGeneratingCode()
                                 if (targetJsonElement.isJsonObject) {
-                                    refKotlinDataClass = DataClassGeneratorByJSONObject(
+                                    refDataClass = DataClassGeneratorByJSONObject(
                                             getChildType(mapValueType),
                                             targetJsonElement.asJsonObject
                                     ).generate()
@@ -70,16 +70,16 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
                                     originName = jsonKey,
                                     originJsonValue = "",
                                     type = mapType,
-                                    typeObject = refKotlinDataClass ?: KotlinClass.ANY
+                                    typeObject = refDataClass ?: KotlinClass.ANY
                             )
                             properties.add(jsonValueObjectMapTypeProperty)
                         } else {
-                            var refKotlinDataClass: KotlinDataClass? = null
+                            var refDataClass: DataClass? = null
                             val type = getJsonObjectType(jsonKey)
                             val targetJsonElement =
                                     TargetJsonElement(this).getTargetJsonElementForGeneratingCode()
                             if (targetJsonElement.isJsonObject) {
-                                refKotlinDataClass = DataClassGeneratorByJSONObject(
+                                refDataClass = DataClassGeneratorByJSONObject(
                                         getRawType(type),
                                         targetJsonElement.asJsonObject
                                 ).generate()
@@ -92,7 +92,7 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
                                     originName = jsonKey,
                                     originJsonValue = "",
                                     type = type,
-                                    typeObject = refKotlinDataClass
+                                    typeObject = refDataClass
                             )
                             properties.add(jsonValueObjectProperty)
                         }
@@ -102,7 +102,7 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
         }
 
         val propertiesAfterConsumeBackStageProperties = properties.consumeBackstageProperties()
-        return KotlinDataClass(name = className, properties = propertiesAfterConsumeBackStageProperties)
+        return DataClass(name = className, properties = propertiesAfterConsumeBackStageProperties)
     }
 
     private fun mapValueIsObjectType(mapValueType: String) = (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE

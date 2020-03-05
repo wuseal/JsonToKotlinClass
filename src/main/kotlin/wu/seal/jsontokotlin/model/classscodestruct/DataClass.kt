@@ -6,7 +6,7 @@ import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
 import java.lang.IllegalStateException
 
-data class KotlinDataClass(
+data class DataClass(
         val annotations: List<Annotation> = listOf(),
         override val name: String,
         val properties: List<Property> = listOf(),

@@ -5,10 +5,10 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
-class ParentClassTemplateKotlinDataClassInterceptorTest {
+class ParentClassTemplateDataClassInterceptorTest {
 
     @Before
     fun setUp() {
@@ -20,7 +20,7 @@ class ParentClassTemplateKotlinDataClassInterceptorTest {
         ConfigManager.parenClassTemplate = "java.io.Serializable()"
         val json = """{a:2}"""
         val kotlinDataClass =
-            KotlinClassMaker("Test", json).makeKotlinClass() as KotlinDataClass
+            KotlinClassMaker("Test", json).makeKotlinClass() as DataClass
         val interceptedClass = ParentClassTemplateKotlinClassInterceptor().intercept(kotlinDataClass)
         interceptedClass.getCode().should.be.equal(
             """data class Test(

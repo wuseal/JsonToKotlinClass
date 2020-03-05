@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.interceptor
 
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 
 /**
  * interceptor to make the code to be like the minimal annotation
@@ -11,7 +11,7 @@ import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
 class MinimalAnnotationKotlinClassInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
-        if (kotlinClass is KotlinDataClass) {
+        if (kotlinClass is DataClass) {
             val newProperties = kotlinClass.properties.map { p ->
                 if (p.originName == p.name) {
                     p.copy(annotations = p.annotations.filter { it.rawName.isEmpty() })

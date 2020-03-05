@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.model.TargetJsonConverter
@@ -319,7 +319,7 @@ class KotlinCodeMakerTest {
         val price: Double
     )
 }""".trimIndent()
-      val dataClass = KotlinClassMaker("TestData", json).makeKotlinClass() as KotlinDataClass
+      val dataClass = KotlinClassMaker("TestData", json).makeKotlinClass() as DataClass
       dataClass.properties[3].originJsonValue.should.be.`null`
       val result = dataClass.getCode()
     result.trim().should.be.equal(expected)

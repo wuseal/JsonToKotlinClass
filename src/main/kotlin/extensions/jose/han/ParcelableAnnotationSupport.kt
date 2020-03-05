@@ -3,7 +3,7 @@ package extensions.jose.han
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import wu.seal.jsontokotlin.ui.link
@@ -33,7 +33,7 @@ object ParcelableAnnotationSupport : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        if (kotlinClass is KotlinDataClass) {
+        if (kotlinClass is DataClass) {
             if (getConfig(configKey).toBoolean()) {
 
                 val classAnnotationString1 = "@SuppressLint(\"ParcelCreator\")"

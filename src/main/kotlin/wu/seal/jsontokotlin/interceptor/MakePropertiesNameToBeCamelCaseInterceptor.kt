@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.interceptor
 
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 
 class MakePropertiesNameToBeCamelCaseInterceptor : IKotlinClassInterceptor<KotlinClass> {
@@ -9,7 +9,7 @@ class MakePropertiesNameToBeCamelCaseInterceptor : IKotlinClassInterceptor<Kotli
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
 
-        if (kotlinClass is KotlinDataClass) {
+        if (kotlinClass is DataClass) {
 
             val camelCaseNameProperties = kotlinClass.properties.map {
 

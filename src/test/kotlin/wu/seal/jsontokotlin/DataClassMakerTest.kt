@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.model.classscodestruct.GenericListClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
@@ -13,7 +13,7 @@ import wu.seal.jsontokotlin.utils.KotlinClassMaker
  * created by karthik on 2018/15/12
  *
  */
-class KotlinDataClassMakerTest {
+class DataClassMakerTest {
     val json ="""
 {
     "glossary":{
@@ -48,13 +48,13 @@ class KotlinDataClassMakerTest {
 
     @Test
     fun testMakeKotlinDataClass() {
-        val dataClass = KotlinClassMaker("Test", json).makeKotlinClass() as KotlinDataClass
+        val dataClass = KotlinClassMaker("Test", json).makeKotlinClass() as DataClass
         dataClass.name.should.be.equal("Test")
         val p1 = dataClass.properties[0]
         p1.name.should.be.equal("glossary")
         p1.type.should.be.equal("Glossary")
         p1.typeObject.should.not.`null`
-        val p1RefDataClass = p1.typeObject as KotlinDataClass
+        val p1RefDataClass = p1.typeObject as DataClass
         p1RefDataClass.name.should.be.equal("Glossary")
 
         val p1p1 = p1RefDataClass.properties[0]
@@ -66,7 +66,7 @@ class KotlinDataClassMakerTest {
         p1p2.name.should.be.equal("GlossDiv")
         p1p2.type.should.be.equal("GlossDiv")
         p1p2.typeObject.should.not.`null`
-        val p1p2RefDataClass = p1p2.typeObject as KotlinDataClass
+        val p1p2RefDataClass = p1p2.typeObject as DataClass
         p1p2RefDataClass.name.should.be.equal("GlossDiv")
         p1p2RefDataClass.properties.size.should.be.equal(2)
 
@@ -80,7 +80,7 @@ class KotlinDataClassMakerTest {
         p1p2p2.name.should.be.equal("GlossList")
         p1p2p2.type.should.be.equal("GlossList")
         p1p2p2.typeObject.should.not.`null`
-        val p1p2p2RefDataClass = p1p2p2.typeObject as KotlinDataClass
+        val p1p2p2RefDataClass = p1p2p2.typeObject as DataClass
         p1p2p2RefDataClass.name.should.be.equal("GlossList")
         p1p2p2RefDataClass.properties.size.should.be.equal(1)
 
@@ -89,7 +89,7 @@ class KotlinDataClassMakerTest {
         p1p2p2p1.name.should.be.equal("GlossEntry")
         p1p2p2p1.type.should.be.equal("GlossEntry")
         p1p2p2p1.originJsonValue.should.be.empty
-        val p1p2p2p1RefDataClass = p1p2p2p1.typeObject as KotlinDataClass
+        val p1p2p2p1RefDataClass = p1p2p2p1.typeObject as DataClass
         p1p2p2p1RefDataClass.properties.size.should.be.equal(7)
 
         val glossEntryP1 = p1p2p2p1RefDataClass.properties[0]
@@ -135,7 +135,7 @@ class KotlinDataClassMakerTest {
         glossEntryP6.typeObject.should.be.not.`null`
         glossEntryP6.originJsonValue.should.be.empty
 
-        val glossDefDataClass = glossEntryP6.typeObject as KotlinDataClass
+        val glossDefDataClass = glossEntryP6.typeObject as DataClass
         glossDefDataClass.name.should.be.equal("GlossDef")
         glossDefDataClass.properties.size.should.be.equal(2)
 
@@ -184,7 +184,7 @@ class KotlinDataClassMakerTest {
                 type.should.be.equal("Detail")
                 originJsonValue.should.be.equal("")
                 typeObject.should.not.be.`null`
-                (typeObject as KotlinDataClass).run {
+                (typeObject as DataClass).run {
                     name.should.be.equal("Detail")
                     properties.size.should.be.equal(4)
                     properties[0].run {
@@ -204,7 +204,7 @@ class KotlinDataClassMakerTest {
                         originJsonValue.should.equal("")
                         type.should.be.equal("List<Module>")
                         typeObject.should.not.be.`null`
-                        ((typeObject as GenericListClass).generic as KotlinDataClass).run {
+                        ((typeObject as GenericListClass).generic as DataClass).run {
                             name.should.be.equal("Module")
                             properties.size.should.be.equal(1)
                             properties[0].run {

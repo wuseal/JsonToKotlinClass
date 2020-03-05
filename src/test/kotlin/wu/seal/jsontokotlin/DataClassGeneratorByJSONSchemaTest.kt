@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.model.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
 
@@ -104,7 +104,7 @@ class DataClassGeneratorByJSONSchemaTest {
         nestProperty.name.should.be.equal("nested")
         nestProperty.type.should.be.equal("nested")
         nestProperty.typeObject.should.not.be.`null`
-        val nestDataClass = nestProperty.typeObject as KotlinDataClass
+        val nestDataClass = nestProperty.typeObject as DataClass
         nestDataClass.properties.size.should.be.equal(6)
 
         nestDataClass.properties[0].name.should.be.equal("grades")

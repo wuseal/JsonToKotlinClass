@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.interceptor.annotations.fastjson
 
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.codeannotations.FastjsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
@@ -10,7 +10,7 @@ class AddFastJsonAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        return if (kotlinClass is KotlinDataClass) {
+        return if (kotlinClass is DataClass) {
 
             val addFastJsonAnnotationProperties = kotlinClass.properties.map {
 
