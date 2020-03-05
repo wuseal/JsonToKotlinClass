@@ -4,7 +4,7 @@ import extensions.Extension
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
@@ -27,7 +27,7 @@ object PrimitiveTypeNonNullableSupport : Extension() {
             return kotlinClass
         }
 
-        if (kotlinClass is KotlinDataClass) {
+        if (kotlinClass is DataClass) {
 
             val primitiveTypeNonNullableProperties = kotlinClass.properties.map {
                 if (it.type in NULLABLE_PRIMITIVE_TYPES) {

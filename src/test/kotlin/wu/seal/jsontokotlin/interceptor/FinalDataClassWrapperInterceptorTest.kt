@@ -6,7 +6,7 @@ import org.junit.Test
 import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
-class FinalKotlinDataClassWrapperInterceptorTest {
+class FinalDataClassWrapperInterceptorTest {
 
     @Before
     fun before() {

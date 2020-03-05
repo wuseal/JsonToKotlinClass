@@ -5,13 +5,13 @@ import wu.seal.jsontokotlin.model.codeannotations.LoganSquarePropertyAnnotationT
 import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 
 class AddLoganSquareAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        if (kotlinClass is KotlinDataClass) {
+        if (kotlinClass is DataClass) {
             val addLoganSquareAnnotationProperties = kotlinClass.properties.map {
 
                 val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)

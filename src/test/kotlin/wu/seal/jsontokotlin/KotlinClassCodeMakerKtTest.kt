@@ -4,7 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.model.classscodestruct.GenericListClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.TYPE_STRING
 
@@ -22,11 +22,11 @@ class KotlinClassCodeMakerKtTest {
         val dataClass = json.generateKotlinDataClass()
         val splitClasses = dataClass.getAllModifiableClassesRecursivelyIncludeSelf()
         splitClasses.size.should.be.equal(2)
-        splitClasses[0].should.instanceof(KotlinDataClass::class.java)
-        val s0 = splitClasses[0] as KotlinDataClass
+        splitClasses[0].should.instanceof(DataClass::class.java)
+        val s0 = splitClasses[0] as DataClass
         s0.properties.size.should.be.equal(3)
         s0.name.should.equal("Test")
-        val s1 = splitClasses[1] as KotlinDataClass
+        val s1 = splitClasses[1] as DataClass
         s0.properties[2].typeObject.should.equal(s1)
         s1.name.should.equal("C")
         s1.properties.size.should.equal(1)
@@ -48,10 +48,10 @@ class KotlinClassCodeMakerKtTest {
                       }
                     }
 """
-        val dataClass = json.generateKotlinDataClass("C").resolveNameConflicts() as KotlinDataClass
+        val dataClass = json.generateKotlinDataClass("C").resolveNameConflicts() as DataClass
         dataClass.name.should.be.equal("C")
         dataClass.properties[2].type.should.be.equal("CX")
-        val typeObject = dataClass.properties[2].typeObject as KotlinDataClass
+        val typeObject = dataClass.properties[2].typeObject as DataClass
         typeObject.name.should.be.equal("CX")
         typeObject.properties[1].type.should.be.equal("CXX")
         typeObject.properties[1].typeObject.name.should.be.equal("CXX")
@@ -71,10 +71,10 @@ class KotlinClassCodeMakerKtTest {
                       }
                     }
 """
-        val dataClass = json.generateKotlinDataClass("A").resolveNameConflicts() as KotlinDataClass
+        val dataClass = json.generateKotlinDataClass("A").resolveNameConflicts() as DataClass
         dataClass.name.should.be.equal("A")
         dataClass.properties[2].type.should.be.equal("C")
-        val typeObject = dataClass.properties[2].typeObject as KotlinDataClass
+        val typeObject = dataClass.properties[2].typeObject as DataClass
         typeObject.name.should.be.equal("C")
         typeObject.properties[1].type.should.be.equal("CX")
         typeObject.properties[1].typeObject.name.should.be.equal("CX")
@@ -95,7 +95,7 @@ class KotlinClassCodeMakerKtTest {
         }
         """.trimIndent()
         val generateKotlinDataClass = json.generateKotlinDataClass("Test")
-        val dataClass = generateKotlinDataClass.resolveNameConflicts() as KotlinDataClass
+        val dataClass = generateKotlinDataClass.resolveNameConflicts() as DataClass
         dataClass.run {
             name.should.be.equal("Test")
             properties.size.should.be.equal(3)
@@ -112,7 +112,7 @@ class KotlinClassCodeMakerKtTest {
                 type.should.be.equal("Detail")
                 originJsonValue.should.be.equal("")
                 typeObject.should.not.be.`null`
-                (typeObject as KotlinDataClass).run {
+                (typeObject as DataClass).run {
                     name.should.be.equal("Detail")
                     properties.size.should.be.equal(4)
                     properties[0].run {
@@ -132,7 +132,7 @@ class KotlinClassCodeMakerKtTest {
                         originJsonValue.should.equal("")
                         type.should.be.equal("List<Module>")
                         typeObject.should.not.be.`null`
-                        ((typeObject as GenericListClass).generic as KotlinDataClass).run {
+                        ((typeObject as GenericListClass).generic as DataClass).run {
                             name.should.be.equal("Module")
                             properties.size.should.be.equal(1)
                             properties[0].run {

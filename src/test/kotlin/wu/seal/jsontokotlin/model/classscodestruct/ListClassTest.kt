@@ -20,7 +20,7 @@ class ListClassTest {
         listClass.getOnlyCurrentCode().should.equal(expected)
 
         val dataClassProperty = Property(name = "p1", originName = "p1", type = "String", typeObject = KotlinClass.STRING)
-        val generic = KotlinDataClass(name = "Data", properties = listOf(dataClassProperty))
+        val generic = DataClass(name = "Data", properties = listOf(dataClassProperty))
         val listClass2 = ListClass("ListTest", generic)
         val expected2 = """
             class ListTest : ArrayList<Data>()
@@ -47,7 +47,7 @@ class ListClassTest {
     @Test
     fun getCode() {
         val dataClassProperty = Property(name = "p1", originName = "p1", type = "String", typeObject = KotlinClass.STRING)
-        val generic = KotlinDataClass(name = "Data", properties = listOf(dataClassProperty))
+        val generic = DataClass(name = "Data", properties = listOf(dataClassProperty))
         val listClass = ListClass("ListTest", generic)
         val expected = """
             class ListTest : ArrayList<Data>(){
@@ -67,7 +67,7 @@ class ListClassTest {
         listClass.referencedClasses[0].should.be.equal(KotlinClass.ANY)
 
         val dataClassProperty = Property(name = "p1", originName = "p1", type = "String", typeObject = KotlinClass.STRING)
-        val generic = KotlinDataClass(name = "Data", properties = listOf(dataClassProperty))
+        val generic = DataClass(name = "Data", properties = listOf(dataClassProperty))
         val listClass2 = ListClass("ListTest", generic)
         listClass2.referencedClasses.size.should.be.equal(1)
         listClass2.referencedClasses[0].should.be.equal(generic)
