@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin
 
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 /**
@@ -9,3 +8,16 @@ import wu.seal.jsontokotlin.utils.KotlinClassMaker
  */
 fun String.generateKotlinDataClass(className: String = "Test") =
     KotlinClassMaker(className, this).makeKotlinClass() as KotlinDataClass
+
+
+/**
+ * Generate kotlin classes with root name 'Test'
+ */
+fun String.generateKotlinClass(className: String = "Test") =
+        KotlinClassMaker(className, this).makeKotlinClass()
+
+/**
+ * Generate kotlin classes code with root name 'Test'
+ */
+fun String.generateKotlinClassCode(className: String = "Test") =
+        KotlinCodeMaker(className, this).makeKotlinData()
