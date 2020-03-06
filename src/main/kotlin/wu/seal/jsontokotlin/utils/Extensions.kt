@@ -169,7 +169,7 @@ fun JsonArray.allElementAreSamePrimitiveType(): Boolean {
     return allElementAreSamePrimitiveType
 }
 
-private fun theSamePrimitiveType(first: JsonPrimitive, second: JsonPrimitive): Boolean {
+fun theSamePrimitiveType(first: JsonPrimitive, second: JsonPrimitive): Boolean {
 
     val sameBoolean = first.isBoolean && second.isBoolean
 

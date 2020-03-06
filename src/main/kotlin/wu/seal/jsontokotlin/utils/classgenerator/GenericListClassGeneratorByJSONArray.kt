@@ -41,7 +41,7 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 return GenericListClass(generic = dataClassFromJsonObj)
             }
             jsonArray.allItemAreArrayElement() -> {
-                val fatJsonArray = getFatJsonArray(jsonArray)
+                val fatJsonArray = getFatJsonArray(jsonArray.map { it.asJsonArray })
                 val genericListClassFromFatJsonArray = GenericListClassGeneratorByJSONArray(jsonKey, fatJsonArray.toString()).generate()
                 LogUtil.i("$tag jsonArray allItemAreArrayElement, return GenericListClass with generic type ${genericListClassFromFatJsonArray.name}")
                 return GenericListClass(generic = genericListClassFromFatJsonArray)
@@ -57,13 +57,10 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
         return adjustPropertyNameForGettingArrayChildType(jsonKey)
     }
 
-    private fun getFatJsonArray(jsonArray: JsonArray): JsonArray {
-        if (jsonArray.size() == 0 || !jsonArray.allItemAreArrayElement()) {
-            throw IllegalStateException("input arg jsonArray must not be empty and all element should be json array! ")
-        }
+    private fun getFatJsonArray(jsonArrayList: List<JsonArray>): JsonArray {
         val fatJsonArray = JsonArray()
-        jsonArray.forEach {
-            fatJsonArray.addAll(it.asJsonArray)
+        jsonArrayList.forEach {
+            fatJsonArray.addAll(it)
         }
         return fatJsonArray
     }
@@ -87,11 +84,19 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 // and will not be generated in final code
                 fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
             } else if (fatJsonObject.has(key)) {
-                if (fatJsonObject[key].isJsonObject && value.isJsonObject) {
+                if (fatJsonObject[key].isJsonObject && value.isJsonObject) {//try not miss any fields of the key's related json object
                     val newValue = getFatJsonObject(JsonArray().apply { add(fatJsonObject[key]);add(value) })
                     fatJsonObject.add(key, newValue)
+                } else if (fatJsonObject[key].isJsonArray && value.isJsonArray) {////try not miss any elements of the key's related json array
+                    val newValue = getFatJsonArray(listOf(fatJsonObject[key].asJsonArray, value.asJsonArray))
+                    fatJsonObject.add(key, newValue)
+                } else if (fatJsonObject[key].isJsonPrimitive && value.isJsonPrimitive && theSamePrimitiveType(fatJsonObject[key].asJsonPrimitive, value.asJsonPrimitive)) {
+                    //if the value and exist value are the same primitive type then ignore it
+                } else if (value.isJsonNull) {
+                    //if the value is null, we ignore this value
                 } else {
-                    fatJsonObject.add(key, value)
+                    //others the two values of the key are not the same type, then give it a null value indicate that it's should be an Any Type in Kotlin
+                    fatJsonObject.add(key, JsonNull.INSTANCE)
                 }
             } else {
                 fatJsonObject.add(key, value)
