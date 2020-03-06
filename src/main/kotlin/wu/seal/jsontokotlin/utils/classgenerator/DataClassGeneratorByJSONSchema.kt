@@ -3,14 +3,14 @@ package wu.seal.jsontokotlin.utils.classgenerator
 import wu.seal.jsontokotlin.model.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.model.classscodestruct.GenericListClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.utils.*
 
 class DataClassGeneratorByJSONSchema(private val rootClassName: String, private val jsonSchema: JsonSchema) {
 
-    fun generate(): KotlinDataClass {
+    fun generate(): DataClass {
         val requires = jsonSchema.required
         val properties = mutableListOf<Property>()
         jsonSchema.properties.forEach { (name, schema) ->
@@ -99,7 +99,7 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
                 else -> throw UnsupportedOperationException("Can't support this type in jsonschema ${jsonSchema.type}")
             }
         }
-        return KotlinDataClass(name = rootClassName, properties = properties)
+        return DataClass(name = rootClassName, properties = properties)
     }
 
     private fun getItemTypeOfArray(schema: JsonSchema): KotlinClass {

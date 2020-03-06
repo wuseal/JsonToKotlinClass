@@ -2,7 +2,7 @@ package extensions.wu.seal
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.ui.NamingConventionDocument
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
@@ -42,7 +42,7 @@ object ClassNameSuffixSupport : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        return if (kotlinClass is KotlinDataClass) {
+        return if (kotlinClass is DataClass) {
             val suffix = getConfig(suffixKey)
             return if (getConfig(suffixKeyEnable).toBoolean() && suffix.isNotEmpty()) {
                 val standTypes = listOf("Int", "Double", "Long", "String", "Boolean")

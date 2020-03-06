@@ -2,7 +2,7 @@ package extensions.ted.zeng
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
@@ -30,7 +30,7 @@ object PropertyAnnotationLineSupport : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        return if (kotlinClass is KotlinDataClass) {
+        return if (kotlinClass is DataClass) {
             if (getConfig(configKey).toBoolean()) {
                 kotlinClass.properties.forEach(Property::letLastAnnotationStayInSameLine)
             }

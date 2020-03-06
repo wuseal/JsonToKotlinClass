@@ -6,7 +6,12 @@ import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
 import java.lang.IllegalStateException
 
-data class KotlinDataClass(
+/**
+ * Created by Seal.Wu on 2020-03-05
+ * Normal general class code struct
+ * diff with data class is that there no 'data' modifier
+ */
+data class NormalClass(
         val annotations: List<Annotation> = listOf(),
         override val name: String,
         val properties: List<Property> = listOf(),
@@ -68,7 +73,7 @@ data class KotlinDataClass(
             if (properties.isEmpty()) {
                 append("class ").append(name).append("(").append("\n")
             } else {
-                append("data class ").append(name).append("(").append("\n")
+                append("class ").append(name).append("(").append("\n")
             }
             properties.forEachIndexed { index, property ->
                 val code = property.getCode()
