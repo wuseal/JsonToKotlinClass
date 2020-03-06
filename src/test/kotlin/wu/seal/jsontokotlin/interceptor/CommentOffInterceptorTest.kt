@@ -5,7 +5,7 @@ import org.junit.Test
 
 import org.junit.Before
 import wu.seal.jsontokotlin.generateKotlinDataClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
 class CommentOffInterceptorTest {
@@ -25,7 +25,7 @@ class CommentOffInterceptorTest {
             it.comment.should.be.equal("123")
         }
 
-        (json.generateKotlinDataClass().applyInterceptors(listOf(CommentOffInterceptor)) as KotlinDataClass).properties.forEach {
+        (json.generateKotlinDataClass().applyInterceptors(listOf(CommentOffInterceptor)) as DataClass).properties.forEach {
            it.comment.should.be.empty
        }
 
