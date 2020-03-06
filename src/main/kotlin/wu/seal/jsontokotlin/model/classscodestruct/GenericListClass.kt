@@ -22,7 +22,7 @@ data class GenericListClass(override val generic: KotlinClass) : UnModifiableGen
                 LogUtil.i("Can't find replacement for ${generic.name}")
                 this
             } else {
-                copy(generic = replaceRule.values.toList()[0])
+                copy(generic = replacement)
             }
         }
     }
