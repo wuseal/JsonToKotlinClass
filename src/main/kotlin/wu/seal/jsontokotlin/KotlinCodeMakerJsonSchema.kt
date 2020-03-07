@@ -1,12 +1,7 @@
 package wu.seal.jsontokotlin
 
 import com.google.gson.Gson
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
-import wu.seal.jsontokotlin.codeelements.KProperty
-import wu.seal.jsontokotlin.utils.*
-import java.util.*
 
 //TODO Methods from this class should be moved to KotlinCodeMaker
 object KotlinCodeMakerJsonSchema {

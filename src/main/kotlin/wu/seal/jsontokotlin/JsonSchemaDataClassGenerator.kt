@@ -6,6 +6,7 @@ import wu.seal.jsontokotlin.bean.jsonschema.JsonObjectDef
 import wu.seal.jsontokotlin.bean.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.bean.jsonschema.PropertyDef
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import wu.seal.jsontokotlin.model.ConfigManager
 import kotlin.String
 
 class JsonSchemaDataClassGenerator(private val jsonSchema: JsonSchema, private val mainClassName: String?) {
