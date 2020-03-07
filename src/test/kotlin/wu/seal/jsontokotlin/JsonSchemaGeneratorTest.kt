@@ -4,6 +4,8 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
+import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
 
 class JsonSchemaGeneratorTest {
     @Before
@@ -87,7 +89,7 @@ data class Nested(
     val price: Double
 )
     """.trimIndent()
-        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("TestData", json)
+        val result = json.generateKotlinClassCode("TestData")
         result.trim().should.be.equal(expected)
     }
 
@@ -129,8 +131,7 @@ data class Nested(
     val readOnly: Boolean
 )
     """.trimIndent()
-
-        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("SharedUser", json)
+        val result = json.generateKotlinClassCode("SharedUser")
         result.trim().should.be.equal(expected)
     }
 
@@ -162,7 +163,7 @@ data class Nested(
       data class JaggedArrayTest(val jaggedStringArray: List<List<String>>?)
     """.trimIndent()
 
-        val result = KotlinCodeMakerJsonSchema.parseJSONSchema(null, json)
+        val result = json.generateKotlinClassCode("")
         result.trim().should.be.equal(expected)
     }
 
@@ -221,7 +222,7 @@ data class veggie(
 )
     """.trimIndent()
 
-        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("Sample", json)
+        val result = json.generateKotlinClassCode("Sample")
         result.trim().should.be.equal(expected)
     }
 
@@ -344,7 +345,7 @@ enum class LogEventType(val value: Int) {
 }
     """.trimIndent()
 
-        val result = KotlinCodeMakerJsonSchema.parseJSONSchema("LogEntry", json)
+        val result = json.generateKotlinClassCode("LogEntry")
         result.trim().should.be.equal(expected)
     }
 
@@ -1387,10 +1388,9 @@ enum class StringEscapeHandling(val value: Int) {
     EscapeHtml(2);
 }""".trimIndent()
 
-        val result = KotlinCodeMakerJsonSchema.parseJSONSchema(null, json)
+        val result = json.generateKotlinClassCode("")
         result.trim().should.be.equal(expected)
     }
-
 
 }
 
