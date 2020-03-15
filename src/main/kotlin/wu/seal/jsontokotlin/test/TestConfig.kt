@@ -75,11 +75,11 @@ object TestConfig {
     fun setToTestInitStateForJsonSchema() {
         isTestModel = true
         isCommentOff = false
-        isOrderByAlphabetical = true
+        isOrderByAlphabetical = false
         isPropertiesVar = false
         targetJsonConvertLib = TargetJsonConverter.None
         propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
-        defaultValueStrategy = DefaultValueStrategy.AllowNull
+        defaultValueStrategy = DefaultValueStrategy.None
         isNestedClassModel = false
         customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
         customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +

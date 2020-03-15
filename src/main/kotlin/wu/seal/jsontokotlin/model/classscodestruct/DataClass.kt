@@ -109,7 +109,6 @@ data class DataClass(
 
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
-        if (fromJsonSchema) return this
         val newProperties = mutableListOf<Property>()
         properties.forEach {
             newProperties.add(it.copy(typeObject = it.typeObject.applyInterceptors(enabledKotlinClassInterceptors)))
