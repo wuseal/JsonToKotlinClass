@@ -72,6 +72,32 @@ object TestConfig {
         extensionsConfig = ""
     }
 
+    fun setToTestInitStateForJsonSchema() {
+        isTestModel = true
+        isCommentOff = false
+        isOrderByAlphabetical = true
+        isPropertiesVar = false
+        targetJsonConvertLib = TargetJsonConverter.None
+        propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
+        defaultValueStrategy = DefaultValueStrategy.AllowNull
+        isNestedClassModel = false
+        customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
+        customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
+                "import kotlinx.serialization.Serializable"
+
+        customClassAnnotationFormatString = "@Serializable"
+
+        enableMinimalAnnotation = false
+
+        indent = 4
+
+        parenClassTemplate = ""
+
+        isKeywordPropertyValid = true
+
+        extensionsConfig = ""
+    }
+
 
     fun saveState() {
         val newState = State()
