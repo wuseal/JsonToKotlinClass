@@ -4,6 +4,7 @@ before_install:
   - chmod +x library/gradle/wrapper/gradle-wrapper.jar
 script:
   - cd library && ./gradlew build test
+  - cd ../
 deploy:
 - provider: releases
   api_key:
