@@ -13,7 +13,7 @@ val JSON_SCHEMA_FORMAT_MAPPINGS = mapOf(
     "date-time" to "org.threeten.bp.OffsetDateTime",
     "date" to "org.threeten.bp.LocalDate",
     "time" to "org.threeten.bp.LocalTime",
-    "decimal" to BigDecimal::class.qualifiedName
+    "decimal" to BigDecimal::class.java.canonicalName
 
     //here can be another formats
 )
