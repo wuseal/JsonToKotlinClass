@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.utils.classgenerator
 
 import wu.seal.jsontokotlin.JSON_SCHEMA_FORMAT_MAPPINGS
 import wu.seal.jsontokotlin.model.classscodestruct.*
+import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.model.jsonschema.JsonObjectDef
 import wu.seal.jsontokotlin.model.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.model.jsonschema.PropertyDef
@@ -57,8 +58,7 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
             val (jsonClassName, realDef) = getRealDefinition(jsonProp)
             resolveTypeClass(realDef.typeString, jsonClassName, realDef, propertyName)
         }
-//        val value = if (isRequired) getDefaultValue(typeClass.name) else null
-        val value = null
+        val value = if (isRequired) getDefaultValue(typeClass.name) else null
         return Property(
                 originName = propertyName,
                 originJsonValue = value,
