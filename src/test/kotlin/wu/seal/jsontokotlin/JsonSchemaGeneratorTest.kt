@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
 import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
@@ -10,7 +11,7 @@ import wu.seal.jsontokotlin.utils.classgenerator.DataClassGeneratorByJSONSchema
 class JsonSchemaGeneratorTest {
     @Before
     fun setUp() {
-        TestConfig.setToTestInitState()
+        TestConfig.setToTestInitStateForJsonSchema()
     }
 
     @Test
@@ -160,7 +161,9 @@ data class Nested(
     """.trimIndent()
 
         val expected = """
-      data class JaggedArrayTest(val jaggedStringArray: List<List<String>>?)
+data class JaggedArrayTest(
+    val jaggedStringArray: List<List<String>>?
+)
     """.trimIndent()
 
         val result = json.generateKotlinClassCode("")
@@ -208,7 +211,10 @@ data class Nested(
         val expected = """/**
  * A representation of a person, company, organization, or place
  */
-data class Sample(val fruits: List<String>, val vegetables: List<veggie>)
+data class Sample(
+    val fruits: List<String>,
+    val vegetables: List<veggie>
+)
 
 data class veggie(
     /**
@@ -352,7 +358,7 @@ enum class LogEventType(val value: Int) {
     @Test
     fun testJsonSchemaComplicated() {
         val json = """{
-  ${"$"}schema": "http://json-schema.org/draft-04/schema#",
+  "${"$"}schema": "http://json-schema.org/draft-04/schema#",
   "title": "JsonSerializer",
   "type": "object",
   "description": "Serializes and deserializes objects into and from the JSON format.\nThe JsonSerializer enables you to control how objects are encoded into JSON.",
@@ -365,7 +371,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/IReferenceResolver"
+         "${"$"}ref": "#/definitions/IReferenceResolver"
         }
       ]
     },
@@ -376,7 +382,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/SerializationBinder"
+         "${"$"}ref": "#/definitions/SerializationBinder"
         }
       ]
     },
@@ -387,7 +393,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/ISerializationBinder"
+         "${"$"}ref": "#/definitions/ISerializationBinder"
         }
       ]
     },
@@ -398,7 +404,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/ITraceWriter"
+         "${"$"}ref": "#/definitions/ITraceWriter"
         }
       ]
     },
@@ -409,7 +415,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/IEqualityComparer"
+         "${"$"}ref": "#/definitions/IEqualityComparer"
         }
       ]
     },
@@ -417,7 +423,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how type name writing and reading is handled by the serializer.\nThe default value is None.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/TypeNameHandling"
+         "${"$"}ref": "#/definitions/TypeNameHandling"
         }
       ]
     },
@@ -425,7 +431,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how a type name assembly is written and resolved by the serializer.\nThe default value is Simple.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/FormatterAssemblyStyle"
+         "${"$"}ref": "#/definitions/FormatterAssemblyStyle"
         }
       ]
     },
@@ -433,7 +439,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how a type name assembly is written and resolved by the serializer.\nThe default value is Simple.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/TypeNameAssemblyFormatHandling"
+         "${"$"}ref": "#/definitions/TypeNameAssemblyFormatHandling"
         }
       ]
     },
@@ -441,7 +447,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how object references are preserved by the serializer.\nThe default value is None.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/PreserveReferencesHandling"
+         "${"$"}ref": "#/definitions/PreserveReferencesHandling"
         }
       ]
     },
@@ -449,7 +455,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how reference loops (e.g. a class referencing itself) is handled.\nThe default value is Error.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/ReferenceLoopHandling"
+         "${"$"}ref": "#/definitions/ReferenceLoopHandling"
         }
       ]
     },
@@ -457,7 +463,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.\nThe default value is Ignore.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/MissingMemberHandling"
+         "${"$"}ref": "#/definitions/MissingMemberHandling"
         }
       ]
     },
@@ -465,7 +471,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how null values are handled during serialization and deserialization.\nThe default value is Include.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/NullValueHandling"
+         "${"$"}ref": "#/definitions/NullValueHandling"
         }
       ]
     },
@@ -473,7 +479,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how default values are handled during serialization and deserialization.\nThe default value is Include.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/DefaultValueHandling"
+         "${"$"}ref": "#/definitions/DefaultValueHandling"
         }
       ]
     },
@@ -481,7 +487,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how objects are created during deserialization.\nThe default value is Auto.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/ObjectCreationHandling"
+         "${"$"}ref": "#/definitions/ObjectCreationHandling"
         }
       ]
     },
@@ -489,7 +495,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how constructors are used during deserialization.\nThe default value is Default.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/ConstructorHandling"
+         "${"$"}ref": "#/definitions/ConstructorHandling"
         }
       ]
     },
@@ -497,7 +503,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how metadata properties are used during deserialization.\nThe default value is Default.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/MetadataPropertyHandling"
+         "${"$"}ref": "#/definitions/MetadataPropertyHandling"
         }
       ]
     },
@@ -508,7 +514,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/JsonConverterCollection"
+         "${"$"}ref": "#/definitions/JsonConverterCollection"
         }
       ]
     },
@@ -519,7 +525,7 @@ enum class LogEventType(val value: Int) {
           "type": "null"
         },
         {
-          ${"$"}ref: "#/definitions/IContractResolver"
+         "${"$"}ref": "#/definitions/IContractResolver"
         }
       ]
     },
@@ -527,7 +533,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets the StreamingContext used by the serializer when invoking serialization callback methods.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/StreamingContext"
+         "${"$"}ref": "#/definitions/StreamingContext"
         }
       ]
     },
@@ -535,7 +541,7 @@ enum class LogEventType(val value: Int) {
       "description": "Indicates how JSON text output is formatted.\nThe default value is None.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/Formatting"
+         "${"$"}ref": "#/definitions/Formatting"
         }
       ]
     },
@@ -543,7 +549,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how dates are written to JSON text.\nThe default value is IsoDateFormat.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/DateFormatHandling"
+         "${"$"}ref": "#/definitions/DateFormatHandling"
         }
       ]
     },
@@ -551,7 +557,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how DateTime time zones are handled during serialization and deserialization.\nThe default value is RoundtripKind.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/DateTimeZoneHandling"
+         "${"$"}ref": "#/definitions/DateTimeZoneHandling"
         }
       ]
     },
@@ -559,7 +565,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how date formatted strings, e.g. \"\\/Date(1198908717056)\\/\" and \"2012-03-21T05:40Z\", are parsed when reading JSON.\nThe default value is DateTime.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/DateParseHandling"
+         "${"$"}ref": "#/definitions/DateParseHandling"
         }
       ]
     },
@@ -567,7 +573,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.\nThe default value is Double.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/FloatParseHandling"
+         "${"$"}ref": "#/definitions/FloatParseHandling"
         }
       ]
     },
@@ -575,7 +581,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how special floating point numbers, e.g. NaN,\nPositiveInfinity and NegativeInfinity,\nare written as JSON text.\nThe default value is String.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/FloatFormatHandling"
+         "${"$"}ref": "#/definitions/FloatFormatHandling"
         }
       ]
     },
@@ -583,7 +589,7 @@ enum class LogEventType(val value: Int) {
       "description": "Gets or sets how strings are escaped when writing JSON text.\nThe default value is Default.",
       "oneOf": [
         {
-          ${"$"}ref: "#/definitions/StringEscapeHandling"
+         "${"$"}ref": "#/definitions/StringEscapeHandling"
         }
       ]
     },
@@ -642,7 +648,7 @@ enum class LogEventType(val value: Int) {
           "description": "Gets the TraceLevel that will be used to filter the trace messages passed to the writer.\nFor example a filter level of Info will exclude Verbose messages and include Info,\nWarning and Error messages.",
           "oneOf": [
             {
-              ${"$"}ref: "#/definitions/TraceLevel"
+             "${"$"}ref": "#/definitions/TraceLevel"
             }
           ]
         }
@@ -830,7 +836,7 @@ enum class LogEventType(val value: Int) {
       "type": "array",
       "description": "Represents a collection of JsonConverter.",
       "items": {
-        ${"$"}ref: "#/definitions/JsonConverter"
+       "${"$"}ref": "#/definitions/JsonConverter"
       }
     },
     "JsonConverter": {
@@ -860,7 +866,7 @@ enum class LogEventType(val value: Int) {
       "additionalProperties": false,
       "properties": {
         "State": {
-          ${"$"}ref: "#/definitions/StreamingContextStates"
+         "${"$"}ref": "#/definitions/StreamingContextStates"
         },
         "Context": {
           "oneOf": [
@@ -997,396 +1003,384 @@ enum class LogEventType(val value: Int) {
 }
     """.trimIndent()
 
-        val expected = """/**
- * Serializes and deserializes objects into and from the JSON format.
- * The JsonSerializer enables you to control how objects are encoded into JSON.
- */
-data class JsonSerializer(
-    /**
-     * Gets or sets the IReferenceResolver used by the serializer when resolving references.
-     */
-    val ReferenceResolver: IReferenceResolver?,
-    /**
-     * Gets or sets the SerializationBinder used by the serializer when resolving type names.
-     */
-    val Binder: SerializationBinder?,
-    /**
-     * Gets or sets the ISerializationBinder used by the serializer when resolving type names.
-     */
-    val SerializationBinder: ISerializationBinder?,
-    /**
-     * Gets or sets the ITraceWriter used by the serializer when writing trace messages.
-     */
-    val TraceWriter: ITraceWriter?,
-    /**
-     * Gets or sets the equality comparer used by the serializer when comparing references.
-     */
-    val EqualityComparer: IEqualityComparer?,
-    /**
-     * Gets or sets how type name writing and reading is handled by the serializer.
-     * The default value is None.
-     */
-    val TypeNameHandling: TypeNameHandling,
-    /**
-     * Gets or sets how a type name assembly is written and resolved by the serializer.
-     * The default value is Simple.
-     */
-    val TypeNameAssemblyFormat: FormatterAssemblyStyle,
-    /**
-     * Gets or sets how a type name assembly is written and resolved by the serializer.
-     * The default value is Simple.
-     */
-    val TypeNameAssemblyFormatHandling: TypeNameAssemblyFormatHandling,
-    /**
-     * Gets or sets how object references are preserved by the serializer.
-     * The default value is None.
-     */
-    val PreserveReferencesHandling: PreserveReferencesHandling,
-    /**
-     * Gets or sets how reference loops (e.g. a class referencing itself) is handled.
-     * The default value is Error.
-     */
-    val ReferenceLoopHandling: ReferenceLoopHandling,
-    /**
-     * Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
-     * The default value is Ignore.
-     */
-    val MissingMemberHandling: MissingMemberHandling,
-    /**
-     * Gets or sets how null values are handled during serialization and deserialization.
-     * The default value is Include.
-     */
-    val NullValueHandling: NullValueHandling,
-    /**
-     * Gets or sets how default values are handled during serialization and deserialization.
-     * The default value is Include.
-     */
-    val DefaultValueHandling: DefaultValueHandling,
-    /**
-     * Gets or sets how objects are created during deserialization.
-     * The default value is Auto.
-     */
-    val ObjectCreationHandling: ObjectCreationHandling,
-    /**
-     * Gets or sets how constructors are used during deserialization.
-     * The default value is Default.
-     */
-    val ConstructorHandling: ConstructorHandling,
-    /**
-     * Gets or sets how metadata properties are used during deserialization.
-     * The default value is Default.
-     */
-    val MetadataPropertyHandling: MetadataPropertyHandling,
-    /**
-     * Gets a collection JsonConverter that will be used during serialization.
-     */
-    val Converters: JsonConverterCollection?,
-    /**
-     * Gets or sets the contract resolver used by the serializer when
-     * serializing .NET objects to JSON and vice versa.
-     */
-    val ContractResolver: IContractResolver?,
-    /**
-     * Gets or sets the StreamingContext used by the serializer when invoking serialization callback methods.
-     */
-    val Context: StreamingContext,
-    /**
-     * Indicates how JSON text output is formatted.
-     * The default value is None.
-     */
-    val Formatting: Formatting,
-    /**
-     * Gets or sets how dates are written to JSON text.
-     * The default value is IsoDateFormat.
-     */
-    val DateFormatHandling: DateFormatHandling,
-    /**
-     * Gets or sets how DateTime time zones are handled during serialization and deserialization.
-     * The default value is RoundtripKind.
-     */
-    val DateTimeZoneHandling: DateTimeZoneHandling,
-    /**
-     * Gets or sets how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON.
-     * The default value is DateTime.
-     */
-    val DateParseHandling: DateParseHandling,
-    /**
-     * Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
-     * The default value is Double.
-     */
-    val FloatParseHandling: FloatParseHandling,
-    /**
-     * Gets or sets how special floating point numbers, e.g. NaN,
-     * PositiveInfinity and NegativeInfinity,
-     * are written as JSON text.
-     * The default value is String.
-     */
-    val FloatFormatHandling: FloatFormatHandling,
-    /**
-     * Gets or sets how strings are escaped when writing JSON text.
-     * The default value is Default.
-     */
-    val StringEscapeHandling: StringEscapeHandling,
-    /**
-     * Gets or sets how DateTime and DateTimeOffset values are formatted when writing JSON text,
-     * and the expected date format when reading JSON text.
-     * The default value is "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK".
-     */
-    val DateFormatString: String?,
-    /**
-     * Gets or sets the culture used when reading JSON.
-     * The default value is InvariantCulture.
-     */
-    val Culture: String?,
-    /**
-     * Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a JsonReaderException.
-     * A null value means there is no maximum.
-     * The default value is null.
-     */
-    val MaxDepth: Int?,
-    /**
-     * Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
-     * The default value is false.
-     */
-    val CheckAdditionalContent: Boolean
-)
-
-/**
- * Represents a trace writer.
- */
-data class ITraceWriter(
-    /**
-     * Gets the TraceLevel that will be used to filter the trace messages passed to the writer.
-     * For example a filter level of Info will exclude Verbose messages and include Info,
-     * Warning and Error messages.
-     */
-    val LevelFilter: TraceLevel
-)
-
-enum class TraceLevel(val value: Int) {
-    Off(0),
-
-    Error(1),
-
-    Warning(2),
-
-    Info(3),
-
-    Verbose(4);
-}
-
-/**
- * Specifies type name handling options for the JsonSerializer.
- */
-enum class TypeNameHandling(val value: Int) {
-    None(0),
-
-    Objects(1),
-
-    Arrays(2),
-
-    All(3),
-
-    Auto(4);
-}
-
-enum class FormatterAssemblyStyle(val value: Int) {
-    Simple(0),
-
-    Full(1);
-}
-
-/**
- * Indicates the method that will be used during deserialization for locating and loading assemblies.
- */
-enum class TypeNameAssemblyFormatHandling(val value: Int) {
-    Simple(0),
-
-    Full(1);
-}
-
-/**
- * Specifies reference handling options for the JsonSerializer.
- * Note that references cannot be preserved when a value is set via a non-default constructor such as types that implement ISerializable.
- */
-enum class PreserveReferencesHandling(val value: Int) {
-    None(0),
-
-    Objects(1),
-
-    Arrays(2),
-
-    All(3);
-}
-
-/**
- * Specifies reference loop handling options for the JsonSerializer.
- */
-enum class ReferenceLoopHandling(val value: Int) {
-    Error(0),
-
-    Ignore(1),
-
-    Serialize(2);
-}
-
-/**
- * Specifies missing member handling options for the JsonSerializer.
- */
-enum class MissingMemberHandling(val value: Int) {
-    Ignore(0),
-
-    Error(1);
-}
-
-/**
- * Specifies null value handling options for the JsonSerializer.
- */
-enum class NullValueHandling(val value: Int) {
-    Include(0),
-
-    Ignore(1);
-}
-
-/**
- * Specifies default value handling options for the JsonSerializer.
- */
-enum class DefaultValueHandling(val value: Int) {
-    Include(0),
-
-    Ignore(1),
-
-    Populate(2),
-
-    IgnoreAndPopulate(3);
-}
-
-/**
- * Specifies how object creation is handled by the JsonSerializer.
- */
-enum class ObjectCreationHandling(val value: Int) {
-    Auto(0),
-
-    Reuse(1),
-
-    Replace(2);
-}
-
-/**
- * Specifies how constructors are used when initializing objects during deserialization by the JsonSerializer.
- */
-enum class ConstructorHandling(val value: Int) {
-    Default(0),
-
-    AllowNonPublicDefaultConstructor(1);
-}
-
-/**
- * Specifies metadata property handling options for the JsonSerializer.
- */
-enum class MetadataPropertyHandling(val value: Int) {
-    Default(0),
-
-    ReadAhead(1),
-
-    Ignore(2);
-}
-
-data class StreamingContext(val State: StreamingContextStates, val Context: Any?)
-
-enum class StreamingContextStates(val value: Int) {
-    CrossProcess(1),
-
-    CrossMachine(2),
-
-    File(4),
-
-    Persistence(8),
-
-    Remoting(16),
-
-    Other(32),
-
-    Clone(64),
-
-    CrossAppDomain(128),
-
-    All(255);
-}
-
-/**
- * Specifies formatting options for the JsonTextWriter.
- */
-enum class Formatting(val value: Int) {
-    None(0),
-
-    Indented(1);
-}
-
-/**
- * Specifies how dates are formatted when writing JSON text.
- */
-enum class DateFormatHandling(val value: Int) {
-    IsoDateFormat(0),
-
-    MicrosoftDateFormat(1);
-}
-
-/**
- * Specifies how to treat the time value when converting between string and DateTime.
- */
-enum class DateTimeZoneHandling(val value: Int) {
-    Local(0),
-
-    Utc(1),
-
-    Unspecified(2),
-
-    RoundtripKind(3);
-}
-
-/**
- * Specifies how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON text.
- */
-enum class DateParseHandling(val value: Int) {
-    None(0),
-
-    DateTime(1),
-
-    DateTimeOffset(2);
-}
-
-/**
- * Specifies how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
- */
-enum class FloatParseHandling(val value: Int) {
-    Double(0),
-
-    Decimal(1);
-}
-
-/**
- * Specifies float format handling options when writing special floating point numbers, e.g. NaN,
- * PositiveInfinity and NegativeInfinity with JsonWriter.
- */
-enum class FloatFormatHandling(val value: Int) {
-    String(0),
-
-    Symbol(1),
-
-    DefaultValue(2);
-}
-
-/**
- * Specifies how strings are escaped when writing JSON text.
- */
-enum class StringEscapeHandling(val value: Int) {
-    Default(0),
-
-    EscapeNonAscii(1),
-
-    EscapeHtml(2);
-}""".trimIndent()
+        val expected = """
+            /**
+             * Serializes and deserializes objects into and from the JSON format.
+            The JsonSerializer enables you to control how objects are encoded into JSON.
+             */
+            data class JsonSerializer(
+                /**
+                 * Gets or sets the IReferenceResolver used by the serializer when resolving references.
+                 */
+                val ReferenceResolver: IReferenceResolver?,
+                /**
+                 * Gets or sets the SerializationBinder used by the serializer when resolving type names.
+                 */
+                val Binder: SerializationBinder?,
+                /**
+                 * Gets or sets the ISerializationBinder used by the serializer when resolving type names.
+                 */
+                val SerializationBinder: ISerializationBinder?,
+                /**
+                 * Gets or sets the ITraceWriter used by the serializer when writing trace messages.
+                 */
+                val TraceWriter: ITraceWriter?,
+                /**
+                 * Gets or sets the equality comparer used by the serializer when comparing references.
+                 */
+                val EqualityComparer: IEqualityComparer?,
+                /**
+                 * Gets or sets how type name writing and reading is handled by the serializer.The default value is None.
+                 */
+                val TypeNameHandling: TypeNameHandling,
+                /**
+                 * Gets or sets how a type name assembly is written and resolved by the serializer.The default value is Simple.
+                 */
+                val TypeNameAssemblyFormat: FormatterAssemblyStyle,
+                /**
+                 * Gets or sets how a type name assembly is written and resolved by the serializer.The default value is Simple.
+                 */
+                val TypeNameAssemblyFormatHandling: TypeNameAssemblyFormatHandling,
+                /**
+                 * Gets or sets how object references are preserved by the serializer.The default value is None.
+                 */
+                val PreserveReferencesHandling: PreserveReferencesHandling,
+                /**
+                 * Gets or sets how reference loops (e.g. a class referencing itself) is handled.The default value is Error.
+                 */
+                val ReferenceLoopHandling: ReferenceLoopHandling,
+                /**
+                 * Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.The default value is Ignore.
+                 */
+                val MissingMemberHandling: MissingMemberHandling,
+                /**
+                 * Gets or sets how null values are handled during serialization and deserialization.The default value is Include.
+                 */
+                val NullValueHandling: NullValueHandling,
+                /**
+                 * Gets or sets how default values are handled during serialization and deserialization.The default value is Include.
+                 */
+                val DefaultValueHandling: DefaultValueHandling,
+                /**
+                 * Gets or sets how objects are created during deserialization.The default value is Auto.
+                 */
+                val ObjectCreationHandling: ObjectCreationHandling,
+                /**
+                 * Gets or sets how constructors are used during deserialization.The default value is Default.
+                 */
+                val ConstructorHandling: ConstructorHandling,
+                /**
+                 * Gets or sets how metadata properties are used during deserialization.The default value is Default.
+                 */
+                val MetadataPropertyHandling: MetadataPropertyHandling,
+                /**
+                 * Gets a collection JsonConverter that will be used during serialization.
+                 */
+                val Converters: JsonConverterCollection?,
+                /**
+                 * Gets or sets the contract resolver used by the serializer whenserializing .NET objects to JSON and vice versa.
+                 */
+                val ContractResolver: IContractResolver?,
+                /**
+                 * Gets or sets the StreamingContext used by the serializer when invoking serialization callback methods.
+                 */
+                val Context: StreamingContext,
+                /**
+                 * Indicates how JSON text output is formatted.The default value is None.
+                 */
+                val Formatting: Formatting,
+                /**
+                 * Gets or sets how dates are written to JSON text.The default value is IsoDateFormat.
+                 */
+                val DateFormatHandling: DateFormatHandling,
+                /**
+                 * Gets or sets how DateTime time zones are handled during serialization and deserialization.The default value is RoundtripKind.
+                 */
+                val DateTimeZoneHandling: DateTimeZoneHandling,
+                /**
+                 * Gets or sets how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON.The default value is DateTime.
+                 */
+                val DateParseHandling: DateParseHandling,
+                /**
+                 * Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.The default value is Double.
+                 */
+                val FloatParseHandling: FloatParseHandling,
+                /**
+                 * Gets or sets how special floating point numbers, e.g. NaN,PositiveInfinity and NegativeInfinity,are written as JSON text.The default value is String.
+                 */
+                val FloatFormatHandling: FloatFormatHandling,
+                /**
+                 * Gets or sets how strings are escaped when writing JSON text.The default value is Default.
+                 */
+                val StringEscapeHandling: StringEscapeHandling,
+                /**
+                 * Gets or sets how DateTime and DateTimeOffset values are formatted when writing JSON text,and the expected date format when reading JSON text.The default value is "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK".
+                 */
+                val DateFormatString: String?,
+                /**
+                 * Gets or sets the culture used when reading JSON.The default value is InvariantCulture.
+                 */
+                val Culture: String?,
+                /**
+                 * Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a JsonReaderException.A null value means there is no maximum.The default value is null.
+                 */
+                val MaxDepth: Int?,
+                /**
+                 * Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.The default value is false.
+                 */
+                val CheckAdditionalContent: Boolean
+            )
+
+
+
+
+
+
+
+            /**
+             * Represents a trace writer.
+             */
+            data class ITraceWriter(
+                /**
+                 * Gets the TraceLevel that will be used to filter the trace messages passed to the writer.For example a filter level of Info will exclude Verbose messages and include Info,Warning and Error messages.
+                 */
+                val LevelFilter: TraceLevel
+            )
+
+
+
+            /**
+             * Specifies type name handling options for the JsonSerializer.
+             */
+            enum class TypeNameHandling(val value: Int) {
+                None(0),
+
+                Objects(1),
+
+                Arrays(2),
+
+                All(3),
+
+                Auto(4);
+            }
+
+            enum class FormatterAssemblyStyle(val value: Int) {
+                Simple(0),
+
+                Full(1);
+            }
+
+            /**
+             * Indicates the method that will be used during deserialization for locating and loading assemblies.
+             */
+            enum class TypeNameAssemblyFormatHandling(val value: Int) {
+                Simple(0),
+
+                Full(1);
+            }
+
+            /**
+             * Specifies reference handling options for the JsonSerializer.
+            Note that references cannot be preserved when a value is set via a non-default constructor such as types that implement ISerializable.
+             */
+            enum class PreserveReferencesHandling(val value: Int) {
+                None(0),
+
+                Objects(1),
+
+                Arrays(2),
+
+                All(3);
+            }
+
+            /**
+             * Specifies reference loop handling options for the JsonSerializer.
+             */
+            enum class ReferenceLoopHandling(val value: Int) {
+                Error(0),
+
+                Ignore(1),
+
+                Serialize(2);
+            }
+
+            /**
+             * Specifies missing member handling options for the JsonSerializer.
+             */
+            enum class MissingMemberHandling(val value: Int) {
+                Ignore(0),
+
+                Error(1);
+            }
+
+            /**
+             * Specifies null value handling options for the JsonSerializer.
+             */
+            enum class NullValueHandling(val value: Int) {
+                Include(0),
+
+                Ignore(1);
+            }
+
+            /**
+             * Specifies default value handling options for the JsonSerializer.
+             */
+            enum class DefaultValueHandling(val value: Int) {
+                Include(0),
+
+                Ignore(1),
+
+                Populate(2),
+
+                IgnoreAndPopulate(3);
+            }
+
+            /**
+             * Specifies how object creation is handled by the JsonSerializer.
+             */
+            enum class ObjectCreationHandling(val value: Int) {
+                Auto(0),
+
+                Reuse(1),
+
+                Replace(2);
+            }
+
+            /**
+             * Specifies how constructors are used when initializing objects during deserialization by the JsonSerializer.
+             */
+            enum class ConstructorHandling(val value: Int) {
+                Default(0),
+
+                AllowNonPublicDefaultConstructor(1);
+            }
+
+            /**
+             * Specifies metadata property handling options for the JsonSerializer.
+             */
+            enum class MetadataPropertyHandling(val value: Int) {
+                Default(0),
+
+                ReadAhead(1),
+
+                Ignore(2);
+            }
+
+
+
+
+
+            data class StreamingContext(
+                val State: StreamingContextStates,
+                val Context: Any?
+            )
+
+            /**
+             * Specifies formatting options for the JsonTextWriter.
+             */
+            enum class Formatting(val value: Int) {
+                None(0),
+
+                Indented(1);
+            }
+
+            /**
+             * Specifies how dates are formatted when writing JSON text.
+             */
+            enum class DateFormatHandling(val value: Int) {
+                IsoDateFormat(0),
+
+                MicrosoftDateFormat(1);
+            }
+
+            /**
+             * Specifies how to treat the time value when converting between string and DateTime.
+             */
+            enum class DateTimeZoneHandling(val value: Int) {
+                Local(0),
+
+                Utc(1),
+
+                Unspecified(2),
+
+                RoundtripKind(3);
+            }
+
+            /**
+             * Specifies how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON text.
+             */
+            enum class DateParseHandling(val value: Int) {
+                None(0),
+
+                DateTime(1),
+
+                DateTimeOffset(2);
+            }
+
+            /**
+             * Specifies how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
+             */
+            enum class FloatParseHandling(val value: Int) {
+                Double(0),
+
+                Decimal(1);
+            }
+
+            /**
+             * Specifies float format handling options when writing special floating point numbers, e.g. NaN,
+            PositiveInfinity and NegativeInfinity with JsonWriter.
+             */
+            enum class FloatFormatHandling(val value: Int) {
+                String(0),
+
+                Symbol(1),
+
+                DefaultValue(2);
+            }
+
+            /**
+             * Specifies how strings are escaped when writing JSON text.
+             */
+            enum class StringEscapeHandling(val value: Int) {
+                Default(0),
+
+                EscapeNonAscii(1),
+
+                EscapeHtml(2);
+            }
+
+            enum class TraceLevel(val value: Int) {
+                Off(0),
+
+                Error(1),
+
+                Warning(2),
+
+                Info(3),
+
+                Verbose(4);
+            }
+
+            enum class StreamingContextStates(val value: Int) {
+                CrossProcess(1),
+
+                CrossMachine(2),
+
+                File(4),
+
+                Persistence(8),
+
+                Remoting(16),
+
+                Other(32),
+
+                Clone(64),
+
+                CrossAppDomain(128),
+
+                All(255);
+            }
+        """.trimIndent()
 
         val result = json.generateKotlinClassCode("")
         result.trim().should.be.equal(expected)
