@@ -222,15 +222,30 @@ class KotlinCodeMakerTest {
   ]
 }
     """.trimIndent()
-    val expected = """data class TestData(
-    val id: Int, // The unique identifier for a product
-    val name: String, // Name of the product
+    val expected = """/**
+ * A product from Acme's catalog
+ */
+data class TestData(
+    /**
+     * The unique identifier for a product
+     */
+    val id: Int,
+    /**
+     * Name of the product
+     */
+    val name: String,
     val price: Double,
-    val nested: nested
+    val nested: Nested
 ) {
-    data class nested(
-        val id: Int, // The unique identifier for a product
-        val name: String, // Name of the product
+    data class Nested(
+        /**
+         * The unique identifier for a product
+         */
+        val id: Int,
+        /**
+         * Name of the product
+         */
+        val name: String,
         val price: Double
     )
 }""".trimIndent()
@@ -304,21 +319,37 @@ class KotlinCodeMakerTest {
   ]
 }
     """.trimIndent()
-    val expected = """data class TestData(
-    val id: Int, // The unique identifier for a product
-    val name: String, // Name of the product
-    val price: Double,
-    val nested: nested
-) {
-    data class nested(
-        val grades: List<String>,
-        val scores: List<Double>,
-        val happy: List<Boolean>,
-        val id: Int, // The unique identifier for a product
-        val name: String, // Name of the product
-        val price: Double
-    )
-}""".trimIndent()
+    val expected = """
+        /**
+         * A product from Acme's catalog
+         */
+        data class TestData(
+            /**
+             * The unique identifier for a product
+             */
+            val id: Int,
+            /**
+             * Name of the product
+             */
+            val name: String,
+            val price: Double,
+            val nested: Nested
+        ) {
+            data class Nested(
+                val grades: List<String>,
+                val scores: List<Double>,
+                val happy: List<Boolean>,
+                /**
+                 * The unique identifier for a product
+                 */
+                val id: Int,
+                /**
+                 * Name of the product
+                 */
+                val name: String,
+                val price: Double
+            )
+        }""".trimIndent()
       val dataClass = KotlinClassMaker("TestData", json).makeKotlinClass() as DataClass
       dataClass.properties[3].originJsonValue.should.be.`null`
       val result = dataClass.getCode()
@@ -356,7 +387,7 @@ class KotlinCodeMakerTest {
         )
         
         data class Module(
-            var k: String = "" // EMW3168
+            var k: String = "" // EMW3165
         )
         """.trimIndent()
 
