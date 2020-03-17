@@ -192,3 +192,15 @@ fun JsonPrimitive.toKotlinClass(): KotlinClass {
         else -> KotlinClass.STRING
     }
 }
+
+/**
+ * convert string into annotation comments format,TODO need automatic line wrapping
+ */
+fun String.toAnnotationComments():String{
+    return if(this.isBlank()) "" else{
+        StringBuffer().append("/**\n")
+                .append(" * $this\n")
+                .append(" */\n")
+                .toString()
+    }
+}

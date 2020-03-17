@@ -1,24 +1,31 @@
 package wu.seal.jsontokotlin.model.jsonschema
 
-import com.google.gson.JsonElement
 import com.google.gson.annotations.SerializedName
 
-/**
- * Created by kezhenxu94 at 2019/4/16 13:07.
- *
- * Represents the definition in JSON Schema
- *
- * @author kezhenxu94 (kezhenxu94 at 163 dot com)
- */
-interface PropertyDef
+class PropertyDef(
+        type: Any? = null,
+        properties: Map<String, PropertyDef>? = null,
 
-open class ObjectPropertyDef(
-  val description: String? = "",
-  val type: String? = "",
-  val properties: Map<String, JsonSchema> = emptyMap(),
-  @SerializedName("items")
-  val itemsOfArray: JsonElement? = null,
-  val required: Array<String> = emptyArray()
-) : PropertyDef
+    //See: https://json-schema.org/understanding-json-schema/reference/array.html
+        val items: PropertyDef? = null, //can be an array
 
+    // See: https://json-schema.org/understanding-json-schema/reference/string.html#format
+        val format: String? = null,
 
+        val enum: Array<Any>? = null,
+
+    //NJsonSchema:
+        @SerializedName("x-enumNames")
+    val x_enumNames: Array<String>? = null,
+        @SerializedName("x-enumFlags")
+    val x_enumFlags: Boolean? = null
+
+) : JsonObjectDef(type = type, properties = properties) {
+
+  fun tryGetClassName(): String? {
+    val possibleName = ref?.substringAfterLast('/')
+
+    return if (possibleName != "items") possibleName else null
+  }
+
+}

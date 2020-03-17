@@ -63,7 +63,7 @@ data class NormalClass(
 
     override fun getCode(): String {
         val indent = getIndent()
-        val code = buildString {
+        return buildString {
             if (annotations.isNotEmpty()) {
                 val annotationsCode = annotations.joinToString("\n") { it.getAnnotationString() }
                 if (annotationsCode.isNotBlank()) {
@@ -98,7 +98,6 @@ data class NormalClass(
                 append("}")
             }
         }
-        return code
     }
 
 

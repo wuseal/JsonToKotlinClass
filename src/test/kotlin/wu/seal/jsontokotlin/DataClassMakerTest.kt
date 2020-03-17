@@ -209,7 +209,7 @@ class DataClassMakerTest {
                             properties.size.should.be.equal(1)
                             properties[0].run {
                                 name.should.be.equal("k")
-                                originJsonValue.should.be.equal("EMW3168")
+                                originJsonValue.should.be.equal("EMW3165")
                                 type.should.be.equal(KotlinClass.STRING.name)
                             }
                         }

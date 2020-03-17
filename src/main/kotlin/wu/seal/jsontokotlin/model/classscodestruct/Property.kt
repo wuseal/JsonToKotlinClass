@@ -1,16 +1,17 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 data class Property(
-    val annotations: List<Annotation> = listOf(),
-    val keyword: String = "val",
-    val originName: String,
-    val originJsonValue: String? = "",
-    val name: String = originName,
-    val type: String,
-    val value: String = "",
-    val comment: String = "",
-    val typeObject: KotlinClass,
-    private var separatorBetweenAnnotationAndProperty:String = "\n"
+        val annotations: List<Annotation> = listOf(),
+        val keyword: String = "val",
+        val originName: String,
+        val originJsonValue: String? = "",
+        val name: String = originName,
+        val type: String,
+        val value: String = "",
+        val comment: String = "",
+        val typeObject: KotlinClass,
+        private var separatorBetweenAnnotationAndProperty: String = "\n",
+        val nullable: Boolean = false
 ) {
     fun letLastAnnotationStayInSameLine() {
         separatorBetweenAnnotationAndProperty = " "
@@ -26,6 +27,7 @@ data class Property(
                 }
             }
             append(keyword).append(" ").append(name).append(": ").append(type)
+            if(nullable) append("?")
             if (value.isNotBlank()) {
                 append(" = ").append(value)
             }
