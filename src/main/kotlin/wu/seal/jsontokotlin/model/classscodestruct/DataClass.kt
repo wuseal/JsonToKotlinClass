@@ -4,6 +4,7 @@ import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.utils.LogUtil
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
+import wu.seal.jsontokotlin.utils.toAnnotationComments
 import java.lang.IllegalStateException
 
 data class DataClass(
@@ -11,7 +12,9 @@ data class DataClass(
         override val name: String,
         val properties: List<Property> = listOf(),
         val parentClassTemplate: String = "",
-        override val modifiable: Boolean = true
+        override val modifiable: Boolean = true,
+        val comments: String = "",
+        val fromJsonSchema: Boolean = false
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
@@ -45,7 +48,8 @@ data class DataClass(
             property.typeObject.let {
                 val newTypObj = when (it) {
                     is GenericKotlinClass -> property.typeObject.replaceReferencedClasses(replaceRule)
-                    is ModifiableKotlinClass -> replaceRule[property.typeObject] ?: error("Modifiable Kotlin Class Must have a replacement")
+                    is ModifiableKotlinClass -> replaceRule[property.typeObject]
+                            ?: error("Modifiable Kotlin Class Must have a replacement")
                     else -> it
                 }
                 LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
@@ -57,8 +61,10 @@ data class DataClass(
     }
 
     override fun getCode(): String {
+        if (fromJsonSchema && properties.isEmpty()) return ""
         val indent = getIndent()
-        val code = buildString {
+        return buildString {
+            append(comments.toAnnotationComments())
             if (annotations.isNotEmpty()) {
                 val annotationsCode = annotations.joinToString("\n") { it.getAnnotationString() }
                 if (annotationsCode.isNotBlank()) {
@@ -72,10 +78,16 @@ data class DataClass(
             }
             properties.forEachIndexed { index, property ->
                 val code = property.getCode()
-                val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
-                append(addIndentCode)
+                val commentCode = getCommentCode(property.comment)
+                if (fromJsonSchema && commentCode.isNotBlank()) {
+                    append("/**\n * $commentCode\n */\n".split("\n").joinToString("\n") { indent + it })
+                    append(code)
+                }else{
+                    val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
+                    append(addIndentCode)
+                }
                 if (index != properties.size - 1) append(",")
-                if (property.comment.isNotBlank()) append(" // ").append(getCommentCode(property.comment))
+                if (!fromJsonSchema && commentCode.isNotBlank()) append(" // ").append(commentCode)
                 append("\n")
             }
             append(")")
@@ -93,7 +105,6 @@ data class DataClass(
                 append("}")
             }
         }
-        return code
     }
 
 

@@ -66,10 +66,22 @@ class Issue108Test {
   }
 }""".trimIndent()
     val expected = """data class TestData(
-    val hourMin: Int, // Начиная с: час (от 0 до 23)
-    val minuteMin: Int, // Начиная с: минуты (от 0 до 59)
-    val hourMax: Int, // До: час (от 0 до 23)
-    val minuteMax: Int // До: минуты (от 0 до 59)
+    /**
+     * Начиная с: час (от 0 до 23)
+     */
+    val hourMin: Int,
+    /**
+     * Начиная с: минуты (от 0 до 59)
+     */
+    val minuteMin: Int,
+    /**
+     * До: час (от 0 до 23)
+     */
+    val hourMax: Int,
+    /**
+     * До: минуты (от 0 до 59)
+     */
+    val minuteMax: Int
 )""".trimIndent()
     val result = KotlinClassMaker("TestData", json).makeKotlinClass().getCode()
     result.trim().should.be.equal(expected)

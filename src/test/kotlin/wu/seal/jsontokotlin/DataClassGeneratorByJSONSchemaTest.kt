@@ -102,7 +102,7 @@ class DataClassGeneratorByJSONSchemaTest {
 
         val nestProperty = dataClass.properties[3]
         nestProperty.name.should.be.equal("nested")
-        nestProperty.type.should.be.equal("nested")
+        nestProperty.type.should.be.equal("Nested")
         nestProperty.typeObject.should.not.be.`null`
         val nestDataClass = nestProperty.typeObject as DataClass
         nestDataClass.properties.size.should.be.equal(6)

@@ -30,17 +30,17 @@ class Issue170Test {
             "}"
 
 
-    private val expected = "data class A(\n" +
-            "    @SerializedName(\"employees\")\n" +
-            "    val employees: List<Employee>\n" +
-            ") {\n" +
-            "    data class Employee(\n" +
-            "        @SerializedName(\"firstName\")\n" +
-            "        val firstName: String?, // Thomas\n" +
-            "        @SerializedName(\"lastName\")\n" +
-            "        val lastName: String // Carter\n" +
-            "    )\n" +
-            "}"
+    private val expected = """data class A(
+    @SerializedName("employees")
+    val employees: List<Employee>
+) {
+    data class Employee(
+        @SerializedName("firstName")
+        val firstName: String?, // Bill
+        @SerializedName("lastName")
+        val lastName: String // Gates
+    )
+}"""
 
 
 
