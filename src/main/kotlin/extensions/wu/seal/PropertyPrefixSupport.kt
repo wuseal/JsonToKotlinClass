@@ -1,7 +1,8 @@
 package extensions.wu.seal
 
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.ui.NamingConventionDocument
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
@@ -31,19 +32,25 @@ object PropertyPrefixSupport : Extension() {
     }
 
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(prefixKeyEnable).toBoolean() && getConfig(prefixKey).isNotEmpty()) {
-            val originProperties = kotlinDataClass.properties
-            val newProperties = originProperties.map {
-                val prefix = getConfig(prefixKey)
-                if (it.name.isNotEmpty()) {
-                    val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
-                    it.copy(name = newName)
-                } else it
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
+
+        if (kotlinClass is DataClass) {
+
+            return if (getConfig(prefixKeyEnable).toBoolean() && getConfig(prefixKey).isNotEmpty()) {
+                val originProperties = kotlinClass.properties
+                val newProperties = originProperties.map {
+                    val prefix = getConfig(prefixKey)
+                    if (it.name.isNotEmpty()) {
+                        val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
+                        it.copy(name = newName)
+                    } else it
+                }
+                kotlinClass.copy(properties = newProperties)
+            } else {
+                kotlinClass
             }
-            kotlinDataClass.copy(properties = newProperties)
         } else {
-            kotlinDataClass
+            return kotlinClass
         }
 
     }

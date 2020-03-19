@@ -4,6 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.*
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**
@@ -65,6 +66,11 @@ class Issue224Test {
         data class Definitions(
             val address: Address = Address()
         )
+
+        data class PropertiesX(
+            val billing_address: BillingAddress = BillingAddress(),
+            val shipping_address: ShippingAddress = ShippingAddress()
+        )
         
         data class Address(
             val properties: Properties = Properties(),
@@ -88,11 +94,6 @@ class Issue224Test {
         
         data class StreetAddress(
             val type: String = ""
-        )
-        
-        data class PropertiesX(
-            val billing_address: BillingAddress = BillingAddress(),
-            val shipping_address: ShippingAddress = ShippingAddress()
         )
         
         data class BillingAddress(

@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.ui
 
 import com.intellij.util.ui.JBDimension
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import java.awt.BorderLayout
 import javax.swing.JPanel
 

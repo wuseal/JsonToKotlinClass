@@ -3,8 +3,8 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
-import wu.seal.jsontokotlin.KotlinDataClassMaker
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue090Test {
@@ -286,13 +286,13 @@ class Issue090Test {
 ) {
     data class Attribute(
         @SerializedName("id")
-        val id: Int = 0, // 0
+        val id: Int = 0, // 1
         @SerializedName("name")
-        val name: String = "", // Dispenser/Dish
+        val name: String = "", // Color
         @SerializedName("options")
         val options: List<String> = listOf(),
         @SerializedName("position")
-        val position: Int = 0, // 1
+        val position: Int = 0, // 0
         @SerializedName("variation")
         val variation: Boolean = false, // false
         @SerializedName("visible")
@@ -301,11 +301,11 @@ class Issue090Test {
 
     data class Category(
         @SerializedName("id")
-        val id: Int = 0, // 60
+        val id: Int = 0, // 63
         @SerializedName("name")
-        val name: String = "", // Laundry
+        val name: String = "", // Accessories
         @SerializedName("slug")
-        val slug: String = "" // laundry
+        val slug: String = "" // accessories-laundry
     )
 
     data class Dimensions(
@@ -366,7 +366,8 @@ class Issue090Test {
         @SerializedName("slug")
         val slug: String = "" // sale
     )
-}"""
+}
+"""
 
     /**
      * test before to init test enviroment
@@ -382,7 +383,7 @@ class Issue090Test {
      */
     @Test
     fun testIssue090() {
-        val result = KotlinDataClassCodeMaker(KotlinDataClassMaker("Test", rawJson).makeKotlinDataClass()).makeKotlinDataClassCode()
+        val result = KotlinClassCodeMaker(KotlinClassMaker("Test", rawJson).makeKotlinClass()).makeKotlinClassCode()
         result.trim().should.equal(expectedResult.trim())
     }
 

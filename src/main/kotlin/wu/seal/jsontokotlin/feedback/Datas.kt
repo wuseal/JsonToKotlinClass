@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.feedback
 
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import java.text.SimpleDateFormat
 import java.util.*
 

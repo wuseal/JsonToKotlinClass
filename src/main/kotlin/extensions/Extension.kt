@@ -2,16 +2,17 @@ package extensions
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import javax.swing.JPanel
 
 /**
  * Extension which represent a function extending the current functions of JsonToKotlinClass plugin
  * It must have a UI item to be insert into the JBList JPanel of Extensions Tab
  */
-abstract class Extension : IImportClassDeclarationInterceptor, IKotlinDataClassInterceptor {
+abstract class Extension : IImportClassDeclarationInterceptor, IKotlinClassInterceptor<KotlinClass> {
 
     private val gson = Gson()
 
