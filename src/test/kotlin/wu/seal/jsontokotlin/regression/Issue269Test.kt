@@ -1530,7 +1530,7 @@ class Issue269Test {
         data class Variant(
             val id: Int,
             val color: String,
-            val size: Int,
+            val size: Int?,
             val price: Int
         )
 

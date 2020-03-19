@@ -351,7 +351,7 @@ data class TestData(
             )
         }""".trimIndent()
       val dataClass = KotlinClassMaker("TestData", json).makeKotlinClass() as DataClass
-      dataClass.properties[3].originJsonValue.should.be.`null`
+      dataClass.properties[3].originJsonValue.should.be.equal("Nested()")
       val result = dataClass.getCode()
     result.trim().should.be.equal(expected)
   }
