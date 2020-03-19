@@ -1,11 +1,7 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
-import wu.seal.jsontokotlin.utils.LogUtil
-import wu.seal.jsontokotlin.utils.getCommentCode
-import wu.seal.jsontokotlin.utils.getIndent
-import wu.seal.jsontokotlin.utils.toAnnotationComments
-import java.lang.IllegalStateException
+import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
         val annotations: List<Annotation> = listOf(),
@@ -53,7 +49,8 @@ data class DataClass(
                     else -> it
                 }
                 LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
-                return@let property.copy(type = newTypObj.name, typeObject = newTypObj)
+                val typeSuffix = if (property.type.endsWith("?")) "?" else ""
+                return@let property.copy(type = "${newTypObj.name}$typeSuffix", typeObject = newTypObj)
             }
         }
 
@@ -77,15 +74,12 @@ data class DataClass(
                 append("data class ").append(name).append("(").append("\n")
             }
             properties.forEachIndexed { index, property ->
-                val code = property.getCode()
+                val addIndentCode = property.getCode().addIndent(indent)
                 val commentCode = getCommentCode(property.comment)
                 if (fromJsonSchema && commentCode.isNotBlank()) {
-                    append("/**\n * $commentCode\n */\n".split("\n").joinToString("\n") { indent + it })
-                    append(code)
-                }else{
-                    val addIndentCode = code.split("\n").joinToString("\n") { indent + it }
+                    append(commentCode.toAnnotationComments(indent))
                     append(addIndentCode)
-                }
+                } else append(addIndentCode)
                 if (index != properties.size - 1) append(",")
                 if (!fromJsonSchema && commentCode.isNotBlank()) append(" // ").append(commentCode)
                 append("\n")
@@ -100,13 +94,12 @@ data class DataClass(
                 append(" {")
                 append("\n")
                 val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode() }
-                append(nestedClassesCode.lines().joinToString("\n") { if (it.isNotBlank()) "$indent$it" else it })
+                append(nestedClassesCode.addIndent(indent))
                 append("\n")
                 append("}")
             }
         }
     }
-
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
         val newProperties = mutableListOf<Property>()

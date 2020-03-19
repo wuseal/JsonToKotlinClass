@@ -58,14 +58,13 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
             val (jsonClassName, realDef) = getRealDefinition(jsonProp)
             resolveTypeClass(realDef.typeString, jsonClassName, realDef, propertyName)
         }
-        val value = if (isRequired) getDefaultValue(typeClass.name) else null
+        val value = if (isRequired || !jsonProp.isTypeNullable) getDefaultValue(typeClass.name) else null
         return Property(
                 originName = propertyName,
                 originJsonValue = value,
-                type = typeClass.name + if (jsonProp.isTypeNullable) "?" else "",
+                type = typeClass.name,
                 comment = jsonProp.description ?: "",
-                typeObject = typeClass,
-                nullable = jsonProp.isTypeNullable
+                typeObject = typeClass
         )
     }
 

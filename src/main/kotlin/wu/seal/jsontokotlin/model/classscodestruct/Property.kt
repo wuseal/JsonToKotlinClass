@@ -10,8 +10,7 @@ data class Property(
         val value: String = "",
         val comment: String = "",
         val typeObject: KotlinClass,
-        private var separatorBetweenAnnotationAndProperty: String = "\n",
-        val nullable: Boolean = false
+        private var separatorBetweenAnnotationAndProperty: String = "\n"
 ) {
     fun letLastAnnotationStayInSameLine() {
         separatorBetweenAnnotationAndProperty = " "
@@ -27,7 +26,6 @@ data class Property(
                 }
             }
             append(keyword).append(" ").append(name).append(": ").append(type)
-            if(nullable) append("?")
             if (value.isNotBlank()) {
                 append(" = ").append(value)
             }
