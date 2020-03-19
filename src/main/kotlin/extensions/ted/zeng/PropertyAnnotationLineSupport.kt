@@ -1,8 +1,9 @@
 package extensions.ted.zeng
 
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.classscodestruct.Property
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import javax.swing.JPanel
@@ -27,11 +28,16 @@ object PropertyAnnotationLineSupport : Extension() {
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        if (getConfig(configKey).toBoolean()) {
-            kotlinDataClass.properties.forEach(Property::letLastAnnotationStayInSameLine)
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
+
+        return if (kotlinClass is DataClass) {
+            if (getConfig(configKey).toBoolean()) {
+                kotlinClass.properties.forEach(Property::letLastAnnotationStayInSameLine)
+            }
+            kotlinClass
+        } else {
+            kotlinClass
         }
-        return kotlinDataClass
     }
 
 }

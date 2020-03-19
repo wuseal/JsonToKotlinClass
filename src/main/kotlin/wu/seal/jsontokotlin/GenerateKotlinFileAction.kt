@@ -14,8 +14,11 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.UnSupportJsonException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
+import wu.seal.jsontokotlin.utils.KotlinClassFileGenerator
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 
 /**
@@ -31,8 +34,7 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
             val dataContext = event.dataContext
             val module = LangDataKeys.MODULE.getData(dataContext) ?: return
 
-            val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
-            val directory = when (navigatable) {
+            val directory = when (val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)) {
                 is PsiDirectory -> navigatable
                 is PsiFile -> navigatable.containingDirectory
                 else -> {
@@ -82,12 +84,12 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
         psiFileFactory: PsiFileFactory,
         directory: PsiDirectory
     ) {
-        val dataClass = KotlinDataClassMaker(className, json).makeKotlinDataClass()
+        val kotlinClass = KotlinClassMaker(className, json).makeKotlinClass()
         val dataClassAfterApplyInterceptor =
-            dataClass.applyInterceptors(InterceptorManager.getEnabledKotlinDataClassInterceptors())
+            kotlinClass.applyInterceptors(InterceptorManager.getEnabledKotlinDataClassInterceptors())
         if (ConfigManager.isInnerClassModel) {
 
-            KotlinDataClassFileGenerator().generateSingleDataClassFile(
+            KotlinClassFileGenerator().generateSingleKotlinClassFile(
                 packageDeclare,
                 dataClassAfterApplyInterceptor,
                 project,
@@ -95,7 +97,7 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
                 directory
             )
         } else {
-            KotlinDataClassFileGenerator().generateMultipleDataClassFiles(
+            KotlinClassFileGenerator().generateMultipleKotlinClassFiles(
                 dataClassAfterApplyInterceptor,
                 packageDeclare,
                 project,

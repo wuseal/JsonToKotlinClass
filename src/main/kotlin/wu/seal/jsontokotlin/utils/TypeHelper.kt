@@ -4,9 +4,9 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.PropertyTypeStrategy
-import wu.seal.jsontokotlin.codeelements.KClassName
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.codeelements.KClassName
 import java.util.*
 
 /**

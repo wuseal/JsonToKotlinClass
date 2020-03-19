@@ -3,9 +3,9 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.KotlinCodeMaker
-import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
 
 

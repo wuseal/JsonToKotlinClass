@@ -3,9 +3,8 @@ package extensions.wu.seal
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.PropertyTypeStrategy
-import wu.seal.jsontokotlin.applyInterceptor
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.interceptor.InitWithDefaultValueInterceptor
 import wu.seal.jsontokotlin.interceptor.PropertyTypeNullableStrategyInterceptor

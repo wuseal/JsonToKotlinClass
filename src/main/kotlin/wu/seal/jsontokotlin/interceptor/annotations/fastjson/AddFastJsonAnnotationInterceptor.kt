@@ -1,24 +1,31 @@
 package wu.seal.jsontokotlin.interceptor.annotations.fastjson
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.FastjsonPropertyAnnotationTemplate
-import wu.seal.jsontokotlin.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.codeannotations.FastjsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 
-class AddFastJsonAnnotationInterceptor : IKotlinDataClassInterceptor {
+class AddFastJsonAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val addFastJsonAnnotationProperties = kotlinDataClass.properties.map {
+        return if (kotlinClass is DataClass) {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+            val addFastJsonAnnotationProperties = kotlinClass.properties.map {
 
-            val annotations = FastjsonPropertyAnnotationTemplate(it.originName).getAnnotations()
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
 
-            it.copy(annotations = annotations,name = camelCaseName)
+                val annotations = FastjsonPropertyAnnotationTemplate(it.originName).getAnnotations()
+
+                it.copy(annotations = annotations, name = camelCaseName)
+            }
+
+            kotlinClass.copy(properties = addFastJsonAnnotationProperties)
+        } else {
+            kotlinClass
         }
 
-        return kotlinDataClass.copy(properties = addFastJsonAnnotationProperties)
     }
 
 }

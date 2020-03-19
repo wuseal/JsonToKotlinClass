@@ -1,10 +1,11 @@
 package extensions.xu.rui
 
 import extensions.Extension
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeelements.getDefaultValue
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
 import wu.seal.jsontokotlin.utils.NULLABLE_PRIMITIVE_TYPES
@@ -20,26 +21,31 @@ object PrimitiveTypeNonNullableSupport : Extension() {
     const val configKey = "xu.rui.force_primitive_type_non-nullable"
 
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
         if (getConfig(configKey).toBoolean().not()) {
-            return kotlinDataClass
+            return kotlinClass
         }
 
-        val primitiveTypeNonNullableProperties = kotlinDataClass.properties.map {
-            if (it.type in NULLABLE_PRIMITIVE_TYPES) {
-                val newType = getNonNullPrimitiveType(it.type)
-                if (ConfigManager.defaultValueStrategy != DefaultValueStrategy.None) {
-                    it.copy(type = newType, value = getDefaultValue(newType))
+        if (kotlinClass is DataClass) {
+
+            val primitiveTypeNonNullableProperties = kotlinClass.properties.map {
+                if (it.type in NULLABLE_PRIMITIVE_TYPES) {
+                    val newType = getNonNullPrimitiveType(it.type)
+                    if (ConfigManager.defaultValueStrategy != DefaultValueStrategy.None) {
+                        it.copy(type = newType, value = getDefaultValue(newType))
+                    } else {
+                        it.copy(type = newType)
+                    }
                 } else {
-                    it.copy(type = newType)
+                    it
                 }
-            } else {
-                it
             }
-        }
 
-        return kotlinDataClass.copy(properties = primitiveTypeNonNullableProperties)
+            return kotlinClass.copy(properties = primitiveTypeNonNullableProperties)
+        } else {
+            return kotlinClass
+        }
     }
 
     override fun createUI(): JPanel {
