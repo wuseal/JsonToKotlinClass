@@ -84,10 +84,17 @@ interface IConfigManager {
         }
 
     var targetJsonConverterLib: TargetJsonConverter
-        get() = if (isTestModel) TestConfig.targetJsonConvertLib else TargetJsonConverter.valueOf(
-                PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
-                        ?: TargetJsonConverter.None.name
-        )
+        get() = if (isTestModel) TestConfig.targetJsonConvertLib else {
+            val value = PropertiesComponent.getInstance().getValue(TARGET_JSON_CONVERTER_LIB_KEY)
+            try {
+                TargetJsonConverter.valueOf(
+                        value
+                                ?: TargetJsonConverter.None.name
+                )
+            } catch (e: Exception) {
+                TargetJsonConverter.None
+            }
+        }
         set(value) = if (isTestModel) {
             TestConfig.targetJsonConvertLib = value
         } else {
