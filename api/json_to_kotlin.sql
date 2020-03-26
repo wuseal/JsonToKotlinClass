@@ -32,9 +32,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `hits` (
   `id` int(11) NOT NULL,
   `client` enum('PLUG_IN','WEB','API') NOT NULL,
-  `class_name` text,
+  `class_name` text NOT NULL,
   `annotation_lib` enum('NONE','NONE_CC','GSON','FAST_JSON','JACKSON','MOSHI','LOGAN_SQUARE','MOSHI_CODE_GEN','SERIALIZABLE','CUSTOM') NOT NULL,
-  `class_suffix` text,
+  `class_suffix` text DEFAULT NULL,
   `default_value_strategy` enum('AVOID_NULL','ALLOW_NULL','NONE') NOT NULL,
   `indent` int(11) NOT NULL,
   `is_comments_enabled` tinyint(1) NOT NULL,
