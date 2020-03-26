@@ -53,7 +53,7 @@ CREATE TABLE `hits` (
   `parent_class_template` text,
   `property_prefix` text,
   `property_suffix` text,
-  `property_type_strategy` enum('NOT_NULLABLE','NULLABLE','AUTO_DETERMINE_NULLABLE_OR_NOT','') NOT NULL,
+  `property_type_strategy` enum('NOT_NULLABLE','NULLABLE','AUTO_DETERMINE_NULLABLE_OR_NOT') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlinclass.server.controllers
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -8,16 +9,28 @@ import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.library.JsonToKotlinBuilder
+import wu.seal.jsontokotlinclass.server.data.entities.Hit
+import wu.seal.jsontokotlinclass.server.data.repos.HitsRepo
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateResponse
 
 @Controller
 class GenerateController {
 
+    @Autowired
+    lateinit var hitsRepo: HitsRepo
+
     @PostMapping("/generate")
     @ResponseBody
     fun generate(@RequestBody request: GenerateRequest): GenerateResponse {
         val builder = JsonToKotlinBuilder()
+
+        println("hit repo is $hitsRepo")
+        hitsRepo.save(
+                Hit().apply {
+                    annotationLib
+                }
+        )
 
         // Integrating REST request params with builder class
 
