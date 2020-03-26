@@ -28,7 +28,24 @@ class GenerateController {
         println("hit repo is $hitsRepo")
         hitsRepo.save(
                 Hit().apply {
-                    annotationLib
+                    client = Hit.CLIENT_API
+                    className = "TheClass"
+                    annotationLib = Hit.A_LIB_GSON
+                    defaultValueStrategy = Hit.DVS_ALLOW_NULL
+                    propertyTypeStrategy = Hit.PTS_AUTO_DETERMINE_NULLABLE_OR_NOT
+                    indent = 8
+                    isCommentsEnabled = false
+                    isCreateAnnotationOnlyWhenNeededEnabled = false
+                    isEnableVarProperties = false
+                    isForceInitDefaultValueWithOriginJsonValueEnabled = false
+                    isForcePrimitiveTypeNonNullableEnabled = false
+                    isInnerClassModelEnabled = false
+                    isKeepAnnotationOnClassAndroidxEnabled = false
+                    isKeepAnnotationOnClassEnabled = false
+                    isMapTypeEnabled = false
+                    isOrderByAlphabeticEnabled = false
+                    isParcelableSupportEnabled = false
+                    isPropertyAndAnnotationInSameLineEnabled = false
                 }
         )
 
