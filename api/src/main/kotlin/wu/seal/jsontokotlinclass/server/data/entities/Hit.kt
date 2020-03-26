@@ -44,8 +44,6 @@ class Hit {
     lateinit var annotationLib: String
     lateinit var defaultValueStrategy: String
     lateinit var propertyTypeStrategy: String
-
-    var classSuffix: String? = null
     var indent: Int? = null
     var isCommentsEnabled: Boolean? = null
     var isCreateAnnotationOnlyWhenNeededEnabled: Boolean? = null
@@ -59,8 +57,10 @@ class Hit {
     var isOrderByAlphabeticEnabled: Boolean? = null
     var isParcelableSupportEnabled: Boolean? = null
     var isPropertyAndAnnotationInSameLineEnabled: Boolean? = null
+
     var packageName: String? = null
     var parentClassTemplate: String? = null
     var propertyPrefix: String? = null
     var propertySuffix: String? = null
+    var classSuffix: String? = null
 }
