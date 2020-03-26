@@ -6,6 +6,9 @@
 -- Generation Time: Mar 19, 2020 at 09:32 PM
 -- Server version: 5.7.29-0ubuntu0.16.04.1
 -- PHP Version: 7.0.33-0ubuntu0.16.04.12
+DROP DATABASE IF EXISTS `json_to_kotlin`;
+CREATE DATABASE `json_to_kotlin`;
+USE `json_to_kotlin`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,25 +35,25 @@ CREATE TABLE `hits` (
   `class_name` text,
   `annotation_lib` enum('NONE','NONE_CC','GSON','FAST_JSON','JACKSON','MOSHI','LOGAN_SQUARE','MOSHI_CODE_GEN','SERIALIZABLE','CUSTOM') NOT NULL,
   `class_suffix` text,
-  `default_value_strategy` enum('AVOID_NULL','ALLOW_NULL','NONE') DEFAULT NULL,
+  `default_value_strategy` enum('AVOID_NULL','ALLOW_NULL','NONE') NOT NULL,
   `indent` int(11) NOT NULL,
-  `is_comments_enabled` tinyint(1) DEFAULT NULL,
-  `is_create_annotation_only_when_needed_enabled` tinyint(1) DEFAULT NULL,
-  `is_enable_var_properties` tinyint(1) DEFAULT NULL,
-  `is_force_init_default_value_with_origin_json_value_enabled` tinyint(1) DEFAULT NULL,
-  `is_force_primitive_type_non_nullable_enabled` tinyint(1) DEFAULT NULL,
-  `is_inner_class_model_enabled` tinyint(1) DEFAULT NULL,
-  `is_keep_annotation_on_class_androidx_enabled` tinyint(1) DEFAULT NULL,
-  `is_keep_annotation_on_class_enabled` tinyint(1) DEFAULT NULL,
-  `is_map_type_enabled` tinyint(1) DEFAULT NULL,
-  `is_order_by_alphabetic_enabled` tinyint(1) DEFAULT NULL,
-  `is_parcelable_support_enabled` tinyint(1) DEFAULT NULL,
-  `is_property_and_annotation_in_same_line_enabled` tinyint(1) DEFAULT NULL,
+  `is_comments_enabled` tinyint(1) NOT NULL,
+  `is_create_annotation_only_when_needed_enabled` tinyint(1) NOT NULL,
+  `is_enable_var_properties` tinyint(1) NOT NULL,
+  `is_force_init_default_value_with_origin_json_value_enabled` tinyint(1) NOT NULL,
+  `is_force_primitive_type_non_nullable_enabled` tinyint(1) NOT NULL,
+  `is_inner_class_model_enabled` tinyint(1) NOT NULL,
+  `is_keep_annotation_on_class_androidx_enabled` tinyint(1) NOT NULL,
+  `is_keep_annotation_on_class_enabled` tinyint(1) NOT NULL,
+  `is_map_type_enabled` tinyint(1) NOT NULL,
+  `is_order_by_alphabetic_enabled` tinyint(1) NOT NULL,
+  `is_parcelable_support_enabled` tinyint(1) NOT NULL,
+  `is_property_and_annotation_in_same_line_enabled` tinyint(1) NOT NULL,
   `package_name` text,
   `parent_class_template` text,
   `property_prefix` text,
   `property_suffix` text,
-  `property_type_strategy` enum('NOT_NULLABLE','NULLABLE','AUTO_DETERMINE_NULLABLE_OR_NOT','') DEFAULT NULL,
+  `property_type_strategy` enum('NOT_NULLABLE','NULLABLE','AUTO_DETERMINE_NULLABLE_OR_NOT','') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
