@@ -3,7 +3,8 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue121Test {
@@ -44,21 +45,21 @@ class Issue121Test {
         @SerializedName("active")
         val active: Int = 0, // 1
         @SerializedName("answer")
-        val answer: String = "", // answer
+        val answer: String = "", // Ok i understand.
         @SerializedName("created")
-        val created: String = "", // 2019-03-28T15:41:52+05:30
+        val created: String = "", // 2019-03-28T15:37:06+05:30
         @SerializedName("created_by")
         val createdBy: Int = 0, // 0
         @SerializedName("id")
-        val id: Int = 0, // 2
+        val id: Int = 0, // 1
         @SerializedName("is_del")
         val isDel: Int = 0, // 0
         @SerializedName("modified")
-        val modified: String = "", // 2019-03-28T15:41:52+05:30
+        val modified: String = "", // 2019-03-28T15:37:06+05:30
         @SerializedName("modified_by")
         val modifiedBy: Int = 0, // 0
         @SerializedName("question")
-        val question: String = "" // What is soulmate?
+        val question: String = "" // This is test question?
     )
 }"""
 
@@ -75,7 +76,8 @@ class Issue121Test {
      */
     @Test
     fun testIssue121() {
-        val result = KotlinDataClassCodeMaker("Test", json).makeKotlinDataClassCode()
+        val result = KotlinClassCodeMaker(
+                KotlinClassMaker("Test", json).makeKotlinClass()).makeKotlinClassCode()
         result.trim().should.be.equal(expected)
     }
 }

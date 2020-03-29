@@ -1,6 +1,5 @@
 package wu.seal.jsontokotlin.interceptor.annotations.serializable
 
-import wu.seal.jsontokotlin.ConfigManager
 import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
 
 class AddSerializableAnnotationClassImportDeclarationInterceptor : IImportClassDeclarationInterceptor {
@@ -9,7 +8,7 @@ class AddSerializableAnnotationClassImportDeclarationInterceptor : IImportClassD
 
 
         val propertyAnnotationImportClassString = "import kotlinx.serialization.SerialName\n" +
-                "import kotlinx.serialization.Serializable"+"\nimport kotlinx.serialization.Optional"
+                "import kotlinx.serialization.Serializable"
 
         return originClassImportDeclaration.append(propertyAnnotationImportClassString)
     }

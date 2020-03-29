@@ -1,10 +1,11 @@
 package extensions.chen.biao
 
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 /**
@@ -15,33 +16,38 @@ import javax.swing.JPanel
 object KeepAnnotationSupport : Extension() {
 
 
-    val configKey = "chen.biao.add_keep_annotation_enable"
+    @Suppress("MemberVisibilityCanBePrivate")
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    const val configKey = "chen.biao.add_keep_annotation_enable"
 
     override fun createUI(): JPanel {
-
-        val checkBox = JCheckBox("Add @Keep Annotation On Class ").apply {
-            isSelected = getConfig(configKey).toBoolean()
-            addActionListener {
-                setConfig(configKey, isSelected.toString())
-            }
-        }
-
         return horizontalLinearLayout {
-            checkBox()
+            checkBox("Add @Keep Annotation On Class ", getConfig(configKey).toBoolean()) { isSelectedAfterClick ->
+                setConfig(configKey, isSelectedAfterClick.toString())
+            }()
+            fillSpace()
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        return if (getConfig(configKey).toBoolean()) {
+        if (kotlinClass is DataClass) {
+            return if (getConfig(configKey).toBoolean()) {
 
-            val classAnnotationString = "@Keep"
+                val classAnnotationString = "@Keep"
 
-            val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
+                val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
 
-            return kotlinDataClass.copy(annotations = listOf(classAnnotation))
+                val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinClass.annotations) }
+
+                return kotlinClass.copy(annotations = newAnnotations)
+            } else {
+                kotlinClass
+            }
         } else {
-            kotlinDataClass
+            return kotlinClass
         }
 
     }

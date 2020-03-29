@@ -2,7 +2,7 @@ package wu.seal.jsontokotlin.regression
 
 import com.winterbe.expekt.should
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**
@@ -69,22 +69,21 @@ class Issue108Test {
     /**
      * Начиная с: час (от 0 до 23)
      */
-    val hourMin: Int?,
+    val hourMin: Int,
     /**
      * Начиная с: минуты (от 0 до 59)
      */
-    val minuteMin: Int?,
+    val minuteMin: Int,
     /**
      * До: час (от 0 до 23)
      */
-    val hourMax: Int?,
+    val hourMax: Int,
     /**
      * До: минуты (от 0 до 59)
      */
-    val minuteMax: Int?
-)
-    """.trimIndent()
-    val result = KotlinCodeMaker("TestData", json).makeKotlinData()
+    val minuteMax: Int
+)""".trimIndent()
+    val result = KotlinClassMaker("TestData", json).makeKotlinClass().getCode()
     result.trim().should.be.equal(expected)
   }
 }

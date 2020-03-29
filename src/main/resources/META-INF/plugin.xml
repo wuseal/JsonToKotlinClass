@@ -10,21 +10,21 @@
 
       <b><br>Features:</br></b>
 
-        <br>Generating Kotlin data class from any legal JSON string or any URLs that returns a JSON string as response
-        <br>Generating Kotlin data class from any legal JSON text when right click on directory and select New -> Kotlin data class File from JSON</br>
+        <br>Generating Kotlin class from any legal JSON string/JSONSchema or any URLs that returns a JSON string/JSONSchema as response
+        <br>Generating Kotlin class from any legal JSON text when right click on directory and select New -> Kotlin class File from JSON</br>
         <br>Supporting (almostly) all kinds of JSON libs' annotation(Gson, Jackson, Fastjson, MoShi and LoganSquare, kotlinx.serialization(default custom value))</br>
         <br>Customizing your own annotations</br>
         <br>Initializing properties with default values</br>
         <br>Allowing properties to be nullable(?)</br>
         <br>Determining property nullability automatically</br>
         <br>Renaming property names to be camelCase style when selecting a target JSON lib annotation．</br>
-        <br>Generating Kotlin data class as individual classes</br>
-        <br>Generating Kotlin data class as inner classes</br>
+        <br>Generating Kotlin class as individual classes</br>
+        <br>Generating Kotlin class as inner classes</br>
         <br>Formatting any legal JSON string</br>
         <br>Generating Map Type when json key is primitive type</br>
         <br>Only create annotation when needed</br>
         <br>Custom define data class parent class</br>
-        <br>Sort property  order by Alphabetical</br>
+        <br>Sort property order by Alphabetical</br>
         <br>Make keyword property valid</br>
         <br>Support Loading JSON From Paster/Local File/Http URL</br>
         <br>Support customize your own plugin by Extension Module</br>
@@ -47,11 +47,16 @@
 
 
     <change-notes><![CDATA[
-       <br>New UI&UX  </br>
        <br>Bugs fix  </br>
+       <br>Please see github milestone for detail bug description</br>
+       <br></br>
        <br>New Features </br>
+       <br>1. Normal Class support</br>
+       <br>2. Dynamic plugin load support</br>
+       <br>3. Suppport generating ListClass from JSONArray</br>
+       <br>4. Complex json schema supporting</br>
        <br>Note:</br>
-       <a href="https://github.com/wuseal/JsonToKotlinClass/milestone/8"> detail update</a></br>
+       <a href="https://github.com/wuseal/JsonToKotlinClass/milestone/10"> detail update</a></br>
     ]]>
     </change-notes>
 
@@ -63,11 +68,11 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <postStartupActivity implementation="wu.seal.jsontokotlin.JsonToKotlinApplication"/>
     </extensions>
 
     <actions>
-        <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.MakeKotlinClassAction"
+        <action id="wu.seal.wu.seal.jsontokotlin.makekotlindata" class="wu.seal.jsontokotlin.InsertKotlinClassAction"
                 text="Kotlin Data Classes from JSON"
                 description="Convert a json string data into kotlin data class code">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
@@ -83,10 +88,4 @@
         </action>
 
     </actions>
-
-    <application-components>
-        <component>
-            <implementation-class>wu.seal.jsontokotlin.JsonToKotlinApplication</implementation-class>
-        </component>
-    </application-components>
 </idea-plugin>

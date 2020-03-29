@@ -3,15 +3,9 @@ package wu.seal.jsontokotlin.interceptor
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.applyInterceptor
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
 import wu.seal.jsontokotlin.generateKotlinDataClass
-import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationInterceptor
-
 import wu.seal.jsontokotlin.test.TestConfig
-import wu.seal.jsontokotlin.utils.classblockparse.ClassCodeParser
 
 class MinimalAnnotationInterceptorTest {
 
@@ -39,7 +33,7 @@ class MinimalAnnotationInterceptorTest {
     fun intercept() {
         val generateKotlinDataClass = json.generateKotlinDataClass()
         val interceptedDataClass = generateKotlinDataClass.applyInterceptor(AddGsonAnnotationInterceptor())
-        .applyInterceptor(MinimalAnnotationKotlinDataClassInterceptor())
+        .applyInterceptor(MinimalAnnotationKotlinClassInterceptor())
 
         interceptedDataClass.getCode().should.be.equal(excepted)
     }

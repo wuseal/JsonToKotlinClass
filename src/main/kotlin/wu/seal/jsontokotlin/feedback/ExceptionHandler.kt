@@ -18,7 +18,7 @@ import java.util.*
  * handler the exception
  */
 
-val prettyPrintGson = GsonBuilder().setPrettyPrinting().create()
+val prettyPrintGson: Gson = GsonBuilder().setPrettyPrinting().create()
 
 fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, e ->
     val logBuilder = StringBuilder()

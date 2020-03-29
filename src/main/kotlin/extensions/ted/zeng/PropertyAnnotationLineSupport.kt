@@ -1,10 +1,11 @@
 package extensions.ted.zeng
 
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.classscodestruct.Property
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.classscodestruct.Property
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 /**
@@ -12,25 +13,31 @@ import javax.swing.JPanel
  */
 object PropertyAnnotationLineSupport : Extension() {
 
-    private const val enable = "ted.zeng.property_annotation_in_same_line_enable"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val configKey = "ted.zeng.property_annotation_in_same_line_enable"
 
     override fun createUI(): JPanel {
-        val checkBox = JCheckBox("Keep Annotation And Property In Same Line").apply {
-            isSelected = getConfig(enable).toBoolean()
-            addActionListener {
-                setConfig(enable, isSelected.toString())
-            }
-        }
         return horizontalLinearLayout {
-            checkBox()
+            checkBox("Keep Annotation And Property In Same Line", getConfig(configKey).toBoolean()) { isSelectedAfterClick ->
+                setConfig(configKey, isSelectedAfterClick.toString())
+            }()
+            fillSpace()
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        if (getConfig(enable).toBoolean()) {
-            kotlinDataClass.properties.forEach(Property::letLastAnnotationStayInSameLine)
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
+
+        return if (kotlinClass is DataClass) {
+            if (getConfig(configKey).toBoolean()) {
+                kotlinClass.properties.forEach(Property::letLastAnnotationStayInSameLine)
+            }
+            kotlinClass
+        } else {
+            kotlinClass
         }
-        return kotlinDataClass
     }
 
 }

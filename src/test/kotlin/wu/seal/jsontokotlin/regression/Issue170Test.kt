@@ -4,9 +4,10 @@ package wu.seal.jsontokotlin.regression
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
-import wu.seal.jsontokotlin.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.test.TestConfig
 
 class Issue170Test {
@@ -29,17 +30,17 @@ class Issue170Test {
             "}"
 
 
-    private val expected = "data class A(\n" +
-            "    @SerializedName(\"employees\")\n" +
-            "    val employees: List<Employee>\n" +
-            ") {\n" +
-            "    data class Employee(\n" +
-            "        @SerializedName(\"firstName\")\n" +
-            "        val firstName: String?, // Thomas\n" +
-            "        @SerializedName(\"lastName\")\n" +
-            "        val lastName: String // Carter\n" +
-            "    )\n" +
-            "}"
+    private val expected = """data class A(
+    @SerializedName("employees")
+    val employees: List<Employee>
+) {
+    data class Employee(
+        @SerializedName("firstName")
+        val firstName: String?, // Bill
+        @SerializedName("lastName")
+        val lastName: String // Gates
+    )
+}"""
 
 
 
@@ -59,7 +60,8 @@ class Issue170Test {
      */
     @Test
     fun testIssue130() {
-        val generated = KotlinDataClassCodeMaker("A", testJson).makeKotlinDataClassCode()
+        val generated = KotlinClassCodeMaker(
+                KotlinClassMaker("A", testJson).makeKotlinClass()).makeKotlinClassCode()
         generated.trim().should.be.equal(expected)
     }
 }

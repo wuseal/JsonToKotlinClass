@@ -1,67 +1,56 @@
 package extensions.wu.seal
 
-import com.intellij.util.ui.JBDimension
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.ui.NamingConventionDocument
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import java.awt.event.FocusEvent
-import java.awt.event.FocusListener
-import javax.swing.JCheckBox
+import wu.seal.jsontokotlin.ui.textInput
 import javax.swing.JPanel
-import javax.swing.JTextField
 
 object PropertyPrefixSupport : Extension() {
 
-    private const val prefixKeyEnable = "wu.seal.property_prefix_enable"
-    private const val prefixKey = "wu.seal.property_prefix"
+    const val prefixKeyEnable = "wu.seal.property_prefix_enable"
+    const val prefixKey = "wu.seal.property_prefix"
 
     override fun createUI(): JPanel {
-        val prefixJField = JTextField().apply {
-            text = getConfig(prefixKey)
-
-            addFocusListener(object : FocusListener {
-                override fun focusGained(e: FocusEvent?) {
-                }
-
-                override fun focusLost(e: FocusEvent?) {
-                    if (getConfig(prefixKeyEnable).toBoolean()) {
-                        setConfig(prefixKey, text)
-                    }
-                }
-            })
-
-            isEnabled = getConfig(prefixKeyEnable).toBoolean()
-        }
-
-        val checkBox = JCheckBox("Prefix append before every property: ").apply {
-            isSelected = getConfig(prefixKeyEnable).toBoolean()
-            addActionListener {
-                setConfig(prefixKeyEnable, isSelected.toString())
-                prefixJField.isEnabled = isSelected
-            }
-        }
-
         return horizontalLinearLayout {
-            checkBox()
+            val prefixJField = textInput(getConfig(prefixKey), getConfig(prefixKeyEnable).toBoolean()) {
+                if (getConfig(prefixKeyEnable).toBoolean()) {
+                    setConfig(prefixKey, it.text)
+                }
+            }.also {
+                it.document = NamingConventionDocument(80)
+            }
+            checkBox("Prefix append before every property: ", getConfig(prefixKeyEnable).toBoolean()) { isSelectedAfterClick ->
+                setConfig(prefixKeyEnable, isSelectedAfterClick.toString())
+                prefixJField.isEnabled = isSelectedAfterClick
+            }()
             prefixJField()
-        }.apply {
-            maximumSize = JBDimension(600,40)
         }
-
     }
 
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(prefixKeyEnable).toBoolean() && getConfig(prefixKey).isNotEmpty()) {
-            val originProperties = kotlinDataClass.properties
-            val newProperties = originProperties.map {
-                val prefix = getConfig(prefixKey)
-                val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
-                it.copy(name = newName)
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
+
+        if (kotlinClass is DataClass) {
+
+            return if (getConfig(prefixKeyEnable).toBoolean() && getConfig(prefixKey).isNotEmpty()) {
+                val originProperties = kotlinClass.properties
+                val newProperties = originProperties.map {
+                    val prefix = getConfig(prefixKey)
+                    if (it.name.isNotEmpty()) {
+                        val newName = prefix + it.name.first().toUpperCase() + it.name.substring(1)
+                        it.copy(name = newName)
+                    } else it
+                }
+                kotlinClass.copy(properties = newProperties)
+            } else {
+                kotlinClass
             }
-            kotlinDataClass.copy(properties = newProperties)
         } else {
-            kotlinDataClass
+            return kotlinClass
         }
 
     }

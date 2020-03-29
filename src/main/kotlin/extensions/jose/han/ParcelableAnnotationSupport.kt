@@ -1,16 +1,12 @@
-package extensions.jose.han;
+package extensions.jose.han
 
 import extensions.Extension
-import wu.seal.jsontokotlin.classscodestruct.Annotation
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.ui.checkBox
 import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import java.awt.Cursor
-import java.awt.Desktop
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
-import java.net.URI
-import javax.swing.JCheckBox
-import javax.swing.JLabel
+import wu.seal.jsontokotlin.ui.link
 import javax.swing.JPanel
 
 /**
@@ -19,52 +15,39 @@ import javax.swing.JPanel
  */
 object ParcelableAnnotationSupport : Extension() {
 
-    val configKey = "jose.han.add_parcelable_annotatioin_enable"
+    /**
+     * Config key can't be private, as it will be accessed from `library` module
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    const val configKey = "jose.han.add_parcelable_annotatioin_enable"
 
     override fun createUI(): JPanel {
-
-
-        val checkBox = JCheckBox("Enable Parcelable Support ").apply {
-            isSelected = getConfig(configKey).toBoolean()
-            addActionListener {
-                setConfig(configKey, isSelected.toString())
-            }
-        }
-
-        val linkLabel = JLabel("<html><a href='https://github.com/wuseal/JsonToKotlinClass/blob/master/parceable_support_tip.md'>Need Some Config</a></html>")
-        linkLabel.addMouseListener(object : MouseAdapter() {
-            override fun mouseClicked(e: MouseEvent?) {
-                Desktop.getDesktop().browse(URI("https://github.com/wuseal/JsonToKotlinClass/blob/master/parceable_support_tip.md"))
-            }
-
-            override fun mouseEntered(e: MouseEvent?) {
-                linkLabel.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
-            }
-
-            override fun mouseExited(e: MouseEvent?) {
-                linkLabel.cursor = Cursor.getDefaultCursor()
-            }
-        })
-
         return horizontalLinearLayout {
-            checkBox()
-            linkLabel()
+            checkBox("Enable Parcelable Support ", getConfig(configKey).toBoolean()) { isSelectedAfterClick ->
+                setConfig(configKey, isSelectedAfterClick.toString())
+            }()
+            link("May Need Some Config", "https://github.com/wuseal/JsonToKotlinClass/blob/master/parceable_support_tip.md")()
+            fillSpace()
         }
     }
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
-        return if (getConfig(configKey).toBoolean()) {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-            val classAnnotationString1 = "@SuppressLint(\"ParcelCreator\")"
-            val classAnnotationString2 = "@Parcelize"
+        if (kotlinClass is DataClass) {
+            if (getConfig(configKey).toBoolean()) {
 
-            val classAnnotation1 = Annotation.fromAnnotationString(classAnnotationString1)
-            val classAnnotation2 = Annotation.fromAnnotationString(classAnnotationString2)
+                val classAnnotationString1 = "@SuppressLint(\"ParcelCreator\")"
+                val classAnnotationString2 = "@Parcelize"
 
-            return kotlinDataClass.copy(annotations = listOf(classAnnotation1, classAnnotation2), parentClassTemplate = "Parcelable")
-        } else {
-            kotlinDataClass
+                val classAnnotation1 = Annotation.fromAnnotationString(classAnnotationString1)
+                val classAnnotation2 = Annotation.fromAnnotationString(classAnnotationString2)
+
+                val newAnnotations = mutableListOf(classAnnotation1, classAnnotation2).also { it.addAll(kotlinClass.annotations) }
+
+                return kotlinClass.copy(annotations = newAnnotations, parentClassTemplate = "Parcelable")
+            }
         }
+        return kotlinClass
     }
 
     override fun intercept(originClassImportDeclaration: String): String {

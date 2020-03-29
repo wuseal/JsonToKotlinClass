@@ -13,7 +13,9 @@
 
 # JsonToKotlinClass
 
-Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin)
+Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin).
+We also have a `Java/Kotlin` [library](LIBRARY.md). With this you can generate Kotlin `data class` from JSON string **programmatically**. 
+
 
 ### Overview
 
@@ -44,7 +46,7 @@ This is a very cool tool for Kotlin developers, it can convert a JSON string to 
 Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 
 ### Features
-* Generating Kotlin data class from any legal JSON string or any **URLs that returns a JSON string as response** or **local file that contains JSON string**, for more detail about supported source types, refer to [the documentation](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_json_sources.md)
+* Generating Kotlin data class from any legal JSON string/JSONSchema or any **URLs that returns a JSON string/JSONSchema as response** or **local file that contains JSON string/JSONSchema**, for more detail about supported source types, refer to [the documentation](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_json_sources.md)
 * Generating Kotlin data class from any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`
 * Supporting (almostly) all kinds of JSON libs' annotation(Gson, Jackson, Fastjson, MoShi and LoganSquare, kotlinx.serialization(default custom value))
 * [Customizing your own annotations](https://github.com/wuseal/JsonToKotlinClass/issues/19)

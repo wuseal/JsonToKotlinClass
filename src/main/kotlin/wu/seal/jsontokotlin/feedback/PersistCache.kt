@@ -23,11 +23,6 @@ interface IPersistCache {
     fun deleteAllActionInfo()
 }
 
-fun main(args: Array<String>) {
-    PersistCache.saveExceptionInfo("Exception")
-    println(PersistCache.readAllCachedExceptionInfo())
-}
-
 object PersistCache : IPersistCache {
 
     private val rootDir = "${DefaultCacheDirProvider().get()}/.jsontokotlin"
@@ -55,7 +50,7 @@ object PersistCache : IPersistCache {
 
     override fun readAllCachedExceptionInfo(): String {
         val builder = StringBuilder()
-        exceptionDir.listFiles().forEach {
+        exceptionDir.listFiles()?.forEach {
             if (it.exists()) {
                 builder.append(it.readText()).append("#")
             }
@@ -64,7 +59,7 @@ object PersistCache : IPersistCache {
     }
 
     override fun deleteAllExceptionInfoCache() {
-        exceptionDir.listFiles().forEach { it.delete() }
+        exceptionDir.listFiles()?.forEach { it.delete() }
     }
 
     override fun saveActionInfo(actionInfo: String) {
@@ -73,7 +68,7 @@ object PersistCache : IPersistCache {
 
     override fun readAllCachedActionInfo(): String {
         val builder = StringBuilder()
-        actionDir.listFiles().forEach {
+        actionDir.listFiles()?.forEach {
             if (it.exists()) {
                 builder.append(it.readText()).append("#")
             }
@@ -82,7 +77,7 @@ object PersistCache : IPersistCache {
     }
 
     override fun deleteAllActionInfo() {
-        actionDir.listFiles().forEach { it.delete() }
+        actionDir.listFiles()?.forEach { it.delete() }
     }
 
 }

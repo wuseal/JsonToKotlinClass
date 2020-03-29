@@ -13,9 +13,12 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.file.PsiDirectoryFactory
 import wu.seal.jsontokotlin.feedback.dealWithException
+import wu.seal.jsontokotlin.interceptor.InterceptorManager
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.UnSupportJsonException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
-import wu.seal.jsontokotlin.utils.ClassCodeFilter
-import wu.seal.jsontokotlin.utils.KotlinDataClassFileGenerator
+import wu.seal.jsontokotlin.utils.KotlinClassFileGenerator
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 
 /**
@@ -31,17 +34,16 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
             val dataContext = event.dataContext
             val module = LangDataKeys.MODULE.getData(dataContext) ?: return
 
-            val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)
-            val directory = when (navigatable) {
+            val directory = when (val navigatable = LangDataKeys.NAVIGATABLE.getData(dataContext)) {
                 is PsiDirectory -> navigatable
                 is PsiFile -> navigatable.containingDirectory
                 else -> {
                     val root = ModuleRootManager.getInstance(module)
                     root.sourceRoots
-                            .asSequence()
-                            .mapNotNull {
-                                PsiManager.getInstance(project).findDirectory(it)
-                            }.firstOrNull()
+                        .asSequence()
+                        .mapNotNull {
+                            PsiManager.getInstance(project).findDirectory(it)
+                        }.firstOrNull()
                 }
             } ?: return
 
@@ -75,38 +77,33 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
     private fun dealWithHtmlConvert(advice: String) = advice.replace("<", "&lt;").replace(">", "&gt;")
 
     private fun doGenerateKotlinDataClassFileAction(
-            className: String,
-            json: String,
-            packageDeclare: String,
-            project: Project?,
-            psiFileFactory: PsiFileFactory,
-            directory: PsiDirectory
+        className: String,
+        json: String,
+        packageDeclare: String,
+        project: Project?,
+        psiFileFactory: PsiFileFactory,
+        directory: PsiDirectory
     ) {
-        val generatedClassesString = KotlinCodeMaker(className, json).makeKotlinData()
-
-        val removeDuplicateClassCode = ClassCodeFilter.removeDuplicateClassCode(generatedClassesString)
-
+        val kotlinClass = KotlinClassMaker(className, json).makeKotlinClass()
+        val dataClassAfterApplyInterceptor =
+            kotlinClass.applyInterceptors(InterceptorManager.getEnabledKotlinDataClassInterceptors())
         if (ConfigManager.isInnerClassModel) {
 
-            KotlinDataClassFileGenerator().generateSingleDataClassFile(
-                    className,
-                    packageDeclare,
-                    removeDuplicateClassCode,
-                    project,
-                    psiFileFactory,
-                    directory
+            KotlinClassFileGenerator().generateSingleKotlinClassFile(
+                packageDeclare,
+                dataClassAfterApplyInterceptor,
+                project,
+                psiFileFactory,
+                directory
             )
-
         } else {
-
-            KotlinDataClassFileGenerator().generateMultipleDataClassFiles(
-                    removeDuplicateClassCode,
-                    packageDeclare,
-                    project,
-                    psiFileFactory,
-                    directory
+            KotlinClassFileGenerator().generateMultipleKotlinClassFiles(
+                dataClassAfterApplyInterceptor,
+                packageDeclare,
+                project,
+                psiFileFactory,
+                directory
             )
-
         }
     }
 }

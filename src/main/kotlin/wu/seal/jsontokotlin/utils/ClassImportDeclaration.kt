@@ -1,10 +1,7 @@
 package wu.seal.jsontokotlin.utils
 
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.TargetJsonConverter
 import wu.seal.jsontokotlin.interceptor.IImportClassDeclarationInterceptor
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
-import wu.seal.jsontokotlin.supporter.*
 
 /**
  *  class import declaration

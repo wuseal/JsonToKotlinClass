@@ -4,9 +4,9 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.PropertyTypeStrategy
-import wu.seal.jsontokotlin.codeelements.KClassName
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.codeelements.KClassName
 import java.util.*
 
 /**
@@ -31,6 +31,8 @@ const val BACKSTAGE_NULLABLE_POSTFIX = "_&^#"
  * the default type
  */
 const val DEFAULT_TYPE = TYPE_ANY
+
+val NULLABLE_PRIMITIVE_TYPES = arrayOf(TYPE_INT, TYPE_LONG, TYPE_DOUBLE, TYPE_BOOLEAN).map { it.plus("?") }
 
 fun getPrimitiveType(jsonPrimitive: JsonPrimitive): String {
     return when {
@@ -215,4 +217,9 @@ fun getMapValueTypeConvertFromJsonObject(jsonObject: JsonObject): String {
         valueType = DEFAULT_TYPE
     }
     return valueType
+}
+
+
+fun getNonNullPrimitiveType(rawType: String): String {
+    return if (rawType in NULLABLE_PRIMITIVE_TYPES) rawType.replace("?", "") else rawType
 }
