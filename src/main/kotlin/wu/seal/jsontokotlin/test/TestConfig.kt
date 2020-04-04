@@ -1,10 +1,10 @@
 package wu.seal.jsontokotlin.test
 
+import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.model.codeannotations.GsonPropertyAnnotationTemplate
-import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 
 /**
  *
@@ -44,6 +44,8 @@ object TestConfig {
 
     var extensionsConfig = ""
 
+    var autoDetectJsonScheme  = true
+
     private var state = State()
 
     fun setToTestInitState() {
@@ -70,6 +72,8 @@ object TestConfig {
         isKeywordPropertyValid = true
 
         extensionsConfig = ""
+
+        autoDetectJsonScheme  = true
     }
 
     fun setToTestInitStateForJsonSchema() {
@@ -96,6 +100,8 @@ object TestConfig {
         isKeywordPropertyValid = true
 
         extensionsConfig = ""
+
+        autoDetectJsonScheme  = true
     }
 
 
@@ -117,6 +123,7 @@ object TestConfig {
         newState.parenClassTemplate = parenClassTemplate
         newState.isKeywordPropertyValid = isKeywordPropertyValid
         newState.extensionsConfig = extensionsConfig
+        newState.autoDetectJsonScheme = autoDetectJsonScheme
         state = newState
     }
 
@@ -136,6 +143,7 @@ object TestConfig {
         parenClassTemplate = state.parenClassTemplate
         isKeywordPropertyValid = state.isKeywordPropertyValid
         extensionsConfig = state.extensionsConfig
+        autoDetectJsonScheme  = state.autoDetectJsonScheme
     }
 
     class State {
@@ -163,6 +171,8 @@ object TestConfig {
         var isKeywordPropertyValid = true
 
         var extensionsConfig = ""
+
+        var autoDetectJsonScheme  = true
 
     }
 }
