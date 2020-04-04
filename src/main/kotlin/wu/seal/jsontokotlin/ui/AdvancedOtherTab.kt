@@ -32,6 +32,10 @@ class AdvancedOtherTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDou
                 ConfigManager.enableMinimalAnnotation = it
             }.putAlignLeft()
 
+            checkBox("Auto detect JSON Scheme", ConfigManager.autoDetectJsonScheme) {
+                ConfigManager.autoDetectJsonScheme = it
+            }.putAlignLeft()
+
             horizontalLinearLayout {
                 label("Indent (number of space): ")()
                 textInput(ConfigManager.indent.toString()) {

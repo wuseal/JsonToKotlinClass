@@ -24,6 +24,7 @@ data class ConfigInfo(
         val customPropertyAnnotationFormatString: String = ConfigManager.customPropertyAnnotationFormatString,
         val enableMapType: Boolean = ConfigManager.enableMapType,
         val enableMinimalAnnotation: Boolean = ConfigManager.enableMinimalAnnotation,
+        val autoDetectJsonScheme: Boolean = ConfigManager.autoDetectJsonScheme,
         val parenClassTemplate: String = ConfigManager.parenClassTemplate,
         val extensionsConfig: String = ConfigManager.extensionsConfig,
         val timeStamp: String = Date().time.toString(),
