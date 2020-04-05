@@ -14,6 +14,7 @@ object ConfigManager : IConfigManager {
     private const val ENABLE_MINIMAL_ANNOTATION = "json-to-kotlin-class-enable-minimal-annotation"
     private const val PARENT_CLASS_TEMPLATE = "json-to-kotlin-class-parent-class-template"
     private const val KEYWORD_PROPERTY_EXTENSIONS_CONFIG = "json-to-kotlin-class-keyword-extensions-config"
+    private const val AUTO_DETECT_JSON_SCHEMA = "json-to-kotlin-class-auto-detect-json-schema"
 
     var indent: Int
         get() = if (TestConfig.isTestModel) TestConfig.indent else PropertiesComponent.getInstance().getInt(
@@ -44,6 +45,20 @@ object ConfigManager : IConfigManager {
                 TestConfig.enableMinimalAnnotation = value
             } else {
                 PropertiesComponent.getInstance().setValue(ENABLE_MINIMAL_ANNOTATION, value, false)
+            }
+        }
+
+    var autoDetectJsonScheme: Boolean
+        get() = if (TestConfig.isTestModel) {
+            TestConfig.autoDetectJsonScheme
+        } else {
+            PropertiesComponent.getInstance().getBoolean(AUTO_DETECT_JSON_SCHEMA, true)
+        }
+        set(value) {
+            if (TestConfig.isTestModel) {
+                TestConfig.autoDetectJsonScheme = value
+            } else {
+                PropertiesComponent.getInstance().setValue(AUTO_DETECT_JSON_SCHEMA, value, true)
             }
         }
 
