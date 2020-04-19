@@ -24,7 +24,9 @@ class GenerateController {
     @PostMapping("/generate")
     @ResponseBody
     fun generate(@RequestBody request: GenerateRequest): GenerateResponse {
+        
         val builder = JsonToKotlinBuilder()
+
         hitsRepo.save(request.toHit(Hit.CLIENT_API))
 
         // Integrating REST request params with builder class
