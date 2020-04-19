@@ -64,9 +64,9 @@ fun GenerateRequest.toHit(
     return hit
 }
 
-fun getDefaultValue(extension: Extension, key: String): Boolean {
+/*fun getDefaultValue(extension: Extension, key: String): Boolean {
     return extension.getTestHelper().getConfig(key) == "true"
-}
+}*/
 
 fun parsePropertyTypeStrategy(propertyTypeStrategy: String?): String {
     return when (propertyTypeStrategy ?: TestConfig.propertyTypeStrategy.name) {

@@ -33,6 +33,9 @@ class AddHitController {
     @PostMapping("/add_hit")
     @ResponseBody
     fun addHit(@RequestBody addHitRequest: AddHitRequest): AddHitResponse {
+
+        println("Hit!")
+
         verifyClient(addHitRequest.client)
         hitsRepo.save(
                 addHitRequest.generateRequest.toHit(addHitRequest.client)
