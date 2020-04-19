@@ -2,6 +2,7 @@ package wu.seal.jsontokotlinclass.server.models.routes.generate
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+//TODO: Set default values for generate request
 open class GenerateRequest(
         @JsonProperty("json")
         val json: String,
@@ -10,7 +11,7 @@ open class GenerateRequest(
         val className: String,
 
         @JsonProperty("annotation_lib")
-        val annotationLib: String? = null, // MOSHI_CODE_GEN
+        val annotationLib: String?, // MOSHI_CODE_GEN
 
         @JsonProperty("class_suffix")
         val classSuffix: String? = null, // MY_CLASS_SUFFIX
