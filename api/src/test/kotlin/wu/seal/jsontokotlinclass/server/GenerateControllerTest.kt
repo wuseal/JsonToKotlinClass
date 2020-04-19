@@ -3,11 +3,12 @@ package wu.seal.jsontokotlinclass.server
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
-import wu.seal.jsontokotlin.TargetJsonConverter
+import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlinclass.server.controllers.GenerateController
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
+import wu.seal.jsontokotlin.DefaultValueStrategy as DefaultValueStrategy1
+import wu.seal.jsontokotlin.TargetJsonConverter as TargetJsonConverter1
 
 class GenerateControllerTest {
 
@@ -18,7 +19,28 @@ class GenerateControllerTest {
                 """
                     {"name":"theapache64"}
                 """.trimIndent(),
-                "Person"
+                className = "Person",
+                annotationLib = TargetJsonConverter1.MoShi.name,
+                defaultValueStrategy = DefaultValueStrategy1.AvoidNull.name,
+                propertyTypeStrategy = PropertyTypeStrategy.Nullable.name,
+                indent = 8,
+                isCommentsEnabled = true,
+                isCreateAnnotationOnlyWhenNeededEnabled = false,
+                isEnableVarProperties = true,
+                isForceInitDefaultValueWithOriginJsonValueEnabled = false,
+                isForcePrimitiveTypeNonNullableEnabled = true,
+                isInnerClassModelEnabled = true,
+                isKeepAnnotationOnClassAndroidXEnabled = false,
+                isKeepAnnotationOnClassEnabled = true,
+                isMapTypeEnabled = true,
+                isOrderByAlphabeticEnabled = true,
+                isParcelableSupportEnabled = false,
+                isPropertyAndAnnotationInSameLineEnabled = false,
+                classSuffix = null,
+                packageName = null,
+                parentClassTemplate = null,
+                propertyPrefix = null,
+                propertySuffix = null
         )
 
         val response = controller.generate(request)
@@ -60,11 +82,11 @@ class GenerateControllerTest {
                         }
                     }
                 """.trimIndent(),
-                "Example",
-                TargetJsonConverter.MoShi.name,
-                "MyClassSuffix",
-                DefaultValueStrategy.AvoidNull.name,
-                8,
+                className = "Example",
+                annotationLib = TargetJsonConverter1.MoShi.name,
+                defaultValueStrategy = DefaultValueStrategy1.AvoidNull.name,
+                propertyTypeStrategy = PropertyTypeStrategy.Nullable.name,
+                indent = 8,
                 isCommentsEnabled = true,
                 isCreateAnnotationOnlyWhenNeededEnabled = false,
                 isEnableVarProperties = true,
@@ -77,11 +99,11 @@ class GenerateControllerTest {
                 isOrderByAlphabeticEnabled = true,
                 isParcelableSupportEnabled = false,
                 isPropertyAndAnnotationInSameLineEnabled = false,
+                classSuffix = "MyClassSuffix",
                 packageName = "com.my.package.name",
                 parentClassTemplate = null,
                 propertyPrefix = "prop_prefix_",
-                propertySuffix = "_prop_suffix",
-                propertyTypeStrategy = PropertyTypeStrategy.Nullable.name
+                propertySuffix = "_prop_suffix"
         )
 
         val response = controller.generate(request)

@@ -25,12 +25,9 @@ class GenerateController {
     @ResponseBody
     fun generate(@RequestBody request: GenerateRequest): GenerateResponse {
         val builder = JsonToKotlinBuilder()
-
-        println("hit repo is $hitsRepo")
         hitsRepo.save(request.toHit(Hit.CLIENT_API))
 
         // Integrating REST request params with builder class
-
         if (request.annotationLib != null) {
             builder.setAnnotationLib(TargetJsonConverter.valueOf(request.annotationLib))
         }
