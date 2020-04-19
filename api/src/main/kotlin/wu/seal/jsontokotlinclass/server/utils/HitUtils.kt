@@ -1,12 +1,5 @@
 package wu.seal.jsontokotlinclass.server.utils
 
-import extensions.Extension
-import extensions.chen.biao.KeepAnnotationSupport
-import extensions.jose.han.ParcelableAnnotationSupport
-import extensions.ted.zeng.PropertyAnnotationLineSupport
-import extensions.wu.seal.ForceInitDefaultValueWithOriginJsonValueSupport
-import extensions.wu.seal.KeepAnnotationSupportForAndroidX
-import extensions.xu.rui.PrimitiveTypeNonNullableSupport
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
@@ -14,13 +7,10 @@ import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlinclass.server.data.entities.Hit
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
 
-/**
- * To convert GenerateRequest to Hit
- */
+
 fun GenerateRequest.toHit(
         client: String
 ): Hit {
-
     /**
      * TODO: Variable name length must be reduced
      */
@@ -30,31 +20,20 @@ fun GenerateRequest.toHit(
     hit.annotationLib = parseAnnotationLib(annotationLib)
     hit.defaultValueStrategy = parseDefaultValueStrategy(defaultValueStrategy)
     hit.propertyTypeStrategy = parsePropertyTypeStrategy(propertyTypeStrategy)
-    hit.indent = indent ?: TestConfig.indent
-    hit.isCommentsEnabled = isCommentsEnabled ?: !TestConfig.isCommentOff
+    hit.indent = indent
+    hit.isCommentsEnabled = isCommentsEnabled
     hit.isCreateAnnotationOnlyWhenNeededEnabled = isCreateAnnotationOnlyWhenNeededEnabled
-            ?: TestConfig.enableMinimalAnnotation
-    hit.isEnableVarProperties = isEnableVarProperties ?: TestConfig.isPropertiesVar
+    hit.isEnableVarProperties = isEnableVarProperties
 
     hit.isForceInitDefaultValueWithOriginJsonValueEnabled = isForceInitDefaultValueWithOriginJsonValueEnabled
-            ?: getDefaultValue(ForceInitDefaultValueWithOriginJsonValueSupport, ForceInitDefaultValueWithOriginJsonValueSupport.configKey)
     hit.isForcePrimitiveTypeNonNullableEnabled = isForcePrimitiveTypeNonNullableEnabled
-            ?: getDefaultValue(PrimitiveTypeNonNullableSupport, PrimitiveTypeNonNullableSupport.configKey)
-    hit.isInnerClassModelEnabled = isInnerClassModelEnabled ?: TestConfig.isNestedClassModel
-    hit.isKeepAnnotationOnClassAndroidxEnabled = isKeepAnnotationOnClassAndroidXEnabled ?: getDefaultValue(
-            KeepAnnotationSupportForAndroidX, KeepAnnotationSupportForAndroidX.configKey
-    )
-    hit.isKeepAnnotationOnClassEnabled = isKeepAnnotationOnClassEnabled ?: getDefaultValue(
-            KeepAnnotationSupport, KeepAnnotationSupport.configKey
-    )
-    hit.isMapTypeEnabled = isMapTypeEnabled ?: TestConfig.enableMapType
-    hit.isOrderByAlphabeticEnabled = isOrderByAlphabeticEnabled ?: TestConfig.isOrderByAlphabetical
-    hit.isParcelableSupportEnabled = isParcelableSupportEnabled ?: getDefaultValue(
-            ParcelableAnnotationSupport, ParcelableAnnotationSupport.configKey
-    )
-    hit.isPropertyAndAnnotationInSameLineEnabled = isPropertyAndAnnotationInSameLineEnabled ?: getDefaultValue(
-            PropertyAnnotationLineSupport, PropertyAnnotationLineSupport.configKey
-    )
+    hit.isInnerClassModelEnabled = isInnerClassModelEnabled
+    hit.isKeepAnnotationOnClassAndroidxEnabled = isKeepAnnotationOnClassAndroidXEnabled
+    hit.isKeepAnnotationOnClassEnabled = isKeepAnnotationOnClassEnabled
+    hit.isMapTypeEnabled = isMapTypeEnabled
+    hit.isOrderByAlphabeticEnabled = isOrderByAlphabeticEnabled
+    hit.isParcelableSupportEnabled = isParcelableSupportEnabled
+    hit.isPropertyAndAnnotationInSameLineEnabled = isPropertyAndAnnotationInSameLineEnabled
 
     hit.packageName = packageName
     hit.parentClassTemplate = parentClassTemplate
@@ -63,10 +42,6 @@ fun GenerateRequest.toHit(
     hit.classSuffix = classSuffix
     return hit
 }
-
-/*fun getDefaultValue(extension: Extension, key: String): Boolean {
-    return extension.getTestHelper().getConfig(key) == "true"
-}*/
 
 fun parsePropertyTypeStrategy(propertyTypeStrategy: String?): String {
     return when (propertyTypeStrategy ?: TestConfig.propertyTypeStrategy.name) {

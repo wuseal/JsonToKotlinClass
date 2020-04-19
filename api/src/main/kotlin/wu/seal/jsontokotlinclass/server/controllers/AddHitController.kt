@@ -38,7 +38,7 @@ class AddHitController {
 
         verifyClient(addHitRequest.client)
         hitsRepo.save(
-                addHitRequest.generateRequest.toHit(addHitRequest.client)
+                addHitRequest.generateMeta.toHit(addHitRequest.client)
         )
         return AddHitResponse(
                 null,
