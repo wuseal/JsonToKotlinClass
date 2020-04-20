@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlinclass.server.models.routes.addhit
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
 
 class AddHitRequest(
@@ -31,40 +30,40 @@ class AddHitRequest(
             indent: Int,
 
             @JsonProperty("is_comments_enabled")
-            isCommentsEnabled: Boolean,
+            commentsEnabled: Boolean,
 
             @JsonProperty("is_create_annotation_only_when_needed_enabled")
-            isCreateAnnotationOnlyWhenNeededEnabled: Boolean,
+            createAnnotationOnlyWhenNeededEnabled: Boolean,
 
             @JsonProperty("is_enable_var_properties")
-            isEnableVarProperties: Boolean,
+            enableVarProperties: Boolean,
 
             @JsonProperty("is_force_init_default_ue_with_origin_json_ue_enabled")
-            isForceInitDefaultValueWithOriginJsonValueEnabled: Boolean,
+            forceInitDefaultValueWithOriginJsonValueEnabled: Boolean,
 
             @JsonProperty("is_force_primitive_type_non_nullable_enabled")
-            isForcePrimitiveTypeNonNullableEnabled: Boolean,
+            forcePrimitiveTypeNonNullableEnabled: Boolean,
 
             @JsonProperty("is_inner_class_model_enabled")
-            isInnerClassModelEnabled: Boolean,
+            innerClassModelEnabled: Boolean,
 
             @JsonProperty("is_keep_annotation_on_class_androidx_enabled")
-            isKeepAnnotationOnClassAndroidXEnabled: Boolean,
+            keepAnnotationOnClassAndroidXEnabled: Boolean,
 
             @JsonProperty("is_keep_annotation_on_class_enabled")
-            isKeepAnnotationOnClassEnabled: Boolean,
+            keepAnnotationOnClassEnabled: Boolean,
 
             @JsonProperty("is_map_type_enabled")
-            isMapTypeEnabled: Boolean,
+            mapTypeEnabled: Boolean,
 
             @JsonProperty("is_order_by_alphabetic_enabled")
-            isOrderByAlphabeticEnabled: Boolean,
+            orderByAlphabeticEnabled: Boolean,
 
             @JsonProperty("is_parcelable_support_enabled")
-            isParcelableSupportEnabled: Boolean,
+            parcelableSupportEnabled: Boolean,
 
             @JsonProperty("is_property_and_annotation_in_same_line_enabled")
-            isPropertyAndAnnotationInSameLineEnabled: Boolean,
+            propertyAndAnnotationInSameLineEnabled: Boolean,
 
             @JsonProperty("package_name")
             packageName: String?,
@@ -87,18 +86,18 @@ class AddHitRequest(
             defaultValueStrategy,
             propertyTypeStrategy,
             indent,
-            isCommentsEnabled,
-            isCreateAnnotationOnlyWhenNeededEnabled,
-            isEnableVarProperties,
-            isForceInitDefaultValueWithOriginJsonValueEnabled,
-            isForcePrimitiveTypeNonNullableEnabled,
-            isInnerClassModelEnabled,
-            isKeepAnnotationOnClassAndroidXEnabled,
-            isKeepAnnotationOnClassEnabled,
-            isMapTypeEnabled,
-            isOrderByAlphabeticEnabled,
-            isParcelableSupportEnabled,
-            isPropertyAndAnnotationInSameLineEnabled,
+            commentsEnabled,
+            createAnnotationOnlyWhenNeededEnabled,
+            enableVarProperties,
+            forceInitDefaultValueWithOriginJsonValueEnabled,
+            forcePrimitiveTypeNonNullableEnabled,
+            innerClassModelEnabled,
+            keepAnnotationOnClassAndroidXEnabled,
+            keepAnnotationOnClassEnabled,
+            mapTypeEnabled,
+            orderByAlphabeticEnabled,
+            parcelableSupportEnabled,
+            propertyAndAnnotationInSameLineEnabled,
             packageName,
             parentClassTemplate,
             propertyPrefix,

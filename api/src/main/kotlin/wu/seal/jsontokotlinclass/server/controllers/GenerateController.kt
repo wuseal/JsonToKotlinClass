@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlinclass.server.controllers
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
@@ -45,52 +44,52 @@ class GenerateController {
             builder.setIndent(request.indent)
         }
 
-        if (request.isCommentsEnabled != null) {
-            builder.enableComments(request.isCommentsEnabled)
+        if (request.commentsEnabled != null) {
+            builder.enableComments(request.commentsEnabled)
         }
 
-        if (request.isCreateAnnotationOnlyWhenNeededEnabled != null) {
-            builder.enableCreateAnnotationOnlyWhenNeeded(request.isCreateAnnotationOnlyWhenNeededEnabled)
+        if (request.createAnnotationOnlyWhenNeededEnabled != null) {
+            builder.enableCreateAnnotationOnlyWhenNeeded(request.createAnnotationOnlyWhenNeededEnabled)
         }
 
-        if (request.isEnableVarProperties != null) {
-            builder.enableVarProperties(request.isEnableVarProperties)
+        if (request.enableVarProperties != null) {
+            builder.enableVarProperties(request.enableVarProperties)
         }
 
-        if (request.isForceInitDefaultValueWithOriginJsonValueEnabled != null) {
-            builder.enableForceInitDefaultValueWithOriginJsonValue(request.isForceInitDefaultValueWithOriginJsonValueEnabled)
+        if (request.forceInitDefaultValueWithOriginJsonValueEnabled != null) {
+            builder.enableForceInitDefaultValueWithOriginJsonValue(request.forceInitDefaultValueWithOriginJsonValueEnabled)
         }
 
-        if (request.isForcePrimitiveTypeNonNullableEnabled != null) {
-            builder.enableForcePrimitiveTypeNonNullable(request.isForcePrimitiveTypeNonNullableEnabled)
+        if (request.forcePrimitiveTypeNonNullableEnabled != null) {
+            builder.enableForcePrimitiveTypeNonNullable(request.forcePrimitiveTypeNonNullableEnabled)
         }
 
-        if (request.isInnerClassModelEnabled != null) {
-            builder.enableInnerClassModel(request.isInnerClassModelEnabled)
+        if (request.innerClassModelEnabled != null) {
+            builder.enableInnerClassModel(request.innerClassModelEnabled)
         }
 
-        if (request.isKeepAnnotationOnClassAndroidXEnabled != null) {
-            builder.enableKeepAnnotationOnClassAndroidX(request.isKeepAnnotationOnClassAndroidXEnabled)
+        if (request.keepAnnotationOnClassAndroidXEnabled != null) {
+            builder.enableKeepAnnotationOnClassAndroidX(request.keepAnnotationOnClassAndroidXEnabled)
         }
 
-        if (request.isKeepAnnotationOnClassEnabled != null) {
-            builder.enableKeepAnnotationOnClass(request.isKeepAnnotationOnClassEnabled)
+        if (request.keepAnnotationOnClassEnabled != null) {
+            builder.enableKeepAnnotationOnClass(request.keepAnnotationOnClassEnabled)
         }
 
-        if (request.isMapTypeEnabled != null) {
-            builder.enableMapType(request.isMapTypeEnabled)
+        if (request.mapTypeEnabled != null) {
+            builder.enableMapType(request.mapTypeEnabled)
         }
 
-        if (request.isOrderByAlphabeticEnabled != null) {
-            builder.enableOrderByAlphabetic(request.isOrderByAlphabeticEnabled)
+        if (request.orderByAlphabeticEnabled != null) {
+            builder.enableOrderByAlphabetic(request.orderByAlphabeticEnabled)
         }
 
-        if (request.isParcelableSupportEnabled != null) {
-            builder.enableParcelableSupport(request.isParcelableSupportEnabled)
+        if (request.parcelableSupportEnabled != null) {
+            builder.enableParcelableSupport(request.parcelableSupportEnabled)
         }
 
-        if (request.isPropertyAndAnnotationInSameLineEnabled != null) {
-            builder.enableAnnotationAndPropertyInSameLine(request.isPropertyAndAnnotationInSameLineEnabled)
+        if (request.propertyAndAnnotationInSameLineEnabled != null) {
+            builder.enableAnnotationAndPropertyInSameLine(request.propertyAndAnnotationInSameLineEnabled)
         }
 
         if (request.packageName != null) {

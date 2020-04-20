@@ -2,7 +2,6 @@ package wu.seal.jsontokotlinclass.server.models.routes.generate
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-//TODO: Set default values for generate request
 open class GenerateRequest(
         @JsonProperty("json")
         val json: String,
@@ -23,40 +22,40 @@ open class GenerateRequest(
         val indent: Int? = null, // 3
 
         @JsonProperty("is_comments_enabled")
-        val isCommentsEnabled: Boolean? = null, // true
+        val commentsEnabled: Boolean? = null, // true
 
         @JsonProperty("is_create_annotation_only_when_needed_enabled")
-        val isCreateAnnotationOnlyWhenNeededEnabled: Boolean? = null, // true
+        val createAnnotationOnlyWhenNeededEnabled: Boolean? = null, // true
 
         @JsonProperty("is_enable_var_properties")
-        val isEnableVarProperties: Boolean? = null, // false
+        val enableVarProperties: Boolean? = null, // false
 
         @JsonProperty("is_force_init_default_value_with_origin_json_value_enabled")
-        val isForceInitDefaultValueWithOriginJsonValueEnabled: Boolean? = null, // true
+        val forceInitDefaultValueWithOriginJsonValueEnabled: Boolean? = null, // true
 
         @JsonProperty("is_force_primitive_type_non_nullable_enabled")
-        val isForcePrimitiveTypeNonNullableEnabled: Boolean? = null, // true
+        val forcePrimitiveTypeNonNullableEnabled: Boolean? = null, // true
 
         @JsonProperty("is_inner_class_model_enabled")
-        val isInnerClassModelEnabled: Boolean? = null, // false
+        val innerClassModelEnabled: Boolean? = null, // false
 
         @JsonProperty("is_keep_annotation_on_class_androidx_enabled")
-        val isKeepAnnotationOnClassAndroidXEnabled: Boolean? = null, // true
+        val keepAnnotationOnClassAndroidXEnabled: Boolean? = null, // true
 
         @JsonProperty("is_keep_annotation_on_class_enabled")
-        val isKeepAnnotationOnClassEnabled: Boolean? = null, // true
+        val keepAnnotationOnClassEnabled: Boolean? = null, // true
 
         @JsonProperty("is_map_type_enabled")
-        val isMapTypeEnabled: Boolean? = null, // true
+        val mapTypeEnabled: Boolean? = null, // true
 
         @JsonProperty("is_order_by_alphabetic_enabled")
-        val isOrderByAlphabeticEnabled: Boolean? = null, // true
+        val orderByAlphabeticEnabled: Boolean? = null, // true
 
         @JsonProperty("is_parcelable_support_enabled")
-        val isParcelableSupportEnabled: Boolean? = null, // true
+        val parcelableSupportEnabled: Boolean? = null, // true
 
         @JsonProperty("is_property_and_annotation_in_same_line_enabled")
-        val isPropertyAndAnnotationInSameLineEnabled: Boolean? = null, // true
+        val propertyAndAnnotationInSameLineEnabled: Boolean? = null, // true
 
         @JsonProperty("package_name")
         val packageName: String? = null, // com.my.package.name
