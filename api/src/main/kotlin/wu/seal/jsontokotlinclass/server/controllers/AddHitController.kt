@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlinclass.server.controllers
 
+import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,6 +31,9 @@ class AddHitController {
     @Autowired
     lateinit var hitsRepo: HitsRepo
 
+    @ApiOperation(
+            "To add new analytics event"
+    )
     @PostMapping("/add_hit")
     @ResponseBody
     fun addHit(@RequestBody addHitRequest: AddHitRequest): AddHitResponse {
