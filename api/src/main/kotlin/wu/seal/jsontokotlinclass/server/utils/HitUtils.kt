@@ -1,5 +1,12 @@
 package wu.seal.jsontokotlinclass.server.utils
 
+import extensions.chen.biao.KeepAnnotationSupport
+import extensions.jose.han.ParcelableAnnotationSupport
+import extensions.ted.zeng.PropertyAnnotationLineSupport
+import extensions.wu.seal.ForceInitDefaultValueWithOriginJsonValueSupport
+import extensions.wu.seal.KeepAnnotationSupportForAndroidX
+import extensions.xu.rui.PrimitiveTypeNonNullableSupport
+import org.aspectj.weaver.ast.Test
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
@@ -21,19 +28,47 @@ fun GenerateRequest.toHit(
     hit.defaultValueStrategy = parseDefaultValueStrategy(defaultValueStrategy)
     hit.propertyTypeStrategy = parsePropertyTypeStrategy(propertyTypeStrategy)
     hit.indent = indent
+            ?: TestConfig.indent
     hit.isCommentsEnabled = isCommentsEnabled
+            ?: !TestConfig.isCommentOff
     hit.isCreateAnnotationOnlyWhenNeededEnabled = isCreateAnnotationOnlyWhenNeededEnabled
+            ?: TestConfig.enableMinimalAnnotation
     hit.isEnableVarProperties = isEnableVarProperties
+            ?: TestConfig.isPropertiesVar
 
     hit.isForceInitDefaultValueWithOriginJsonValueEnabled = isForceInitDefaultValueWithOriginJsonValueEnabled
+            ?: ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().getConfig(
+                    ForceInitDefaultValueWithOriginJsonValueSupport.configKey
+            ).toBoolean()
+
     hit.isForcePrimitiveTypeNonNullableEnabled = isForcePrimitiveTypeNonNullableEnabled
+            ?: PrimitiveTypeNonNullableSupport.getTestHelper().getConfig(
+                    PrimitiveTypeNonNullableSupport.configKey
+            ).toBoolean()
     hit.isInnerClassModelEnabled = isInnerClassModelEnabled
+            ?: TestConfig.isNestedClassModel
     hit.isKeepAnnotationOnClassAndroidxEnabled = isKeepAnnotationOnClassAndroidXEnabled
+            ?: KeepAnnotationSupportForAndroidX.getTestHelper().getConfig(
+                    KeepAnnotationSupportForAndroidX.configKey
+            ).toBoolean()
+
     hit.isKeepAnnotationOnClassEnabled = isKeepAnnotationOnClassEnabled
+            ?: KeepAnnotationSupport.getTestHelper().getConfig(
+                    KeepAnnotationSupport.configKey
+            ).toBoolean()
+
     hit.isMapTypeEnabled = isMapTypeEnabled
+            ?: TestConfig.enableMapType
     hit.isOrderByAlphabeticEnabled = isOrderByAlphabeticEnabled
+            ?: TestConfig.isOrderByAlphabetical
     hit.isParcelableSupportEnabled = isParcelableSupportEnabled
+            ?: ParcelableAnnotationSupport.getTestHelper().getConfig(
+                    ParcelableAnnotationSupport.configKey
+            ).toBoolean()
     hit.isPropertyAndAnnotationInSameLineEnabled = isPropertyAndAnnotationInSameLineEnabled
+            ?: PropertyAnnotationLineSupport.getTestHelper().getConfig(
+                    PropertyAnnotationLineSupport.configKey
+            ).toBoolean()
 
     hit.packageName = packageName
     hit.parentClassTemplate = parentClassTemplate
@@ -54,7 +89,7 @@ fun parsePropertyTypeStrategy(propertyTypeStrategy: String?): String {
 
 fun parseDefaultValueStrategy(defaultValueStrategy: String?): String {
     return when (defaultValueStrategy ?: TestConfig.defaultValueStrategy.name) {
-        DefaultValueStrategy.None.name -> Hit.DVS_NONE
+        DefaultValueStrategy.AvoidNull.name -> Hit.DVS_NONE
         DefaultValueStrategy.AvoidNull.name -> Hit.DVS_AVOID_NULL
         DefaultValueStrategy.AllowNull.name -> Hit.DVS_ALLOW_NULL
         else -> throw IllegalArgumentException("Undefined DVS : $defaultValueStrategy")

@@ -13,9 +13,6 @@ open class GenerateRequest(
         @JsonProperty("annotation_lib")
         val annotationLib: String?, // MOSHI_CODE_GEN
 
-        @JsonProperty("class_suffix")
-        val classSuffix: String? = null, // MY_CLASS_SUFFIX
-
         @JsonProperty("default_value_strategy")
         val defaultValueStrategy: String? = null, // AVOID_NULL
 
@@ -69,6 +66,9 @@ open class GenerateRequest(
 
         @JsonProperty("property_prefix")
         val propertyPrefix: String? = null, // MY_PREFIX
+
+        @JsonProperty("class_suffix")
+        val classSuffix: String? = null, // MY_CLASS_SUFFIX
 
         @JsonProperty("property_suffix")
         val propertySuffix: String? = null // MY_SUFFIX

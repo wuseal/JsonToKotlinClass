@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.RestController
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
@@ -15,7 +16,7 @@ import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateResponse
 import wu.seal.jsontokotlinclass.server.utils.toHit
 
-@Controller
+@RestController
 class GenerateController {
 
     @Autowired
@@ -24,10 +25,8 @@ class GenerateController {
     @PostMapping("/generate")
     @ResponseBody
     fun generate(@RequestBody request: GenerateRequest): GenerateResponse {
-        
-        val builder = JsonToKotlinBuilder()
 
-        hitsRepo.save(request.toHit(Hit.CLIENT_API))
+        val builder = JsonToKotlinBuilder()
 
         // Integrating REST request params with builder class
         if (request.annotationLib != null) {
@@ -113,6 +112,13 @@ class GenerateController {
         if (request.propertyTypeStrategy != null) {
             builder.setPropertyTypeStrategy(PropertyTypeStrategy.valueOf(request.propertyTypeStrategy))
         }
+
+        // Setting
+        val hit = request.toHit(Hit.CLIENT_API)
+
+
+        // Setting default values
+        hitsRepo.save(hit)
 
         val json = builder.build(request.json, request.className)
         return GenerateResponse(
