@@ -18,7 +18,7 @@ class SwaggerConfiguration {
     open fun api(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("wu.seal.jsontokotlinclass.server"))
                 .paths(PathSelectors.any())
                 .build()
     }
