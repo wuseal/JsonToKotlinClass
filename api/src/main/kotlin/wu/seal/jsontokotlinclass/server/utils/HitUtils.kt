@@ -88,7 +88,7 @@ fun parsePropertyTypeStrategy(propertyTypeStrategy: String?): String {
 
 fun parseDefaultValueStrategy(defaultValueStrategy: String?): String {
     return when (defaultValueStrategy ?: TestConfig.defaultValueStrategy.name) {
-        DefaultValueStrategy.AvoidNull.name -> Hit.DVS_NONE
+        DefaultValueStrategy.None.name -> Hit.DVS_NONE
         DefaultValueStrategy.AvoidNull.name -> Hit.DVS_AVOID_NULL
         DefaultValueStrategy.AllowNull.name -> Hit.DVS_ALLOW_NULL
         else -> throw IllegalArgumentException("Undefined DVS : $defaultValueStrategy")

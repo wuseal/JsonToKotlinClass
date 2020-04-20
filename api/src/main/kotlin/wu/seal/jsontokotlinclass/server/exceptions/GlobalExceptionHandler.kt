@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import wu.seal.jsontokotlinclass.server.models.routes.base.BaseResponse
-import java.lang.Exception
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
