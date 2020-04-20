@@ -6,7 +6,6 @@ import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.ForceInitDefaultValueWithOriginJsonValueSupport
 import extensions.wu.seal.KeepAnnotationSupportForAndroidX
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
-import org.aspectj.weaver.ast.Test
 import wu.seal.jsontokotlin.DefaultValueStrategy
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlin.TargetJsonConverter
@@ -29,43 +28,43 @@ fun GenerateRequest.toHit(
     hit.propertyTypeStrategy = parsePropertyTypeStrategy(propertyTypeStrategy)
     hit.indent = indent
             ?: TestConfig.indent
-    hit.isCommentsEnabled = isCommentsEnabled
+    hit.isCommentsEnabled = commentsEnabled
             ?: !TestConfig.isCommentOff
-    hit.isCreateAnnotationOnlyWhenNeededEnabled = isCreateAnnotationOnlyWhenNeededEnabled
+    hit.isCreateAnnotationOnlyWhenNeededEnabled = createAnnotationOnlyWhenNeededEnabled
             ?: TestConfig.enableMinimalAnnotation
-    hit.isEnableVarProperties = isEnableVarProperties
+    hit.isEnableVarProperties = enableVarProperties
             ?: TestConfig.isPropertiesVar
 
-    hit.isForceInitDefaultValueWithOriginJsonValueEnabled = isForceInitDefaultValueWithOriginJsonValueEnabled
+    hit.isForceInitDefaultValueWithOriginJsonValueEnabled = forceInitDefaultValueWithOriginJsonValueEnabled
             ?: ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().getConfig(
                     ForceInitDefaultValueWithOriginJsonValueSupport.configKey
             ).toBoolean()
 
-    hit.isForcePrimitiveTypeNonNullableEnabled = isForcePrimitiveTypeNonNullableEnabled
+    hit.isForcePrimitiveTypeNonNullableEnabled = forcePrimitiveTypeNonNullableEnabled
             ?: PrimitiveTypeNonNullableSupport.getTestHelper().getConfig(
                     PrimitiveTypeNonNullableSupport.configKey
             ).toBoolean()
-    hit.isInnerClassModelEnabled = isInnerClassModelEnabled
+    hit.isInnerClassModelEnabled = innerClassModelEnabled
             ?: TestConfig.isNestedClassModel
-    hit.isKeepAnnotationOnClassAndroidxEnabled = isKeepAnnotationOnClassAndroidXEnabled
+    hit.isKeepAnnotationOnClassAndroidxEnabled = keepAnnotationOnClassAndroidXEnabled
             ?: KeepAnnotationSupportForAndroidX.getTestHelper().getConfig(
                     KeepAnnotationSupportForAndroidX.configKey
             ).toBoolean()
 
-    hit.isKeepAnnotationOnClassEnabled = isKeepAnnotationOnClassEnabled
+    hit.isKeepAnnotationOnClassEnabled = keepAnnotationOnClassEnabled
             ?: KeepAnnotationSupport.getTestHelper().getConfig(
                     KeepAnnotationSupport.configKey
             ).toBoolean()
 
-    hit.isMapTypeEnabled = isMapTypeEnabled
+    hit.isMapTypeEnabled = mapTypeEnabled
             ?: TestConfig.enableMapType
-    hit.isOrderByAlphabeticEnabled = isOrderByAlphabeticEnabled
+    hit.isOrderByAlphabeticEnabled = orderByAlphabeticEnabled
             ?: TestConfig.isOrderByAlphabetical
-    hit.isParcelableSupportEnabled = isParcelableSupportEnabled
+    hit.isParcelableSupportEnabled = parcelableSupportEnabled
             ?: ParcelableAnnotationSupport.getTestHelper().getConfig(
                     ParcelableAnnotationSupport.configKey
             ).toBoolean()
-    hit.isPropertyAndAnnotationInSameLineEnabled = isPropertyAndAnnotationInSameLineEnabled
+    hit.isPropertyAndAnnotationInSameLineEnabled = propertyAndAnnotationInSameLineEnabled
             ?: PropertyAnnotationLineSupport.getTestHelper().getConfig(
                     PropertyAnnotationLineSupport.configKey
             ).toBoolean()

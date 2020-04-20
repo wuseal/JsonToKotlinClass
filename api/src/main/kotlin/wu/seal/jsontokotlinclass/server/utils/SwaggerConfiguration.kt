@@ -17,20 +17,9 @@ class SwaggerConfiguration {
     @Bean
     open fun api(): Docket {
         return Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .build()
-    }
-
-    private fun apiInfo(): ApiInfo {
-        return ApiInfoBuilder()
-                .title("Spring Boot2.X Kotlin Use in Swagger2 structure RESTFul APIs")
-                .description("More SpringBoot2.X Kotlin Pay attention to the article:Cherish fish blog")
-                .termsOfServiceUrl("https://www.intodream.io")
-                .contact(Contact("Cherish fish", "https://www.tisnz.com", "xmsjgzs@163.com"))
-                .version("1.0.0")
                 .build()
     }
 
