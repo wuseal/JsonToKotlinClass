@@ -22,7 +22,7 @@ import wu.seal.jsontokotlinclass.server.utils.toHit
 class GenerateController {
 
     @Autowired
-    lateinit var hitsRepo: HitsRepo
+    var hitsRepo: HitsRepo? = null
 
     @ApiOperation("To generate Kotlin source code from given input")
     @PostMapping("/generate")
@@ -116,12 +116,14 @@ class GenerateController {
             builder.setPropertyTypeStrategy(PropertyTypeStrategy.valueOf(request.propertyTypeStrategy))
         }
 
-        // Setting
-        val hit = request.toHit(Hit.CLIENT_API)
+        if (hitsRepo != null) {
+            // Setting
+            val hit = request.toHit(Hit.CLIENT_API)
 
 
-        // Setting default values
-        hitsRepo.save(hit)
+            // Setting default values
+            hitsRepo!!.save(hit)
+        }
 
         val json = builder.build(request.json, request.className)
         return GenerateResponse(

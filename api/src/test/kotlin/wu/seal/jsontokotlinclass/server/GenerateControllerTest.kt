@@ -1,8 +1,15 @@
 package wu.seal.jsontokotlinclass.server
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import wu.seal.jsontokotlin.PropertyTypeStrategy
 import wu.seal.jsontokotlinclass.server.controllers.GenerateController
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
@@ -11,9 +18,21 @@ import wu.seal.jsontokotlin.TargetJsonConverter as TargetJsonConverter1
 
 class GenerateControllerTest {
 
+    lateinit var mockMvc: MockMvc
+    lateinit var objectMapper: ObjectMapper
+
+    @Before
+    fun setup() {
+        this.mockMvc = MockMvcBuilders.standaloneSetup(
+                GenerateController()
+        ).build()
+
+        this.objectMapper = ObjectMapper()
+    }
+
     @Test
     fun simpleTest() {
-        val controller = GenerateController()
+
         val request = GenerateRequest(
                 """
                     {"name":"theapache64"}
@@ -42,12 +61,11 @@ class GenerateControllerTest {
                 propertySuffix = null
         )
 
-        val response = controller.generate(request)
-        val actualOutput = ObjectMapper().writeValueAsString(response)
-        val expectedOutput = """
-            {"data":{"code":"data class Person(\n    val name: String\n)"},"error":false,"error_code":-1,"message":"OK"}
-        """.trimIndent()
-        assertEquals(expectedOutput, actualOutput)
+        val requestJson = objectMapper.writeValueAsString(request)
+        mockMvc.perform(post("/generate").content(requestJson).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk)
+                .andExpect(content().string("{\"data\":{\"code\":\"data class Person(\\n        val name: String\\n)\"},\"error\":false,\"error_code\":-1,\"message\":\"OK\"}"))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
     }
 
     @Test
