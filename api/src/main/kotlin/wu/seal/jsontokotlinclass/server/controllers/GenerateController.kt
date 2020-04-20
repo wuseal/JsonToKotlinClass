@@ -1,5 +1,7 @@
 package wu.seal.jsontokotlinclass.server.controllers
 
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,12 +17,14 @@ import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateRequest
 import wu.seal.jsontokotlinclass.server.models.routes.generate.GenerateResponse
 import wu.seal.jsontokotlinclass.server.utils.toHit
 
+@Api(description = "To generate Kotlin source code")
 @RestController
 class GenerateController {
 
     @Autowired
     lateinit var hitsRepo: HitsRepo
 
+    @ApiOperation("To generate Kotlin source code from given input")
     @PostMapping("/generate")
     @ResponseBody
     fun generate(@RequestBody request: GenerateRequest): GenerateResponse {

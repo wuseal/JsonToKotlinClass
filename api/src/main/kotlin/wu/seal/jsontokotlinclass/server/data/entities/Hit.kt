@@ -1,7 +1,5 @@
 package wu.seal.jsontokotlinclass.server.data.entities
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import wu.seal.jsontokotlin.DefaultValueStrategy
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
