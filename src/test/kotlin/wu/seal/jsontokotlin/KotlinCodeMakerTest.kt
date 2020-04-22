@@ -3,7 +3,12 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 /**
  *
@@ -217,19 +222,34 @@ class KotlinCodeMakerTest {
   ]
 }
     """.trimIndent()
-    val expected = """data class TestData(
-    val id: Int, // The unique identifier for a product
-    val name: String, // Name of the product
+    val expected = """/**
+ * A product from Acme's catalog
+ */
+data class TestData(
+    /**
+     * The unique identifier for a product
+     */
+    val id: Int,
+    /**
+     * Name of the product
+     */
+    val name: String,
     val price: Double,
-    val nested: nested
+    val nested: Nested
 ) {
-    data class nested(
-        val id: Int, // The unique identifier for a product
-        val name: String, // Name of the product
+    data class Nested(
+        /**
+         * The unique identifier for a product
+         */
+        val id: Int,
+        /**
+         * Name of the product
+         */
+        val name: String,
         val price: Double
     )
 }""".trimIndent()
-    val result = KotlinDataClassMaker("TestData", json).makeKotlinDataClass().getCode()
+    val result = KotlinClassMaker("TestData", json).makeKotlinClass().getCode()
     result.trim().should.be.equal(expected)
   }
 
@@ -299,23 +319,39 @@ class KotlinCodeMakerTest {
   ]
 }
     """.trimIndent()
-    val expected = """data class TestData(
-    val id: Int, // The unique identifier for a product
-    val name: String, // Name of the product
-    val price: Double,
-    val nested: nested
-) {
-    data class nested(
-        val grades: List<String>,
-        val scores: List<Double>,
-        val happy: List<Boolean>,
-        val id: Int, // The unique identifier for a product
-        val name: String, // Name of the product
-        val price: Double
-    )
-}""".trimIndent()
-      val dataClass = KotlinDataClassMaker("TestData", json).makeKotlinDataClass()
-      dataClass.properties[3].originJsonValue.should.be.`null`
+    val expected = """
+        /**
+         * A product from Acme's catalog
+         */
+        data class TestData(
+            /**
+             * The unique identifier for a product
+             */
+            val id: Int,
+            /**
+             * Name of the product
+             */
+            val name: String,
+            val price: Double,
+            val nested: Nested
+        ) {
+            data class Nested(
+                val grades: List<String>,
+                val scores: List<Double>,
+                val happy: List<Boolean>,
+                /**
+                 * The unique identifier for a product
+                 */
+                val id: Int,
+                /**
+                 * Name of the product
+                 */
+                val name: String,
+                val price: Double
+            )
+        }""".trimIndent()
+      val dataClass = KotlinClassMaker("TestData", json).makeKotlinClass() as DataClass
+      dataClass.properties[3].originJsonValue.should.be.equal("Nested()")
       val result = dataClass.getCode()
     result.trim().should.be.equal(expected)
   }
@@ -351,7 +387,7 @@ class KotlinCodeMakerTest {
         )
         
         data class Module(
-            var k: String = "" // EMW3168
+            var k: String = "" // EMW3165
         )
         """.trimIndent()
 

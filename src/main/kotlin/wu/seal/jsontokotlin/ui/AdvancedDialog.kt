@@ -42,11 +42,6 @@ class AdvancedDialog(canBeParent: Boolean) : DialogWrapper(canBeParent) {
     }
 
 
-    fun dismiss() {
-        close(CANCEL_EXIT_CODE)
-    }
-
-
     override fun createActions(): Array<Action> {
         return arrayOf(okAction)
     }
