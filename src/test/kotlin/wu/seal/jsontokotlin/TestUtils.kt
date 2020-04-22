@@ -1,15 +1,23 @@
 package wu.seal.jsontokotlin
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 /**
  * Generate kotlin data classes with root name 'Test'
  */
 fun String.generateKotlinDataClass(className: String = "Test") =
-    KotlinDataClassMaker(className, this).makeKotlinDataClass()
+    KotlinClassMaker(className, this).makeKotlinClass() as DataClass
 
 
-fun KotlinDataClass.applyInterceptor(interceptor: IKotlinDataClassInterceptor): KotlinDataClass {
-    return applyInterceptors(listOf(interceptor))
-}
+/**
+ * Generate kotlin classes with root name 'Test'
+ */
+fun String.generateKotlinClass(className: String = "Test") =
+        KotlinClassMaker(className, this).makeKotlinClass()
+
+/**
+ * Generate kotlin classes code with root name 'Test'
+ */
+fun String.generateKotlinClassCode(className: String = "Test") =
+        KotlinCodeMaker(className, this).makeKotlinData()

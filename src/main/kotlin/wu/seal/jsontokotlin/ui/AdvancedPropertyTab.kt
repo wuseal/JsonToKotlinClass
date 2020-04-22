@@ -1,9 +1,9 @@
 package wu.seal.jsontokotlin.ui
 
 import com.intellij.util.ui.JBDimension
-import wu.seal.jsontokotlin.ConfigManager
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.ConfigManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import java.awt.BorderLayout
 import javax.swing.JPanel
 

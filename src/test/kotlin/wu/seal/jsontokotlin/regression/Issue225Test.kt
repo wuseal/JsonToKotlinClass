@@ -2,8 +2,8 @@ package wu.seal.jsontokotlin.regression
 
 import com.winterbe.expekt.should
 import org.junit.Test
-import wu.seal.jsontokotlin.KotlinDataClassCodeMaker
-import wu.seal.jsontokotlin.KotlinDataClassMaker
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 import wu.seal.jsontokotlin.test.TestConfig
 
 
@@ -17,20 +17,24 @@ class Issue225Test {
     [{"a":0,"b":""},{"a":null,"b":null}]
     """.trimIndent()
 
-    private val expected = """data class A(
-    @SerializedName("a")
-    val a: Int = 0, // 0
-    @SerializedName("b")
-    val b: String = ""
-)"""
+    private val expected = """
+                class A : ArrayList<AItem>(){
+                    data class AItem(
+                        @SerializedName("a")
+                        val a: Int = 0, // 0
+                        @SerializedName("b")
+                        val b: String = ""
+                    )
+                }
+    """.trimIndent()
 
 
 
     @Test
     fun testIssue225() {
         TestConfig.setToTestInitState()
-        val generated = KotlinDataClassCodeMaker(KotlinDataClassMaker("A",testJson).makeKotlinDataClass()).makeKotlinDataClassCode()
-        generated.should.be.equal(expected)
+        val generated = KotlinClassCodeMaker(KotlinClassMaker("A", testJson).makeKotlinClass()).makeKotlinClassCode()
+        generated.trimIndent().should.be.equal(expected)
     }
 
 }

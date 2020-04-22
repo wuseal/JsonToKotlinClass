@@ -1,17 +1,23 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 
-class ChangePropertyKeywordToVarInterceptor : IKotlinDataClassInterceptor {
+class ChangePropertyKeywordToVarInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val varProperties = kotlinDataClass.properties.map {
+        if (kotlinClass is DataClass) {
 
-            it.copy(keyword = "var")
+            val varProperties = kotlinClass.properties.map {
+
+                it.copy(keyword = "var")
+            }
+
+            return kotlinClass.copy(properties = varProperties)
+        } else {
+            return  kotlinClass
         }
-
-        return kotlinDataClass.copy(properties = varProperties)
     }
 
 }

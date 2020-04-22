@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.feedback
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.intellij.openapi.ui.Messages
 import java.io.PrintWriter
@@ -17,7 +18,7 @@ import java.util.*
  * handler the exception
  */
 
-val prettyPrintGson = GsonBuilder().setPrettyPrinting().create()
+val prettyPrintGson: Gson = GsonBuilder().setPrettyPrinting().create()
 
 fun getUncaughtExceptionHandler(jsonString: String, callBack: () -> Unit): Thread.UncaughtExceptionHandler = Thread.UncaughtExceptionHandler { _, e ->
     val logBuilder = StringBuilder()

@@ -1,9 +1,9 @@
 package wu.seal.jsontokotlin.test
 
-import wu.seal.jsontokotlin.DefaultValueStrategy
-import wu.seal.jsontokotlin.PropertyTypeStrategy
-import wu.seal.jsontokotlin.TargetJsonConverter
-import wu.seal.jsontokotlin.codeannotations.GsonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.TargetJsonConverter
+import wu.seal.jsontokotlin.model.codeannotations.GsonPropertyAnnotationTemplate
 import wu.seal.jsontokotlin.interceptor.annotations.gson.AddGsonAnnotationClassImportDeclarationInterceptor
 
 /**
@@ -55,6 +55,32 @@ object TestConfig {
         propertyTypeStrategy = PropertyTypeStrategy.NotNullable
         defaultValueStrategy = DefaultValueStrategy.AvoidNull
         isNestedClassModel = true
+        customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
+        customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
+                "import kotlinx.serialization.Serializable"
+
+        customClassAnnotationFormatString = "@Serializable"
+
+        enableMinimalAnnotation = false
+
+        indent = 4
+
+        parenClassTemplate = ""
+
+        isKeywordPropertyValid = true
+
+        extensionsConfig = ""
+    }
+
+    fun setToTestInitStateForJsonSchema() {
+        isTestModel = true
+        isCommentOff = false
+        isOrderByAlphabetical = false
+        isPropertiesVar = false
+        targetJsonConvertLib = TargetJsonConverter.None
+        propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
+        defaultValueStrategy = DefaultValueStrategy.None
+        isNestedClassModel = false
         customPropertyAnnotationFormatString = "@SerialName(\"%s\")"
         customAnnotaionImportClassString = "import kotlinx.serialization.SerialName\n" +
                 "import kotlinx.serialization.Serializable"

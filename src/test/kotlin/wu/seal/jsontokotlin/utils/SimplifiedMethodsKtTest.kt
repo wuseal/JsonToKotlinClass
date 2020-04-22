@@ -3,7 +3,7 @@ package wu.seal.jsontokotlin.utils
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.ConfigManager
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.test.TestConfig
 
 class SimplifiedMethodsKtTest {

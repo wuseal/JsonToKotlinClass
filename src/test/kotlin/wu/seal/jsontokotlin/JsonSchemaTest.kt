@@ -58,7 +58,7 @@ class JsonSchemaTest {
     "price"
   ]
 }""".trimIndent()
-    val s = KotlinCodeMaker("TestData", json).makeKotlinData()
+    val s = json.generateKotlinClassCode("TestData")
     println(s)
   }
 }

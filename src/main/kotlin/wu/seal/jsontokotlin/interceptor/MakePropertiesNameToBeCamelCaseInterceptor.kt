@@ -1,20 +1,28 @@
 package wu.seal.jsontokotlin.interceptor
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeelements.KPropertyName
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
 
-class MakePropertiesNameToBeCamelCaseInterceptor : IKotlinDataClassInterceptor {
+class MakePropertiesNameToBeCamelCaseInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val camelCaseNameProperties = kotlinDataClass.properties.map {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalNameOrEmptyName(it.originName)
+        if (kotlinClass is DataClass) {
 
-            it.copy(name = camelCaseName)
+            val camelCaseNameProperties = kotlinClass.properties.map {
+
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalNameOrEmptyName(it.originName)
+
+                it.copy(name = camelCaseName)
+            }
+
+            return kotlinClass.copy(properties = camelCaseNameProperties)
+        } else {
+            return kotlinClass
         }
 
-        return kotlinDataClass.copy(properties = camelCaseNameProperties)
     }
 
 }

@@ -1,24 +1,27 @@
 package wu.seal.jsontokotlin.interceptor.annotations.jackson
 
-import wu.seal.jsontokotlin.classscodestruct.KotlinDataClass
-import wu.seal.jsontokotlin.codeannotations.JacksonPropertyAnnotationTemplate
-import wu.seal.jsontokotlin.codeelements.KPropertyName
-import wu.seal.jsontokotlin.interceptor.IKotlinDataClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.codeannotations.JacksonPropertyAnnotationTemplate
+import wu.seal.jsontokotlin.model.codeelements.KPropertyName
+import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 
 
-class AddJacksonAnnotationInterceptor : IKotlinDataClassInterceptor {
+class AddJacksonAnnotationInterceptor : IKotlinClassInterceptor<KotlinClass> {
 
-    override fun intercept(kotlinDataClass: KotlinDataClass): KotlinDataClass {
+    override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        val addMoshiCodeGenAnnotationProperties = kotlinDataClass.properties.map {
+        if (kotlinClass is DataClass) {
+            val addMoshiCodeGenAnnotationProperties = kotlinClass.properties.map {
 
-            val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
+                val camelCaseName = KPropertyName.makeLowerCamelCaseLegalName(it.originName)
 
-            it.copy(annotations =  JacksonPropertyAnnotationTemplate(it.originName).getAnnotations(),name = camelCaseName)
+                it.copy(annotations =  JacksonPropertyAnnotationTemplate(it.originName).getAnnotations(),name = camelCaseName)
+            }
+
+            return kotlinClass.copy(properties = addMoshiCodeGenAnnotationProperties)
+        } else {
+            return kotlinClass
         }
-
-        return kotlinDataClass.copy(properties = addMoshiCodeGenAnnotationProperties)
-
     }
-
 }
