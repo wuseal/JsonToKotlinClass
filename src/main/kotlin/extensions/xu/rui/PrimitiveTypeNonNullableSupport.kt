@@ -3,11 +3,11 @@ package extensions.xu.rui
 import extensions.Extension
 import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
-import wu.seal.jsontokotlin.ui.checkBox
-import wu.seal.jsontokotlin.ui.horizontalLinearLayout
+import wu.seal.jsontokotlin.ui.jCheckBox
+import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
 import wu.seal.jsontokotlin.utils.NULLABLE_PRIMITIVE_TYPES
 import wu.seal.jsontokotlin.utils.getNonNullPrimitiveType
 import javax.swing.JPanel
@@ -49,10 +49,8 @@ object PrimitiveTypeNonNullableSupport : Extension() {
     }
 
     override fun createUI(): JPanel {
-        return horizontalLinearLayout {
-            (checkBox("Force Primitive Type Property Non-Nullable", getConfig(configKey).toBoolean()) { isSelectedAfterClick ->
-                setConfig(configKey, isSelectedAfterClick.toString())
-            })()
+        return jHorizontalLinearLayout {
+            jCheckBox("Force Primitive Type Property Non-Nullable", getConfig(configKey).toBoolean(), { isSelected -> setConfig(configKey, isSelected.toString()) })
             fillSpace()
         }
     }
