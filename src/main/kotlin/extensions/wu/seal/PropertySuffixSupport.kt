@@ -1,12 +1,9 @@
 package extensions.wu.seal
 
 import extensions.Extension
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
-import wu.seal.jsontokotlin.ui.NamingConventionDocument
-import wu.seal.jsontokotlin.ui.checkBox
-import wu.seal.jsontokotlin.ui.horizontalLinearLayout
-import wu.seal.jsontokotlin.ui.textInput
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.ui.*
 import javax.swing.JPanel
 
 object PropertySuffixSupport : Extension() {
@@ -20,19 +17,22 @@ object PropertySuffixSupport : Extension() {
     const val suffixKey = "wu.seal.property_suffix"
 
     override fun createUI(): JPanel {
-        return horizontalLinearLayout {
-            val prefixJField = textInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) {
+
+        val prefixJField = jTextInput(getConfig(suffixKey), getConfig(suffixKeyEnable).toBoolean()) {
+            addFocusLostListener {
                 if (getConfig(suffixKeyEnable).toBoolean()) {
-                    setConfig(suffixKey, it.text)
+                    setConfig(suffixKey, text)
                 }
-            }.also {
-                it.document = NamingConventionDocument(80)
             }
-            checkBox("Suffix append after every property: ", getConfig(suffixKeyEnable).toBoolean()) { isSelectedAfterClick ->
-                setConfig(suffixKeyEnable, isSelectedAfterClick.toString())
-                prefixJField.isEnabled = isSelectedAfterClick
-            }()
-            prefixJField()
+            document = NamingConventionDocument(80)
+        }
+
+        return jHorizontalLinearLayout {
+            jCheckBox("Suffix append after every property: ", getConfig(suffixKeyEnable).toBoolean(), { isSelected ->
+                setConfig(suffixKeyEnable, isSelected.toString())
+                prefixJField.isEnabled = isSelected
+            })
+            add(prefixJField)
         }
     }
 

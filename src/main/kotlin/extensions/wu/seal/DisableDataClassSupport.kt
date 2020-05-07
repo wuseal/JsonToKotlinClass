@@ -4,8 +4,8 @@ import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.NormalClass
-import wu.seal.jsontokotlin.ui.checkBox
-import wu.seal.jsontokotlin.ui.horizontalLinearLayout
+import wu.seal.jsontokotlin.ui.jCheckBox
+import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
 import javax.swing.JPanel
 
 /**
@@ -17,13 +17,8 @@ object DisableDataClassSupport : Extension() {
 
     override fun createUI(): JPanel {
 
-        return horizontalLinearLayout {
-            checkBox(
-                    "Disable Kotlin Data Class",
-                    getConfig(configKey).toBoolean()
-            ) { isSelectedAfterClick ->
-                setConfig(configKey, isSelectedAfterClick.toString())
-            }()
+        return jHorizontalLinearLayout {
+            jCheckBox("Disable Kotlin Data Class", getConfig(configKey).toBoolean(), { isSelected -> setConfig(configKey, isSelected.toString()) })
             fillSpace()
         }
     }
