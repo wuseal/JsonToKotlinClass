@@ -35,6 +35,7 @@ import javax.swing.text.JTextComponent
  * Json input Dialog
  */
 private val jsonInputDialogValidator: JsonInputDialogValidator = JsonInputDialogValidator()
+
 class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(
         project,
         "Please input the JSON String and class name to generate Kotlin data class",
@@ -54,20 +55,20 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
     override fun createNorthPanel(): JComponent? {
 
-        return horizontalLinearLayout {
-            icon("/icons/icon_json_input_dialog.png")()
+        return jHorizontalLinearLayout {
+            jIcon("/icons/icon_json_input_dialog.png")
             fixedSpace(5)
-            verticalLinearLayout {
-                label(myMessage, 12f).putAlignLeft()
-                horizontalLinearLayout {
-                    label("JSON Text: ", 14f)()
-                    label("Tips: you can use JSON string、http urls or local file just right click on text area", 12f)()
+            jVerticalLinearLayout {
+                alignLeftComponent {
+                    jLabel(myMessage, 12f)
+                }
+                jHorizontalLinearLayout {
+                    jLabel("JSON Text: ", 14f)
+                    jLabel("Tips: you can use JSON string、http urls or local file just right click on text area", 12f)
                     fillSpace()
-                    button("Format") {
-                        handleFormatJSONString()
-                    }()
-                }()
-            }()
+                    jButton("Format", { handleFormatJSONString() })
+                }
+            }
         }
     }
 
@@ -88,31 +89,55 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
         myField = createTextFieldComponent()
 
-        return borderLayout {
-            jsonContentEditor.component.putCenterFill()
-            verticalLinearLayout {
-                fixedSpace(7)
-                horizontalLinearLayout {
-                    label("Class Name: ", 14f)()
-                    myField()
-                }()
-                fixedSpace(3)
-                createAdvancedPanel()()
-            }.putBottom()
+//        return borderLayout {
+//            jsonContentEditor.component.putCenterFill()
+//            verticalLinearLayout {
+//                fixedSpace(7)
+//                horizontalLinearLayout {
+//                    label("Class Name: ", 14f)()
+//                    myField()
+//                }()
+//                fixedSpace(3)
+//                createAdvancedPanel()()
+//            }.putBottom()
+//        }
+
+
+        return jBorderLayout {
+
+            putCenterFill(jsonContentEditor.component)
+
+            bottomContainer {
+                jVerticalLinearLayout {
+                    fixedSpace(7)
+                    jHorizontalLinearLayout {
+                        jLabel("Class Name: ", 14f)
+                        add(myField)
+                    }
+                    fixedSpace(3)
+                    jHorizontalLinearLayout {
+                        jButton("Advanced", { AdvancedDialog(false).show() })
+                        fillSpace()
+                        jLabel("Like this version? Please star here: ")
+                        jLink("https://github.com/wuseal/JsonToKotlinClass", "https://github.com/wuseal/JsonToKotlinClass", maxSize = JBDimension(210, 30)) {
+                            sendActionInfo(prettyGson.toJson(ClickProjectURLAction()))
+                        }
+                    }
+                }
+            }
         }
     }
 
+
     private fun createAdvancedPanel(): JPanel {
 
-        return horizontalLinearLayout {
-            button("Advanced") {
-                AdvancedDialog(false).show()
-            }()
+        return jHorizontalLinearLayout {
+            jButton("Advanced", { AdvancedDialog(false).show() })
             fillSpace()
-            label("Like this version? Please star here: ")()
-            link("https://github.com/wuseal/JsonToKotlinClass", "https://github.com/wuseal/JsonToKotlinClass", maxSize = JBDimension(210, 30)) {
+            jLabel("Like this version? Please star here: ")
+            jLink("https://github.com/wuseal/JsonToKotlinClass", "https://github.com/wuseal/JsonToKotlinClass", maxSize = JBDimension(210, 30)) {
                 sendActionInfo(prettyGson.toJson(ClickProjectURLAction()))
-            }()
+            }
         }
     }
 
@@ -148,8 +173,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
     override fun createTextFieldComponent(): JTextComponent {
 
-        return JTextField().apply {
-            maximumSize = JBDimension(10000, 35)
+        return jTextInput(maxSize = JBDimension(10000, 35)) {
             document = NamingConventionDocument()
         }
     }

@@ -11,54 +11,47 @@ import javax.swing.JPanel
  */
 class AdvancedOtherTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDoubleBuffered) {
     init {
-        val content = verticalLinearLayout {
-            checkBox("Enable Comment", ConfigManager.isCommentOff.not()) {
-                ConfigManager.isCommentOff = it.not()
-            }.putAlignLeft()
+        jVerticalLinearLayout {
 
-            checkBox("Enable Order By Alphabetical", ConfigManager.isOrderByAlphabetical) {
-                ConfigManager.isOrderByAlphabetical = it
-            }.putAlignLeft()
+            alignLeftComponent {
 
-            checkBox("Enable Inner Class Model", ConfigManager.isInnerClassModel) {
-                ConfigManager.isInnerClassModel = it
-            }.putAlignLeft()
+                jCheckBox("Enable Comment", ConfigManager.isCommentOff.not(), { isSelected -> ConfigManager.isCommentOff = isSelected.not() })
 
-            checkBox("Enable Map Type when JSON Field Key Is Primitive Type", ConfigManager.enableMapType) {
-                ConfigManager.enableMapType = it
-            }.putAlignLeft()
+                jCheckBox("Enable Order By Alphabetical", ConfigManager.isOrderByAlphabetical, { isSelected -> ConfigManager.isOrderByAlphabetical = isSelected })
 
-            checkBox("Only create annotations when needed", ConfigManager.enableMinimalAnnotation) {
-                ConfigManager.enableMinimalAnnotation = it
-            }.putAlignLeft()
+                jCheckBox("Enable Inner Class Model", ConfigManager.isInnerClassModel, { isSelected -> ConfigManager.isInnerClassModel = isSelected })
 
-            checkBox("Auto detect JSON Scheme", ConfigManager.autoDetectJsonScheme) {
-                ConfigManager.autoDetectJsonScheme = it
-            }.putAlignLeft()
+                jCheckBox("Enable Map Type when JSON Field Key Is Primitive Type", ConfigManager.enableMapType, { isSelected -> ConfigManager.enableMapType = isSelected })
 
-            horizontalLinearLayout {
-                label("Indent (number of space): ")()
-                textInput(ConfigManager.indent.toString()) {
-                    val number = try {
-                        it.text.toInt()
-                    } catch (e: Exception) {
-                        it.text = ConfigManager.indent.toString()
-                        ConfigManager.indent
+                jCheckBox("Only create annotations when needed", ConfigManager.enableMinimalAnnotation, { isSelected -> ConfigManager.enableMinimalAnnotation = isSelected })
+
+                jCheckBox("Auto detect JSON Scheme", ConfigManager.autoDetectJsonScheme, { isSelected -> ConfigManager.autoDetectJsonScheme = isSelected })
+
+                jHorizontalLinearLayout {
+                    jLabel("Indent (number of space): ")
+                    jTextInput(ConfigManager.indent.toString()) {
+                        columns = 2
+                        addFocusLostListener {
+                            ConfigManager.indent = try {
+                                text.toInt()
+                            } catch (e: Exception) {
+                                text = ConfigManager.indent.toString()
+                                ConfigManager.indent
+                            }
+                        }
                     }
-                    ConfigManager.indent = number
-                }.apply { columns = 2 }()
-            }.putAlignLeft()
+                }
+            }
 
-            horizontalLinearLayout {
-                label("Parent Class Template: ")()
-                textInput(ConfigManager.parenClassTemplate) {
-                    ConfigManager.parenClassTemplate = it.text
-                }.apply {
+            jHorizontalLinearLayout {
+                jLabel("Parent Class Template: ")
+                jTextInput(ConfigManager.parenClassTemplate) {
+                    addFocusLostListener {
+                        ConfigManager.parenClassTemplate = text
+                    }
                     maximumSize = JBDimension(400, 30)
-                }()
-
-            }()
+                }
+            }
         }
-        add(content, BorderLayout.CENTER)
     }
 }
