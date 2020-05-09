@@ -89,20 +89,6 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
 
         myField = createTextFieldComponent()
 
-//        return borderLayout {
-//            jsonContentEditor.component.putCenterFill()
-//            verticalLinearLayout {
-//                fixedSpace(7)
-//                horizontalLinearLayout {
-//                    label("Class Name: ", 14f)()
-//                    myField()
-//                }()
-//                fixedSpace(3)
-//                createAdvancedPanel()()
-//            }.putBottom()
-//        }
-
-
         return jBorderLayout {
 
             putCenterFill(jsonContentEditor.component)
