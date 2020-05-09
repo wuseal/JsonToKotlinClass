@@ -7,13 +7,12 @@ import javax.swing.JPanel
 
 class ExtensionsTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDoubleBuffered) {
     init {
-        val content = scrollPanel(JBDimension(500, 300)) {
-            verticalLinearLayout {
+        jScrollPanel(JBDimension(500, 300)) {
+            jVerticalLinearLayout {
                 ExtensionsCollector.extensions.forEach {
-                    it.createUI()()
+                    add(it.createUI())
                 }
             }
         }
-        add(content, BorderLayout.CENTER)
     }
 }
