@@ -27,19 +27,19 @@ class AdvancedPropertyTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), is
                     jRadioButton("Non-Nullable", ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.NotNullable,
                             { ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.NotNullable })
                     jRadioButton("Nullable", ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable,
-                            { ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.Nullable })
+                            { ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.Nullable })
                     jRadioButton("Auto Determine Nullable Or Not From JSON Value", ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.AutoDeterMineNullableOrNot,
-                            { ConfigManager.propertyTypeStrategy == PropertyTypeStrategy.AutoDeterMineNullableOrNot })
+                            { ConfigManager.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot })
                 }
                 jLine()
                 jLabel("Default Value Strategy")
                 jButtonGroup {
                     jRadioButton("Don't Init With Default Value", ConfigManager.defaultValueStrategy == DefaultValueStrategy.None,
-                            { ConfigManager.defaultValueStrategy == DefaultValueStrategy.None })
+                            { ConfigManager.defaultValueStrategy = DefaultValueStrategy.None })
                     jRadioButton("Init With Non-Null Default Value (Avoid Null)", ConfigManager.defaultValueStrategy == DefaultValueStrategy.AvoidNull,
-                            { ConfigManager.defaultValueStrategy == DefaultValueStrategy.AvoidNull })
+                            { ConfigManager.defaultValueStrategy = DefaultValueStrategy.AvoidNull })
                     jRadioButton("Init With Default Value Null When Property Is Nullable", ConfigManager.defaultValueStrategy == DefaultValueStrategy.AllowNull,
-                            { ConfigManager.defaultValueStrategy == DefaultValueStrategy.AllowNull })
+                            { ConfigManager.defaultValueStrategy = DefaultValueStrategy.AllowNull })
                 }
             }
         }

@@ -42,7 +42,7 @@ class AdvancedAnnotationTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), 
 
         jScrollPanel(JBDimension(500, 300)) {
             jVerticalLinearLayout {
-                add(AnnotationsSelectPanel(true) {
+                add(AnnotationsSelectPanel {
                     customizeAnnotationConfigPanel.isVisible = it
                 })
                 add(customizeAnnotationConfigPanel)
@@ -55,7 +55,7 @@ class AdvancedAnnotationTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), 
     /**
      * Target JsonLib ConfigPanel
      */
-    class AnnotationsSelectPanel(isDoubleBuffered: Boolean, callBack: (isCustomizeAnnotationSelected: Boolean) -> Unit) : JPanel(BorderLayout(), isDoubleBuffered) {
+    class AnnotationsSelectPanel(callBack: (isCustomizeAnnotationSelected: Boolean) -> Unit) : JPanel(BorderLayout(), true) {
         init {
             jGridLayout(5, 2) {
                 jButtonGroup {
