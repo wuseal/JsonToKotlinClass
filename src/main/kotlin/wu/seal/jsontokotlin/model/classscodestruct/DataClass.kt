@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
 import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
@@ -10,10 +11,25 @@ data class DataClass(
         val parentClassTemplate: String = "",
         override val modifiable: Boolean = true,
         val comments: String = "",
-        val fromJsonSchema: Boolean = false
+        val fromJsonSchema: Boolean = false,
+        val _isDataClass: Boolean = true,
+        val _isUseConstructorParameter: Boolean = true
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
+
+    private val codeBuilder = KotlinCodeBuilder(
+            name,
+            annotations,
+            properties,
+            parentClassTemplate,
+            modifiable,
+            comments,
+            fromJsonSchema
+    ).apply {
+        this.isDataClass = _isDataClass
+        this.isUseConstructorParameter = _isUseConstructorParameter
+    }
 
     override val referencedClasses: List<KotlinClass>
         get() {
@@ -58,47 +74,7 @@ data class DataClass(
     }
 
     override fun getCode(): String {
-        if (fromJsonSchema && properties.isEmpty()) return ""
-        val indent = getIndent()
-        return buildString {
-            append(comments.toAnnotationComments())
-            if (annotations.isNotEmpty()) {
-                val annotationsCode = annotations.joinToString("\n") { it.getAnnotationString() }
-                if (annotationsCode.isNotBlank()) {
-                    append(annotationsCode).append("\n")
-                }
-            }
-            if (properties.isEmpty()) {
-                append("class ").append(name).append("(").append("\n")
-            } else {
-                append("data class ").append(name).append("(").append("\n")
-            }
-            properties.forEachIndexed { index, property ->
-                val addIndentCode = property.getCode().addIndent(indent)
-                val commentCode = getCommentCode(property.comment)
-                if (fromJsonSchema && commentCode.isNotBlank()) {
-                    append(commentCode.toAnnotationComments(indent))
-                    append(addIndentCode)
-                } else append(addIndentCode)
-                if (index != properties.size - 1) append(",")
-                if (!fromJsonSchema && commentCode.isNotBlank()) append(" // ").append(commentCode)
-                append("\n")
-            }
-            append(")")
-            if (parentClassTemplate.isNotBlank()) {
-                append(" : ")
-                append(parentClassTemplate)
-            }
-            val nestedClasses = referencedClasses.filter { it.modifiable }
-            if (nestedClasses.isNotEmpty()) {
-                append(" {")
-                append("\n")
-                val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode() }
-                append(nestedClassesCode.addIndent(indent))
-                append("\n")
-                append("}")
-            }
-        }
+        return codeBuilder.getCode()
     }
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
