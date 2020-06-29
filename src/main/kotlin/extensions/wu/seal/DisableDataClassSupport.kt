@@ -3,13 +3,12 @@ package extensions.wu.seal
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.model.classscodestruct.NormalClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
 import javax.swing.JPanel
 
 /**
- * Extension support disable kotlin data class, after enable this, all kotlin data classes will be changed to [NormalClass]
+ * Extension support disable kotlin data class, after enable this, all kotlin data classes will remove 'data' modifier
  */
 object DisableDataClassSupport : Extension() {
 
@@ -24,13 +23,9 @@ object DisableDataClassSupport : Extension() {
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
-
-        if (kotlinClass is DataClass && getConfig(configKey).toBoolean()) {
-            with(kotlinClass) {
-                return NormalClass(annotations, name, properties, parentClassTemplate, modifiable)
-            }
-        } else {
-            return kotlinClass
+        if (kotlinClass is DataClass) {
+            return kotlinClass.copy(_isDataClass = !getConfig(configKey).toBoolean())
         }
+        return kotlinClass
     }
 }
