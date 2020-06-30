@@ -1,7 +1,8 @@
 package extensions.nstd
 
 import extensions.Extension
-import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
+import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
@@ -44,9 +45,10 @@ object ReplaceConstructorParametersByMemberVariablesSupport : Extension() {
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
-        if (kotlinClass is DataClass) {
-            return kotlinClass.copy(_isUseConstructorParameter = !getConfig(configKey).toBoolean())
-        }
+        CodeBuilderConfig.instance.setConfig(
+                KotlinCodeBuilder.BUILD_KEY_IS_USE_CONSTRUCTOR_PARAMETER,
+                !getConfig(configKey).toBoolean()
+        )
         return kotlinClass
     }
 }
