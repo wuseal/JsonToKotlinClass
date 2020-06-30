@@ -1,6 +1,9 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.builder.CodeBuilderFactory
+import wu.seal.jsontokotlin.model.builder.ICodeBuilder
+import wu.seal.jsontokotlin.model.builder.KotlinListCodeBuilder
 import wu.seal.jsontokotlin.utils.getIndent
 
 /**
@@ -11,15 +14,15 @@ data class ListClass(
         override val name: String,
         override val generic: KotlinClass,
         override val referencedClasses: List<KotlinClass> = listOf(generic),
-        override val modifiable: Boolean = true
+        override val modifiable: Boolean = true,
+        val lang: String = "kotlin"
 ) : UnModifiableGenericClass() {
 
-    private val indent = getIndent()
+    private val codeBuilder: ICodeBuilder
+        get() = CodeBuilderFactory.get("list", lang, this)
 
     override fun getOnlyCurrentCode(): String {
-        return """
-            class $name : ArrayList<${generic.name}>()
-        """.trimIndent()
+        return codeBuilder.getOnlyCurrentCode()
     }
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): ListClass {
@@ -29,15 +32,7 @@ data class ListClass(
     override fun rename(newName: String) = copy(name = newName)
 
     override fun getCode(): String {
-        return if (generic.modifiable.not()) {
-            getOnlyCurrentCode()
-        } else {
-            """
-            class $name : ArrayList<${generic.name}>(){
-${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode().prependIndent("            $indent") }}
-            }
-        """.trimIndent()
-        }
+        return codeBuilder.getCode()
     }
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {

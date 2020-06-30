@@ -1,7 +1,8 @@
 package extensions.wu.seal
 
 import extensions.Extension
-import wu.seal.jsontokotlin.model.classscodestruct.DataClass
+import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
+import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
@@ -23,9 +24,10 @@ object DisableDataClassSupport : Extension() {
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
-        if (kotlinClass is DataClass) {
-            return kotlinClass.copy(_isDataClass = !getConfig(configKey).toBoolean())
-        }
+        CodeBuilderConfig.instance.setConfig(
+                KotlinCodeBuilder.BUILD_KEY_IS_DATA_CLASS,
+                !getConfig(configKey).toBoolean()
+        )
         return kotlinClass
     }
 }

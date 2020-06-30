@@ -1,7 +1,7 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
-import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
+import wu.seal.jsontokotlin.model.builder.*
 import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
@@ -12,24 +12,13 @@ data class DataClass(
         override val modifiable: Boolean = true,
         val comments: String = "",
         val fromJsonSchema: Boolean = false,
-        val _isDataClass: Boolean = true,
-        val _isUseConstructorParameter: Boolean = true
+        val lang: String = "kotlin"
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
 
-    private val codeBuilder = KotlinCodeBuilder(
-            name,
-            annotations,
-            properties,
-            parentClassTemplate,
-            modifiable,
-            comments,
-            fromJsonSchema
-    ).apply {
-        this.isDataClass = _isDataClass
-        this.isUseConstructorParameter = _isUseConstructorParameter
-    }
+    private val codeBuilder: ICodeBuilder
+        get() = CodeBuilderFactory.get("class", lang, this)
 
     override val referencedClasses: List<KotlinClass>
         get() {
@@ -90,7 +79,6 @@ data class DataClass(
     }
 
     override fun getOnlyCurrentCode(): String {
-        val newProperties = properties.map { it.copy(typeObject = KotlinClass.ANY) }
-        return copy(properties = newProperties).getCode()
+        return codeBuilder.getOnlyCurrentCode()
     }
 }
