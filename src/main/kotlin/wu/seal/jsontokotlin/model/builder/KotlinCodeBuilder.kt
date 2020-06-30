@@ -1,44 +1,71 @@
 package wu.seal.jsontokotlin.model.builder
 
+import wu.seal.jsontokotlin.model.classscodestruct.*
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
-import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.utils.addIndent
 import wu.seal.jsontokotlin.utils.getCommentCode
 import wu.seal.jsontokotlin.utils.getIndent
 import wu.seal.jsontokotlin.utils.toAnnotationComments
 
 /**
- * kotlin code generator
+ * kotlin class code generator
  *
  * Created by Nstd on 2020/6/29 15:40.
  */
-class KotlinCodeBuilder(
-        _name: String,
-        _annotations: List<Annotation> = listOf(),
-        _properties: List<Property> = listOf(),
-        _parentClassTemplate: String = "",
-        _modifiable: Boolean = true,
-        _comments: String = "",
-        _fromJsonSchema: Boolean = false
-        ): BaseCodeBuilder(
-                _name,
-                _annotations,
-                _properties,
-                _parentClassTemplate,
-                _modifiable,
-                _comments,
-                _fromJsonSchema) {
+data class KotlinCodeBuilder(
+        override val name: String,
+        override val modifiable: Boolean,
+        override val annotations: List<Annotation>,
+        override val properties: List<Property>,
+        override val parentClassTemplate: String,
+        override val comments: String,
+        override val fromJsonSchema: Boolean
+        ): BaseClassCodeBuilder(
+                name,
+                modifiable,
+                annotations,
+                properties,
+                parentClassTemplate,
+                comments,
+                fromJsonSchema
+                ) {
 
-    /**
-     * set false to user Normal class
-     */
-    var isDataClass = true
-    /**
-     * set false to use class member variable
-     */
-    var isUseConstructorParameter = true
+    constructor(clazz: DataClass): this(
+            clazz.name,
+            clazz.modifiable,
+            clazz.annotations,
+            clazz.properties,
+            clazz.parentClassTemplate,
+            clazz.comments,
+            clazz.fromJsonSchema
+            )
+
+    companion object {
+        const val BUILD_KEY_IS_DATA_CLASS = "kotlinBuilder.isDataClass"
+        const val BUILD_KEY_IS_USE_CONSTRUCTOR_PARAMETER = "kotlinBuilder.isUseConstructorParameter"
+    }
+
+    private var isDataClass: Boolean = true
+    private var isUseConstructorParameter: Boolean = true
+
+    val referencedClasses: List<KotlinClass>
+        get() {
+            return properties.flatMap { property ->
+                mutableListOf(property.typeObject).apply {
+                    addAll(property.typeObject.getAllGenericsRecursively())
+                }
+            }
+        }
+
+    override fun getOnlyCurrentCode(): String {
+        val newProperties = properties.map { it.copy(typeObject = KotlinClass.ANY) }
+        return copy(properties = newProperties).getCode()
+    }
 
     override fun getCode(): String {
+        isDataClass = getConfig(BUILD_KEY_IS_DATA_CLASS, isDataClass)
+        isUseConstructorParameter = getConfig(BUILD_KEY_IS_USE_CONSTRUCTOR_PARAMETER, isUseConstructorParameter)
+
         if (fromJsonSchema && properties.isEmpty()) return ""
         return buildString {
             append(comments.toAnnotationComments())

@@ -27,5 +27,8 @@ class ReplaceConstructorParametersByMemberVariablesSupportTest {
     fun intercept() {
         ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, true.toString())
         json.generateKotlinClassCode("Output").should.be.equal(expectCode)
+        //must reset，or bunch test  will failed
+        ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, false.toString())
+        json.generateKotlinClassCode("Output")
     }
 }

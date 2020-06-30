@@ -26,5 +26,8 @@ class DisableDataClassSupportTest {
     fun intercept() {
         DisableDataClassSupport.getTestHelper().setConfig(DisableDataClassSupport.configKey, true.toString())
         json.generateKotlinClassCode("Output").should.be.equal(expectCode)
+        //must reset，or bunch test  will failed
+        DisableDataClassSupport.getTestHelper().setConfig(DisableDataClassSupport.configKey, false.toString())
+        json.generateKotlinClassCode("Output")
     }
 }
