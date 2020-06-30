@@ -87,7 +87,6 @@ class KotlinCodeBuilder(
             genJsonFields(sb, indent, false)
         }
         if(nestedClasses.isNotEmpty()) {
-            sb.append("\n")
             val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode() }
             sb.append(nestedClassesCode.addIndent(indent))
             sb.append("\n")
