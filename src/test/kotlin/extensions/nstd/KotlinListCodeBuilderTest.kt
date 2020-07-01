@@ -25,18 +25,21 @@ class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
         class TestList : ArrayList<TestListItem>(){
             data class TestListItem(
                 @SerializedName("p1")
-                val p1: Int = 0 // 1
+                val p1: Int = 0, // 1
+                @SerializedName("p2")
+                val p2: Int = 0 // 2
             )
         }
     """.trimIndent()
 
-    val expectedCurrentCode = """
+    val expectedCurrent = """
         class TestList : ArrayList<TestListItem>()
     """.trimIndent()
 
     fun getListClass(): ListClass {
         val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1",typeObject = KotlinClass.INT)
-        val itemClass = DataClass(name = "TestListItem",properties = listOf(dataClassProperty))
+        val dataClassProperty2 = Property(name = "p2",originName = "p2",type = "Int",comment = "2",originJsonValue = "2",typeObject = KotlinClass.INT)
+        val itemClass = DataClass(name = "TestListItem",properties = listOf(dataClassProperty, dataClassProperty2))
         val interceptors = InterceptorManager.getEnabledKotlinDataClassInterceptors()
         return ListClass("TestList", itemClass).applyInterceptors(interceptors) as ListClass
     }
@@ -44,13 +47,13 @@ class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
     @Test
     fun testGetCode() {
         KotlinListCodeBuilder(getListClass())
-                .getCode().should.be.equal(expected)
+                .getCode().should.be.equal(getExpectedCode())
     }
 
     @Test
     fun testGetOnlyCurrentCode() {
         KotlinListCodeBuilder(getListClass())
-                .getOnlyCurrentCode().should.be.equal(expectedCurrentCode)
+                .getOnlyCurrentCode().should.be.equal(getExpectedCurrentCode())
     }
 
     override fun getData(): ListClass {
@@ -59,5 +62,9 @@ class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
 
     override fun getExpectedCode(): String {
         return expected
+    }
+
+    override fun getExpectedCurrentCode(): String {
+        return expectedCurrent
     }
 }
