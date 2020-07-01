@@ -12,4 +12,6 @@ interface ICodeBuilderTest<T: KotlinClass> {
     fun getData(): T
 
     fun getExpectedCode(): String
+
+    fun getExpectedCurrentCode(): String
 }
