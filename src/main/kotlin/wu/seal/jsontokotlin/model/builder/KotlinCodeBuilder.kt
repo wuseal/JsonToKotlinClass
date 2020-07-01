@@ -41,8 +41,8 @@ data class KotlinCodeBuilder(
             )
 
     companion object {
-        const val BUILD_KEY_IS_DATA_CLASS = "kotlinBuilder.isDataClass"
-        const val BUILD_KEY_IS_USE_CONSTRUCTOR_PARAMETER = "kotlinBuilder.isUseConstructorParameter"
+        const val CONF_KOTLIN_IS_DATA_CLASS = "code.builder.kotlin.isDataClass"
+        const val CONF_KOTLIN_IS_USE_CONSTRUCTOR_PARAMETER = "code.builder.kotlin.isUseConstructorParameter"
     }
 
     private var isDataClass: Boolean = true
@@ -63,8 +63,8 @@ data class KotlinCodeBuilder(
     }
 
     override fun getCode(): String {
-        isDataClass = getConfig(BUILD_KEY_IS_DATA_CLASS, isDataClass)
-        isUseConstructorParameter = getConfig(BUILD_KEY_IS_USE_CONSTRUCTOR_PARAMETER, isUseConstructorParameter)
+        isDataClass = getConfig(CONF_KOTLIN_IS_DATA_CLASS, isDataClass)
+        isUseConstructorParameter = getConfig(CONF_KOTLIN_IS_USE_CONSTRUCTOR_PARAMETER, isUseConstructorParameter)
 
         if (fromJsonSchema && properties.isEmpty()) return ""
         return buildString {

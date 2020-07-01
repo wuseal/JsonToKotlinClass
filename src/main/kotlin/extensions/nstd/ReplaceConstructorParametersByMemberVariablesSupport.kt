@@ -46,7 +46,7 @@ object ReplaceConstructorParametersByMemberVariablesSupport : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
         CodeBuilderConfig.instance.setConfig(
-                KotlinCodeBuilder.BUILD_KEY_IS_USE_CONSTRUCTOR_PARAMETER,
+                KotlinCodeBuilder.CONF_KOTLIN_IS_USE_CONSTRUCTOR_PARAMETER,
                 !getConfig(configKey).toBoolean()
         )
         return kotlinClass
