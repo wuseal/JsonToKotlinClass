@@ -26,4 +26,10 @@ class CodeBuilderConfig private constructor() {
         }
         return result
     }
+
+    fun removeConfig(key: String) {
+        if(configMap.containsKey(key)) {
+            configMap.remove(key)
+        }
+    }
 }
