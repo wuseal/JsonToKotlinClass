@@ -11,14 +11,12 @@ data class DataClass(
         val parentClassTemplate: String = "",
         override val modifiable: Boolean = true,
         val comments: String = "",
-        val fromJsonSchema: Boolean = false,
-        val lang: String = "kotlin"
+        val fromJsonSchema: Boolean = false
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
 
-    private val codeBuilder: ICodeBuilder
-        get() = CodeBuilderFactory.get("class", lang, this)
+    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_CLASS, this) }
 
     override val referencedClasses: List<KotlinClass>
         get() {

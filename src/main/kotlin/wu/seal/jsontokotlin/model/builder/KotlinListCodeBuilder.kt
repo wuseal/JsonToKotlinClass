@@ -4,6 +4,8 @@ import wu.seal.jsontokotlin.model.classscodestruct.ListClass
 import wu.seal.jsontokotlin.utils.getIndent
 
 /**
+ * kotlin list code generator
+ *
  * Created by Nstd on 2020/6/30 15:59.
  */
 data class KotlinListCodeBuilder(

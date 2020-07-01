@@ -1,7 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
-import wu.seal.jsontokotlin.model.builder.CodeBuilderFactory
-import wu.seal.jsontokotlin.model.builder.ICodeBuilder
+import wu.seal.jsontokotlin.model.builder.*
 
 /**
  * Created by ted on 2020/3/14 18:14.
@@ -13,12 +12,10 @@ data class EnumClass(
         override val referencedClasses: List<KotlinClass> = listOf(generic),
         val enum: List<Any>,
         val comments: String = "",
-        override val modifiable: Boolean = true,
-        val lang: String = "kotlin"
+        override val modifiable: Boolean = true
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
-    private val codeBuilder: ICodeBuilder
-        get() = CodeBuilderFactory.get("enum", lang, this)
+    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_ENUM, this) }
 
     override fun getOnlyCurrentCode(): String {
         return codeBuilder.getOnlyCurrentCode()
