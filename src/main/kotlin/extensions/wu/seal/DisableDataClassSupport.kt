@@ -25,7 +25,7 @@ object DisableDataClassSupport : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
         CodeBuilderConfig.instance.setConfig(
-                KotlinCodeBuilder.BUILD_KEY_IS_DATA_CLASS,
+                KotlinCodeBuilder.CONF_KOTLIN_IS_DATA_CLASS,
                 !getConfig(configKey).toBoolean()
         )
         return kotlinClass

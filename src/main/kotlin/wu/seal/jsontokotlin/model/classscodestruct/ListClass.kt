@@ -1,9 +1,7 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
-import wu.seal.jsontokotlin.model.builder.CodeBuilderFactory
-import wu.seal.jsontokotlin.model.builder.ICodeBuilder
-import wu.seal.jsontokotlin.model.builder.KotlinListCodeBuilder
+import wu.seal.jsontokotlin.model.builder.*
 import wu.seal.jsontokotlin.utils.getIndent
 
 /**
@@ -14,12 +12,10 @@ data class ListClass(
         override val name: String,
         override val generic: KotlinClass,
         override val referencedClasses: List<KotlinClass> = listOf(generic),
-        override val modifiable: Boolean = true,
-        val lang: String = "kotlin"
+        override val modifiable: Boolean = true
 ) : UnModifiableGenericClass() {
 
-    private val codeBuilder: ICodeBuilder
-        get() = CodeBuilderFactory.get("list", lang, this)
+    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_LIST, this) }
 
     override fun getOnlyCurrentCode(): String {
         return codeBuilder.getOnlyCurrentCode()

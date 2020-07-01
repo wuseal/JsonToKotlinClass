@@ -7,6 +7,8 @@ import wu.seal.jsontokotlin.utils.toAnnotationComments
 import java.lang.StringBuilder
 
 /**
+ * kotlin enum code generator
+ *
  * Created by Nstd on 2020/6/30 14:52.
  */
 data class KotlinEnumCodeBuilder(
