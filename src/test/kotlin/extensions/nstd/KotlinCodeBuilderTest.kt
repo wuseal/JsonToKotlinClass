@@ -47,13 +47,13 @@ class KotlinCodeBuilderTest : ICodeBuilderTest<DataClass>{
     @Test
     fun testGetCode() {
         KotlinCodeBuilder(getData())
-                .getCode().should.be.equal(expectCode)
+                .getCode().should.be.equal(getExpectedCode())
     }
 
     @Test
     fun testGetOnlyCurrentCode() {
         KotlinCodeBuilder(getData())
-                .getOnlyCurrentCode().should.be.equal(expectCurrentCode)
+                .getOnlyCurrentCode().should.be.equal(getExpectedCurrentCode())
     }
 
     override fun getData(): DataClass {
@@ -63,5 +63,9 @@ class KotlinCodeBuilderTest : ICodeBuilderTest<DataClass>{
 
     override fun getExpectedCode(): String {
         return expectCode
+    }
+
+    override fun getExpectedCurrentCode(): String {
+        return expectCurrentCode
     }
 }

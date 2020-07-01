@@ -28,7 +28,10 @@ class CodeBuilderFactoryTest {
 
     private fun <T: KotlinClass> Map.Entry<ElementType, ICodeBuilderTest<T>>.doTestCheck(): Boolean {
         this.value.setUp()
-        CodeBuilderFactory.get(this.key, this.value.getData()).getCode().should.be.equal(this.value.getExpectedCode())
+        CodeBuilderFactory.get(this.key, this.value.getData())
+                .getCode().should.be.equal(this.value.getExpectedCode())
+        CodeBuilderFactory.get(this.key, this.value.getData())
+                .getOnlyCurrentCode().should.be.equal(this.value.getExpectedCurrentCode())
         return true
     }
 
