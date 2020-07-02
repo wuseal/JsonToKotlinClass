@@ -1,20 +1,21 @@
-package extensions.wu.seal
+package extensions.nstd
 
 import com.winterbe.expekt.should
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Test
 import wu.seal.jsontokotlin.generateKotlinClassCode
 import wu.seal.jsontokotlin.test.TestConfig
 
-class DisableDataClassSupportTest {
+/**
+ * Created by Nstd on 2020/6/29 17:53.
+ */
+class ReplaceConstructorParametersByMemberVariablesSupportTest {
     private val json = """{"a":1}"""
     private val expectCode: String = """
-        class Output(
+        data class Output {
             @SerializedName("a")
             val a: Int = 0 // 1
-        )
+        }
     """.trimIndent()
 
     @Before
@@ -24,10 +25,10 @@ class DisableDataClassSupportTest {
 
     @Test
     fun intercept() {
-        DisableDataClassSupport.getTestHelper().setConfig(DisableDataClassSupport.configKey, true.toString())
+        ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, true.toString())
         json.generateKotlinClassCode("Output").should.be.equal(expectCode)
         //must reset，or bunch test  will failed
-        DisableDataClassSupport.getTestHelper().setConfig(DisableDataClassSupport.configKey, false.toString())
+        ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, false.toString())
         json.generateKotlinClassCode("Output")
     }
 }
