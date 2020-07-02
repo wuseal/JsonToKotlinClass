@@ -3,12 +3,10 @@ package extensions.nstd
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.generateKotlinClass
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.model.builder.KotlinListCodeBuilder
-import wu.seal.jsontokotlin.model.classscodestruct.DataClass
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.ListClass
-import wu.seal.jsontokotlin.model.classscodestruct.Property
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**
@@ -16,10 +14,9 @@ import wu.seal.jsontokotlin.test.TestConfig
  */
 class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
 
-    @Before
-    override fun setUp() {
-        TestConfig.setToTestInitState()
-    }
+    val json = """
+        [{"p1":1},{"p2":2}]
+    """.trimIndent()
 
     val expected = """
         class TestList : ArrayList<TestListItem>(){
@@ -37,11 +34,13 @@ class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
     """.trimIndent()
 
     fun getListClass(): ListClass {
-        val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1",typeObject = KotlinClass.INT)
-        val dataClassProperty2 = Property(name = "p2",originName = "p2",type = "Int",comment = "2",originJsonValue = "2",typeObject = KotlinClass.INT)
-        val itemClass = DataClass(name = "TestListItem",properties = listOf(dataClassProperty, dataClassProperty2))
         val interceptors = InterceptorManager.getEnabledKotlinDataClassInterceptors()
-        return ListClass("TestList", itemClass).applyInterceptors(interceptors) as ListClass
+        return json.generateKotlinClass("TestList").applyInterceptors(interceptors) as ListClass
+    }
+
+    @Before
+    override fun setUp() {
+        TestConfig.setToTestInitState()
     }
 
     @Test
