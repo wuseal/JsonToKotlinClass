@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.model
 
+import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.util.PropertiesComponent
 import wu.seal.jsontokotlin.test.TestConfig
 
@@ -89,5 +90,29 @@ object ConfigManager : IConfigManager {
                 PropertiesComponent.getInstance().setValue(KEYWORD_PROPERTY_EXTENSIONS_CONFIG, value, "")
             }
         }
+
+    var fileHeader: String
+        get() = if (TestConfig.isTestModel) {
+            TestConfig.fileHeadText
+        } else {
+            val fileTemplateManager = FileTemplateManager.getDefaultInstance()
+            val fileTemplate = fileTemplateManager.getDefaultTemplate(FileTemplateManager.FILE_HEADER_TEMPLATE_NAME)
+            fileTemplate?.let {
+                fileTemplate.getText(fileTemplateManager.defaultProperties)
+            }
+        }
+
+        set(value) {
+            if (TestConfig.isTestModel) {
+                TestConfig.fileHeadText = value
+            } else {
+                val fileTemplateManager = FileTemplateManager.getDefaultInstance()
+                val fileTemplate = fileTemplateManager.getDefaultTemplate(FileTemplateManager.FILE_HEADER_TEMPLATE_NAME)
+                fileTemplate?.let {
+                    fileTemplate.text = value
+                }
+            }
+        }
+
 
 }

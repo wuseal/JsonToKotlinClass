@@ -46,6 +46,8 @@ object TestConfig {
 
     var autoDetectJsonScheme  = true
 
+    var fileHeadText = ""
+
     private var state = State()
 
     fun setToTestInitState() {
@@ -74,6 +76,11 @@ object TestConfig {
         extensionsConfig = ""
 
         autoDetectJsonScheme  = true
+
+        fileHeadText = """/**
+ * Created by Lenovo on 2020/8/29.
+ */
+"""
     }
 
     fun setToTestInitStateForJsonSchema() {
