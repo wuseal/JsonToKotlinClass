@@ -13,5 +13,6 @@ abstract class BaseClassCodeBuilder(
         open val properties: List<Property> = listOf(),
         open val parentClassTemplate: String = "",
         open val comments: String = "",
-        open val fromJsonSchema: Boolean = false
+        open val fromJsonSchema: Boolean = false,
+        open val fileHeader :String = ""
         ): ICodeBuilder

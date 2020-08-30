@@ -19,7 +19,8 @@ data class KotlinCodeBuilder(
         override val properties: List<Property>,
         override val parentClassTemplate: String,
         override val comments: String,
-        override val fromJsonSchema: Boolean
+        override val fromJsonSchema: Boolean,
+        override val fileHeader :String = ""
         ): BaseClassCodeBuilder(
                 name,
                 modifiable,
@@ -27,7 +28,8 @@ data class KotlinCodeBuilder(
                 properties,
                 parentClassTemplate,
                 comments,
-                fromJsonSchema
+                fromJsonSchema,
+                fileHeader
                 ) {
 
     constructor(clazz: DataClass): this(
@@ -37,7 +39,8 @@ data class KotlinCodeBuilder(
             clazz.properties,
             clazz.parentClassTemplate,
             clazz.comments,
-            clazz.fromJsonSchema
+            clazz.fromJsonSchema,
+            clazz.fileHeader
             )
 
     companion object {
@@ -68,18 +71,27 @@ data class KotlinCodeBuilder(
 
         if (fromJsonSchema && properties.isEmpty()) return ""
         return buildString {
-            append(comments.toAnnotationComments())
+            genFileHeader(this)
+            if(comments.toAnnotationComments().isNotEmpty()){
+                append(comments.toAnnotationComments())
+            }
             if (annotations.isNotEmpty()) {
                 val annotationsCode = annotations.joinToString("\n") { it.getAnnotationString() }
                 if (annotationsCode.isNotBlank()) {
                     append(annotationsCode).append("\n")
                 }
             }
-
             genClassTitle(this)
             genConstructor(this)
             genParentClass(this)
             genBody(this)
+        }
+    }
+
+    private fun genFileHeader(sb:StringBuilder) {
+        if(fileHeader.isNotEmpty()){
+            sb.append(fileHeader)
+            sb.append("\n")
         }
     }
 

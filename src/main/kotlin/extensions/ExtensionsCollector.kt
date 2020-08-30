@@ -6,6 +6,7 @@ import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
 import extensions.nstd.ReplaceConstructorParametersByMemberVariablesSupport
+import extensions.jose.han.FileHeaderSupport
 
 /**
  * extension collect, all extensions will be hold by this class's extensions property
@@ -25,6 +26,7 @@ object ExtensionsCollector {
             PrimitiveTypeNonNullableSupport,
             ForceInitDefaultValueWithOriginJsonValueSupport,
             DisableDataClassSupport,
-            ReplaceConstructorParametersByMemberVariablesSupport
+            ReplaceConstructorParametersByMemberVariablesSupport,
+            FileHeaderSupport
     )
 }

@@ -11,7 +11,8 @@ data class DataClass(
         val parentClassTemplate: String = "",
         override val modifiable: Boolean = true,
         val comments: String = "",
-        val fromJsonSchema: Boolean = false
+        val fromJsonSchema: Boolean = false,
+        val fileHeader :String = ""
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
