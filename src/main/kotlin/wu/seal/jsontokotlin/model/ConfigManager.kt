@@ -91,7 +91,7 @@ object ConfigManager : IConfigManager {
             }
         }
 
-    var fileHeader: String
+    val fileHeader: String
         get() = if (TestConfig.isTestModel) {
             TestConfig.fileHeadText
         } else {
@@ -102,17 +102,6 @@ object ConfigManager : IConfigManager {
             }
         }
 
-        set(value) {
-            if (TestConfig.isTestModel) {
-                TestConfig.fileHeadText = value
-            } else {
-                val fileTemplateManager = FileTemplateManager.getDefaultInstance()
-                val fileTemplate = fileTemplateManager.getDefaultTemplate(FileTemplateManager.FILE_HEADER_TEMPLATE_NAME)
-                fileTemplate?.let {
-                    fileTemplate.text = value
-                }
-            }
-        }
 
 
 }
