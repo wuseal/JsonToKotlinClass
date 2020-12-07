@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
+import wu.seal.jsontokotlin.utils.constToLiteral
 import wu.seal.jsontokotlin.utils.getIndent
 import wu.seal.jsontokotlin.utils.toAnnotationComments
 import java.lang.StringBuilder
@@ -34,7 +35,7 @@ data class EnumClass(
             else enum[i].toString()
             val constantName = xEnumNames?.get(i)
                     ?: if (constantValue is Int) "_$constantValue" else constantValue.toString()
-            val finalValue = "${constantName}(${constantValue})" + if (i != enum.size - 1) "," else ";"
+            val finalValue = "${constantName}(${constToLiteral(constantValue)})" + if (i != enum.size - 1) "," else ";"
             list.add(finalValue)
         }
         return list

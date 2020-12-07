@@ -10,7 +10,9 @@ data class DataClass(
         val parentClassTemplate: String = "",
         override val modifiable: Boolean = true,
         val comments: String = "",
-        val fromJsonSchema: Boolean = false
+        val fromJsonSchema: Boolean = false,
+        val excludedProperties: List<String> = listOf(),
+        val parentClass: KotlinClass? = null
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
@@ -23,6 +25,10 @@ data class DataClass(
                 }
             }
         }
+
+    fun withExtends(properties: List<String>, parentClass: KotlinClass): KotlinClass {
+        return copy(excludedProperties = properties, parentClass = parentClass)
+    }
 
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
@@ -73,7 +79,7 @@ data class DataClass(
             } else {
                 append("data class ").append(name).append("(").append("\n")
             }
-            properties.forEachIndexed { index, property ->
+            properties.filterNot { excludedProperties.contains(it.name) }.forEachIndexed { index, property ->
                 val addIndentCode = property.getCode().addIndent(indent)
                 val commentCode = getCommentCode(property.comment)
                 if (fromJsonSchema && commentCode.isNotBlank()) {
@@ -97,6 +103,16 @@ data class DataClass(
                 append(nestedClassesCode.addIndent(indent))
                 append("\n")
                 append("}")
+            }
+            if (excludedProperties.isNotEmpty()) {
+                append(" : ")
+                append(parentClass!!.name)
+                append("(")
+                append(properties.map {
+                    it.name to it
+                }.toMap().filter { excludedProperties.contains(it.key) }
+                    .map { it.value.inheritanceCode() }.joinToString(", "))
+                append(")")
             }
         }
     }
