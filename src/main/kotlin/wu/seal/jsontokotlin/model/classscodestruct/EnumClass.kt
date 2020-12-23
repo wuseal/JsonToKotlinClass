@@ -31,10 +31,19 @@ data class EnumClass(
     private fun generateValues(): List<String> {
         val list = mutableListOf<String>()
         for (i in enum.indices) {
-            val constantValue: Any = if (generic == KotlinClass.INT) (enum[i] as Double).toInt()
-            else enum[i].toString()
-            val constantName = xEnumNames?.get(i)
-                    ?: if (constantValue is Int) "_$constantValue" else constantValue.toString()
+            val constantValue: Any = when (generic) {
+                KotlinClass.INT -> (enum[i] as Double).toInt()
+                KotlinClass.DOUBLE -> enum[i] as Double
+                else -> enum[i].toString()
+            }
+            val extensionEnumName = xEnumNames?.get(i)
+            val constantName = when {
+                extensionEnumName != null -> extensionEnumName
+                constantValue is Int -> "_$constantValue"
+                // Not `.` allowed in variable names
+                constantValue is Double -> "_${constantValue.toInt()}"
+                else -> constantValue.toString()
+            }
             val finalValue = "${constantName}(${constToLiteral(constantValue)})" + if (i != enum.size - 1) "," else ";"
             list.add(finalValue)
         }
