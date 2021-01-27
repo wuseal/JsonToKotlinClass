@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'wu.seal.jsontokotlin'
-version '3.5.1-alpha01'
+version '3.6.1'
 
 repositories {
     mavenCentral()
