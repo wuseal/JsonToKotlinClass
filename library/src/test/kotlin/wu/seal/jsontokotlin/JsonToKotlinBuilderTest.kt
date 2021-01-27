@@ -85,9 +85,9 @@ class JsonToKotlinBuilderTest {
                 @Keep
                 @JsonClass(generateAdapter = true)
                 data class MusicianMyClassSuffix(
-                    @Json(name = "firstName") val MyPrefixFirstNameMySuffix: String = "Sergei", // Sergei
-                    @Json(name = "instrument") val MyPrefixInstrumentMySuffix: String = "piano", // piano
-                    @Json(name = "lastName") val MyPrefixLastNameMySuffix: String = "Rachmaninoff" // Rachmaninoff
+                    @Json(name = "firstName") val MyPrefixFirstNameMySuffix: String = "Eric", // Eric
+                    @Json(name = "instrument") val MyPrefixInstrumentMySuffix: String = "guitar", // guitar
+                    @Json(name = "lastName") val MyPrefixLastNameMySuffix: String = "Clapton" // Clapton
                 ) : Parcelable
 
                 @SuppressLint("ParcelCreator")
