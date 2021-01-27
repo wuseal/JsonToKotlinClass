@@ -10,9 +10,31 @@ repositories {
     mavenCentral()
 }
 
-
 group 'wu.seal'
 version "$versions.j2k_version"
+
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // Core library
+    compile files('libs/JsonToKotlinClass-3.6.1.jar')
+
+    // Gson : Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Test dependencies
+    testImplementation "junit:junit:4.12"
+
+    // Expekt : An assertion library for Kotlin
+    testImplementation('com.winterbe:expekt:0.5.0'){
+        exclude group: "org.jetbrains.kotlin"
+    }
+}
+
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     archiveClassifier.set('sources')
@@ -25,31 +47,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
-
-
-    // Gson : Gson
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    // Test dependencies
-    testImplementation "junit:junit:4.12"
-    testImplementation('com.winterbe:expekt:0.5.0') {
-        exclude group: "org.jetbrains.kotlin"
-    }
-
-    // Core library
-    api files('libs/JsonToKotlinClass-3.6.1.jar')
-}
-
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -57,18 +54,12 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-//create a single Jar with all dependencies
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'JsonToKotlin Library',
-                'Implementation-Version': version,
-                'Main-Class': ''
-    }
-    baseName = project.name
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
 
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
 
 def pomConfig = {
     licenses {
@@ -95,14 +86,15 @@ publishing {
     publications {
         mavenPublication(MavenPublication) {
             from components.java
+
             artifact sourcesJar {
                 classifier "sources"
             }
             artifact javadocJar {
                 classifier "javadoc"
             }
-            groupId 'wu.seal'
-            artifactId 'jsontokotlin'
+            groupId 'wu.seal.jsontokotlin'
+            artifactId 'library'
             version "$versions.j2k_version"
             pom.withXml {
                 def root = asNode()
