@@ -1028,8 +1028,8 @@ class JsonToKotlinBuilderTest {
             )
             
             data class UserX(
-                val username: String = "david",
-                val company_name: String = "XYZ Ltd"
+                val username: String = "john",
+                val company_name: String = "ABC Ltd"
             )
         """.trimIndent()
 
