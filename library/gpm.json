@@ -1,0 +1,18 @@
+{
+ "added": [
+  {
+   "id": 1,
+   "type": "implementation",
+   "installed_name": "gson",
+   "gpm_dep": {
+    "artifact_id": "gson",
+    "default_type": "implementation",
+    "docs": "https://mvnrepository.com/artifact/com.google.code.gson/gson",
+    "get_from": "Central",
+    "group_id": "com.google.code.gson",
+    "name": "Gson",
+    "description": "Gson"
+   }
+  }
+ ]
+}

@@ -11,11 +11,15 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation files('libs/JsonToKotlinClass-3.6.1.jar')
+
     testImplementation "junit:junit:4.12"
     testImplementation('com.winterbe:expekt:0.5.0') {
         exclude group: "org.jetbrains.kotlin"
     }
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Gson : Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 
 compileKotlin {
