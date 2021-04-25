@@ -36,7 +36,7 @@ deploy:
   on:
     tags: true
     repo: wuseal/JsonToKotlinClass
-    condition: "$TRAVIS_TAG =~ ^V[0-9]+\\.[0-9]+\\.[0-9]+$"
+    condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+$"
 
 cache:
   directories:
