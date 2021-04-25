@@ -8,8 +8,7 @@ script:
   - cd ../
 deploy:
 - provider: releases
-  api_key:
-    secure: NVfoiuig3+2pLZu0LZdxCrNtUqe5/Xayx7jKL69VND7ZoGCmS3laJ9ZXf5nD3bzrrn+IH/jCroOL8SKARsw2YgeSqm5CT221HJGeBWzCmAOrNK6tw/y1Y5l9XraessdqC8Nkl1gHwjtaNxMVZz7TFjIy9uSpq3ptUKWaqkZnzXNw42rqAl8SwbJkzj/Jc30a6MGdlsTelWWRkj7doq65qqo16DMjpK/UASrb442ST5guXfMoGeyyidGmmmyDSAzh1nAICjMRYP0dpH4de2caWjd/l2ku3Ja5ye3IEYDJDa75wo6PEm2gfCqsX1uQmMmhlwa7MnfpWuM3s4KS3zHUf76DbybxRXkjHk1yV5pjyNq0KNSZKPfT0WRtOwPhY/xkwiY+5uHN94l39fPjZCJNehrGAVFdP3pTge/ULyG7u4SSSp3wIG4gNdUmNmYIu20W8gS2Dvh+UCGN4ZGjeKBBfzUQ4a1oUMCgbNG7V9P45n7S8JSMl/dBAq6nnnLPHkkJJDusz9C77DJ7o2rosv3NDZ9Lzzm592lqXjJuB65OXowsGiuyfOGTp08X7V5xkZ95QU1tEnFbaATrm6BNYxKYjlyo62Bi82/4v9VqyxSdGFOHLfTExpBD5E2CMHEYufYBzt3kLpvyy2lWZFCpFE2INBleOoUoiWxZvQmFJO+BeMk=
+  api_key: $GH_TOKEN
   file_glob: true
   file: build/distributions/JsonToKotlinClass*.zip
   skip_cleanup: true
