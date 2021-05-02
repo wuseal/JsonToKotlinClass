@@ -3,10 +3,10 @@ package wu.seal.jsontokotlin
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
-import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.DefaultValueStrategy
 import wu.seal.jsontokotlin.model.PropertyTypeStrategy
 import wu.seal.jsontokotlin.model.TargetJsonConverter
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
@@ -397,5 +397,47 @@ data class TestData(
         TestConfig.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
         TestConfig.isNestedClassModel = false
         KotlinCodeMaker("Test", json).makeKotlinData().should.be.equal(expect)
+    }
+
+    @Test
+    fun testAutoDetectJsonSchema() {
+        val json = """{
+	"${"$"}schema": "http://json-schema.org/draft-07/schema#",
+	"${"$"}id": "http://example.com/product.schema.json",
+	"title": "Product",
+	"description": "A product from Acme's catalog",
+	"type": "object",
+	"properties": {
+		"productId": {
+			"description": "The unique identifier for a product",
+			"type": "integer"
+		}
+	},
+	"required": ["productId"]
+}
+        """.trimIndent()
+        val expected = """
+data class TestData(
+    val ${"$"}schema: String, // http://json-schema.org/draft-07/schema#
+    val ${"$"}id: String, // http://example.com/product.schema.json
+    val title: String, // Product
+    val description: String, // A product from Acme's catalog
+    val type: String, // object
+    val properties: Properties,
+    val required: List<String>
+) {
+    data class Properties(
+        val productId: ProductId
+    ) {
+        data class ProductId(
+            val description: String, // The unique identifier for a product
+            val type: String // integer
+        )
+    }
+}
+        """.trimIndent()
+        TestConfig.autoDetectJsonScheme = false
+        val result = KotlinClassMaker("TestData", json).makeKotlinClass().getCode()
+        result.trim().should.be.equal(expected)
     }
 }

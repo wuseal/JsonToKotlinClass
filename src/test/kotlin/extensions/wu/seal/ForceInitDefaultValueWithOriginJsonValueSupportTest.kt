@@ -12,6 +12,13 @@ class ForceInitDefaultValueWithOriginJsonValueSupportTest {
     val expectResult = """data class Test(
     val a: Int = 1 // 1
 )"""
+    var escapedCharacterJson = """{"key": "value with \"quote\""}"""
+
+    val escapedCharacterExpectResult = """data class Test(
+    val key: String = "value with \"quote\"" // value with "quote"
+)"""
+
+
     val configKey = "wu.seal.force_init_default_value_with_origin_json_value"
 
 
@@ -27,5 +34,14 @@ class ForceInitDefaultValueWithOriginJsonValueSupportTest {
                 json.generateKotlinDataClass("Test").applyInterceptor(ForceInitDefaultValueWithOriginJsonValueSupport)
         val resultCode = dataClass.getCode()
         resultCode.should.be.equal(expectResult)
+    }
+
+    @Test
+    fun interceptWithEscapeCharacter(){
+        ForceInitDefaultValueWithOriginJsonValueSupport.getTestHelper().setConfig(configKey, true.toString())
+        val dataClass =
+                escapedCharacterJson.generateKotlinDataClass("Test").applyInterceptor(ForceInitDefaultValueWithOriginJsonValueSupport)
+        val resultCode = dataClass.getCode()
+        resultCode.should.be.equal(escapedCharacterExpectResult)
     }
 }

@@ -1,6 +1,6 @@
 ![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/title.png)
 
-[![Build Status](https://travis-ci.org/wuseal/JsonToKotlinClass.svg?branch=master)](https://travis-ci.org/wuseal/JsonToKotlinClass)
+[![Build Status](https://travis-ci.com/wuseal/JsonToKotlinClass.svg?branch=master&status=started)](https://travis-ci.com/wuseal/JsonToKotlinClass)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
 [![JetBrains Plugin Download](https://img.shields.io/jetbrains/plugin/d/9960-json-to-kotlin-class-jsontokotlinclass-.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
@@ -16,6 +16,9 @@
 Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin).
 We also have a `Java/Kotlin` [library](LIBRARY.md). With this you can generate Kotlin `data class` from JSON string **programmatically**. 
 
+```groovy
+implementation 'wu.seal.jsontokotlin:library:3.6.1'
+```
 
 ### Overview
 
@@ -195,10 +198,10 @@ The development of this plugin is powerly driven by JetBrains.
 
 ### Join the Community
 
-| Slack |
+| Let's talk |
 | -------- |
-| [Join JsonToKotlinClass Slack](https://join.slack.com/t/jsontokotlinclass/shared_invite/enQtNjk2NjM1MDM3MDA5LWYxYTI3ZDRlZTMyNDI2Mjg5NzZmZjQzM2ZlNjE5OTFmNWYyY2E0ZGEzZTQ3OWNhODEwOTUwYmU0YmRjZjQ5OGQ")
-
+| [Join JsonToKotlinClass Slack](https://join.slack.com/t/jsontokotlinclass/shared_invite/enQtNjk2NjM1MDM3MDA5LWYxYTI3ZDRlZTMyNDI2Mjg5NzZmZjQzM2ZlNjE5OTFmNWYyY2E0ZGEzZTQ3OWNhODEwOTUwYmU0YmRjZjQ5OGQ)|
+| [Join JsonToKotlinClass Telegram](https://t.me/JsonToKotlin) |
 ### Note：
 We analytics anonymous user behavior for improving plugin production, If you don't want this behavior enable, please contact us, we will provide a switch case for that.
 ### Stargazers over time

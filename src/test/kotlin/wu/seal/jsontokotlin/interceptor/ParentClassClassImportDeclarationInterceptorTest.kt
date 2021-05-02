@@ -20,4 +20,15 @@ class ParentClassClassImportDeclarationInterceptorTest {
         interceptedCode.should.equal("import java.io.Serializable")
 
     }
+
+    /**
+     * fix #290
+     */
+    @Test
+    fun testLegalImportClassName() {
+        ConfigManager.parenClassTemplate = "is.example.com"
+        val originImportCode = ""
+        val interceptedCode = ParentClassClassImportDeclarationInterceptor().intercept(originImportCode)
+        interceptedCode.should.equal("import `is`.example.com")
+    }
 }
