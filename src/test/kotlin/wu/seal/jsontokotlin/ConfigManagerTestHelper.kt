@@ -32,7 +32,9 @@ class ConfigManagerTestHelper {
                     traverseBoolConfigOnAction(ConfigManager::isCommentOff) {
                         traverseBoolConfigOnAction(ConfigManager::isInnerClassModel) {
                             traverseBoolConfigOnAction(ConfigManager::isPropertiesVar) {
-                                action()
+                                traverseBoolConfigOnAction(ConfigManager::autoDetectJsonScheme) {
+                                    action()
+                                }
                             }
                         }
                     }

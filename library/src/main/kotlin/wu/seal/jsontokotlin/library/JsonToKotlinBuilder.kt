@@ -5,10 +5,14 @@ import extensions.jose.han.ParcelableAnnotationSupport
 import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
-import wu.seal.jsontokotlin.*
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
+import wu.seal.jsontokotlin.model.DefaultValueStrategy
+import wu.seal.jsontokotlin.model.PropertyTypeStrategy
+import wu.seal.jsontokotlin.model.TargetJsonConverter
 import wu.seal.jsontokotlin.test.TestConfig
 import wu.seal.jsontokotlin.utils.ClassImportDeclaration
+import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
+import wu.seal.jsontokotlin.utils.KotlinClassMaker
 
 
 /**
@@ -121,7 +125,7 @@ class JsonToKotlinBuilder {
     }
 
     /**
-     * 
+     *
      */
     fun enableMapType(isMapType: Boolean): JsonToKotlinBuilder {
         TestConfig.enableMapType = isMapType
@@ -248,12 +252,14 @@ class JsonToKotlinBuilder {
                 InterceptorManager.getEnabledImportClassDeclarationInterceptors()
         )
 
-        val classCode = KotlinDataClassCodeMaker(
-                KotlinDataClassMaker(
-                        className,
-                        input
-                ).makeKotlinDataClass()
-        ).makeKotlinDataClassCode()
+        val kotlinClass = KotlinClassMaker(
+                className,
+                input
+        ).makeKotlinClass()
+
+        val classCode = KotlinClassCodeMaker(
+                kotlinClass
+        ).makeKotlinClassCode()
 
         val importsAndClassCode = if (imports.isNotBlank()) {
             "$imports\n\n$classCode"
