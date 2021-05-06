@@ -53,9 +53,8 @@ class Issue260Test {
         ParcelableAnnotationSupport.getTestHelper().setConfig("jose.han.add_parcelable_annotatioin_enable",true.toString())
         val json="""{"a":"yes"}"""
         val expectCode = """
-            @SuppressLint("ParcelCreator")
-            @Parcelize
             @JsonClass(generateAdapter = true)
+            @Parcelize
             data class A(
                 @Json(name = "a")
                 val a: String = "" // yes
