@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.model.builder
 
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.Property
 
 /**
@@ -13,5 +14,7 @@ abstract class BaseClassCodeBuilder(
         open val properties: List<Property> = listOf(),
         open val parentClassTemplate: String = "",
         open val comments: String = "",
-        open val fromJsonSchema: Boolean = false
-        ): ICodeBuilder
+        open val fromJsonSchema: Boolean = false,
+        open val excludedProperties: List<String> = listOf(),
+        open val parentClass: KotlinClass? = null
+): ICodeBuilder

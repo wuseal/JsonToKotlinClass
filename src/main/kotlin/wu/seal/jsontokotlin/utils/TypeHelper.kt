@@ -223,3 +223,15 @@ fun getMapValueTypeConvertFromJsonObject(jsonObject: JsonObject): String {
 fun getNonNullPrimitiveType(rawType: String): String {
     return if (rawType in NULLABLE_PRIMITIVE_TYPES) rawType.replace("?", "") else rawType
 }
+
+fun constToLiteral(value: Any): String? {
+    return when (value) {
+        is String -> "\"${value}\""
+        is Byte -> "$value"
+        is Short -> "$value"
+        is Int -> "$value"
+        is Long -> "$value"
+        is Double -> "$value"
+        else -> null
+    }
+}
