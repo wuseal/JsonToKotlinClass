@@ -31,4 +31,10 @@ data class Property(
             }
         }
     }
+
+    fun inheritanceCode(): String {
+        return buildString {
+            append(name).append(" = ").append(value)
+        }
+    }
 }

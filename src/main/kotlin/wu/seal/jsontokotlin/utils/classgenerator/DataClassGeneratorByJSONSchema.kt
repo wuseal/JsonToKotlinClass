@@ -6,6 +6,7 @@ import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.model.jsonschema.JsonObjectDef
 import wu.seal.jsontokotlin.model.jsonschema.JsonSchema
 import wu.seal.jsontokotlin.model.jsonschema.PropertyDef
+import wu.seal.jsontokotlin.utils.constToLiteral
 
 class DataClassGeneratorByJSONSchema(private val rootClassName: String, private val jsonSchema: JsonSchema) {
 
@@ -49,7 +50,7 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         return properties
     }
 
-    private fun resolveProperty(jsonProp: PropertyDef, propertyName: String, isRequired: Boolean): Property {
+    private fun resolveProperty(jsonProp: PropertyDef, propertyName: String, isRequired: Boolean, includeConst: Boolean = true): Property {
         val typeClass = if (jsonProp.typeString == "array") {
             val innerProperty = resolveProperty(jsonProp.items
                     ?: throw IllegalArgumentException("Array `items` must be defined (property: $propertyName)"), propertyName, false)
@@ -64,14 +65,16 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
                 originJsonValue = value,
                 type = typeClass.name,
                 comment = jsonProp.description ?: "",
-                typeObject = typeClass
+                typeObject = typeClass,
+                value = if (includeConst && jsonProp.const != null) constToLiteral(jsonProp.const) ?: "" else ""
         )
     }
 
-    private fun resolveTypeClass(realDefJsonType: String?, jsonClassName: String?, realDef: PropertyDef, propertyName: String, checkEnum: Boolean = true): KotlinClass {
+    private fun resolveTypeClass(realDefJsonType: String?, jsonClassName: String?, realDef: PropertyDef, propertyName: String, checkEnum: Boolean = true, checkSealed: Boolean = true): KotlinClass {
         val simpleName = jsonClassName ?: propertyName.capitalize()
         return when {
             checkEnum && realDef.enum != null -> resolveEnumClass(realDef, simpleName)
+            checkSealed && realDef.anyOf != null -> resolveSealedClass(realDef, simpleName)
             realDefJsonType != null && (jsonClassName != null || realDefJsonType == "object") -> generateClass(realDef, simpleName)
             JSON_SCHEMA_FORMAT_MAPPINGS.containsKey(realDef.format) -> {
                 object : UnModifiableNoGenericClass() {
@@ -97,6 +100,75 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         val typeClass = resolveTypeClass(realDef.typeString, jsonClassName, realDef, name, !jsonClassName.isNullOrBlank())
         return EnumClass(name = name, enum = enumDef.enum.asList(), xEnumNames = enumDef.x_enumNames?.asList(), generic = typeClass, comments = realDef.description
                 ?: "")
+    }
+
+    /** attempts to find a common set of discriminatory fields in `anyOf` members */
+    private fun resolveDiscriminatoryProperties(realPropertyDefinitions: Array<PropertyDef>): List<Property> {
+        // Only properties with constants values can be discriminatory
+        var discriminatoryProperties =
+            (realPropertyDefinitions.first().properties ?: mapOf())
+                // Typed properties with a constant value
+                .filter { it.value.const != null && it.value.typeString != null }
+                // Property name to property
+                .map { it.key to it.value }.toMap()
+
+        // Discriminatory properties that are found across all properties
+        for (property in realPropertyDefinitions) {
+            discriminatoryProperties = discriminatoryProperties.filter {
+                val properties = property.properties ?: hashMapOf()
+                properties.containsKey(it.key) && properties[it.key]?.typeString == it.value.typeString
+            }
+        }
+
+        return discriminatoryProperties.map {
+            resolveProperty(it.value, it.key,
+                isRequired = true,
+                includeConst = false
+            )
+        }
+    }
+
+
+    private fun resolveSealedClass(def: PropertyDef, name: String): KotlinClass {
+        val (jsonClassName, realDef) = getRealDefinition(def)
+
+        // {<JSON_CLASS_NAME>=<PROPERTY_DEF>, ...}
+        val referencedDefinitions = realDef.anyOf?.map {
+            val realDefinition = getRealDefinition(it)
+            realDefinition.first to realDefinition.second
+        }?.toMap() ?: hashMapOf()
+
+        val referencedClasses = referencedDefinitions.map {
+            resolveTypeClass(
+                realDefJsonType = it.value.typeString,
+                jsonClassName = it.key,
+                realDef = it.value,
+                propertyName = "",
+                // TODO: Evaluate nested sealed classes
+                checkEnum = false,
+                checkSealed = false
+            )
+        }
+
+        val discriminatoryProperties = resolveDiscriminatoryProperties(
+            referencedDefinitions.values.toTypedArray()
+        )
+
+        // Will always be `KotlinClass.ANY`
+        // The `KotlinClass` constructor always requires a `generic` parameter that is
+        // also a `KotlinClass`
+        val typeClass = resolveTypeClass(realDef.typeString,
+            jsonClassName,
+            realDef,
+            name,
+            checkSealed = false)
+
+        return SealedClass(name = name,
+            generic = typeClass,
+            comments = realDef.description ?: "",
+            referencedClasses = referencedClasses,
+            discriminatoryProperties = discriminatoryProperties
+        )
     }
 
     /** resolves `ref`, `oneOf` and `allOf` then returns a real property definition */
