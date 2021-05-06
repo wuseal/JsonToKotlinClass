@@ -86,6 +86,16 @@ data class KotlinCodeBuilder(
             genConstructor(this)
             genParentClass(this)
             genBody(this)
+            if (excludedProperties.isNotEmpty()) {
+                append(" : ")
+                append(parentClass!!.name)
+                append("(")
+                append(properties.map {
+                    it.name to it
+                }.toMap().filter { excludedProperties.contains(it.key) }
+                    .map { it.value.inheritanceCode() }.joinToString(", "))
+                append(")")
+            }
         }
     }
 
@@ -125,16 +135,6 @@ data class KotlinCodeBuilder(
             sb.append("\n")
         }
         sb.append("}")
-        if (excludedProperties.isNotEmpty()) {
-            sb.append(" : ")
-            sb.append(parentClass!!.name)
-            sb.append("(")
-            sb. append(properties.map {
-                it.name to it
-            }.toMap().filter { excludedProperties.contains(it.key) }
-                .map { it.value.inheritanceCode() }.joinToString(", "))
-            sb.append(")")
-        }
     }
 
     private fun genJsonFields(sb: StringBuilder, indent: String, isAddSeparator: Boolean) {
