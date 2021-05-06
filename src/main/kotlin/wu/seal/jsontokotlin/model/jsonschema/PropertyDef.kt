@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.model.jsonschema
 
 import com.google.gson.annotations.SerializedName
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 
 class PropertyDef(
         type: Any? = null,
@@ -13,6 +14,7 @@ class PropertyDef(
         val format: String? = null,
 
         val enum: Array<Any>? = null,
+        val const: Any? = null,
 
     //NJsonSchema:
         @SerializedName("x-enumNames")
