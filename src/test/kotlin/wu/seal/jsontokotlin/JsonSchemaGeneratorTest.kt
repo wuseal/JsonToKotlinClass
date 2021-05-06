@@ -323,7 +323,7 @@ data class veggie(
 
         val expected = """data class LogEntry(
     val id: String?,
-    val timestamp: org.threeten.bp.OffsetDateTime,
+    val timestamp: java.time.OffsetDateTime,
     val removed: Boolean,
     /**
      * Тип события

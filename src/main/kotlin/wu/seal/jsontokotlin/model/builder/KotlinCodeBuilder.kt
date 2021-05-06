@@ -19,16 +19,20 @@ data class KotlinCodeBuilder(
         override val properties: List<Property>,
         override val parentClassTemplate: String,
         override val comments: String,
-        override val fromJsonSchema: Boolean
-        ): BaseClassCodeBuilder(
+        override val fromJsonSchema: Boolean,
+        override val excludedProperties: List<String> = listOf(),
+        override val parentClass: KotlinClass? = null
+): BaseClassCodeBuilder(
                 name,
                 modifiable,
                 annotations,
                 properties,
                 parentClassTemplate,
                 comments,
-                fromJsonSchema
-                ) {
+                fromJsonSchema,
+                excludedProperties,
+                parentClass
+) {
 
     constructor(clazz: DataClass): this(
             clazz.name,
@@ -37,8 +41,10 @@ data class KotlinCodeBuilder(
             clazz.properties,
             clazz.parentClassTemplate,
             clazz.comments,
-            clazz.fromJsonSchema
-            )
+            clazz.fromJsonSchema,
+            clazz.excludedProperties,
+            clazz.parentClass
+    )
 
     companion object {
         const val CONF_KOTLIN_IS_DATA_CLASS = "code.builder.kotlin.isDataClass"
@@ -119,10 +125,20 @@ data class KotlinCodeBuilder(
             sb.append("\n")
         }
         sb.append("}")
+        if (excludedProperties.isNotEmpty()) {
+            sb.append(" : ")
+            sb.append(parentClass!!.name)
+            sb.append("(")
+            sb. append(properties.map {
+                it.name to it
+            }.toMap().filter { excludedProperties.contains(it.key) }
+                .map { it.value.inheritanceCode() }.joinToString(", "))
+            sb.append(")")
+        }
     }
 
     private fun genJsonFields(sb: StringBuilder, indent: String, isAddSeparator: Boolean) {
-        properties.forEachIndexed { index, property ->
+        properties.filterNot { excludedProperties.contains(it.name) }.forEachIndexed { index, property ->
             val addIndentCode = property.getCode().addIndent(indent)
             val commentCode = getCommentCode(property.comment)
             if (fromJsonSchema && commentCode.isNotBlank()) {

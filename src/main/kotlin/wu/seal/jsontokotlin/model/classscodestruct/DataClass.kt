@@ -11,7 +11,9 @@ data class DataClass(
         val parentClassTemplate: String = "",
         override val modifiable: Boolean = true,
         val comments: String = "",
-        val fromJsonSchema: Boolean = false
+        val fromJsonSchema: Boolean = false,
+        val excludedProperties: List<String> = listOf(),
+        val parentClass: KotlinClass? = null
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
@@ -26,6 +28,10 @@ data class DataClass(
                 }
             }
         }
+
+    fun withExtends(properties: List<String>, parentClass: KotlinClass): KotlinClass {
+        return copy(excludedProperties = properties, parentClass = parentClass)
+    }
 
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
