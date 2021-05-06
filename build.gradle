@@ -15,10 +15,8 @@ plugins {
     id "org.jetbrains.intellij" version "0.4.9"
 }
 
-buildScan {
-    setTermsOfServiceUrl("https://gradle.com/terms-of-service")
-    setTermsOfServiceAgree("yes")
-}
+
+
 apply plugin: 'idea'
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.intellij'
@@ -59,5 +57,5 @@ compileKotlin {
     }
 }
 
-
+buildScan { termsOfServiceUrl = "https://gradle.com/terms-of-service"; termsOfServiceAgree = "yes" }
 
