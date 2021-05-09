@@ -16,17 +16,18 @@ object ExtensionsCollector {
      * all extensions
      */
     val extensions = listOf(
-            KeepAnnotationSupport,
-            KeepAnnotationSupportForAndroidX,
-            PropertyAnnotationLineSupport,
-            ParcelableAnnotationSupport,
-            PropertyPrefixSupport,
-            PropertySuffixSupport,
-            ClassNameSuffixSupport,
-            PrimitiveTypeNonNullableSupport,
-            ForceInitDefaultValueWithOriginJsonValueSupport,
-            DisableDataClassSupport,
-            ReplaceConstructorParametersByMemberVariablesSupport,
-            AnalyticsSwitchSupport
+        KeepAnnotationSupport,
+        KeepAnnotationSupportForAndroidX,
+        PropertyAnnotationLineSupport,
+        ParcelableAnnotationSupport,
+        PropertyPrefixSupport,
+        PropertySuffixSupport,
+        ClassNamePrefixSupport,
+        ClassNameSuffixSupport,
+        PrimitiveTypeNonNullableSupport,
+        ForceInitDefaultValueWithOriginJsonValueSupport,
+        DisableDataClassSupport,
+        ReplaceConstructorParametersByMemberVariablesSupport,
+        AnalyticsSwitchSupport
     )
 }
