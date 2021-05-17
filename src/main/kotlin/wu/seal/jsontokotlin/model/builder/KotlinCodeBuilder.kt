@@ -13,37 +13,37 @@ import wu.seal.jsontokotlin.utils.toAnnotationComments
  * Created by Nstd on 2020/6/29 15:40.
  */
 data class KotlinCodeBuilder(
-        override val name: String,
-        override val modifiable: Boolean,
-        override val annotations: List<Annotation>,
-        override val properties: List<Property>,
-        override val parentClassTemplate: String,
-        override val comments: String,
-        override val fromJsonSchema: Boolean,
-        override val excludedProperties: List<String> = listOf(),
-        override val parentClass: KotlinClass? = null
-): BaseClassCodeBuilder(
-                name,
-                modifiable,
-                annotations,
-                properties,
-                parentClassTemplate,
-                comments,
-                fromJsonSchema,
-                excludedProperties,
-                parentClass
+    override val name: String,
+    override val modifiable: Boolean,
+    override val annotations: List<Annotation>,
+    override val properties: List<Property>,
+    override val parentClassTemplate: String,
+    override val comments: String,
+    override val fromJsonSchema: Boolean,
+    override val excludedProperties: List<String> = listOf(),
+    override val parentClass: KotlinClass? = null
+) : BaseClassCodeBuilder(
+    name,
+    modifiable,
+    annotations,
+    properties,
+    parentClassTemplate,
+    comments,
+    fromJsonSchema,
+    excludedProperties,
+    parentClass
 ) {
 
-    constructor(clazz: DataClass): this(
-            clazz.name,
-            clazz.modifiable,
-            clazz.annotations,
-            clazz.properties,
-            clazz.parentClassTemplate,
-            clazz.comments,
-            clazz.fromJsonSchema,
-            clazz.excludedProperties,
-            clazz.parentClass
+    constructor(clazz: DataClass) : this(
+        clazz.name,
+        clazz.modifiable,
+        clazz.annotations,
+        clazz.properties,
+        clazz.parentClassTemplate,
+        clazz.comments,
+        clazz.fromJsonSchema,
+        clazz.excludedProperties,
+        clazz.parentClass
     )
 
     companion object {
@@ -100,14 +100,14 @@ data class KotlinCodeBuilder(
     }
 
     private fun genClassTitle(sb: StringBuilder) {
-        if(isDataClass && properties.isNotEmpty()) {
+        if (isDataClass && properties.isNotEmpty()) {
             sb.append("data ")
         }
         sb.append("class ").append(name)
     }
 
     private fun genConstructor(sb: StringBuilder) {
-        if(isUseConstructorParameter) {
+        if (isUseConstructorParameter) {
             sb.append("(").append("\n")
             genJsonFields(sb, getIndent(), true)
             sb.append(")")
@@ -123,18 +123,20 @@ data class KotlinCodeBuilder(
     private fun genBody(sb: StringBuilder) {
         val nestedClasses = referencedClasses.filter { it.modifiable }
         val hasMember = !isUseConstructorParameter && properties.isNotEmpty()
-        if(!hasMember && nestedClasses.isEmpty()) return
+        if (!hasMember && nestedClasses.isEmpty()) return
         val indent = getIndent()
-        sb.append(" {").append("\n")
-        if(hasMember) {
-            genJsonFields(sb, indent, false)
+        val bodyBuilder = StringBuilder()
+        if (hasMember) genJsonFields(bodyBuilder, indent, false)
+        if (nestedClasses.isNotEmpty()) {
+            val nestedClassesCode = nestedClasses.map { it.getCode() }.filter { it.isNotBlank() }.joinToString("\n\n")
+            bodyBuilder.append(nestedClassesCode.addIndent(indent))
+            bodyBuilder.append("\n")
         }
-        if(nestedClasses.isNotEmpty()) {
-            val nestedClassesCode = nestedClasses.joinToString("\n\n") { it.getCode() }
-            sb.append(nestedClassesCode.addIndent(indent))
-            sb.append("\n")
+        if (bodyBuilder.isNotBlank()) {
+            sb.append(" {").append("\n")
+            sb.append(bodyBuilder)
+            sb.append("}")
         }
-        sb.append("}")
     }
 
     private fun genJsonFields(sb: StringBuilder, indent: String, isAddSeparator: Boolean) {
