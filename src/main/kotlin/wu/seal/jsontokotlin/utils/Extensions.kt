@@ -3,6 +3,7 @@ package wu.seal.jsontokotlin.utils
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import java.lang.StringBuilder
 import java.util.regex.Pattern
 
 /**
@@ -210,3 +211,21 @@ fun String.toAnnotationComments(indent: String): String {
 }
 
 fun String.addIndent(indent: String): String = this.lines().joinToString("\n") { if (it.isBlank()) it else "$indent$it" }
+
+operator fun String.times(count: Int): String {
+    if (count < 1) return ""
+    var i = 0
+    val string = this
+    val sb = StringBuilder().apply {
+        while (i < count) {
+            append(string)
+            i++
+        }
+    }
+    return sb.toString()
+}
+
+fun StringBuilder.newLine(): StringBuilder {
+    this.append("\n")
+    return this
+}
