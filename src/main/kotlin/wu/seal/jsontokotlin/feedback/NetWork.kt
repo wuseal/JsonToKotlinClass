@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.feedback
 
+import wu.seal.jsontokotlin.interceptor.AnalyticsSwitchSupport
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -48,6 +49,9 @@ fun sendHistoryActionInfo() {
 }
 
 fun sendData(url: String, log: String) {
+    if (AnalyticsSwitchSupport.enableAnalytics().not() && url != exceptionLogUrl) {
+       return
+    }
     Thread {
         try {
             with(URL(url).openConnection() as HttpURLConnection) {

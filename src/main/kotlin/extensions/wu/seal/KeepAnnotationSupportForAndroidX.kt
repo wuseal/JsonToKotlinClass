@@ -2,10 +2,10 @@ package extensions.wu.seal
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
-import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
-import wu.seal.jsontokotlin.ui.checkBox
-import wu.seal.jsontokotlin.ui.horizontalLinearLayout
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.ui.jCheckBox
+import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
 import javax.swing.JPanel
 
 /**
@@ -22,10 +22,8 @@ object KeepAnnotationSupportForAndroidX : Extension() {
     const val configKey = "wu.seal.add_keep_annotation_enable_androidx"
 
     override fun createUI(): JPanel {
-        return horizontalLinearLayout {
-            checkBox("Add @Keep Annotation On Class (AndroidX)", getConfig(configKey).toBoolean()) { isSelectedAfterClick ->
-                setConfig(configKey, isSelectedAfterClick.toString())
-            }()
+        return jHorizontalLinearLayout {
+            jCheckBox("Add @Keep Annotation On Class (AndroidX)", getConfig(configKey).toBoolean(), { isSelected -> setConfig(configKey, isSelected.toString()) })
             fillSpace()
         }
     }

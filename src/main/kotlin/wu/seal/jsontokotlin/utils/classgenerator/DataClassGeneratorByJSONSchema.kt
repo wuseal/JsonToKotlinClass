@@ -20,10 +20,10 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         val description = jsonObjectDef.description
         val properties = getProperties(jsonObjectDef)
         return DataClass(
-                name = className,
-                properties = properties,
-                comments = description ?: "",
-                fromJsonSchema = true
+            name = className,
+            properties = properties,
+            comments = description ?: "",
+            fromJsonSchema = true
         )
     }
 
@@ -50,10 +50,19 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         return properties
     }
 
-    private fun resolveProperty(jsonProp: PropertyDef, propertyName: String, isRequired: Boolean, includeConst: Boolean = true): Property {
+    private fun resolveProperty(
+        jsonProp: PropertyDef,
+        propertyName: String,
+        isRequired: Boolean,
+        includeConst: Boolean = true
+    ): Property {
         val typeClass = if (jsonProp.typeString == "array") {
-            val innerProperty = resolveProperty(jsonProp.items
-                    ?: throw IllegalArgumentException("Array `items` must be defined (property: $propertyName)"), propertyName, false)
+            val innerProperty = resolveProperty(
+                jsonProp.items
+                    ?: throw IllegalArgumentException("Array `items` must be defined (property: $propertyName)"),
+                propertyName,
+                false
+            )
             GenericListClass(generic = innerProperty.typeObject)
         } else {
             val (jsonClassName, realDef) = getRealDefinition(jsonProp)
@@ -61,21 +70,31 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         }
         val value = if (isRequired || !jsonProp.isTypeNullable) getDefaultValue(typeClass.name) else null
         return Property(
-                originName = propertyName,
-                originJsonValue = value,
-                type = typeClass.name,
-                comment = jsonProp.description ?: "",
-                typeObject = typeClass,
-                value = if (includeConst && jsonProp.const != null) constToLiteral(jsonProp.const) ?: "" else ""
+            originName = propertyName,
+            originJsonValue = value,
+            type = typeClass.name,
+            comment = jsonProp.description ?: "",
+            typeObject = typeClass,
+            value = if (includeConst && jsonProp.const != null) constToLiteral(jsonProp.const) ?: "" else ""
         )
     }
 
-    private fun resolveTypeClass(realDefJsonType: String?, jsonClassName: String?, realDef: PropertyDef, propertyName: String, checkEnum: Boolean = true, checkSealed: Boolean = true): KotlinClass {
+    private fun resolveTypeClass(
+        realDefJsonType: String?,
+        jsonClassName: String?,
+        realDef: PropertyDef,
+        propertyName: String,
+        checkEnum: Boolean = true,
+        checkSealed: Boolean = true
+    ): KotlinClass {
         val simpleName = jsonClassName ?: propertyName.capitalize()
         return when {
             checkEnum && realDef.enum != null -> resolveEnumClass(realDef, simpleName)
             checkSealed && realDef.anyOf != null -> resolveSealedClass(realDef, simpleName)
-            realDefJsonType != null && (jsonClassName != null || realDefJsonType == "object") -> generateClass(realDef, simpleName)
+            realDefJsonType != null && (jsonClassName != null || realDefJsonType == "object") -> generateClass(
+                realDef,
+                simpleName
+            )
             JSON_SCHEMA_FORMAT_MAPPINGS.containsKey(realDef.format) -> {
                 object : UnModifiableNoGenericClass() {
                     override val name: String = JSON_SCHEMA_FORMAT_MAPPINGS[realDef.format]!!
@@ -97,9 +116,16 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         if (enumDef.x_enumNames != null && enumDef.enum.count() != enumDef.x_enumNames.count())
             throw IllegalArgumentException("$name enum values count ${enumDef.enum.count()} not equal to enum names count ${enumDef.x_enumNames}")
         val (jsonClassName, realDef) = getRealDefinition(enumDef)
-        val typeClass = resolveTypeClass(realDef.typeString, jsonClassName, realDef, name, !jsonClassName.isNullOrBlank())
-        return EnumClass(name = name, enum = enumDef.enum.asList(), xEnumNames = enumDef.x_enumNames?.asList(), generic = typeClass, comments = realDef.description
-                ?: "")
+        val typeClass =
+            resolveTypeClass(realDef.typeString, jsonClassName, realDef, name, !jsonClassName.isNullOrBlank())
+        return EnumClass(
+            name = name,
+            enum = enumDef.enum.asList(),
+            xEnumNames = enumDef.x_enumNames?.asList(),
+            generic = typeClass,
+            comments = realDef.description
+                ?: ""
+        )
     }
 
     /** attempts to find a common set of discriminatory fields in `anyOf` members */
@@ -121,7 +147,8 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         }
 
         return discriminatoryProperties.map {
-            resolveProperty(it.value, it.key,
+            resolveProperty(
+                it.value, it.key,
                 isRequired = true,
                 includeConst = false
             )
@@ -157,13 +184,16 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         // Will always be `KotlinClass.ANY`
         // The `KotlinClass` constructor always requires a `generic` parameter that is
         // also a `KotlinClass`
-        val typeClass = resolveTypeClass(realDef.typeString,
+        val typeClass = resolveTypeClass(
+            realDef.typeString,
             jsonClassName,
             realDef,
             name,
-            checkSealed = false)
+            checkSealed = false
+        )
 
-        return SealedClass(name = name,
+        return SealedClass(
+            name = name,
             generic = typeClass,
             comments = realDef.description ?: "",
             referencedClasses = referencedClasses,
@@ -172,20 +202,26 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
     }
 
     /** resolves `ref`, `oneOf` and `allOf` then returns a real property definition */
-    private fun getRealDefinition(def: PropertyDef): Pair<String? /* ClassName */, PropertyDef> = when {
-        (def.ref != null) -> Pair(def.tryGetClassName(), getRealDefinition(jsonSchema.resolveDefinition(def.ref)).second)
-        (def.oneOf != null) -> if (def.oneOf.count() > 1) getRealDefinition(def.oneOf.first { it.typeString != "null" })
-        else getRealDefinition(def.oneOf[0])
-        (def.allOf != null) -> {
-            val combinedProps: MutableMap<String, PropertyDef> = mutableMapOf()
-            def.allOf.forEach { p ->
-                val realDef = if (p.properties == null) getRealDefinition(p).second else p
-                if (realDef.properties != null)
-                    combinedProps.putAll(realDef.properties.map { pair -> pair.key to getRealDefinition(pair.value).second })
+    private fun getRealDefinition(def: PropertyDef): Pair<String? /* ClassName */, PropertyDef> {
+        return when {
+            (def.properties != null) -> Pair(def.tryGetClassName(), def)
+            (def.ref != null) -> Pair(
+                def.tryGetClassName(),
+                getRealDefinition(jsonSchema.resolveDefinition(def.ref)).second
+            )
+            (def.oneOf != null) -> getRealDefinition(def.oneOf.firstOrNull { it.typeString != "null" }
+                ?: def.oneOf.first())
+            (def.allOf != null) -> {
+                val combinedProps: MutableMap<String, PropertyDef> = mutableMapOf()
+                def.allOf.forEach { p ->
+                    val realDef = if (p.properties == null) getRealDefinition(p).second else p
+                    if (realDef.properties != null)
+                        combinedProps.putAll(realDef.properties.map { pair -> pair.key to getRealDefinition(pair.value).second })
+                }
+                val combined = PropertyDef(type = "object", properties = combinedProps)
+                Pair(null, combined)
             }
-            val combined = PropertyDef(type = "object", properties = combinedProps)
-            Pair(null, combined)
+            else -> Pair(null, def)
         }
-        else -> Pair(null, def)
     }
 }

@@ -51,12 +51,11 @@
        <br>Please see github milestone for detail bug description</br>
        <br></br>
        <br>New Features </br>
-       <br>1. Normal Class support</br>
-       <br>2. Dynamic plugin load support</br>
-       <br>3. Suppport generating ListClass from JSONArray</br>
-       <br>4. Complex json schema supporting</br>
+       <br>1. Class name prefix support</br>
+       <br>2. Support no parameter constructor(https://github.com/wuseal/JsonToKotlinClass/issues/291)</br>
+
        <br>Note:</br>
-       <a href="https://github.com/wuseal/JsonToKotlinClass/milestone/10"> detail update</a></br>
+       <a href="https://github.com/wuseal/JsonToKotlinClass/milestone/12"> detail update</a></br>
     ]]>
     </change-notes>
 

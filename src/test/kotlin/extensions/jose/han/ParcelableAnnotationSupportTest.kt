@@ -14,7 +14,7 @@ class ParcelableAnnotationSupportTest{
     val json = """{"name":"jose.han","age":18,"height":18.7, "face":true}"""
 
 
-    var expectResult = """@SuppressLint("ParcelCreator")
+    var expectResult = """
 @Parcelize
 data class Test(
     val name: String, // jose.han

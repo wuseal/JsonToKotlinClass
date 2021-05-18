@@ -328,7 +328,7 @@ data class veggie(
     /**
      * Тип события
      */
-    val typeA: LogEventType,
+    val typeA: LogEventType?,
     /**
      * Подсобытие (набор значений зависит от действия)
      */
@@ -1032,47 +1032,47 @@ enum class LogEventType(val value: Int) {
                 /**
                  * Gets or sets how type name writing and reading is handled by the serializer.The default value is None.
                  */
-                val TypeNameHandling: TypeNameHandling,
+                val TypeNameHandling: TypeNameHandling?,
                 /**
                  * Gets or sets how a type name assembly is written and resolved by the serializer.The default value is Simple.
                  */
-                val TypeNameAssemblyFormat: FormatterAssemblyStyle,
+                val TypeNameAssemblyFormat: FormatterAssemblyStyle?,
                 /**
                  * Gets or sets how a type name assembly is written and resolved by the serializer.The default value is Simple.
                  */
-                val TypeNameAssemblyFormatHandling: TypeNameAssemblyFormatHandling,
+                val TypeNameAssemblyFormatHandling: TypeNameAssemblyFormatHandling?,
                 /**
                  * Gets or sets how object references are preserved by the serializer.The default value is None.
                  */
-                val PreserveReferencesHandling: PreserveReferencesHandling,
+                val PreserveReferencesHandling: PreserveReferencesHandling?,
                 /**
                  * Gets or sets how reference loops (e.g. a class referencing itself) is handled.The default value is Error.
                  */
-                val ReferenceLoopHandling: ReferenceLoopHandling,
+                val ReferenceLoopHandling: ReferenceLoopHandling?,
                 /**
                  * Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.The default value is Ignore.
                  */
-                val MissingMemberHandling: MissingMemberHandling,
+                val MissingMemberHandling: MissingMemberHandling?,
                 /**
                  * Gets or sets how null values are handled during serialization and deserialization.The default value is Include.
                  */
-                val NullValueHandling: NullValueHandling,
+                val NullValueHandling: NullValueHandling?,
                 /**
                  * Gets or sets how default values are handled during serialization and deserialization.The default value is Include.
                  */
-                val DefaultValueHandling: DefaultValueHandling,
+                val DefaultValueHandling: DefaultValueHandling?,
                 /**
                  * Gets or sets how objects are created during deserialization.The default value is Auto.
                  */
-                val ObjectCreationHandling: ObjectCreationHandling,
+                val ObjectCreationHandling: ObjectCreationHandling?,
                 /**
                  * Gets or sets how constructors are used during deserialization.The default value is Default.
                  */
-                val ConstructorHandling: ConstructorHandling,
+                val ConstructorHandling: ConstructorHandling?,
                 /**
                  * Gets or sets how metadata properties are used during deserialization.The default value is Default.
                  */
-                val MetadataPropertyHandling: MetadataPropertyHandling,
+                val MetadataPropertyHandling: MetadataPropertyHandling?,
                 /**
                  * Gets a collection JsonConverter that will be used during serialization.
                  */
@@ -1084,35 +1084,35 @@ enum class LogEventType(val value: Int) {
                 /**
                  * Gets or sets the StreamingContext used by the serializer when invoking serialization callback methods.
                  */
-                val Context: StreamingContext,
+                val Context: StreamingContext?,
                 /**
                  * Indicates how JSON text output is formatted.The default value is None.
                  */
-                val Formatting: Formatting,
+                val Formatting: Formatting?,
                 /**
                  * Gets or sets how dates are written to JSON text.The default value is IsoDateFormat.
                  */
-                val DateFormatHandling: DateFormatHandling,
+                val DateFormatHandling: DateFormatHandling?,
                 /**
                  * Gets or sets how DateTime time zones are handled during serialization and deserialization.The default value is RoundtripKind.
                  */
-                val DateTimeZoneHandling: DateTimeZoneHandling,
+                val DateTimeZoneHandling: DateTimeZoneHandling?,
                 /**
                  * Gets or sets how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON.The default value is DateTime.
                  */
-                val DateParseHandling: DateParseHandling,
+                val DateParseHandling: DateParseHandling?,
                 /**
                  * Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.The default value is Double.
                  */
-                val FloatParseHandling: FloatParseHandling,
+                val FloatParseHandling: FloatParseHandling?,
                 /**
                  * Gets or sets how special floating point numbers, e.g. NaN,PositiveInfinity and NegativeInfinity,are written as JSON text.The default value is String.
                  */
-                val FloatFormatHandling: FloatFormatHandling,
+                val FloatFormatHandling: FloatFormatHandling?,
                 /**
                  * Gets or sets how strings are escaped when writing JSON text.The default value is Default.
                  */
-                val StringEscapeHandling: StringEscapeHandling,
+                val StringEscapeHandling: StringEscapeHandling?,
                 /**
                  * Gets or sets how DateTime and DateTimeOffset values are formatted when writing JSON text,and the expected date format when reading JSON text.The default value is "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK".
                  */
@@ -1144,7 +1144,7 @@ enum class LogEventType(val value: Int) {
                 /**
                  * Gets the TraceLevel that will be used to filter the trace messages passed to the writer.For example a filter level of Info will exclude Verbose messages and include Info,Warning and Error messages.
                  */
-                val LevelFilter: TraceLevel
+                val LevelFilter: TraceLevel?
             )
 
 
@@ -1271,7 +1271,7 @@ enum class LogEventType(val value: Int) {
 
 
             data class StreamingContext(
-                val State: StreamingContextStates,
+                val State: StreamingContextStates?,
                 val Context: Any?
             )
 
