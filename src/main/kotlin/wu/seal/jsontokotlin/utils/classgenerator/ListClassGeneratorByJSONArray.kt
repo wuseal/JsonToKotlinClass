@@ -1,9 +1,6 @@
 package wu.seal.jsontokotlin.utils.classgenerator
 
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonNull
-import com.google.gson.JsonObject
+import com.google.gson.*
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.classscodestruct.ListClass
 import wu.seal.jsontokotlin.utils.*
@@ -83,6 +80,13 @@ class ListClassGeneratorByJSONArray(private val className: String, jsonArrayStri
                 // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
                 // and will not be generated in final code
                 fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+            } else if (value is JsonPrimitive && value.isNumber && fatJsonObject.has(key) && fatJsonObject[key].isJsonPrimitive) {
+                // update the number value only when the previous one is not a double value
+                // otherwise a Double property could be rewritten to an Int value, then generate wrong property type
+                val oldNum: Number = fatJsonObject[key].asJsonPrimitive.asNumber
+                if(oldNum.toString().contains('.').not()) {
+                    fatJsonObject.add(key, value)
+                }
             } else {
                 fatJsonObject.add(key, value)
             }
