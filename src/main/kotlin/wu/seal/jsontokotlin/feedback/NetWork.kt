@@ -49,7 +49,7 @@ fun sendHistoryActionInfo() {
 }
 
 fun sendData(url: String, log: String) {
-    if (AnalyticsSwitchSupport.enableAnalytics().not()) {
+    if (AnalyticsSwitchSupport.enableAnalytics().not() && url != exceptionLogUrl) {
        return
     }
     Thread {
