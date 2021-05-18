@@ -7,6 +7,7 @@ import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
 import extensions.nstd.ReplaceConstructorParametersByMemberVariablesSupport
 import wu.seal.jsontokotlin.interceptor.AnalyticsSwitchSupport
+import extensions.yuan.varenyzc.CamelCaseSupport
 
 /**
  * extension collect, all extensions will be hold by this class's extensions property
@@ -28,6 +29,7 @@ object ExtensionsCollector {
         ForceInitDefaultValueWithOriginJsonValueSupport,
         DisableDataClassSupport,
         ReplaceConstructorParametersByMemberVariablesSupport,
-        AnalyticsSwitchSupport
+        AnalyticsSwitchSupport,
+        CamelCaseSuppoert
     )
 }
