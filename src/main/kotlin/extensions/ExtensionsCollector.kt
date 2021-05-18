@@ -6,8 +6,10 @@ import extensions.ted.zeng.PropertyAnnotationLineSupport
 import extensions.wu.seal.*
 import extensions.xu.rui.PrimitiveTypeNonNullableSupport
 import extensions.nstd.ReplaceConstructorParametersByMemberVariablesSupport
+import extensions.yuan.varenyzc.BuildFromJsonObjectSupport
 import wu.seal.jsontokotlin.interceptor.AnalyticsSwitchSupport
 import extensions.yuan.varenyzc.CamelCaseSupport
+import extensions.yuan.varenyzc.NeedNonNullableClassesSupport
 
 /**
  * extension collect, all extensions will be hold by this class's extensions property
@@ -30,6 +32,8 @@ object ExtensionsCollector {
         DisableDataClassSupport,
         ReplaceConstructorParametersByMemberVariablesSupport,
         AnalyticsSwitchSupport,
-        CamelCaseSuppoert
+        CamelCaseSupport,
+        BuildFromJsonObjectSupport,
+        NeedNonNullableClassesSupport
     )
 }

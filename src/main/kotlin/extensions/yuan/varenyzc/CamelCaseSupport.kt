@@ -3,8 +3,8 @@ package extensions.yuan.varenyzc
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
-import wu.seal.jsontokotlin.ui.checkBox
-import wu.seal.jsontokotlin.ui.horizontalLinearLayout
+import wu.seal.jsontokotlin.ui.jCheckBox
+import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
 import wu.seal.jsontokotlin.utils.LogUtil
 import java.lang.StringBuilder
 import javax.swing.JPanel
@@ -18,20 +18,17 @@ object CamelCaseSupport : Extension() {
     const val configKey = "top.varenyzc.camel_case_enable"
 
     override fun createUI(): JPanel {
-        return horizontalLinearLayout {
-            checkBox(
-                "Enable Build From JsonObject",
-                getConfig(configKey).toBoolean()
-            ) { isSelectedAfterClick ->
-                setConfig(configKey, isSelectedAfterClick.toString())
-            }()
+        return jHorizontalLinearLayout {
+            jCheckBox(
+                "Enable Camel-Case",
+                getConfig(configKey).toBoolean(),
+                { isSelected -> setConfig(configKey, isSelected.toString()) })
             fillSpace()
         }
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
         if (kotlinClass is DataClass) {
-            LogUtil.i(kotlinClass.toString())
             return if (getConfig(configKey).toBoolean()) {
                 val originProperties = kotlinClass.properties
                 val newProperties = originProperties.map {
