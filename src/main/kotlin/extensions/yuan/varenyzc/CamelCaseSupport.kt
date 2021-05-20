@@ -20,7 +20,7 @@ object CamelCaseSupport : Extension() {
     override fun createUI(): JPanel {
         return jHorizontalLinearLayout {
             jCheckBox(
-                "Enable Camel-Case",
+                "Let properties' name to be camel case",
                 getConfig(configKey).toBoolean(),
                 { isSelected -> setConfig(configKey, isSelected.toString()) })
             fillSpace()

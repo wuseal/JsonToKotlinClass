@@ -6,6 +6,7 @@ import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
+import wu.seal.jsontokotlin.ui.jLink
 import javax.swing.JPanel
 
 object BuildFromJsonObjectSupport : Extension() {
@@ -15,10 +16,11 @@ object BuildFromJsonObjectSupport : Extension() {
     override fun createUI(): JPanel {
         return jHorizontalLinearLayout {
             jCheckBox(
-                "Enable build from JsonObject",
+                "Make a static function that can build from JSONObject",
                 getConfig(configKey).toBoolean(),
                 { isSelected -> setConfig(configKey, isSelected.toString()) }
             )
+            add(jLink("Know about this extension", "https://github.com/wuseal/JsonToKotlinClass/blob/master/build_from_jsonobject_tip.md"))
             fillSpace()
         }
     }

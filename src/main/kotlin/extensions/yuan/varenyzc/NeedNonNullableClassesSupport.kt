@@ -23,19 +23,29 @@ object NeedNonNullableClassesSupport : Extension() {
             maximumSize = JBDimension(400, 30)
         }
 
-        return jHorizontalLinearLayout {
-            jCheckBox("Need NonNullable classes: ", getConfig(prefixKeyEnable).toBoolean(), { isSelected ->
-                setConfig(prefixKeyEnable, isSelected.toString())
-                prefixJField.isEnabled = isSelected
-            })
-            add(prefixJField)
+        return jVerticalLinearLayout {
+            jHorizontalLinearLayout {
+                jCheckBox("Classes non-nullable: ", getConfig(prefixKeyEnable).toBoolean(), { isSelected ->
+                    setConfig(prefixKeyEnable, isSelected.toString())
+                    prefixJField.isEnabled = isSelected
+                })
+                add(prefixJField)
+            }
+            jHorizontalLinearLayout {
+                fixedSpace(15)
+                jLink("Know about this extension", "https://github.com/wuseal/JsonToKotlinClass/blob/master/classes_non_nullable.md")
+            }
         }
+
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
         return if (kotlinClass is DataClass) {
             if (getConfig(prefixKeyEnable).toBoolean()) {
                 val list = getConfig(prefixKey).split(',')
+                if (list.isEmpty()) {
+                    return kotlinClass
+                }
                 val originProperties = kotlinClass.properties
                 val newProperties = originProperties.map {
                     val oldType = it.type
