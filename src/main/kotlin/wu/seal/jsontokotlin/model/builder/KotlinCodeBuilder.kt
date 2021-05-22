@@ -2,10 +2,7 @@ package wu.seal.jsontokotlin.model.builder
 
 import wu.seal.jsontokotlin.model.classscodestruct.*
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
-import wu.seal.jsontokotlin.utils.addIndent
-import wu.seal.jsontokotlin.utils.getCommentCode
-import wu.seal.jsontokotlin.utils.getIndent
-import wu.seal.jsontokotlin.utils.toAnnotationComments
+import wu.seal.jsontokotlin.utils.*
 
 /**
  * kotlin class code generator
@@ -49,10 +46,13 @@ data class KotlinCodeBuilder(
     companion object {
         const val CONF_KOTLIN_IS_DATA_CLASS = "code.builder.kotlin.isDataClass"
         const val CONF_KOTLIN_IS_USE_CONSTRUCTOR_PARAMETER = "code.builder.kotlin.isUseConstructorParameter"
+        const val CONF_BUILD_FROM_JSON_OBJECT = "code.builder.buildFromJsonObject"
     }
 
     private var isDataClass: Boolean = true
     private var isUseConstructorParameter: Boolean = true
+    private var isBuildFromJsonObject: Boolean = false
+    private val baseTypeList = listOf<String>("Int", "String", "Boolean", "Double", "Float", "Long")
 
     val referencedClasses: List<KotlinClass>
         get() {
@@ -71,6 +71,7 @@ data class KotlinCodeBuilder(
     override fun getCode(): String {
         isDataClass = getConfig(CONF_KOTLIN_IS_DATA_CLASS, isDataClass)
         isUseConstructorParameter = getConfig(CONF_KOTLIN_IS_USE_CONSTRUCTOR_PARAMETER, isUseConstructorParameter)
+        isBuildFromJsonObject = getConfig(CONF_BUILD_FROM_JSON_OBJECT, isBuildFromJsonObject)
 
         if (fromJsonSchema && properties.isEmpty()) return ""
         return buildString {
@@ -123,10 +124,12 @@ data class KotlinCodeBuilder(
     private fun genBody(sb: StringBuilder) {
         val nestedClasses = referencedClasses.filter { it.modifiable }
         val hasMember = !isUseConstructorParameter && properties.isNotEmpty()
-        if (!hasMember && nestedClasses.isEmpty()) return
+        val isBuildFromJson = isBuildFromJsonObject && properties.isNotEmpty()
+        if (!hasMember && !isBuildFromJson && nestedClasses.isEmpty()) return
         val indent = getIndent()
         val bodyBuilder = StringBuilder()
         if (hasMember) genJsonFields(bodyBuilder, indent, false)
+        if (isBuildFromJson) genBuildFromJsonObject(bodyBuilder, indent)
         if (nestedClasses.isNotEmpty()) {
             val nestedClassesCode = nestedClasses.map { it.getCode() }.filter { it.isNotBlank() }.joinToString("\n\n")
             bodyBuilder.append(nestedClassesCode.addIndent(indent))
@@ -153,4 +156,42 @@ data class KotlinCodeBuilder(
         }
     }
 
+    private fun genBuildFromJsonObject(sb: java.lang.StringBuilder, indent: String) {
+        sb.newLine()
+        sb.append(indent * 1).append("companion object {").newLine()
+        sb.append(indent * 2).append("@JvmStatic").newLine()
+        sb.append(indent * 2).append("fun buildFromJson(jsonObject: JSONObject?): $name? {").newLine().newLine()
+        sb.append(indent * 3).append("jsonObject?.run {").newLine()
+        sb.append(indent * 4).append("return $name(").newLine()
+        properties.filterNot { excludedProperties.contains(it.name) }.forEachIndexed { index, property ->
+            when {
+                baseTypeList.contains(property.type.replace("?","")) -> {
+                    sb.append(indent * 5).append("opt${property.type.replace("?", "")}(\"${property.originName}\")")
+                }
+                property.type.contains("List<") -> {
+                    val type = property.type.substring(property.type.indexOf('<') + 1, property.type.indexOf('>'))
+                    sb.append(indent * 5).append("Array${property.type.replace("?", "")}().apply {").newLine()
+                    sb.append(indent * 6).append("optJSONArray(\"${property.originName}\")?.let {").newLine()
+                    sb.append(indent * 7).append("for(i in 0 until it.length()) {").newLine()
+                    sb.append(indent * 8).append("this.add($type.buildFromJson(it.getJSONObject(i)))").newLine()
+                    sb.append(indent * 7).append("}").newLine()
+                    sb.append(indent * 6).append("}").newLine()
+                    sb.append(indent * 5).append("}")
+                }
+                else -> {
+                    sb.append(indent * 5).append("${property.type.replace("?", "")}.buildFromJson(optJSONObject(\"${property.originName}\"))")
+                }
+            }
+
+            if (index < properties.size - 1) {
+                sb.append(",")
+            }
+            sb.newLine()
+        }
+        sb.append(indent * 4).append(")").newLine()
+        sb.append(indent * 3).append("}").newLine()
+        sb.append(indent * 3).append("return null").newLine()
+        sb.append(indent * 2).append("}").newLine()
+        sb.append(indent * 1).append("}").newLine()
+    }
 }
