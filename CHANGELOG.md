@@ -1,6 +1,7 @@
 # Change Log
 
-## Unreleased (2021-05-25)
+## [3.7.1\-EAP](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.1-EAP) (2021-05-25)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0...3.7.1-EAP)
 
 **Enhancement**
 
@@ -45,7 +46,7 @@
 - Useless \`data\` modifier [\#263](https://github.com/wuseal/JsonToKotlinClass/issues/263)
 
 ## [V3.6.0](https://github.com/wuseal/JsonToKotlinClass/tree/V3.6.0) (2020-03-19)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.6.0-EAP-2...V3.6.0)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.6.0-EAP...V3.6.0)
 
 
 ## [V3.5.1](https://github.com/wuseal/JsonToKotlinClass/tree/V3.5.1) (2019-11-17)
