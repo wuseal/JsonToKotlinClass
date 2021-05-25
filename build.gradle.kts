@@ -20,7 +20,7 @@ version = System.getenv("TRAVIS_TAG") ?: "Unreleased"
 
 intellij {
     version = "2017.1"
-    pluginName = "Json To Kotlin Class"
+    pluginName = "JsonToKotlinClass"
 }
 tasks.patchPluginXml {
     untilBuild("")
