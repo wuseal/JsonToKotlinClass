@@ -1,3 +1,7 @@
+import org.hildan.github.changelog.builder.DEFAULT_TIMEZONE
+import org.hildan.github.changelog.builder.SectionDefinition
+import org.jetbrains.changelog.closure
+
 buildscript {
     repositories {
         mavenLocal()
@@ -8,16 +12,21 @@ buildscript {
 plugins {
     id("org.jetbrains.intellij") version "0.7.3"
     kotlin("jvm") version "1.4.20"
+    id("org.jetbrains.changelog") version "1.1.1"
+    id("org.hildan.github.changelog") version "1.6.0"
 }
 group = "wu.seal"
-version = System.getenv("TRAVIS_TAG")
+version = System.getenv("TRAVIS_TAG") ?: "Unreleased"
 
 intellij {
     version = "2017.1"
-    pluginName = "Json To Kotlin Class"
+    pluginName = "JsonToKotlinClass"
 }
 tasks.patchPluginXml {
     untilBuild("")
+    changeNotes(closure {
+        changelogForIDEPlugin.getLatest().toHTML()
+    })
 }
 tasks.publishPlugin {
     token(System.getenv("token"))
@@ -40,4 +49,46 @@ buildScan {
     termsOfServiceUrl = "https://gradle.com/terms-of-service"
     termsOfServiceAgree = "yes"
 }
+tasks.getByPath("publishPlugin").dependsOn("generateChangelog")
 
+changelogForIDEPlugin {
+    version = project.version.toString()
+    path = "${project.projectDir}/CHANGELOG.md"
+    unreleasedTerm = "Unreleased"
+    itemPrefix = "**"
+}
+changelog {
+    githubUser = "wuseal"
+    githubRepository = rootProject.name
+    githubToken = findProperty("githubToken")?.toString() ?: (System.getenv("GH_TOKEN")?.toString())
+    title = "Change Log"
+    showUnreleased = true
+    unreleasedVersionTitle = "Unreleased"
+    if (System.getenv("TRAVIS_TAG") != null) futureVersionTag = version.toString()
+    sections = listOf(
+        SectionDefinition("Features", "feature request"),
+        SectionDefinition("Bugfix", "bug"),
+        SectionDefinition("Enhancement", "enhancement")
+    ) // no custom sections by default, but default sections are prepended
+    includeLabels = listOf("feature request", "bug", "enhancement")
+    excludeLabels = listOf("duplicate", "invalid", "question", "wontfix")
+    sinceTag = "V3.0.0"
+    skipTags = listOf(
+        "v3.2.0-EAP",
+        "3.3.0-EAP",
+        "3.3.0-EAP-2",
+        "3.4.0-EAP",
+        "3.4.0-EAP-2",
+        "3.5.0-EAP",
+        "3.5.1-EAP",
+        "3.6.0-EAP",
+        "3.6.0-EAP-2",
+        "3.7.0-EAP",
+        "3.7.0-EAP-2",
+        "3.7.0-EAP-3"
+    )
+    useMilestoneAsTag = true
+    timezone = DEFAULT_TIMEZONE
+
+    outputFile = file("${projectDir}/CHANGELOG.md")
+}
