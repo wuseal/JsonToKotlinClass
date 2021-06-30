@@ -1,11 +1,15 @@
 # Change Log
 
+## Unreleased (2021-06-30)
+
+**Features**
+
+- Custom None nullable type in generated Kotlin data class [\#358](https://github.com/wuseal/JsonToKotlinClass/issues/358)
+- Add buildFromJson function into data class to build data class object from JSONObject [\#348](https://github.com/wuseal/JsonToKotlinClass/issues/348)
+
 ## [3.7.1\-EAP\-3](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.1-EAP-3) (2021-05-25)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0...3.7.1-EAP-3)
 
-**Enhancement**
-
-- Add three extensions for JsonToKotlinClass plugin [\#349](https://github.com/wuseal/JsonToKotlinClass/pull/349) ([@varenyzc](https://github.com/varenyzc))
 
 ## [3.7.0](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.0) (2021-05-18)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0-EAP-3...3.7.0)
