@@ -60,7 +60,7 @@ data class KotlinCodeBuilder(
                 mutableListOf(property.typeObject).apply {
                     addAll(property.typeObject.getAllGenericsRecursively())
                 }
-            }
+            }.distinct()
         }
 
     override fun getOnlyCurrentCode(): String {
