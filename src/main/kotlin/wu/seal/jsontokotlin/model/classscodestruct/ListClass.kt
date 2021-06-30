@@ -22,6 +22,7 @@ data class ListClass(
     }
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): ListClass {
+        if (replaceRule.isEmpty()) return this
         return copy(generic = replaceRule.values.toList()[0], referencedClasses = replaceRule.values.toList())
     }
 
