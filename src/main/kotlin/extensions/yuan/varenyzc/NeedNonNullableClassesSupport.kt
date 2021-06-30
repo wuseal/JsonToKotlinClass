@@ -20,7 +20,6 @@ object NeedNonNullableClassesSupport : Extension() {
                     setConfig(prefixKey, text)
                 }
             }
-            maximumSize = JBDimension(400, 30)
         }
 
         return jVerticalLinearLayout {
@@ -32,8 +31,9 @@ object NeedNonNullableClassesSupport : Extension() {
                 add(prefixJField)
             }
             jHorizontalLinearLayout {
-                fixedSpace(15)
+                fixedSpace(30)
                 jLink("Know about this extension", "https://github.com/wuseal/JsonToKotlinClass/blob/master/classes_non_nullable.md")
+                fillSpace()
             }
         }
 

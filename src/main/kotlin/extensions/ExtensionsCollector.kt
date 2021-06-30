@@ -34,6 +34,7 @@ object ExtensionsCollector {
         AnalyticsSwitchSupport,
         CamelCaseSupport,
         BuildFromJsonObjectSupport,
-        NeedNonNullableClassesSupport
+        NeedNonNullableClassesSupport,
+        InternalModifierSupport
     )
 }
