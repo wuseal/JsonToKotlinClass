@@ -64,7 +64,10 @@ changelog {
     title = "Change Log"
     showUnreleased = true
     unreleasedVersionTitle = "Unreleased"
-    if (System.getenv("TRAVIS_TAG") != null) futureVersionTag = version.toString()
+    if (System.getenv("TRAVIS_TAG") != null) {
+        println("TRAVIS_TAG is ${System.getenv("TRAVIS_TAG")}, Set future version to $version")
+        futureVersionTag = version.toString()
+    }
     sections = listOf(
         SectionDefinition("Features", "feature request"),
         SectionDefinition("Bugfix", "bug"),
