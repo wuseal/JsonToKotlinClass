@@ -26,7 +26,7 @@ data class DataClass(
                 mutableListOf(property.typeObject).apply {
                     addAll(property.typeObject.getAllGenericsRecursively())
                 }
-            }
+            }.distinct()
         }
 
     fun withExtends(properties: List<String>, parentClass: KotlinClass): KotlinClass {
@@ -42,7 +42,7 @@ data class DataClass(
             } else {
                 listOf(it.typeObject)
             }
-        }.filter { it.modifiable }
+        }.filter { it.modifiable }.distinct()
         if (propertiesReferencedModifiableKotlinClass.size != replaceRule.size) {
             throw IllegalStateException("properties used kotlin classes size should be equal referenced classes size!")
         }
