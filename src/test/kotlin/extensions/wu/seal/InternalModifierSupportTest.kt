@@ -17,5 +17,7 @@ class InternalModifierSupportTest : BaseTest() {
         """.trimIndent()
         InternalModifierSupport.getTestHelper().setConfig(InternalModifierSupport.CONFIG_KEY, true.toString())
         json.generateKotlinClass().applyInterceptor(InternalModifierSupport).getCode().should.equal(expected)
+        InternalModifierSupport.getTestHelper().setConfig(InternalModifierSupport.CONFIG_KEY, false.toString())
+        json.generateKotlinClass().applyInterceptor(InternalModifierSupport)
     }
 }
