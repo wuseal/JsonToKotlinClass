@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.model.builder
 
+import extensions.wu.seal.InternalModifierSupport
 import wu.seal.jsontokotlin.model.classscodestruct.*
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
 import wu.seal.jsontokotlin.utils.*
@@ -101,6 +102,9 @@ data class KotlinCodeBuilder(
     }
 
     private fun genClassTitle(sb: StringBuilder) {
+        if (CodeBuilderConfig.instance.getConfig(InternalModifierSupport.CONFIG_KEY, false)) {
+            sb.append("internal ")
+        }
         if (isDataClass && properties.isNotEmpty()) {
             sb.append("data ")
         }

@@ -12,6 +12,7 @@ class ExtensionsTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDouble
                 ExtensionsCollector.extensions.forEach {
                     add(it.createUI())
                 }
+                fixedSpace(30)
             }
         }
     }
