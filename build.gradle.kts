@@ -64,7 +64,7 @@ changelog {
     title = "Change Log"
     showUnreleased = true
     unreleasedVersionTitle = "Unreleased"
-    if (System.getenv("TRAVIS_TAG") != null) {
+    if (!System.getenv("TRAVIS_TAG").isNullOrEmpty()) {
         println("TRAVIS_TAG is ${System.getenv("TRAVIS_TAG")}, Set future version to $version")
         futureVersionTag = version.toString()
     }
