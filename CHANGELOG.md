@@ -1,9 +1,17 @@
 # Change Log
 
-## Unreleased (2021-06-30)
+## [3.7.1](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.1) (2021-06-30)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1-EAP-3...3.7.1)
+
+**Bugfix**
+
+- Crash Report : java.lang.IndexOutOfBoundsException: Empty list doesn't contain element at index 0. [\#353](https://github.com/wuseal/JsonToKotlinClass/issues/353)
+- Crash Report: java.lang.IllegalStateException: properties used kotlin classes size should be equal referenced classes size\! [\#354](https://github.com/wuseal/JsonToKotlinClass/issues/354)
+- Strange crash \(RuntimeException\)  [\#357](https://github.com/wuseal/JsonToKotlinClass/issues/357)
 
 **Features**
 
+- Add internal modifier option\(新增internal可见性选项\) [\#347](https://github.com/wuseal/JsonToKotlinClass/issues/347)
 - Custom None nullable type in generated Kotlin data class [\#358](https://github.com/wuseal/JsonToKotlinClass/issues/358)
 - Add buildFromJson function into data class to build data class object from JSONObject [\#348](https://github.com/wuseal/JsonToKotlinClass/issues/348)
 
