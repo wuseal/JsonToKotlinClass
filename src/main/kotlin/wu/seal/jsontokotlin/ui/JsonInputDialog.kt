@@ -64,7 +64,7 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
                 }
                 jHorizontalLinearLayout {
                     jLabel("JSON Text: ", 14f)
-                    jLabel("Tips: you can use JSON string、http urls or local file just right click on text area", 12f)
+                    jLabel("Tips: you can use JSON string, http urls or local file just right click on text area", 12f)
                     fillSpace()
                     jButton("Format", { handleFormatJSONString() })
                 }
