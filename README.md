@@ -7,7 +7,7 @@
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/issues?q=is%3Aissue+is%3Aclosed)
 [![license](https://img.shields.io/github/license/wuseal/JsonToKotlinClass.svg)](https://github.com/wuseal/JsonToKotlinClass/blob/master/LICENSE)
 
-[![Kotlin](https://img.shields.io/badge/%20language-Kotlin-red.svg)](https://kotlinlang.org/)
+[![Kotlin](https://img.shields.io/badge/%20language-Kotlin-blueviolet.svg)](https://kotlinlang.org/)
 [![IntelliJ Idea Plugin](https://img.shields.io/badge/plugin-IntelliJ%20%20Idea-blue.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 [![Android Studio Plugin](https://img.shields.io/badge/plugin-AndroidStudio-green.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 
