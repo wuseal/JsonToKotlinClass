@@ -12,7 +12,6 @@
 [![Android Studio Plugin](https://img.shields.io/badge/plugin-AndroidStudio-green.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
 
 # JsonToKotlinClass
-
 Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin).
 We also have a `Java/Kotlin` [library](LIBRARY.md). With this you can generate Kotlin `data class` from JSON string **programmatically**. 
 
@@ -23,6 +22,7 @@ implementation 'wu.seal.jsontokotlin:library:3.6.1'
 ### Overview
 
 This is a very cool tool for Kotlin developers, it can convert a JSON string to Kotlin `data class`. The tool could not only recognize the primitive types but also auto create complex types. It's easily accessible, we provide shortcut keymap `ALT + K` for Windows and `Option + K` for Mac, have a try and you'll fall in love with it! JsonToKotlinClass just makes programming more enjoyable, enjoy coding!
+[![image](https://user-images.githubusercontent.com/9211902/124459608-e1ff5b00-ddc0-11eb-959a-d7bce50d9233.png)](https://www.youtube.com/watch?v=s8jxvORbPHQ)
 
 ### Easy Use
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18032.png)
@@ -203,7 +203,7 @@ The development of this plugin is powerly driven by JetBrains.
 | [Join JsonToKotlinClass Slack](https://join.slack.com/t/jsontokotlinclass/shared_invite/enQtNjk2NjM1MDM3MDA5LWYxYTI3ZDRlZTMyNDI2Mjg5NzZmZjQzM2ZlNjE5OTFmNWYyY2E0ZGEzZTQ3OWNhODEwOTUwYmU0YmRjZjQ5OGQ)|
 | [Join JsonToKotlinClass Telegram](https://t.me/JsonToKotlin) |
 ### Note：
-We analytics anonymous user behavior for improving plugin production, If you don't want this behavior enable, please contact us, we will provide a switch case for that.
+We analytics anonymous user behavior for improving plugin production, we've provided a switch case for that.
 ### Stargazers over time
 
 [![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)
