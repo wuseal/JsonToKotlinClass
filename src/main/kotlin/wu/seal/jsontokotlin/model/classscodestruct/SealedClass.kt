@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
+import wu.seal.jsontokotlin.model.builder.ICodeBuilder
 import wu.seal.jsontokotlin.utils.getIndent
 import wu.seal.jsontokotlin.utils.toAnnotationComments
 import wu.seal.jsontokotlin.utils.addIndent
@@ -10,7 +11,8 @@ data class SealedClass(
     override val referencedClasses: List<KotlinClass> = listOf(generic),
     val discriminatoryProperties: List<Property>,
     val comments: String = "",
-    override val modifiable: Boolean = true
+    override val modifiable: Boolean = true,
+    override val codeBuilder: ICodeBuilder<*> = ICodeBuilder.EMPTY
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override fun rename(newName: String): KotlinClass = copy(name = newName)
