@@ -2,7 +2,7 @@ package extensions.yuan.varenyzc
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
-import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
+import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
@@ -27,7 +27,7 @@ object BuildFromJsonObjectSupport : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
         CodeBuilderConfig.instance.setConfig(
-            KotlinCodeBuilder.CONF_BUILD_FROM_JSON_OBJECT,
+            KotlinDataClassCodeBuilder.CONF_BUILD_FROM_JSON_OBJECT,
             getConfig(configKey).toBoolean()
         )
         return kotlinClass

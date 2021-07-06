@@ -15,16 +15,16 @@ data class EnumClass(
         override val modifiable: Boolean = true
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
-    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_ENUM, this) }
+    private val codeBuilder = KotlinEnumCodeBuilder()
 
     override fun getOnlyCurrentCode(): String {
-        return codeBuilder.getOnlyCurrentCode()
+        return codeBuilder.getOnlyCurrentCode(this)
     }
 
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
     override fun getCode(): String {
-        return codeBuilder.getCode()
+        return codeBuilder.getCode(this)
     }
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): EnumClass {
