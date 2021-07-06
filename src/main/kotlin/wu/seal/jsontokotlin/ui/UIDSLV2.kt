@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.ui
 
+import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.fileTypes.LanguageFileType
@@ -51,7 +52,12 @@ fun checkAddView(parent: Any, child: Component, constraintsInParent: Any?) {
 /**
  * generate a jRadioButton
  */
-fun ButtonGroup.jRadioButton(text: String, selected: Boolean = false, actionListener: () -> Unit, init: JRadioButton.() -> Unit = {}): JRadioButton {
+fun ButtonGroup.jRadioButton(
+    text: String,
+    selected: Boolean = false,
+    actionListener: () -> Unit,
+    init: JRadioButton.() -> Unit = {}
+): JRadioButton {
     val view = JRadioButton(text, selected)
     view.init()
     view.addActionListener {
@@ -65,7 +71,11 @@ fun ButtonGroup.jRadioButton(text: String, selected: Boolean = false, actionList
 /**
  * generate a jVerticalLinearLayout  but return with jpanel
  */
-fun Any.jVerticalLinearLayout(constraintsInParent: Any? = BorderLayout.CENTER, addToParent: Boolean = true, init: JVerticalLinearLayout.() -> Unit): JPanel {
+fun Any.jVerticalLinearLayout(
+    constraintsInParent: Any? = BorderLayout.CENTER,
+    addToParent: Boolean = true,
+    init: JVerticalLinearLayout.() -> Unit
+): JPanel {
 
     val jVerticalLinearLayout = JVerticalLinearLayout()
     val jPanel = JPanel().apply {
@@ -139,7 +149,12 @@ fun Any.jLabel(text: String, textSize: Float = 13f, init: JLabel.() -> Unit = {}
 /**
  * generate a specific JTextField component
  */
-fun Any.jTextInput(initText: String = "", enabled: Boolean = true, maxSize: JBDimension = JBDimension(10000, 30), init: JTextField.() -> Unit = {}): JTextField {
+fun Any.jTextInput(
+    initText: String = "",
+    enabled: Boolean = true,
+    maxSize: JBDimension = JBDimension(10000, 30),
+    init: JTextField.() -> Unit = {}
+): JTextField {
     val jTextInput = JBTextField().apply {
         text = initText
         maximumSize = maxSize
@@ -154,7 +169,12 @@ fun Any.jTextInput(initText: String = "", enabled: Boolean = true, maxSize: JBDi
 /**
  * generate a jCheckBox component
  */
-fun Any.jCheckBox(text: String, initValue: Boolean = false, actionListener: (isSelected: Boolean) -> Unit, init: JBCheckBox.() -> Unit = {}): JCheckBox {
+fun Any.jCheckBox(
+    text: String,
+    initValue: Boolean = false,
+    actionListener: (isSelected: Boolean) -> Unit,
+    init: JBCheckBox.() -> Unit = {}
+): JCheckBox {
     val jCheckBox = JBCheckBox(text, initValue)
     jCheckBox.addActionListener {
         actionListener.invoke(jCheckBox.isSelected)
@@ -168,7 +188,11 @@ fun Any.jCheckBox(text: String, initValue: Boolean = false, actionListener: (isS
 /**
  * generate a scrollable component
  */
-fun Any.jScrollPanel(size: JBDimension, constraintsInParent: Any = BorderLayout.CENTER, content: () -> Component): JBScrollPane {
+fun Any.jScrollPanel(
+    size: JBDimension,
+    constraintsInParent: Any = BorderLayout.CENTER,
+    content: () -> Component
+): JBScrollPane {
 
     val jScrollPanel = JBScrollPane(content()).apply {
         preferredSize = size
@@ -195,8 +219,13 @@ fun Any.jLine(): JSeparator {
 /**
  * generate multiple lines text input component
  */
-fun Any.jTextAreaInput(initText: String, size: JBDimension = JBDimension(400, 50), enabled: Boolean = true
-                       , textLanguageType: LanguageFileType = PlainTextFileType.INSTANCE, onFocusLost: (textAreaInput: Document) -> Unit): JComponent {
+fun Any.jTextAreaInput(
+    initText: String,
+    size: JBDimension = JBDimension(400, 50),
+    enabled: Boolean = true,
+    textLanguageType: LanguageFileType = PlainTextFileType.INSTANCE,
+    onFocusLost: (textAreaInput: Document) -> Unit
+): JComponent {
     val editorFactory = EditorFactory.getInstance()
     val document = editorFactory.createDocument("").apply {
         setReadOnly(false)
@@ -215,7 +244,9 @@ fun Any.jTextAreaInput(initText: String, size: JBDimension = JBDimension(400, 50
             onFocusLost(editor.document)
         }
     })
-    editor.document.setText(initText)
+    runWriteAction {
+        editor.document.setText(initText)
+    }
     checkAddView(this, editor.component)
     return editor.component
 }
@@ -224,7 +255,13 @@ fun Any.jTextAreaInput(initText: String, size: JBDimension = JBDimension(400, 50
 /**
  * generate a link component
  */
-fun Any.jLink(text: String, linkURL: String, linkURLColor: String = "#5597EB", maxSize: JBDimension? = null, onclick: () -> Unit = {}): JLabel {
+fun Any.jLink(
+    text: String,
+    linkURL: String,
+    linkURLColor: String = "#5597EB",
+    maxSize: JBDimension? = null,
+    onclick: () -> Unit = {}
+): JLabel {
     val jLink = JLabel("<html><a href='$linkURL'><font color=\"$linkURLColor\">$text</font></a></html>").apply {
         if (maxSize != null) {
             maximumSize = maxSize
@@ -268,7 +305,10 @@ fun Any.jGridLayout(rows: Int, columns: Int, init: JPanel.() -> Unit = {}): JPan
  */
 fun Any.jIcon(iconPath: String, init: JLabel.() -> Unit = {}): JLabel {
     val icon = IconLoader.getIcon(iconPath)
-    return JBLabel(icon).also { it.init() }
+    return JBLabel(icon).also {
+        it.init()
+        checkAddView(this, it)
+    }
 }
 
 /**
@@ -277,6 +317,7 @@ fun Any.jIcon(iconPath: String, init: JLabel.() -> Unit = {}): JLabel {
 fun Any.jBorderLayout(init: SimpleBorderLayout.() -> Unit): JPanel {
     return SimpleBorderLayout().apply {
         init()
+        checkAddView(this@jBorderLayout, this@apply)
     }
 }
 
@@ -384,13 +425,15 @@ class JHorizontalLinearLayout : Box(BoxLayout.X_AXIS) {
 
 fun SimpleBorderLayout.topContainer(init: SimpleBorderLayout.TopContainer.() -> Unit) = TopContainer().apply(init)
 
-fun SimpleBorderLayout.bottomContainer(init: SimpleBorderLayout.BottomContainer.() -> Unit) = BottomContainer().apply(init)
+fun SimpleBorderLayout.bottomContainer(init: SimpleBorderLayout.BottomContainer.() -> Unit) =
+    BottomContainer().apply(init)
 
 fun SimpleBorderLayout.leftContainer(init: SimpleBorderLayout.LeftContainer.() -> Unit) = LeftContainer().apply(init)
 
 fun SimpleBorderLayout.rightContainer(init: SimpleBorderLayout.RightContainer.() -> Unit) = RightContainer().apply(init)
 
-fun SimpleBorderLayout.centerFillContainer(init: SimpleBorderLayout.CenterFillContainer.() -> Unit) = CenterFillContainer().apply(init)
+fun SimpleBorderLayout.centerFillContainer(init: SimpleBorderLayout.CenterFillContainer.() -> Unit) =
+    CenterFillContainer().apply(init)
 
 /**
  * SimpleBorderLayout：JPanel with BorderLayout()
