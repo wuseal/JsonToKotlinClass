@@ -33,4 +33,7 @@ ${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode()
         """.trimIndent()
         }
     }
+    companion object{
+        val DEFAULT = KotlinListClassCodeBuilder()
+    }
 }

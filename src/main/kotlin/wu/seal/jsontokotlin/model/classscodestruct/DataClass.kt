@@ -5,20 +5,19 @@ import wu.seal.jsontokotlin.model.builder.*
 import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
-        val annotations: List<Annotation> = listOf(),
-        override val name: String,
-        val properties: List<Property> = listOf(),
-        val parentClassTemplate: String = "",
-        override val modifiable: Boolean = true,
-        val comments: String = "",
-        val fromJsonSchema: Boolean = false,
-        val excludedProperties: List<String> = listOf(),
-        val parentClass: KotlinClass? = null
+    val annotations: List<Annotation> = listOf(),
+    override val name: String,
+    val properties: List<Property> = listOf(),
+    val parentClassTemplate: String = "",
+    override val modifiable: Boolean = true,
+    val comments: String = "",
+    val fromJsonSchema: Boolean = false,
+    val excludedProperties: List<String> = listOf(),
+    val parentClass: KotlinClass? = null,
+    override val codeBuilder: KotlinDataClassCodeBuilder = KotlinDataClassCodeBuilder.DEFAULT
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
-
-    private val codeBuilder = KotlinDataClassCodeBuilder()
 
     override val referencedClasses: List<KotlinClass>
         get() {

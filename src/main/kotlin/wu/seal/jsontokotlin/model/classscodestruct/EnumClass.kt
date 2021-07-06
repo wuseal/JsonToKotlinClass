@@ -6,16 +6,15 @@ import wu.seal.jsontokotlin.model.builder.*
  * Created by ted on 2020/3/14 18:14.
  */
 data class EnumClass(
-        override val name: String,
-        val xEnumNames: List<String>?,
-        override val generic: KotlinClass,
-        override val referencedClasses: List<KotlinClass> = listOf(generic),
-        val enum: List<Any>,
-        val comments: String = "",
-        override val modifiable: Boolean = true
+    override val name: String,
+    val xEnumNames: List<String>?,
+    override val generic: KotlinClass,
+    override val referencedClasses: List<KotlinClass> = listOf(generic),
+    val enum: List<Any>,
+    val comments: String = "",
+    override val modifiable: Boolean = true,
+    override val codeBuilder: KotlinEnumCodeBuilder = KotlinEnumCodeBuilder.DEFAULT
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
-
-    private val codeBuilder = KotlinEnumCodeBuilder()
 
     override fun getOnlyCurrentCode(): String {
         return codeBuilder.getOnlyCurrentCode(this)

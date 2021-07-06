@@ -49,4 +49,8 @@ class KotlinEnumCodeBuilder : ICodeBuilder<EnumClass> {
     override fun getOnlyCurrentCode(clazz: EnumClass): String {
         return getCode(clazz)
     }
+
+    companion object{
+        val DEFAULT = KotlinEnumCodeBuilder()
+    }
 }
