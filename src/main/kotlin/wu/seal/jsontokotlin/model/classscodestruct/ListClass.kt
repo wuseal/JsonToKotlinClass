@@ -2,23 +2,22 @@ package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.model.builder.*
-import wu.seal.jsontokotlin.utils.getIndent
 
 /**
  * ListClass present the class is a class which extends List
  * Created by Seal.Wu on 2019/11/17.
  */
 data class ListClass(
-        override val name: String,
-        override val generic: KotlinClass,
-        override val referencedClasses: List<KotlinClass> = listOf(generic),
-        override val modifiable: Boolean = true
+    override val name: String,
+    override val generic: KotlinClass,
+    override val referencedClasses: List<KotlinClass> = listOf(generic),
+    override val modifiable: Boolean = true
 ) : UnModifiableGenericClass() {
 
-    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_LIST, this) }
+    private val codeBuilder =  KotlinListClassCodeBuilder()
 
     override fun getOnlyCurrentCode(): String {
-        return codeBuilder.getOnlyCurrentCode()
+        return codeBuilder.getOnlyCurrentCode(this)
     }
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): ListClass {
@@ -29,7 +28,7 @@ data class ListClass(
     override fun rename(newName: String) = copy(name = newName)
 
     override fun getCode(): String {
-        return codeBuilder.getCode()
+        return codeBuilder.getCode(this)
     }
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
