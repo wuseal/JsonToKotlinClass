@@ -1,7 +1,17 @@
 # Change Log
 
+## Unreleased (2021-07-06)
+
+**Bugfix**
+
+- Exception in JsonToKotlin 3.6.1 \- AGP 4.1.2 [\#320](https://github.com/wuseal/JsonToKotlinClass/issues/320)
+
+**Enhancement**
+
+- Update icon and project title picture for JsonToKotlinClass [\#363](https://github.com/wuseal/JsonToKotlinClass/issues/363)
+
 ## [3.7.1](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.1) (2021-06-30)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1-EAP-3...3.7.1)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0...3.7.1)
 
 **Bugfix**
 
@@ -14,10 +24,6 @@
 - Add internal modifier option\(新增internal可见性选项\) [\#347](https://github.com/wuseal/JsonToKotlinClass/issues/347)
 - Custom None nullable type in generated Kotlin data class [\#358](https://github.com/wuseal/JsonToKotlinClass/issues/358)
 - Add buildFromJson function into data class to build data class object from JSONObject [\#348](https://github.com/wuseal/JsonToKotlinClass/issues/348)
-
-## [3.7.1\-EAP\-3](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.1-EAP-3) (2021-05-25)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0...3.7.1-EAP-3)
-
 
 ## [3.7.0](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.0) (2021-05-18)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0-EAP-3...3.7.0)

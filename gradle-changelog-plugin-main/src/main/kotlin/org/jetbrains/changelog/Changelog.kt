@@ -98,7 +98,7 @@ class Changelog(extension: ChangelogPluginExtension) {
 
         fun toText() = getSections().entries
             .joinToString("\n\n") { (key, value) ->
-                (listOfNotNull("### $key".takeIf { key.isNotEmpty() }) + value).joinToString("\n")
+                (listOfNotNull("### $key".takeIf { key.isNotEmpty() }) + value).joinToString("\n\n")
             }.trim().let {
                 when {
                     withHeader -> "${getHeader()}\n$it"
