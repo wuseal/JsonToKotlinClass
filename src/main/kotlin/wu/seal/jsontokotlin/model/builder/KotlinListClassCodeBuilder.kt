@@ -8,32 +8,29 @@ import wu.seal.jsontokotlin.utils.getIndent
  *
  * Created by Nstd on 2020/6/30 15:59.
  */
-data class KotlinListCodeBuilder(
-        val clazz: ListClass
-        ): BaseListCodeBuilder(
-                clazz.name,
-                clazz.modifiable,
-                clazz.generic,
-                clazz.referencedClasses
-                ) {
+class KotlinListClassCodeBuilder : ICodeBuilder<ListClass> {
 
     private val indent = getIndent()
 
-    override fun getCode(): String {
-        return if (generic.modifiable.not()) {
-            getOnlyCurrentCode()
-        } else {
-            """
+    override fun getCode(clazz: ListClass): String {
+        clazz.run {
+            return if (generic.modifiable.not()) {
+                getOnlyCurrentCode()
+            } else {
+                """
             class $name : ArrayList<${generic.name}>(){
 ${referencedClasses.filter { it.modifiable }.joinToString("\n\n") { it.getCode().prependIndent("            $indent") }}
             }
         """.trimIndent()
+            }
         }
     }
 
-    override fun getOnlyCurrentCode(): String {
-        return """
+    override fun getOnlyCurrentCode(clazz: ListClass): String {
+        clazz.run {
+            return """
             class $name : ArrayList<${generic.name}>()
         """.trimIndent()
+        }
     }
 }

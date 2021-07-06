@@ -12,26 +12,9 @@ import java.lang.StringBuilder
  *
  * Created by Nstd on 2020/6/30 14:52.
  */
-data class KotlinEnumCodeBuilder(
-        val clazz: EnumClass
-        ): BaseEnumCodeBuilder(
-            clazz.name,
-            clazz.modifiable,
-            clazz.xEnumNames,
-            clazz.generic,
-            clazz.enum,
-            clazz.comments
-            ){
+class KotlinEnumCodeBuilder : ICodeBuilder<EnumClass> {
 
-    override fun getCode(): String {
-        val indent = getIndent()
-        return StringBuilder().append(comments.toAnnotationComments())
-                .append("enum class $name(val value: ${generic.name}) {\n")
-                .append(generateValues().joinToString("\n\n") { "$indent$it" })
-                .append("\n}").toString()
-    }
-
-    private fun generateValues(): List<String> {
+    private fun EnumClass.generateValues(): List<String> {
         val list = mutableListOf<String>()
         for (i in enum.indices) {
             val constantValue: Any = when (generic) {
@@ -51,5 +34,19 @@ data class KotlinEnumCodeBuilder(
             list.add(finalValue)
         }
         return list
+    }
+
+    override fun getCode(clazz: EnumClass): String {
+        clazz.run {
+            val indent = getIndent()
+            return StringBuilder().append(comments.toAnnotationComments())
+                .append("enum class $name(val value: ${generic.name}) {\n")
+                .append(generateValues().joinToString("\n\n") { "$indent$it" })
+                .append("\n}").toString()
+        }
+    }
+
+    override fun getOnlyCurrentCode(clazz: EnumClass): String {
+        return getCode(clazz)
     }
 }

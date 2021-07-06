@@ -18,7 +18,7 @@ data class DataClass(
 
     override val hasGeneric: Boolean = false
 
-    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_CLASS, this) }
+    private val codeBuilder = KotlinDataClassCodeBuilder()
 
     override val referencedClasses: List<KotlinClass>
         get() {
@@ -67,7 +67,7 @@ data class DataClass(
     }
 
     override fun getCode(): String {
-        return codeBuilder.getCode()
+        return codeBuilder.getCode(this)
     }
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
@@ -83,6 +83,6 @@ data class DataClass(
     }
 
     override fun getOnlyCurrentCode(): String {
-        return codeBuilder.getOnlyCurrentCode()
+        return codeBuilder.getOnlyCurrentCode(this)
     }
 }
