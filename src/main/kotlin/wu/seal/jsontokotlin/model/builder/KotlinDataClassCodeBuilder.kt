@@ -15,6 +15,7 @@ class KotlinDataClassCodeBuilder : ICodeBuilder<DataClass> {
         const val CONF_KOTLIN_IS_DATA_CLASS = "code.builder.kotlin.isDataClass"
         const val CONF_KOTLIN_IS_USE_CONSTRUCTOR_PARAMETER = "code.builder.kotlin.isUseConstructorParameter"
         const val CONF_BUILD_FROM_JSON_OBJECT = "code.builder.buildFromJsonObject"
+        val DEFAULT = KotlinDataClassCodeBuilder()
     }
 
     private var isDataClass = true

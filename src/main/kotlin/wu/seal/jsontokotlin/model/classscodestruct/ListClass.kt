@@ -11,10 +11,9 @@ data class ListClass(
     override val name: String,
     override val generic: KotlinClass,
     override val referencedClasses: List<KotlinClass> = listOf(generic),
-    override val modifiable: Boolean = true
+    override val modifiable: Boolean = true,
+    override val codeBuilder: KotlinListClassCodeBuilder =  KotlinListClassCodeBuilder.DEFAULT
 ) : UnModifiableGenericClass() {
-
-    private val codeBuilder =  KotlinListClassCodeBuilder()
 
     override fun getOnlyCurrentCode(): String {
         return codeBuilder.getOnlyCurrentCode(this)
