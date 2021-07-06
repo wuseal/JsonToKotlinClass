@@ -1,4 +1,4 @@
-![JsonToKotlinClass](https://github.com/wuseal/JsonToKotlinClass/blob/master/title.png)
+![JsonToKotlinClass](https://github.com/wzasd/JsonToKotlinClass/blob/master/title.png)
 
 [![Build Status](https://travis-ci.com/wuseal/JsonToKotlinClass.svg?branch=master&status=started)](https://travis-ci.com/wuseal/JsonToKotlinClass)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
