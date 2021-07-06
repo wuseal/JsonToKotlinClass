@@ -1,6 +1,7 @@
 # Change Log
 
-## Unreleased (2021-07-06)
+## [3.7.2\-EAP\-2](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-2) (2021-07-06)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1...3.7.2-EAP-2)
 
 **Bugfix**
 
