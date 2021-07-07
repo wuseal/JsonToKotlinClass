@@ -30,10 +30,10 @@ This is a very cool tool for Kotlin developers, it can convert a JSON string to 
 #### Want to generate classes code in inner class model? Do like this.
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18031.png)
 
-#### Want to generate Kotlin data class file directory? Do like this.
+#### Want to generate Kotlin data class file? Do like this.
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18030.png)
 
-#### Want to generate Kotlin data classes in single file directory? Do like this.
+#### Want to generate Kotlin data classes in single file? Do like this.
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18029.png)
 
 ### Usage
