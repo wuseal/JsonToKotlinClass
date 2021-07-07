@@ -3,6 +3,7 @@ package extensions.yuan.varenyzc
 import extensions.Extension
 import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
 import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
@@ -20,16 +21,21 @@ object BuildFromJsonObjectSupport : Extension() {
                 getConfig(configKey).toBoolean(),
                 { isSelected -> setConfig(configKey, isSelected.toString()) }
             )
-            add(jLink("Know about this extension", "https://github.com/wuseal/JsonToKotlinClass/blob/master/build_from_jsonobject_tip.md"))
+            add(
+                jLink(
+                    "Know about this extension",
+                    "https://github.com/wuseal/JsonToKotlinClass/blob/master/build_from_jsonobject_tip.md"
+                )
+            )
             fillSpace()
         }
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
-        CodeBuilderConfig.instance.setConfig(
-            KotlinDataClassCodeBuilder.CONF_BUILD_FROM_JSON_OBJECT,
-            getConfig(configKey).toBoolean()
-        )
+        if (getConfig(configKey).toBoolean())
+            if (kotlinClass is DataClass) {
+                return kotlinClass.copy(codeBuilder = DataClassCodeBuilderForAddingBuildFromJsonObject(kotlinClass.codeBuilder))
+            }
         return kotlinClass
     }
 

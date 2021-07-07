@@ -111,8 +111,7 @@ class Issue176Test {
     val totalTime: Any,
     val video: Video
 ) {
-    class AggregateRating(
-    )
+    class AggregateRating
 
     data class Author(
         val @context: String,
