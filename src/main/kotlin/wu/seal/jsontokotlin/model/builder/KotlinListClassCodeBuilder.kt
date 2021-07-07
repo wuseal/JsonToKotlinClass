@@ -10,8 +10,6 @@ import wu.seal.jsontokotlin.utils.getIndent
  */
 class KotlinListClassCodeBuilder : ICodeBuilder<ListClass> {
 
-    private val indent = getIndent()
-
     override fun getCode(clazz: ListClass): String {
         clazz.run {
             return if (generic.modifiable.not()) {

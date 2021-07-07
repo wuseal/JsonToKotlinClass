@@ -4,6 +4,7 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.generateKotlinClass
+import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
@@ -18,24 +19,19 @@ class KotlinDataClassCodeBuilderTest : ICodeBuilderTest<DataClass>{
 
     val expectCode: String = """
         data class Output(
-            @SerializedName("a")
-            val a: Int = 0, // 1
-            @SerializedName("b")
-            val b: B = B()
+            val a: Int, // 1
+            val b: B
         ) {
             data class B(
-                @SerializedName("c")
-                val c: String = "" // string
+                val c: String // string
             )
         }
     """.trimIndent()
 
     val expectCurrentCode: String = """
         data class Output(
-            @SerializedName("a")
-            val a: Int = 0, // 1
-            @SerializedName("b")
-            val b: B = B()
+            val a: Int, // 1
+            val b: B
         )
     """.trimIndent()
 
@@ -46,19 +42,19 @@ class KotlinDataClassCodeBuilderTest : ICodeBuilderTest<DataClass>{
 
     @Test
     fun testGetCode() {
-        KotlinDataClassCodeBuilder()
-                .getCode(getData()).should.be.equal(getExpectedCode())
+        val clazz = getData()
+        KotlinDataClassCodeBuilder
+                .getCode(clazz).should.be.equal(getExpectedCode())
     }
 
     @Test
     fun testGetOnlyCurrentCode() {
-        KotlinDataClassCodeBuilder()
+        KotlinDataClassCodeBuilder
                 .getOnlyCurrentCode(getData()).should.be.equal(getExpectedCurrentCode())
     }
 
     override fun getData(): DataClass {
-        val interceptors = InterceptorManager.getEnabledKotlinDataClassInterceptors()
-        return json.generateKotlinClass("Output").applyInterceptors(interceptors) as DataClass
+        return json.generateKotlinDataClass("Output")
     }
 
     override fun getExpectedCode(): String {

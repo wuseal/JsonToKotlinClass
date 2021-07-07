@@ -14,7 +14,7 @@ data class DataClass(
     val fromJsonSchema: Boolean = false,
     val excludedProperties: List<String> = listOf(),
     val parentClass: KotlinClass? = null,
-    override val codeBuilder: KotlinDataClassCodeBuilder = KotlinDataClassCodeBuilder.DEFAULT
+    override val codeBuilder: IKotlinDataClassCodeBuilder = KotlinDataClassCodeBuilder
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
@@ -53,7 +53,7 @@ data class DataClass(
                 val newTypObj = when (it) {
                     is GenericKotlinClass -> property.typeObject.replaceReferencedClasses(replaceRule)
                     is ModifiableKotlinClass -> replaceRule[property.typeObject]
-                            ?: error("Modifiable Kotlin Class Must have a replacement")
+                        ?: error("Modifiable Kotlin Class Must have a replacement")
                     else -> it
                 }
                 LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
