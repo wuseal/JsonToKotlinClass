@@ -3,6 +3,7 @@ package extensions.wu.seal
 import extensions.Extension
 import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
 import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
@@ -18,16 +19,19 @@ object DisableDataClassSupport : Extension() {
     override fun createUI(): JPanel {
 
         return jHorizontalLinearLayout {
-            jCheckBox("Disable Kotlin Data Class", getConfig(configKey).toBoolean(), { isSelected -> setConfig(configKey, isSelected.toString()) })
+            jCheckBox(
+                "Disable Kotlin Data Class",
+                getConfig(configKey).toBoolean(),
+                { isSelected -> setConfig(configKey, isSelected.toString()) })
             fillSpace()
         }
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
-        CodeBuilderConfig.instance.setConfig(
-                KotlinDataClassCodeBuilder.CONF_KOTLIN_IS_DATA_CLASS,
-                !getConfig(configKey).toBoolean()
-        )
+        if (getConfig(configKey).toBoolean())
+            if (kotlinClass is DataClass) {
+                return kotlinClass.copy(codeBuilder = DataClassCodeBuilderDisableDataClass(kotlinClass.codeBuilder))
+            }
         return kotlinClass
     }
 }

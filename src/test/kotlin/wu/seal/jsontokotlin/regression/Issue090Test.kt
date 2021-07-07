@@ -355,8 +355,7 @@ class Issue090Test {
         )
     }
 
-    class MetaData(
-    )
+    class MetaData
 
     data class Tag(
         @SerializedName("id")
