@@ -77,18 +77,7 @@ changelog {
     excludeLabels = listOf("duplicate", "invalid", "question", "wontfix")
     sinceTag = "V3.0.0"
     skipTags = listOf(
-        "v3.2.0-EAP",
-        "3.3.0-EAP",
-        "3.3.0-EAP-2",
-        "3.4.0-EAP",
-        "3.4.0-EAP-2",
-        "3.5.0-EAP",
-        "3.5.1-EAP",
-        "3.6.0-EAP",
-        "3.6.0-EAP-2",
-        "3.7.0-EAP",
-        "3.7.0-EAP-2",
-        "3.7.0-EAP-3"
+
     )
     useMilestoneAsTag = true
     timezone = DEFAULT_TIMEZONE

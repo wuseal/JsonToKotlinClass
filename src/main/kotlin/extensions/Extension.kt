@@ -45,19 +45,30 @@ abstract class Extension : IImportClassDeclarationInterceptor, IKotlinClassInter
         return originClassImportDeclaration
     }
 
+    @Deprecated("Please use val testHelper")
+    @JvmName("getTestHelperForJVM")
     fun getTestHelper() = TestHelper(this)
 
+    val testHelper = TestHelper(this)
     /**
      * Test helper for test config settings
      */
     class TestHelper(private val extension: Extension) {
 
         fun setConfig(key: String, value: String) {
-            extension.setConfig(key,value)
+            extension.setConfig(key, value)
         }
 
         fun getConfig(key: String): String {
             return extension.getConfig(key)
         }
     }
+
+    /**
+     * val configKey = "xxConfig"
+     *
+     * val configBooleanValue = configKey.booleanConfig()
+     */
+    protected val String.booleanConfigValue: Boolean
+        get() = getConfig(this).toBoolean()
 }
