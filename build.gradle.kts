@@ -53,7 +53,7 @@ tasks.getByPath("publishPlugin").dependsOn("generateChangelog")
 
 changelogForIDEPlugin {
     version = project.version.toString()
-    path = "${project.projectDir}/CHANGELOG.md"
+    path = "${project.projectDir}/doc/CHANGELOG.md"
     unreleasedTerm = "Unreleased"
     itemPrefix = "**"
 }
@@ -82,5 +82,5 @@ changelog {
     useMilestoneAsTag = true
     timezone = DEFAULT_TIMEZONE
 
-    outputFile = file("${projectDir}/CHANGELOG.md")
+    outputFile = file("${projectDir}/doc/CHANGELOG.md")
 }
