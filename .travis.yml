@@ -5,7 +5,7 @@ before_install:
 script:
   - ./gradlew check --scan -s
   - ./gradlew generateChangelog
-  - cat ./CHANGELOG.md
+  - cat ./doc/CHANGELOG.md
   - ./gradlew buildPlugin
   - cd library && ./gradlew build test -s
   - cd ../
