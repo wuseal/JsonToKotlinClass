@@ -172,16 +172,20 @@ fun Any.jTextInput(
 fun Any.jCheckBox(
     text: String,
     initValue: Boolean = false,
-    actionListener: (isSelected: Boolean) -> Unit,
+    selectListener: (isSelected: Boolean) -> Unit = {},
     init: JBCheckBox.() -> Unit = {}
 ): JCheckBox {
     val jCheckBox = JBCheckBox(text, initValue)
     jCheckBox.addActionListener {
-        actionListener.invoke(jCheckBox.isSelected)
+        selectListener.invoke(jCheckBox.isSelected)
     }
     jCheckBox.init()
     checkAddView(this, jCheckBox)
     return jCheckBox
+}
+
+fun JCheckBox.addSelectListener(selectListener: (isSelected: Boolean) -> Unit) = addActionListener {
+    selectListener.invoke(isSelected)
 }
 
 
