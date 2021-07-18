@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.utils
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonPrimitive
+import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import java.lang.StringBuilder
 import java.util.regex.Pattern
@@ -229,3 +230,5 @@ fun StringBuilder.newLine(): StringBuilder {
     this.append("\n")
     return this
 }
+
+fun<T> KotlinClass?.runWhenDataClass(block: DataClass.() -> T) = (this as? DataClass)?.run(block)

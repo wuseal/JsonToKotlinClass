@@ -6,25 +6,24 @@ import wu.seal.jsontokotlin.model.builder.*
  * Created by ted on 2020/3/14 18:14.
  */
 data class EnumClass(
-        override val name: String,
-        val xEnumNames: List<String>?,
-        override val generic: KotlinClass,
-        override val referencedClasses: List<KotlinClass> = listOf(generic),
-        val enum: List<Any>,
-        val comments: String = "",
-        override val modifiable: Boolean = true
+    override val name: String,
+    val xEnumNames: List<String>?,
+    override val generic: KotlinClass,
+    override val referencedClasses: List<KotlinClass> = listOf(generic),
+    val enum: List<Any>,
+    val comments: String = "",
+    override val modifiable: Boolean = true,
+    override val codeBuilder: KotlinEnumCodeBuilder = KotlinEnumCodeBuilder.DEFAULT
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
-    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_ENUM, this) }
-
     override fun getOnlyCurrentCode(): String {
-        return codeBuilder.getOnlyCurrentCode()
+        return codeBuilder.getOnlyCurrentCode(this)
     }
 
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
     override fun getCode(): String {
-        return codeBuilder.getCode()
+        return codeBuilder.getCode(this)
     }
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): EnumClass {

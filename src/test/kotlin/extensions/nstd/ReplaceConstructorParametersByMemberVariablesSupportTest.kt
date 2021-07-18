@@ -3,6 +3,7 @@ package extensions.nstd
 import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
+import wu.seal.jsontokotlin.generateKotlinClass
 import wu.seal.jsontokotlin.generateKotlinClassCode
 import wu.seal.jsontokotlin.test.TestConfig
 
@@ -13,8 +14,7 @@ class ReplaceConstructorParametersByMemberVariablesSupportTest {
     private val json = """{"a":1}"""
     private val expectCode: String = """
         data class Output {
-            @SerializedName("a")
-            val a: Int = 0 // 1
+            val a: Int // 1
         }
     """.trimIndent()
 
@@ -26,9 +26,6 @@ class ReplaceConstructorParametersByMemberVariablesSupportTest {
     @Test
     fun intercept() {
         ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, true.toString())
-        json.generateKotlinClassCode("Output").should.be.equal(expectCode)
-        //must reset，or bunch test  will failed
-        ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, false.toString())
-        json.generateKotlinClassCode("Output")
-    }
+        json.generateKotlinClass("Output").applyInterceptor(ReplaceConstructorParametersByMemberVariablesSupport).getCode().should.be.equal(expectCode)
+     }
 }

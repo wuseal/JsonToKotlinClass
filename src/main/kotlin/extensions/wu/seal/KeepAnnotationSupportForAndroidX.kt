@@ -2,10 +2,10 @@ package extensions.wu.seal
 
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.Annotation
-import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
+import wu.seal.jsontokotlin.utils.runWhenDataClass
 import javax.swing.JPanel
 
 /**
@@ -30,23 +30,20 @@ object KeepAnnotationSupportForAndroidX : Extension() {
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
 
-        if (kotlinClass is DataClass) {
-            return if (getConfig(configKey).toBoolean()) {
+        return kotlinClass.runWhenDataClass {
+            if (getConfig(configKey).toBoolean()) {
 
                 val classAnnotationString = "@Keep"
 
                 val classAnnotation = Annotation.fromAnnotationString(classAnnotationString)
 
-                val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(kotlinClass.annotations) }
+                val newAnnotations = mutableListOf(classAnnotation).also { it.addAll(annotations) }
 
-                return kotlinClass.copy(annotations = newAnnotations)
+                copy(annotations = newAnnotations)
             } else {
-                kotlinClass
+                this
             }
-        } else {
-            return  kotlinClass
-        }
-
+        } ?: kotlinClass
     }
 
     override fun intercept(originClassImportDeclaration: String): String {

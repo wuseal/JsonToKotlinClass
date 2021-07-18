@@ -19,8 +19,7 @@ class Issue094Test {
     @SerializedName("test")
     val test: Test = Test()
 ) {
-    class Test(
-    )
+    class Test
 }"""
 
     @Test

@@ -5,20 +5,19 @@ import wu.seal.jsontokotlin.model.builder.*
 import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
-        val annotations: List<Annotation> = listOf(),
-        override val name: String,
-        val properties: List<Property> = listOf(),
-        val parentClassTemplate: String = "",
-        override val modifiable: Boolean = true,
-        val comments: String = "",
-        val fromJsonSchema: Boolean = false,
-        val excludedProperties: List<String> = listOf(),
-        val parentClass: KotlinClass? = null
+    val annotations: List<Annotation> = listOf(),
+    override val name: String,
+    val properties: List<Property> = listOf(),
+    val parentClassTemplate: String = "",
+    override val modifiable: Boolean = true,
+    val comments: String = "",
+    val fromJsonSchema: Boolean = false,
+    val excludedProperties: List<String> = listOf(),
+    val parentClass: KotlinClass? = null,
+    override val codeBuilder: IKotlinDataClassCodeBuilder = KotlinDataClassCodeBuilder
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
     override val hasGeneric: Boolean = false
-
-    private val codeBuilder: ICodeBuilder by lazy { CodeBuilderFactory.get(TYPE_CLASS, this) }
 
     override val referencedClasses: List<KotlinClass>
         get() {
@@ -54,7 +53,7 @@ data class DataClass(
                 val newTypObj = when (it) {
                     is GenericKotlinClass -> property.typeObject.replaceReferencedClasses(replaceRule)
                     is ModifiableKotlinClass -> replaceRule[property.typeObject]
-                            ?: error("Modifiable Kotlin Class Must have a replacement")
+                        ?: error("Modifiable Kotlin Class Must have a replacement")
                     else -> it
                 }
                 LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
@@ -67,7 +66,7 @@ data class DataClass(
     }
 
     override fun getCode(): String {
-        return codeBuilder.getCode()
+        return codeBuilder.getCode(this)
     }
 
     override fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass {
@@ -83,6 +82,6 @@ data class DataClass(
     }
 
     override fun getOnlyCurrentCode(): String {
-        return codeBuilder.getOnlyCurrentCode()
+        return codeBuilder.getOnlyCurrentCode(this)
     }
 }

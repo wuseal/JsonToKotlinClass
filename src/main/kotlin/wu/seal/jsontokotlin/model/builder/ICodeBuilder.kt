@@ -1,33 +1,37 @@
 package wu.seal.jsontokotlin.model.builder
 
+import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
+import wu.seal.jsontokotlin.utils.getIndent
+
 /**
  * Code generator interface
  *
  * Created by Nstd on 2020/6/29 15:27.
  */
-interface ICodeBuilder {
+interface ICodeBuilder<C : KotlinClass> {
 
-    /*
-     * the name of this class
-     */
-    val name: String
-
-    /**
-     * Indicate if this class code could be modified
-     */
-    val modifiable: Boolean
+    val indent: String
+        get() = getIndent()
 
     /**
      * get the code (include referenced classes) string for writing into file or printing out
      */
-    fun getCode(): String
+    fun getCode(clazz: C): String
 
     /**
      * only the current class code not include the referenced class for writing into file or printing out
      */
-    fun getOnlyCurrentCode(): String
+    fun getOnlyCurrentCode(clazz: C): String
 
-    fun <T> getConfig(key: String, default: T): T {
-        return CodeBuilderConfig.instance.getConfig(key, default)
+    companion object {
+        val EMPTY = object : ICodeBuilder<KotlinClass> {
+            override fun getCode(clazz: KotlinClass): String {
+                return ""
+            }
+
+            override fun getOnlyCurrentCode(clazz: KotlinClass): String {
+                return ""
+            }
+        }
     }
 }

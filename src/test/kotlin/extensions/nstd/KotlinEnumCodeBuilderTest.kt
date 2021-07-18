@@ -116,8 +116,8 @@ class KotlinEnumCodeBuilderTest : ICodeBuilderTest<EnumClass> {
 
     @Test
     fun testEnumClass() {
-        KotlinEnumCodeBuilder(getData())
-                .getCode().should.be.equal(getExpectedCode())
+        KotlinEnumCodeBuilder()
+                .getCode(getData()).should.be.equal(getExpectedCode())
     }
 
     fun getInterceptedClass(): EnumClass? {
