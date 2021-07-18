@@ -1,4 +1,4 @@
-![JsonToKotlinClass](https://raw.githubusercontent.com/wuseal/JsonToKotlinClass/master/title.png)
+![JsonToKotlinClass](https://raw.githubusercontent.com/wuseal/JsonToKotlinClass/master/doc/title.png)
 
 [![Build Status](https://travis-ci.com/wuseal/JsonToKotlinClass.svg?branch=master&status=started)](https://travis-ci.com/wuseal/JsonToKotlinClass)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
@@ -13,7 +13,7 @@
 
 # JsonToKotlinClass
 Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, in another word, a plugin that converts JSON string to Kotlin `data class` (Json to Kotlin).
-We also have a `Java/Kotlin` [library](LIBRARY.md). With this you can generate Kotlin `data class` from JSON string **programmatically**. 
+We also have a `Java/Kotlin` [library](doc/LIBRARY.md). With this you can generate Kotlin `data class` from JSON string **programmatically**. 
 
 ```groovy
 implementation 'wu.seal.jsontokotlin:library:3.6.1'
@@ -49,7 +49,7 @@ This is a very cool tool for Kotlin developers, it can convert a JSON string to 
 Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 
 ### Features
-* Generating Kotlin data class from any legal JSON string/JSONSchema or any **URLs that returns a JSON string/JSONSchema as response** or **local file that contains JSON string/JSONSchema**, for more detail about supported source types, refer to [the documentation](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_json_sources.md)
+* Generating Kotlin data class from any legal JSON string/JSONSchema or any **URLs that returns a JSON string/JSONSchema as response** or **local file that contains JSON string/JSONSchema**, for more detail about supported source types, refer to [the documentation](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc/doc_for_json_sources.md)
 * Generating Kotlin data class from any legal JSON text when right click on directory and select `New` -> `Kotlin data class File from JSON`
 * Supporting (almostly) all kinds of JSON libs' annotation(Gson, Jackson, Fastjson, MoShi and LoganSquare, kotlinx.serialization(default custom value))
 * [Customizing your own annotations](https://github.com/wuseal/JsonToKotlinClass/issues/19)
@@ -64,7 +64,7 @@ Have a try with the advanced dialog :stuck_out_tongue_winking_eye:
 * [Android Parcelable support](https://github.com/wuseal/JsonToKotlinClass/issues/194)
 * [Customize parent class declaration](https://github.com/wuseal/JsonToKotlinClass/issues/44)
 * Generating kotlin data class property order by alphabetical
-* [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc_for_extensions.md)
+* [Support customizing this plugin by `Extensions` module](https://github.com/wuseal/JsonToKotlinClass/blob/master/doc/doc_for_extensions.md)
 
 ### Generate Example
 This is the example JSON from json.org
@@ -132,7 +132,9 @@ data class GlossDef(
     val para: String
 )
 ```
-
+### Change Log
+* [Change log since 3.0.0](doc/CHANGELOG.md)
+* [Change log 1.x.x](doc/CHANGELOG_1.X.md)
 ### Build From Source
 
 Want to try out the newest features?

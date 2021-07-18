@@ -35,6 +35,7 @@ object ExtensionsCollector {
         CamelCaseSupport,
         BuildFromJsonObjectSupport,
         NeedNonNullableClassesSupport,
-        InternalModifierSupport
+        InternalModifierSupport,
+        AddGsonExposeAnnotation,
     )
 }
