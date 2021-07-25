@@ -56,18 +56,8 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
         isRequired: Boolean,
         includeConst: Boolean = true
     ): Property {
-        val typeClass = if (jsonProp.typeString == "array") {
-            val innerProperty = resolveProperty(
-                jsonProp.items
-                    ?: throw IllegalArgumentException("Array `items` must be defined (property: $propertyName)"),
-                propertyName,
-                false
-            )
-            GenericListClass(generic = innerProperty.typeObject)
-        } else {
-            val (jsonClassName, realDef) = getRealDefinition(jsonProp)
-            resolveTypeClass(realDef.typeString, jsonClassName, realDef, propertyName)
-        }
+        val (jsonClassName, realDef) = getRealDefinition(jsonProp)
+        val typeClass = resolveTypeClass(realDef.typeString, jsonClassName, realDef, propertyName)
         val value = if (isRequired || !jsonProp.isTypeNullable) getDefaultValue(typeClass.name) else null
         return Property(
             originName = propertyName,
@@ -89,6 +79,15 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
     ): KotlinClass {
         val simpleName = jsonClassName ?: propertyName.capitalize()
         return when {
+            realDefJsonType == "array" -> {
+                val innerProperty = resolveProperty(
+                    realDef.items
+                        ?: throw IllegalArgumentException("Array `items` must be defined (property: $propertyName)"),
+                    propertyName,
+                    false
+                )
+                GenericListClass(generic = innerProperty.typeObject)
+            }
             checkEnum && realDef.enum != null -> resolveEnumClass(realDef, simpleName)
             checkSealed && realDef.anyOf != null -> resolveSealedClass(realDef, simpleName)
             realDefJsonType != null && (jsonClassName != null || realDefJsonType == "object") -> generateClass(
@@ -204,11 +203,13 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
     /** resolves `ref`, `oneOf` and `allOf` then returns a real property definition */
     private fun getRealDefinition(def: PropertyDef): Pair<String? /* ClassName */, PropertyDef> {
         return when {
+            (def.typeString != null && def.typeString != "object") -> Pair(null, def)
             (def.properties != null) -> Pair(def.tryGetClassName(), def)
-            (def.ref != null) -> Pair(
-                def.tryGetClassName(),
-                getRealDefinition(jsonSchema.resolveDefinition(def.ref)).second
-            )
+            (def.ref != null) -> {
+                val (cls, pd) = getRealDefinition(jsonSchema.resolveDefinition(def.ref))
+                val className = if (pd.typeString != "object" && pd.enum.isNullOrEmpty()) cls else def.tryGetClassName()
+                Pair(className, pd)
+            }
             (def.oneOf != null) -> getRealDefinition(def.oneOf.firstOrNull { it.typeString != "null" }
                 ?: def.oneOf.first())
             (def.allOf != null) -> {

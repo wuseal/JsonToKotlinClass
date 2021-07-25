@@ -1076,7 +1076,7 @@ enum class LogEventType(val value: Int) {
                 /**
                  * Gets a collection JsonConverter that will be used during serialization.
                  */
-                val Converters: JsonConverterCollection?,
+                val Converters: List<JsonConverter>?,
                 /**
                  * Gets or sets the contract resolver used by the serializer whenserializing .NET objects to JSON and vice versa.
                  */
@@ -1131,11 +1131,17 @@ enum class LogEventType(val value: Int) {
                 val CheckAdditionalContent: Boolean
             )
 
+            /**
+             * Used to resolve references when serializing and deserializing JSON by the JsonSerializer.
+             */
+            class IReferenceResolver
 
+            class SerializationBinder
 
-
-
-
+            /**
+             * Allows users to control class loading and mandate what class to load.
+             */
+            class ISerializationBinder
 
             /**
              * Represents a trace writer.
@@ -1147,7 +1153,7 @@ enum class LogEventType(val value: Int) {
                 val LevelFilter: TraceLevel?
             )
 
-
+            class IEqualityComparer
 
             /**
              * Specifies type name handling options for the JsonSerializer.
@@ -1266,9 +1272,24 @@ enum class LogEventType(val value: Int) {
                 Ignore(2);
             }
 
+            /**
+             * Converts an object to and from JSON.
+             */
+            data class JsonConverter(
+                /**
+                 * Gets a value indicating whether this JsonConverter can read JSON.
+                 */
+                val CanRead: Boolean,
+                /**
+                 * Gets a value indicating whether this JsonConverter can write JSON.
+                 */
+                val CanWrite: Boolean
+            )
 
-
-
+            /**
+             * Used by JsonSerializer to resolve a JsonContract for a given Type.
+             */
+            class IContractResolver
 
             data class StreamingContext(
                 val State: StreamingContextStates?,
