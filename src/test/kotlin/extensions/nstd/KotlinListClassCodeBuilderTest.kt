@@ -5,14 +5,14 @@ import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.generateKotlinClass
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
-import wu.seal.jsontokotlin.model.builder.KotlinListCodeBuilder
+import wu.seal.jsontokotlin.model.builder.KotlinListClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.ListClass
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**
  * Created by Nstd on 2020/7/1 14:37.
  */
-class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
+class KotlinListClassCodeBuilderTest : ICodeBuilderTest<ListClass> {
 
     val json = """
         [{"p1":1},{"p2":2}]
@@ -45,14 +45,14 @@ class KotlinListCodeBuilderTest : ICodeBuilderTest<ListClass> {
 
     @Test
     fun testGetCode() {
-        KotlinListCodeBuilder(getListClass())
-                .getCode().should.be.equal(getExpectedCode())
+        KotlinListClassCodeBuilder()
+                .getCode(getListClass()).should.be.equal(getExpectedCode())
     }
 
     @Test
     fun testGetOnlyCurrentCode() {
-        KotlinListCodeBuilder(getListClass())
-                .getOnlyCurrentCode().should.be.equal(getExpectedCurrentCode())
+        KotlinListClassCodeBuilder()
+                .getOnlyCurrentCode(getListClass()).should.be.equal(getExpectedCurrentCode())
     }
 
     override fun getData(): ListClass {

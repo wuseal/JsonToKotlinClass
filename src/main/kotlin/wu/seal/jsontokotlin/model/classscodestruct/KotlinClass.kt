@@ -1,6 +1,7 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
+import wu.seal.jsontokotlin.model.builder.ICodeBuilder
 import wu.seal.jsontokotlin.utils.IgnoreCaseStringSet
 import wu.seal.jsontokotlin.utils.LogUtil
 
@@ -32,6 +33,8 @@ interface KotlinClass {
 
     val generic: KotlinClass
 
+    val codeBuilder: ICodeBuilder<*>
+
     /**
      * get the code (include referenced classes) string for writing into file or printing out
      */
@@ -41,6 +44,7 @@ interface KotlinClass {
      * only the current class code not include the referenced class for writing into file or printing out
      */
     fun getOnlyCurrentCode(): String
+
 
     fun <T : KotlinClass> applyInterceptors(enabledKotlinClassInterceptors: List<IKotlinClassInterceptor<T>>): KotlinClass = this
 
