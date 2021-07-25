@@ -15,8 +15,8 @@ deploy:
   api_key: $GH_TOKEN
   file_glob: true
   file: build/distributions/JsonToKotlinClass*.zip
+  edge: true
   skip_cleanup: true
-  release_notes: "Test release content"
   release_notes_file: "./githubReleaseNote.md"
   on:
     tags: true
