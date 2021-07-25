@@ -1,5 +1,12 @@
 # Change Log
 
+## [3.7.2\-EAP\-5](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-5) (2021-07-25)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.2-EAP-4...3.7.2-EAP-5)
+
+**Bugfix**
+
+- 🐛 fix JsonSchema type error when refer to non\-object definitions [\#368](https://github.com/wuseal/JsonToKotlinClass/pull/368) ([@TedZen](https://github.com/TedZen))
+
 ## [3.7.2\-EAP\-4](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-4) (2021-07-17)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.2-EAP-2...3.7.2-EAP-4)
 

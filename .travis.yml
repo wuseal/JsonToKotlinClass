@@ -9,12 +9,15 @@ script:
   - ./gradlew buildPlugin
   - cd library && ./gradlew build test -s
   - cd ../
+  - ./gradlew createGithubReleaseNotes
 deploy:
 - provider: releases
   api_key: $GH_TOKEN
   file_glob: true
   file: build/distributions/JsonToKotlinClass*.zip
   skip_cleanup: true
+  prerelease: "$TRAVIS_TAG =~ (eap|EAP)"
+  release_notes_file: "./githubReleaseNote.md"
   on:
     tags: true
     repo: wuseal/JsonToKotlinClass
