@@ -1,6 +1,5 @@
 package extensions.yuan.varenyzc
 
-import com.intellij.util.ui.JBDimension
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass

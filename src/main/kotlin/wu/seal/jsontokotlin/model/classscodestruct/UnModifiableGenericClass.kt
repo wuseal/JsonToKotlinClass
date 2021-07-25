@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.model.classscodestruct
 
+import wu.seal.jsontokotlin.model.builder.ICodeBuilder
 import java.lang.UnsupportedOperationException
 
 /**
@@ -11,4 +12,5 @@ abstract class UnModifiableGenericClass : GenericKotlinClass {
     override fun getCode(): String = throw UnsupportedOperationException("Dont support this function called on unModifiable Class")
     override fun getOnlyCurrentCode(): String = throw UnsupportedOperationException("Dont support this function called on unModifiable Class")
     override fun rename(newName: String): KotlinClass = throw UnsupportedOperationException("Dont support this function called on unModifiable Class")
+    override val codeBuilder: ICodeBuilder<*> = ICodeBuilder.EMPTY
 }

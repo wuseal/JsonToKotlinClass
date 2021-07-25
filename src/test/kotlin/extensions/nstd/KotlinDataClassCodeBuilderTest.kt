@@ -4,38 +4,34 @@ import com.winterbe.expekt.should
 import org.junit.Before
 import org.junit.Test
 import wu.seal.jsontokotlin.generateKotlinClass
+import wu.seal.jsontokotlin.generateKotlinDataClass
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
-import wu.seal.jsontokotlin.model.builder.KotlinCodeBuilder
+import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.test.TestConfig
 
 /**
  * Created by Nstd on 2020/7/1 14:33.
  */
-class KotlinCodeBuilderTest : ICodeBuilderTest<DataClass>{
+class KotlinDataClassCodeBuilderTest : ICodeBuilderTest<DataClass>{
 
     val json = """{"a":1,"b":{"c":"string"}}"""
 
     val expectCode: String = """
         data class Output(
-            @SerializedName("a")
-            val a: Int = 0, // 1
-            @SerializedName("b")
-            val b: B = B()
+            val a: Int, // 1
+            val b: B
         ) {
             data class B(
-                @SerializedName("c")
-                val c: String = "" // string
+                val c: String // string
             )
         }
     """.trimIndent()
 
     val expectCurrentCode: String = """
         data class Output(
-            @SerializedName("a")
-            val a: Int = 0, // 1
-            @SerializedName("b")
-            val b: B = B()
+            val a: Int, // 1
+            val b: B
         )
     """.trimIndent()
 
@@ -46,19 +42,19 @@ class KotlinCodeBuilderTest : ICodeBuilderTest<DataClass>{
 
     @Test
     fun testGetCode() {
-        KotlinCodeBuilder(getData())
-                .getCode().should.be.equal(getExpectedCode())
+        val clazz = getData()
+        KotlinDataClassCodeBuilder
+                .getCode(clazz).should.be.equal(getExpectedCode())
     }
 
     @Test
     fun testGetOnlyCurrentCode() {
-        KotlinCodeBuilder(getData())
-                .getOnlyCurrentCode().should.be.equal(getExpectedCurrentCode())
+        KotlinDataClassCodeBuilder
+                .getOnlyCurrentCode(getData()).should.be.equal(getExpectedCurrentCode())
     }
 
     override fun getData(): DataClass {
-        val interceptors = InterceptorManager.getEnabledKotlinDataClassInterceptors()
-        return json.generateKotlinClass("Output").applyInterceptors(interceptors) as DataClass
+        return json.generateKotlinDataClass("Output")
     }
 
     override fun getExpectedCode(): String {
