@@ -1,29 +1,20 @@
 # Change Log
 
-## [3.7.2\-EAP\-5](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-5) (2021-07-25)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.2-EAP-4...3.7.2-EAP-5)
+## [3.7.2\-EAP\-10](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-10) (2021-07-25)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1...3.7.2-EAP-10)
 
 **Bugfix**
 
 - 🐛 fix JsonSchema type error when refer to non\-object definitions [\#368](https://github.com/wuseal/JsonToKotlinClass/pull/368) ([@TedZen](https://github.com/TedZen))
-
-## [3.7.2\-EAP\-4](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-4) (2021-07-17)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.2-EAP-2...3.7.2-EAP-4)
-
-**Features**
-
-- Support adding \`Expose\` Annotation for Gson by new Extension [\#366](https://github.com/wuseal/JsonToKotlinClass/pull/366) ([@wuseal](https://github.com/wuseal))
-
-## [3.7.2\-EAP\-2](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-2) (2021-07-06)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1...3.7.2-EAP-2)
-
-**Bugfix**
-
 - Exception in JsonToKotlin 3.6.1 \- AGP 4.1.2 [\#320](https://github.com/wuseal/JsonToKotlinClass/issues/320)
 
 **Enhancement**
 
 - Update icon and project title picture for JsonToKotlinClass [\#363](https://github.com/wuseal/JsonToKotlinClass/issues/363)
+
+**Features**
+
+- Support adding \`Expose\` Annotation for Gson by new Extension [\#366](https://github.com/wuseal/JsonToKotlinClass/pull/366) ([@wuseal](https://github.com/wuseal))
 
 ## [3.7.1](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.1) (2021-06-30)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.0...3.7.1)
