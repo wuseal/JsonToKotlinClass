@@ -16,7 +16,8 @@ deploy:
   file_glob: true
   file: build/distributions/JsonToKotlinClass*.zip
   skip_cleanup: true
-  prerelease: [[ $TRAVIS_TAG =~ (eap|EAP) ]]
+  pre = [ $TRAVIS_TAG =~ (eap|EAP) ]
+  prerelease: pre
   release_notes_file: "./githubReleaseNote.md"
   on:
     tags: true
