@@ -98,17 +98,17 @@ class TestIssue329 {
             ) {
                 data class Target(
                     @SerializedName("A")
-                    val a: Aa = Aa(),
+                    val a: String = "",
                     @SerializedName("B")
                     val b: Bb = Bb()
                 ) {
                     data class Bb(
                         @SerializedName("Bba")
-                        val bba: Aa = Aa(),
+                        val bba: String = "",
                         @SerializedName("Bbb")
-                        val bbb: Aa = Aa(),
+                        val bbb: String = "",
                         @SerializedName("Bbc")
-                        val bbc: Aa = Aa()
+                        val bbc: String = ""
                     )
                 }
             }
