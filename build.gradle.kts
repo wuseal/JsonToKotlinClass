@@ -88,8 +88,8 @@ changelog {
 task("createGithubReleaseNotes") {
     doLast {
         val githubReleaseNoteFile = file("./githubReleaseNote.md")
-        val content = file("${projectDir}/doc/CHANGELOG.md").readText()
-            .substringAfter("**").substringBefore("##").trim().prependIndent("**")
+        val content ="**" + file("${projectDir}/doc/CHANGELOG.md").readText()
+            .substringAfter("**").substringBefore("##").trim()
         githubReleaseNoteFile.writeText(content)
     }
 }
