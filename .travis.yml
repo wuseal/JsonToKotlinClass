@@ -16,12 +16,23 @@ deploy:
   file_glob: true
   file: build/distributions/JsonToKotlinClass*.zip
   skip_cleanup: true
-  pre: "$TRAVIS_TAG =~ (eap|EAP)"
-  prerelease: pre
+  prerelease: false
   release_notes_file: "./githubReleaseNote.md"
   on:
     tags: true
     repo: wuseal/JsonToKotlinClass
+    condition: "$TRAVIS_TAG =~ ^[0-9]+\\.[0-9]+\\.[0-9]+$"
+- provider: releases
+  api_key: $GH_TOKEN
+  file_glob: true
+  file: build/distributions/JsonToKotlinClass*.zip
+  skip_cleanup: true
+  prerelease: true
+  release_notes_file: "./githubReleaseNote.md"
+  on:
+    tags: true
+    repo: wuseal/JsonToKotlinClass
+    condition: "$TRAVIS_TAG =~ (eap|EAP)"
 - provider: script
   script: "./gradlew publishPlugin -Dchannels=eap"
   skip_cleanup: true
@@ -29,13 +40,6 @@ deploy:
     tags: true
     repo: wuseal/JsonToKotlinClass
     condition: "$TRAVIS_TAG =~ (eap|EAP)"
-- provider: script
-  script: "./gradlew publishPlugin -Dchannels=alpha"
-  skip_cleanup: true
-  on:
-    tags: true
-    repo: wuseal/JsonToKotlinClass
-    condition: "$TRAVIS_TAG =~ (alpha|Alpha)"
 - provider: script
   script: "./gradlew publishPlugin"
   skip_cleanup: true
