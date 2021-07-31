@@ -1,5 +1,6 @@
 package extensions.yuan.varenyzc
 
+import com.intellij.util.ui.JBDimension
 import extensions.Extension
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
@@ -21,21 +22,18 @@ object NeedNonNullableClassesSupport : Extension() {
             }
         }
 
-        return jVerticalLinearLayout {
-            jHorizontalLinearLayout {
-                jCheckBox("Classes non-nullable: ", getConfig(prefixKeyEnable).toBoolean(), { isSelected ->
-                    setConfig(prefixKeyEnable, isSelected.toString())
-                    prefixJField.isEnabled = isSelected
-                })
-                add(prefixJField)
-            }
-            jHorizontalLinearLayout {
-                fixedSpace(30)
-                jLink("Know about this extension", "https://github.com/wuseal/JsonToKotlinClass/blob/master/classes_non_nullable.md")
-                fillSpace()
-            }
+        return jHorizontalLinearLayout {
+            jCheckBox("", getConfig(prefixKeyEnable).toBoolean(), { isSelected ->
+                setConfig(prefixKeyEnable, isSelected.toString())
+                prefixJField.isEnabled = isSelected
+            })
+            jLink(
+                text = "Classes non-nullable: ",
+                linkURL = "https://github.com/wuseal/JsonToKotlinClass/blob/master/doc/classes_non_nullable.md",
+                maxSize = JBDimension(160,30)
+            )
+            add(prefixJField)
         }
-
     }
 
     override fun intercept(kotlinClass: KotlinClass): KotlinClass {
