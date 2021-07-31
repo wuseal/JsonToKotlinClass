@@ -5,8 +5,6 @@ import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
-import wu.seal.jsontokotlin.utils.LogUtil
-import java.lang.StringBuilder
 import javax.swing.JPanel
 
 object CamelCaseSupport : Extension() {

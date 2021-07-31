@@ -36,6 +36,6 @@ object ExtensionsCollector {
         BuildFromJsonObjectSupport,
         NeedNonNullableClassesSupport,
         InternalModifierSupport,
-        AddGsonExposeAnnotation,
+        AddGsonExposeAnnotationSupport,
     )
 }
