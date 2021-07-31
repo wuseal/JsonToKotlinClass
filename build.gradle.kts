@@ -70,7 +70,7 @@ changelog {
     }
     sections = listOf(
         SectionDefinition("Features", "feature request"),
-        SectionDefinition("Bugfix", "bug"),
+        SectionDefinition("Bugfix", listOf("bug", "bug fix")),
         SectionDefinition("Enhancement", "enhancement")
     ) // no custom sections by default, but default sections are prepended
     includeLabels = listOf("feature request", "bug", "enhancement")
@@ -88,7 +88,7 @@ changelog {
 task("createGithubReleaseNotes") {
     doLast {
         val githubReleaseNoteFile = file("./githubReleaseNote.md")
-        val content ="**" + file("${projectDir}/doc/CHANGELOG.md").readText()
+        val content = "**" + file("${projectDir}/doc/CHANGELOG.md").readText()
             .substringAfter("**").substringBefore("##").trim()
         githubReleaseNoteFile.writeText(content)
     }

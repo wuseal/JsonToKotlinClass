@@ -24,7 +24,7 @@ object ParcelableAnnotationSupport : Extension() {
     override fun createUI(): JPanel {
         return jHorizontalLinearLayout {
             jCheckBox("Enable Parcelable Support ", getConfig(configKey).toBoolean(), { isSelected -> setConfig(configKey, isSelected.toString()) })
-            jLink("May Need Some Config", "https://github.com/wuseal/JsonToKotlinClass/blob/master/parceable_support_tip.md")
+            jLink("May Need Some Config", "https://github.com/wuseal/JsonToKotlinClass/blob/master/doc/parceable_support_tip.md")
             fillSpace()
         }
     }
