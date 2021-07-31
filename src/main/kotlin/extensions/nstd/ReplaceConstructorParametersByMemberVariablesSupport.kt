@@ -1,12 +1,11 @@
 package extensions.nstd
 
 import extensions.Extension
-import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
-import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
+import wu.seal.jsontokotlin.ui.jLink
 import javax.swing.JPanel
 
 /**
@@ -37,9 +36,13 @@ object ReplaceConstructorParametersByMemberVariablesSupport : Extension() {
 
         return jHorizontalLinearLayout {
             jCheckBox(
-                "Replace constructor parameters by member variables",
+                "",
                 getConfig(configKey).toBoolean(),
                 { isSelected -> setConfig(configKey, isSelected.toString()) }
+            )
+            jLink(
+                "Replace constructor parameters by member variables",
+                "https://github.com/wuseal/JsonToKotlinClass/blob/master/src/main/kotlin/extensions/nstd/ReplaceConstructorParametersByMemberVariablesSupport.kt"
             )
             fillSpace()
         }

@@ -3,7 +3,6 @@ package extensions.wu.seal
 import com.winterbe.expekt.should
 import org.junit.Test
 
-import org.junit.Assert.*
 import wu.seal.jsontokotlin.generateKotlinClass
 import wu.seal.jsontokotlin.utils.BaseTest
 
@@ -18,14 +17,14 @@ class AddGsonExposeAnnotationTest : BaseTest() {
     """.trimIndent()
     @Test
     fun intercept() {
-        AddGsonExposeAnnotation.testHelper.setConfig(AddGsonExposeAnnotation.config_key, true.toString())
-        val result = json.generateKotlinClass().applyInterceptor(AddGsonExposeAnnotation).getCode()
+        AddGsonExposeAnnotationSupport.testHelper.setConfig(AddGsonExposeAnnotationSupport.config_key, true.toString())
+        val result = json.generateKotlinClass().applyInterceptor(AddGsonExposeAnnotationSupport).getCode()
         result.should.be.equal(expected)
     }
 
     @Test
     fun testIntercept() {
-        AddGsonExposeAnnotation.testHelper.setConfig(AddGsonExposeAnnotation.config_key, true.toString())
-        AddGsonExposeAnnotation.intercept("").should.equal("\nimport com.google.gson.annotations.Expose")
+        AddGsonExposeAnnotationSupport.testHelper.setConfig(AddGsonExposeAnnotationSupport.config_key, true.toString())
+        AddGsonExposeAnnotationSupport.intercept("").should.equal("\nimport com.google.gson.annotations.Expose")
     }
 }
