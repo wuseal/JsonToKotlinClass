@@ -155,12 +155,13 @@ fun Any.jTextInput(
     maxSize: JBDimension = JBDimension(10000, 30),
     init: JTextField.() -> Unit = {}
 ): JTextField {
-    val jTextInput = JBTextField().apply {
+    val jTextInput = JBTextField()
+    with(jTextInput) {
+        init()
         text = initText
         maximumSize = maxSize
         isEnabled = enabled
     }
-    jTextInput.init()
     checkAddView(this, jTextInput)
     return jTextInput
 }
