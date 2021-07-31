@@ -73,7 +73,7 @@ changelog {
         SectionDefinition("Bugfix", listOf("bug", "bug fix")),
         SectionDefinition("Enhancement", "enhancement")
     ) // no custom sections by default, but default sections are prepended
-    includeLabels = listOf("feature request", "bug", "enhancement")
+    includeLabels = listOf("feature request", "bug", "bug fix", "enhancement")
     excludeLabels = listOf("duplicate", "invalid", "question", "wontfix")
     sinceTag = "V3.0.0"
     skipTags = listOf(
