@@ -8,8 +8,7 @@ script:
   - cat ./doc/CHANGELOG.md
   - ./gradlew buildPlugin
   - cd library && ./gradlew build test -s
-  - cd ../
-  - ./gradlew createGithubReleaseNotes
+  - cd ../ && ls && ./gradlew createGithubReleaseNotes
 deploy:
 - provider: releases
   api_key: $GH_TOKEN
