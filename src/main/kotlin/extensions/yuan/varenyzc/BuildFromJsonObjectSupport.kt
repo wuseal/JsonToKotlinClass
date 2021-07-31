@@ -1,8 +1,6 @@
 package extensions.yuan.varenyzc
 
 import extensions.Extension
-import wu.seal.jsontokotlin.model.builder.CodeBuilderConfig
-import wu.seal.jsontokotlin.model.builder.KotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.ui.jCheckBox
@@ -17,15 +15,13 @@ object BuildFromJsonObjectSupport : Extension() {
     override fun createUI(): JPanel {
         return jHorizontalLinearLayout {
             jCheckBox(
-                "Make a static function that can build from JSONObject",
+                "",
                 getConfig(configKey).toBoolean(),
                 { isSelected -> setConfig(configKey, isSelected.toString()) }
             )
-            add(
-                jLink(
-                    "Know about this extension",
-                    "https://github.com/wuseal/JsonToKotlinClass/blob/master/build_from_jsonobject_tip.md"
-                )
+            jLink(
+                "Make a static function that can build from JSONObject",
+                "https://github.com/wuseal/JsonToKotlinClass/blob/master/doc/build_from_jsonobject_tip.md"
             )
             fillSpace()
         }

@@ -10,14 +10,14 @@ import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
 import javax.swing.JPanel
 
-object AddGsonExposeAnnotation : Extension() {
+object AddGsonExposeAnnotationSupport : Extension() {
 
     @Expose
     val config_key = "wu.seal.add_gson_expose_annotation"
 
     override fun createUI(): JPanel {
         return jHorizontalLinearLayout {
-            jCheckBox("Add Gson Expose Annotation", config_key.booleanConfigValue) {
+            jCheckBox("Add Gson @Expose Annotation", config_key.booleanConfigValue) {
                 addSelectListener { setConfig(config_key, it.toString()) }
             }
             fillSpace()
