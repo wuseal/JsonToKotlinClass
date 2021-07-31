@@ -33,15 +33,6 @@ object ParcelableAnnotationSupport : Extension() {
 
         if (kotlinClass is DataClass) {
             if (getConfig(configKey).toBoolean()) {
-
-//                val classAnnotationString1 = "@SuppressLint(\"ParcelCreator\")"
-//                val classAnnotationString2 = "@Parcelize"
-//
-//                val classAnnotation1 = Annotation.fromAnnotationString(classAnnotationString1)
-//                val classAnnotation2 = Annotation.fromAnnotationString(classAnnotationString2)
-//
-//                val newAnnotations = mutableListOf(classAnnotation1, classAnnotation2).also { it.addAll(kotlinClass.annotations) }
-                // modify for kotlin-android-extensions is abandoned and kotlin-parcelize is used
                 val classAnnotation = Annotation.fromAnnotationString("@Parcelize")
                 val newAnnotations = kotlinClass.annotations.plus(classAnnotation)
 
