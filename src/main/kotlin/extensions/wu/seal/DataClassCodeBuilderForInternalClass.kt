@@ -9,29 +9,10 @@ import wu.seal.jsontokotlin.model.classscodestruct.DataClass
  * Created by Seal on 2020/7/7 21:40.
  */
 class DataClassCodeBuilderForInternalClass(private val kotlinDataClassCodeBuilder: IKotlinDataClassCodeBuilder) :
-    IKotlinDataClassCodeBuilder {
+    BaseDataClassCodeBuilder(kotlinDataClassCodeBuilder) {
 
     override fun DataClass.genClassName(): String {
         val originClassName = kotlinDataClassCodeBuilder.run { genClassName() }
         return "internal $originClassName"
-    }
-    override fun DataClass.genClassComment(): String {
-        return kotlinDataClassCodeBuilder.run { genClassComment() }
-    }
-
-    override fun DataClass.genClassAnnotations(): String {
-        return kotlinDataClassCodeBuilder.run { genClassAnnotations() }
-    }
-
-    override fun DataClass.genParentClass(): String {
-        return kotlinDataClassCodeBuilder.run { genParentClass() }
-    }
-
-    override fun DataClass.genBody(): String {
-        return kotlinDataClassCodeBuilder.run { genBody() }
-    }
-
-    override fun DataClass.genPrimaryConstructorProperties(): String {
-        return kotlinDataClassCodeBuilder.run { genPrimaryConstructorProperties() }
     }
 }
