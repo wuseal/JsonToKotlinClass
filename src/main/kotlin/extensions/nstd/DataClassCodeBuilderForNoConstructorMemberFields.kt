@@ -1,5 +1,6 @@
 package extensions.nstd
 
+import extensions.wu.seal.BaseDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.builder.IKotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.utils.addIndent
@@ -12,7 +13,7 @@ import wu.seal.jsontokotlin.utils.toAnnotationComments
  * Created by Nstd on 2020/6/29 15:40.
  */
 class DataClassCodeBuilderForNoConstructorMemberFields(private val kotlinDataClassCodeBuilder: IKotlinDataClassCodeBuilder) :
-    IKotlinDataClassCodeBuilder {
+        BaseDataClassCodeBuilder(kotlinDataClassCodeBuilder) {
 
     override fun DataClass.genBody(): String {
         val delegateBody = kotlinDataClassCodeBuilder.run { genBody() }
@@ -27,22 +28,6 @@ class DataClassCodeBuilderForNoConstructorMemberFields(private val kotlinDataCla
         }
     }
 
-    override fun DataClass.genClassComment(): String {
-        return kotlinDataClassCodeBuilder.run { genClassComment() }
-    }
-
-    override fun DataClass.genClassAnnotations(): String {
-        return kotlinDataClassCodeBuilder.run { genClassAnnotations() }
-    }
-
-    override fun DataClass.genClassName(): String {
-        return kotlinDataClassCodeBuilder.run { genClassName() }
-    }
-
-
-    override fun DataClass.genParentClass(): String {
-        return kotlinDataClassCodeBuilder.run { genParentClass() }
-    }
 
     override fun DataClass.genPrimaryConstructorProperties(): String {
         return ""
@@ -58,6 +43,7 @@ class DataClassCodeBuilderForNoConstructorMemberFields(private val kotlinDataCla
                 }
                 append(addIndentCode)
                 if (!fromJsonSchema && commentCode.isNotBlank()) append(" // ").append(commentCode)
+                if (index != properties.size - 1) append("\n")
             }
         }
     }

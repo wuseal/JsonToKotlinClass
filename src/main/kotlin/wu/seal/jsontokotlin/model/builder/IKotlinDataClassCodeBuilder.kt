@@ -11,13 +11,15 @@ interface IKotlinDataClassCodeBuilder : ICodeBuilder<DataClass> {
     fun DataClass.genBody(): String
     fun DataClass.genPrimaryConstructorProperties(): String
 
-    fun DataClass.genPrimaryConstructor(): String {
-        return buildString {
-            val primaryConstructorPropertiesCode = genPrimaryConstructorProperties()
-            if (primaryConstructorPropertiesCode.isNotBlank()) {
-                append("(").append("\n")
-                append(primaryConstructorPropertiesCode)
-                append(")")
+    fun genPrimaryConstructor(clazz: DataClass): String {
+        return clazz.run {
+            buildString {
+                val primaryConstructorPropertiesCode = genPrimaryConstructorProperties()
+                if (primaryConstructorPropertiesCode.isNotBlank()) {
+                    append("(").append("\n")
+                    append(primaryConstructorPropertiesCode)
+                    append(")")
+                }
             }
         }
     }
@@ -28,7 +30,7 @@ interface IKotlinDataClassCodeBuilder : ICodeBuilder<DataClass> {
                 genClassComment().executeWhenNotBlank { append(it) }
                 genClassAnnotations().executeWhenNotBlank { appendLine(it) }
                 append(genClassName())
-                genPrimaryConstructor().executeWhenNotBlank { append(it) }
+                genPrimaryConstructor(this@run).executeWhenNotBlank { append(it) }
                 genParentClass().executeWhenNotBlank { append(" $it") }
                 genBody().executeWhenNotBlank {
                     appendLine(" {")
