@@ -1,5 +1,6 @@
 package wu.seal.jsontokotlin.model.builder
 
+import extensions.wu.seal.BaseDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.*
 import wu.seal.jsontokotlin.utils.*
 
@@ -8,7 +9,7 @@ import wu.seal.jsontokotlin.utils.*
  *
  * Created by Nstd on 2020/6/29 15:40.
  */
-object KotlinDataClassCodeBuilder : IKotlinDataClassCodeBuilder {
+object KotlinDataClassCodeBuilder : BaseDataClassCodeBuilder(IKotlinDataClassCodeBuilder.EmptyImpl) {
 
     override fun DataClass.genClassComment(): String {
         return buildString {
