@@ -11,10 +11,11 @@ import wu.seal.jsontokotlin.test.TestConfig
  * Created by Nstd on 2020/6/29 17:53.
  */
 class ReplaceConstructorParametersByMemberVariablesSupportTest {
-    private val json = """{"a":1}"""
+    private val json = """{"a":1,"b":2}"""
     private val expectCode: String = """
         data class Output {
             val a: Int // 1
+            val b: Int // 2
         }
     """.trimIndent()
 
@@ -27,5 +28,5 @@ class ReplaceConstructorParametersByMemberVariablesSupportTest {
     fun intercept() {
         ReplaceConstructorParametersByMemberVariablesSupport.getTestHelper().setConfig(ReplaceConstructorParametersByMemberVariablesSupport.configKey, true.toString())
         json.generateKotlinClass("Output").applyInterceptor(ReplaceConstructorParametersByMemberVariablesSupport).getCode().should.be.equal(expectCode)
-     }
+    }
 }
