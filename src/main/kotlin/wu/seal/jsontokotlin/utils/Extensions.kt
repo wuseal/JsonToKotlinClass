@@ -192,7 +192,7 @@ fun getKotlinNumberClass(jsonArray: JsonArray) : KotlinClass {
     var ans : KotlinClass =  KotlinClass.INT
     jsonArray.forEach {
         if (it.isJsonPrimitive.not() || it.asJsonPrimitive.isNumber.not()) {
-
+            throw IllegalArgumentException("the argument should be a json array with all elements are number type")
         }
         val kotlinType = it.asJsonPrimitive.toKotlinClass();
         if(kotlinType.getNumLevel() > ans.getNumLevel()) {
