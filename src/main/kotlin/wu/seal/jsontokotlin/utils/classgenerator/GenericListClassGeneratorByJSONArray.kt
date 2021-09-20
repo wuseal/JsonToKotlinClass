@@ -29,7 +29,11 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 return GenericListClass(generic = KotlinClass.ANY)
             }
             jsonArray.allElementAreSamePrimitiveType() -> {
-                val elementKotlinClass = jsonArray[0].asJsonPrimitive.toKotlinClass()
+                // if all elements are numbers, we need to select the larger scope of Kotlin types among the elements
+                // e.g. [1,2,3.1] should return Double as it's type
+
+                val p = jsonArray[0].asJsonPrimitive;
+                val elementKotlinClass = if(p.isNumber) getKotlinNumberClass(jsonArray) else p.toKotlinClass()
                 LogUtil.i("$tag jsonArray allElementAreSamePrimitiveType, return GenericListClass with generic type ${elementKotlinClass.name}")
                 return GenericListClass(generic = elementKotlinClass)
             }
@@ -91,7 +95,17 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                     val newValue = getFatJsonArray(listOf(fatJsonObject[key].asJsonArray, value.asJsonArray))
                     fatJsonObject.add(key, newValue)
                 } else if (fatJsonObject[key].isJsonPrimitive && value.isJsonPrimitive && theSamePrimitiveType(fatJsonObject[key].asJsonPrimitive, value.asJsonPrimitive)) {
-                    //if the value and exist value are the same primitive type then ignore it
+                        //if the value and exist value are the same primitive type then ignore it
+                        //except for the following scenario:
+                        //when the the field is a number type, we need to select the value with largest scope
+                        //e.g.  given [{"key":10},{"key":11.2}]
+                        //we should use the object with value = 11.2 to represent the object type which will be Double
+
+                        val prev = fatJsonObject[key].asJsonPrimitive
+                        val cur = value.asJsonPrimitive
+                        if(prev.isNumber && cur.isNumber && cur.toKotlinClass().getNumLevel() > prev.toKotlinClass().getNumLevel()) {
+                            fatJsonObject.add(key, value);
+                        }
                 } else if (value.isJsonNull) {
                     //if the value is null, we ignore this value
                 } else {
