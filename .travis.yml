@@ -4,11 +4,10 @@ before_install:
   - chmod +x library/gradle/wrapper/gradle-wrapper.jar
 script:
   - ./gradlew check --scan -s
-  - ./gradlew generateChangelog
-  - cat ./doc/CHANGELOG.md
-  - ./gradlew buildPlugin
-  - cd library && ./gradlew build test -s
-  - cd ../ && ls && ./gradlew createGithubReleaseNotes
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew generateChangelog && cat ./doc/CHANGELOG.md; fi
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew buildPlugin; fi
+  - cd library && ./gradlew build test -s && cd ..
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew createGithubReleaseNotes; fi
 deploy:
 - provider: releases
   api_key: $GH_TOKEN
