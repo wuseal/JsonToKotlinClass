@@ -7,7 +7,7 @@ script:
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew generateChangelog && cat ./doc/CHANGELOG.md; fi
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew buildPlugin; fi
   - cd library && ./gradlew build test -s && cd ..
-  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then /gradlew createGithubReleaseNotes; fi
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew createGithubReleaseNotes; fi
 deploy:
 - provider: releases
   api_key: $GH_TOKEN
