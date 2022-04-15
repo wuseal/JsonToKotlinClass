@@ -184,6 +184,37 @@ fun theSamePrimitiveType(first: JsonPrimitive, second: JsonPrimitive): Boolean {
     return sameBoolean || sameNumber || sameString
 }
 
+
+/**
+ * Return the kotlin type of a JsonArray with all elements are numbers
+ */
+fun getKotlinNumberClass(jsonArray: JsonArray) : KotlinClass {
+    var ans : KotlinClass =  KotlinClass.INT
+    jsonArray.forEach {
+        if (it.isJsonPrimitive.not() || it.asJsonPrimitive.isNumber.not()) {
+            throw IllegalArgumentException("the argument should be a json array with all elements are number type")
+        }
+        val kotlinType = it.asJsonPrimitive.toKotlinClass();
+        if(kotlinType.getNumLevel() > ans.getNumLevel()) {
+            ans = kotlinType
+        }
+    }
+    return ans
+}
+
+
+/**
+ * Return the level of value scope for kotlin number type
+ */
+fun KotlinClass.getNumLevel() : Int {
+    return when {
+        this == KotlinClass.INT -> 0;
+        this == KotlinClass.LONG-> 1;
+        this == KotlinClass.DOUBLE -> 2;
+        else -> -1
+    }
+}
+
 fun JsonPrimitive.toKotlinClass(): KotlinClass {
     return when {
         isBoolean -> KotlinClass.BOOLEAN

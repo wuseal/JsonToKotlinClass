@@ -1,5 +1,6 @@
 package extensions.yuan.varenyzc
 
+import extensions.wu.seal.BaseDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.builder.IKotlinDataClassCodeBuilder
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.utils.newLine
@@ -11,7 +12,7 @@ import wu.seal.jsontokotlin.utils.times
  * Created by Seal on 2020/7/7 21:45.
  */
 class DataClassCodeBuilderForAddingBuildFromJsonObject(private val kotlinDataClassCodeBuilder: IKotlinDataClassCodeBuilder) :
-    IKotlinDataClassCodeBuilder {
+        BaseDataClassCodeBuilder(kotlinDataClassCodeBuilder) {
 
     private val baseTypeList = listOf<String>("Int", "String", "Boolean", "Double", "Float", "Long")
 
@@ -52,12 +53,12 @@ class DataClassCodeBuilderForAddingBuildFromJsonObject(private val kotlinDataCla
                     }
                     else -> {
                         append(indent * 5).append(
-                            "${
-                                property.type.replace(
-                                    "?",
-                                    ""
-                                )
-                            }.buildFromJson(optJSONObject(\"${property.originName}\"))"
+                                "${
+                                    property.type.replace(
+                                            "?",
+                                            ""
+                                    )
+                                }.buildFromJson(optJSONObject(\"${property.originName}\"))"
                         )
                     }
                 }
@@ -73,25 +74,5 @@ class DataClassCodeBuilderForAddingBuildFromJsonObject(private val kotlinDataCla
             append(indent * 2).append("}").newLine()
             append(indent * 1).append("}")
         }
-    }
-
-    override fun DataClass.genClassName(): String {
-        return  kotlinDataClassCodeBuilder.run { genClassName() }
-    }
-
-    override fun DataClass.genClassComment(): String {
-        return kotlinDataClassCodeBuilder.run { genClassComment() }
-    }
-
-    override fun DataClass.genClassAnnotations(): String {
-        return kotlinDataClassCodeBuilder.run { genClassAnnotations() }
-    }
-
-    override fun DataClass.genParentClass(): String {
-        return kotlinDataClassCodeBuilder.run { genParentClass() }
-    }
-
-    override fun DataClass.genPrimaryConstructorProperties(): String {
-        return kotlinDataClassCodeBuilder.run { genPrimaryConstructorProperties() }
     }
 }

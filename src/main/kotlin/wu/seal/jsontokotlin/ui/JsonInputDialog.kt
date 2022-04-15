@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.intellij.json.JsonFileType
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.fileChooser.FileChooser
@@ -37,12 +38,12 @@ import javax.swing.text.JTextComponent
 private val jsonInputDialogValidator: JsonInputDialogValidator = JsonInputDialogValidator()
 
 class JsonInputDialog(classsName: String, private val project: Project) : Messages.InputDialog(
-        project,
-        "Please input the JSON String and class name to generate Kotlin data class",
-        "Generate Kotlin Data Class Code",
-        null,
-        "",
-        jsonInputDialogValidator
+    project,
+    "Please input the JSON String and class name to generate Kotlin data class",
+    "Generate Kotlin Data Class Code",
+    null,
+    "",
+    jsonInputDialogValidator
 ) {
     private lateinit var jsonContentEditor: Editor
 
@@ -105,7 +106,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
                         jButton("Advanced", { AdvancedDialog(false).show() })
                         fillSpace()
                         jLabel("Like this version? Please star here: ")
-                        jLink("https://github.com/wuseal/JsonToKotlinClass", "https://github.com/wuseal/JsonToKotlinClass", maxSize = JBDimension(210, 30)) {
+                        jLink(
+                            "https://github.com/wuseal/JsonToKotlinClass",
+                            "https://github.com/wuseal/JsonToKotlinClass",
+                            maxSize = JBDimension(210, 30)
+                        ) {
                             sendActionInfo(prettyGson.toJson(ClickProjectURLAction()))
                         }
                     }
@@ -121,7 +126,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             jButton("Advanced", { AdvancedDialog(false).show() })
             fillSpace()
             jLabel("Like this version? Please star here: ")
-            jLink("https://github.com/wuseal/JsonToKotlinClass", "https://github.com/wuseal/JsonToKotlinClass", maxSize = JBDimension(210, 30)) {
+            jLink(
+                "https://github.com/wuseal/JsonToKotlinClass",
+                "https://github.com/wuseal/JsonToKotlinClass",
+                maxSize = JBDimension(210, 30)
+            ) {
                 sendActionInfo(prettyGson.toJson(ClickProjectURLAction()))
             }
         }
@@ -168,7 +177,9 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         addActionListener {
             val transferable = Toolkit.getDefaultToolkit().systemClipboard.getContents(null)
             if (transferable.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                jsonContentEditor.document.setText(transferable.getTransferData(DataFlavor.stringFlavor).toString())
+                runWriteAction {
+                    jsonContentEditor.document.setText(transferable.getTransferData(DataFlavor.stringFlavor).toString())
+                }
             }
         }
     }
@@ -181,7 +192,9 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             p.setRunnable {
                 try {
                     val urlContent = URL(url).readText()
-                    jsonContentEditor.document.setText(urlContent.replace("\r\n", "\n"))
+                    runWriteAction {
+                        jsonContentEditor.document.setText(urlContent.replace("\r\n", "\n"))
+                    }
                 } finally {
                     p.stop()
                 }
@@ -223,7 +236,9 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             try {
                 val jsonElement = prettyGson.fromJson(currentText, JsonElement::class.java)
                 val formatJSON = prettyGson.toJson(jsonElement)
-                jsonContentEditor.document.setText(formatJSON)
+                runWriteAction {
+                    jsonContentEditor.document.setText(formatJSON)
+                }
             } catch (e: Exception) {
             }
         }

@@ -1,15 +1,18 @@
 # Change Log
 
-## [3.7.2\-EAP\-10](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2-EAP-10) (2021-07-25)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1...3.7.2-EAP-10)
+## [3.7.2](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2) (2021-07-31)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1...3.7.2)
 
 **Bugfix**
 
+- Assertion failed: Write access is allowed inside write\-action only  [\#367](https://github.com/wuseal/JsonToKotlinClass/issues/367)
+- Text config always loss in Adavnced \-\-\> Extension Tab [\#371](https://github.com/wuseal/JsonToKotlinClass/pull/371) ([@wuseal](https://github.com/wuseal))
 - 🐛 fix JsonSchema type error when refer to non\-object definitions [\#368](https://github.com/wuseal/JsonToKotlinClass/pull/368) ([@TedZen](https://github.com/TedZen))
 - Exception in JsonToKotlin 3.6.1 \- AGP 4.1.2 [\#320](https://github.com/wuseal/JsonToKotlinClass/issues/320)
 
 **Enhancement**
 
+- Optimize Extensions' UI [\#370](https://github.com/wuseal/JsonToKotlinClass/pull/370) ([@wuseal](https://github.com/wuseal))
 - Update icon and project title picture for JsonToKotlinClass [\#363](https://github.com/wuseal/JsonToKotlinClass/issues/363)
 
 **Features**
@@ -109,6 +112,9 @@
 
 - a redundant comma appears after data class generated without sort by alphabet [\#225](https://github.com/wuseal/JsonToKotlinClass/issues/225)
 - json生成kotlin类出现错误格式 [\#224](https://github.com/wuseal/JsonToKotlinClass/issues/224)
+- fix kotlin data class file generate action doesn't works with interce… [\#238](https://github.com/wuseal/JsonToKotlinClass/pull/238) ([@wuseal](https://github.com/wuseal))
+- fix an exception generate split class code with json: [\#236](https://github.com/wuseal/JsonToKotlinClass/pull/236) ([@wuseal](https://github.com/wuseal))
+- fix \#224 [\#237](https://github.com/wuseal/JsonToKotlinClass/pull/237) ([@wuseal](https://github.com/wuseal))
 - PrefixSupport will go wrong if Property.name is empty [\#227](https://github.com/wuseal/JsonToKotlinClass/issues/227)
 - name.first\(\) went wrong in Property.getCode\(\)  [\#218](https://github.com/wuseal/JsonToKotlinClass/issues/218)
 - 更新v3.4.0后用不了 [\#215](https://github.com/wuseal/JsonToKotlinClass/issues/215)

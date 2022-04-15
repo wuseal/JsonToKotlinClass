@@ -26,7 +26,12 @@ class ListClassGeneratorByJSONArray(private val className: String, jsonArrayStri
                 return ListClass(name = className, generic = KotlinClass.ANY)
             }
             jsonArray.allElementAreSamePrimitiveType() -> {
-                val elementKotlinClass = jsonArray[0].asJsonPrimitive.toKotlinClass()
+
+                // if all elements are numbers, we need to select the larger scope of Kotlin types among the elements
+                // e.g. [1,2,3.1] should return Double as it's type
+
+                val p = jsonArray[0].asJsonPrimitive;
+                val elementKotlinClass = if(p.isNumber) getKotlinNumberClass(jsonArray) else p.toKotlinClass()
                 LogUtil.i("$tag jsonArray allElementAreSamePrimitiveType, return ListClass with generic type ${elementKotlinClass.name}")
                 return ListClass(name = className, generic = elementKotlinClass)
             }
@@ -80,13 +85,17 @@ class ListClassGeneratorByJSONArray(private val className: String, jsonArrayStri
                 // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
                 // and will not be generated in final code
                 fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
-            } else if (value is JsonPrimitive && value.isNumber && fatJsonObject.has(key) && fatJsonObject[key].isJsonPrimitive) {
-                // update the number value only when the previous one is not a double value
-                // otherwise a Double property could be rewritten to an Int value, then generate wrong property type
-                val oldNum: Number = fatJsonObject[key].asJsonPrimitive.asNumber
-                if(oldNum.toString().contains('.').not()) {
-                    fatJsonObject.add(key, value)
-                }
+            } else if (fatJsonObject.has(key) && value is JsonPrimitive && value.isNumber
+                    && fatJsonObject[key].isJsonPrimitive && fatJsonObject[key].asJsonPrimitive.isNumber) {
+                    //when the the field is a number type, we need to select the value with largest scope
+                    //e.g.  given [{"key":10},{"key":11.2}]
+                    //we should use the object with value = 11.2 to represent the object type which will be Double
+
+                    val prev = fatJsonObject[key].asJsonPrimitive
+                    val cur = value.asJsonPrimitive
+                    if(cur.toKotlinClass().getNumLevel() > prev.toKotlinClass().getNumLevel()) {
+                        fatJsonObject.add(key, value);
+                    }
             } else {
                 fatJsonObject.add(key, value)
             }
