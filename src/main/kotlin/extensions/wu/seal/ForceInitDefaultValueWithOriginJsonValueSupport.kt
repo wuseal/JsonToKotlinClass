@@ -38,7 +38,7 @@ object ForceInitDefaultValueWithOriginJsonValueSupport : Extension() {
                 val newP = kotlinClass.properties.map {
                     val newV = if (it.originJsonValue.isNullOrBlank()) getDefaultValue(it.type) else {
                         if (it.type == TYPE_STRING) {
-                            """"${StringEscapeUtils.escapeJava(it.originJsonValue)}""""
+                            "\"\"\"" + it.originJsonValue.replace("$", "\${\"\$\"}") + "\"\"\""
                         } else {
                             it.originJsonValue
                         }
