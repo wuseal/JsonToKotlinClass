@@ -57,7 +57,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body_path: ./githubReleaseNote.md
+          body_path: githubReleaseNote.md
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
