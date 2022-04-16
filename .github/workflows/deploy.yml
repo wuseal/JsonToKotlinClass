@@ -37,6 +37,7 @@ jobs:
           ./gradlew createGithubReleaseNotes
         env: # Or as an environment variable
           GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
 
       # Runs a set of commands using the runners shell
       - name: Deploy EAP to JetBrains Plugin Repository
