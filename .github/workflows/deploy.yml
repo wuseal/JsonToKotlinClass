@@ -57,6 +57,7 @@ jobs:
           # with permissions to create releases in the other repo
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           prerelease: ${{ contains(github.ref,'eap') }}
+          files: build/distributions/JsonToKotlinClass*.zip
         env:
           GITHUB_REPOSITORY: wuseal/JsonToKotlinClass
           
