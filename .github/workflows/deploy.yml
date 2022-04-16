@@ -37,11 +37,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Deploy EAP to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
-        if: contains(github.ref,'eap') && github.ref  == 'refs/heads/master'
+        if: contains(github.ref,'eap')
         
       - name: Deploy Release to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
-        if: contains(github.ref,'eap') == false && github.ref  == 'refs/heads/master'
+        if: contains(github.ref,'eap') == false
         
       - name: Generate Changelog
         run: |
@@ -51,7 +51,6 @@ jobs:
         
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: github.ref  == 'refs/heads/master'
         with:
           body_path: ./githubReleaseNote.md
           # note you'll typically need to create a personal access token
