@@ -38,6 +38,24 @@ jobs:
           distribution: zulu
         
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: check unit test
         run: |
-          ./gradlew check --scan -s --no-daemon
+          ./gradlew check --scan
+      - name: generateChangelog
+        run: |
+          ./gradlew generateChangelog
+          cat ./doc/CHANGELOG.md
+        if: github.event_name == 'push'
+      
+      - name: test build plugin
+        run: ./gradlew buildPlugin
+        if: github.event_name == 'push'
+        
+      - name: check library
+        run: ./gradlew build test -p library
+        
+      - name: check createGithubReleaseNotes
+        run: ./gradlew createGithubReleaseNotes
+        if: github.event_name == 'push'
+      
+      
