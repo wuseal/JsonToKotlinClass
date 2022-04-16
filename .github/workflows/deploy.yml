@@ -33,7 +33,7 @@ jobs:
 
         env: # Or as an environment variable
           token: ${{ secrets.JB_TOKEN }}
-          
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
       # Runs a set of commands using the runners shell
       - name: Deploy EAP to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
