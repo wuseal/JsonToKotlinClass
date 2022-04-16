@@ -1,5 +1,19 @@
 # Change Log
 
+## [3.7.3](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.3) (2022-04-16)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.2...3.7.3)
+
+**Bugfix**
+
+- \(3.7.2\)Throwable: Assertion failed: Write access is allowed inside write\-action only [\#380](https://github.com/wuseal/JsonToKotlinClass/issues/380)
+- 特殊字符报错 [\#383](https://github.com/wuseal/JsonToKotlinClass/issues/383)
+- Fix  Write access error when format json paste json/obtain json from net [\#378](https://github.com/wuseal/JsonToKotlinClass/pull/378) ([@wuseal](https://github.com/wuseal))
+- Long values being generated as Int [\#295](https://github.com/wuseal/JsonToKotlinClass/issues/295)
+
+**Enhancement**
+
+- optimize code builder & bugfix: when enable \[Replace constructor parameters by member variables\], the annotation not go to next line. [\#373](https://github.com/wuseal/JsonToKotlinClass/pull/373) ([@Nstd](https://github.com/Nstd))
+
 ## [3.7.2](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.2) (2021-07-31)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.1...3.7.2)
 
@@ -171,7 +185,15 @@
 - \[Feature request\]Generate Kotlin Data class init with default value = null when it's property is nullable [\#152](https://github.com/wuseal/JsonToKotlinClass/issues/152)
 
 ## [v3.2.0](https://github.com/wuseal/JsonToKotlinClass/tree/v3.2.0) (2019-04-26)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/V3.0.1...v3.2.0)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/v3.2.0-EAP...v3.2.0)
+
+
+## [V3.2.0](https://github.com/wuseal/JsonToKotlinClass/tree/V3.2.0) (2019-04-26)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/v3.2.0...V3.2.0)
+
+
+## [v3.2.0\-EAP](https://github.com/wuseal/JsonToKotlinClass/tree/v3.2.0-EAP) (2019-04-22)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/V3.0.1...v3.2.0-EAP)
 
 **Bugfix**
 
@@ -191,10 +213,6 @@
 - Fix typo in README.md [\#129](https://github.com/wuseal/JsonToKotlinClass/pull/129) ([@codeteo](https://github.com/codeteo))
 - Wrong background color with Darcula theme [\#109](https://github.com/wuseal/JsonToKotlinClass/issues/109)
 
-## [V3.2.0](https://github.com/wuseal/JsonToKotlinClass/tree/V3.2.0) (2019-04-26)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/v3.2.0...V3.2.0)
-
-
 ## [V3.0.1](https://github.com/wuseal/JsonToKotlinClass/tree/V3.0.1) (2019-03-03)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/V3.0.0...V3.0.1)
 
@@ -210,16 +228,5 @@
 - JSON input from file [\#76](https://github.com/wuseal/JsonToKotlinClass/issues/76)
 
 ## [V3.0.0](https://github.com/wuseal/JsonToKotlinClass/tree/V3.0.0) (2019-01-18)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/V2.3.0...V3.0.0)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/V3.0-EAP-2...V3.0.0)
 
-**Bugfix**
-
-- java.lang.IndexOutOfBoundsException: Collection doesn't contain element at index 31. [\#35](https://github.com/wuseal/JsonToKotlinClass/issues/35)
-- Lists with primitives/strings are throwing exceptions [\#62](https://github.com/wuseal/JsonToKotlinClass/issues/62)
-- Nested list, generation fail [\#67](https://github.com/wuseal/JsonToKotlinClass/issues/67)
-- Plugin crash while gernating pojo of wikipedia suggestion api json [\#68](https://github.com/wuseal/JsonToKotlinClass/issues/68)
-- Generated default value dosen't match the property type [\#77](https://github.com/wuseal/JsonToKotlinClass/issues/77)
-
-**Enhancement**
-
-- The Moshi converter option doesn't support moshi\-codegen [\#69](https://github.com/wuseal/JsonToKotlinClass/issues/69)
