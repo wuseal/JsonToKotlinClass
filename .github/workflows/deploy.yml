@@ -46,6 +46,7 @@ jobs:
         env: # Or as an environment variable
           token: ${{ secrets.JB_TOKEN }}
           GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
         
       - name: Deploy Release to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
@@ -53,7 +54,8 @@ jobs:
         env: # Or as an environment variable
           token: ${{ secrets.JB_TOKEN }}
           GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-        
+          TAG: ${{ github.ref_name }}
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
