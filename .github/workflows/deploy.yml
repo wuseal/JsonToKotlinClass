@@ -5,8 +5,8 @@ name: Deploy
 # Controls when the workflow will run
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*.*.**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,19 +37,21 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Deploy EAP to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
-        if: contains(github.ref,'eap')
+        if: contains(github.ref,'eap') && github.ref  == 'refs/heads/master'
         
       - name: Deploy Release to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
-        if: contains(github.ref,'eap') == false
+        if: contains(github.ref,'eap') == false && github.ref  == 'refs/heads/master'
         
       - name: Generate Changelog
         run: |
           ./gradlew generateChangelog
           ./gradlew createGithubReleaseNotes
+        if: github.ref  == 'refs/heads/master'
+        
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.ref  == 'refs/heads/master'
         with:
           body_path: ./githubReleaseNote.md
           # note you'll typically need to create a personal access token
