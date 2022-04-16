@@ -1,6 +1,7 @@
-# This is a basic workflow to help you get started with Actions
+name: Check
 
-name: Check Unit Test
+env:
+  GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
 # Controls when the workflow will run
 on:
@@ -15,8 +16,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  Check:
+  # This workflow contains a single job called "Check"
+  Build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -34,24 +35,42 @@ jobs:
           distribution: zulu
         
       # Runs a set of commands using the runners shell
-      - name: check unit test
-        run: |
-          ./gradlew check --scan
       - name: generateChangelog
         run: |
           ./gradlew generateChangelog
           cat ./doc/CHANGELOG.md
-        if: github.event_name == 'push'
-      
-      - name: test build plugin
+          
+      - name: build plugin
         run: ./gradlew buildPlugin
-        if: github.event_name == 'push'
-        
-      - name: check library
-        run: ./gradlew build test -p library
         
       - name: check createGithubReleaseNotes
         run: ./gradlew createGithubReleaseNotes
-        if: github.event_name == 'push'
+    
+  Unit_Test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3.1.1
+        with:
+          # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
+          java-version: 8
+          # Java distribution. See the list of supported distributions in README file
+          distribution: zulu
+        
+      # Runs a set of commands using the runners shell
+      - name: unit test
+        run: |
+          ./gradlew check --scan
+        
+      - name: unit test in library
+        run: ./gradlew build test -p library
+        
+
       
       
