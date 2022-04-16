@@ -42,10 +42,14 @@ jobs:
           ./gradlew generateChangelog
           cat ./doc/CHANGELOG.md
         if: github.event_name == 'push'
+        env: # Or as an environment variable
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
       
       - name: test build plugin
         run: ./gradlew buildPlugin
         if: github.event_name == 'push'
+        env: # Or as an environment variable
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
         
       - name: check library
         run: ./gradlew build test -p library
