@@ -31,33 +31,40 @@ jobs:
           # Java distribution. See the list of supported distributions in README file
           distribution: zulu
 
-        env: # Or as an environment variable
-          token: ${{ secrets.JB_TOKEN }}
-          
-      # Runs a set of commands using the runners shell
-      - name: Deploy EAP to JetBrains Plugin Repository
-        run: ./gradlew publishPlugin -Dchannels=eap
-        if: contains(github.ref,'eap') && github.ref  == 'refs/heads/master'
-        
-      - name: Deploy Release to JetBrains Plugin Repository
-        run: ./gradlew publishPlugin -Dchannels=eap
-        if: contains(github.ref,'eap') == false && github.ref  == 'refs/heads/master'
-        
       - name: Generate Changelog
         run: |
           ./gradlew generateChangelog
           ./gradlew createGithubReleaseNotes
-        if: github.ref  == 'refs/heads/master'
+        env: # Or as an environment variable
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+
+      # Runs a set of commands using the runners shell
+      - name: Deploy EAP to JetBrains Plugin Repository
+        run: ./gradlew publishPlugin -Dchannels=eap
+        if: contains(github.ref,'eap')
+        env: # Or as an environment variable
+          token: ${{ secrets.JB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
         
+      - name: Deploy Release to JetBrains Plugin Repository
+        run: ./gradlew publishPlugin -Dchannels=eap
+        if: contains(github.ref,'eap') == false
+        env: # Or as an environment variable
+          token: ${{ secrets.JB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: github.ref  == 'refs/heads/master'
         with:
-          body_path: ./githubReleaseNote.md
+          body_path: githubReleaseNote.md
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           prerelease: ${{ contains(github.ref,'eap') }}
+          files: build/distributions/JsonToKotlinClass*.zip
         env:
           GITHUB_REPOSITORY: wuseal/JsonToKotlinClass
           

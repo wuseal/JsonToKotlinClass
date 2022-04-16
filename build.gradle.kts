@@ -16,7 +16,7 @@ plugins {
     id("org.hildan.github.changelog") version "1.6.0"
 }
 group = "wu.seal"
-version = System.getenv("TRAVIS_TAG") ?: "Unreleased"
+version = System.getenv("TAG") ?: "Unreleased"
 
 intellij {
     version = "2017.1"
@@ -64,8 +64,8 @@ changelog {
     title = "Change Log"
     showUnreleased = true
     unreleasedVersionTitle = "Unreleased"
-    if (!System.getenv("TRAVIS_TAG").isNullOrEmpty()) {
-        println("TRAVIS_TAG is ${System.getenv("TRAVIS_TAG")}, Set future version to $version")
+    if (!System.getenv("TAG").isNullOrEmpty()) {
+        println("TAG is ${System.getenv("TAG")}, Set future version to $version")
         futureVersionTag = version.toString()
     }
     sections = listOf(
