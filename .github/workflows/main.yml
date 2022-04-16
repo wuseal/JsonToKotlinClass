@@ -1,6 +1,7 @@
-# This is a basic workflow to help you get started with Actions
+name: Check
 
-name: Check Unit Test
+env:
+  GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
 # Controls when the workflow will run
 on:
@@ -15,8 +16,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  Check:
+  # This workflow contains a single job called "Check"
+  Build_And_Unit_Test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -41,17 +42,14 @@ jobs:
         run: |
           ./gradlew generateChangelog
           cat ./doc/CHANGELOG.md
-        if: github.event_name == 'push'
       
       - name: test build plugin
         run: ./gradlew buildPlugin
-        if: github.event_name == 'push'
         
       - name: check library
         run: ./gradlew build test -p library
         
       - name: check createGithubReleaseNotes
         run: ./gradlew createGithubReleaseNotes
-        if: github.event_name == 'push'
       
       
