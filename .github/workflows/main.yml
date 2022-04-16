@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: UniTestCheck
+name: Check Unit Test
 
 # Controls when the workflow will run
 on:
@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  Check:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -24,10 +24,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
         
       - name: Setup Java JDK
         uses: actions/setup-java@v3.1.1
@@ -38,6 +34,24 @@ jobs:
           distribution: zulu
         
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: check unit test
         run: |
-          ./gradlew check --scan -s --no-daemon
+          ./gradlew check --scan
+      - name: generateChangelog
+        run: |
+          ./gradlew generateChangelog
+          cat ./doc/CHANGELOG.md
+        if: github.event_name == 'push'
+      
+      - name: test build plugin
+        run: ./gradlew buildPlugin
+        if: github.event_name == 'push'
+        
+      - name: check library
+        run: ./gradlew build test -p library
+        
+      - name: check createGithubReleaseNotes
+        run: ./gradlew createGithubReleaseNotes
+        if: github.event_name == 'push'
+      
+      
