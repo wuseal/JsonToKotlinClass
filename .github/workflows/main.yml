@@ -33,11 +33,11 @@ jobs:
         uses: actions/setup-java@v3.1.1
         with:
           # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
-          java-version: 11.0.13
+          java-version: 8
           # Java distribution. See the list of supported distributions in README file
-          distribution: microsoft
+          distribution: zulu
         
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          ./gradlew check --scan -s
+          ./gradlew check --scan -s --no-daemon
