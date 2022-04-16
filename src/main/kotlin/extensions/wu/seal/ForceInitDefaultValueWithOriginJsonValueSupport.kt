@@ -6,7 +6,6 @@ import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.ui.jCheckBox
 import wu.seal.jsontokotlin.ui.jHorizontalLinearLayout
-import wu.seal.jsontokotlin.utils.StringEscapeUtils
 import wu.seal.jsontokotlin.utils.TYPE_STRING
 import javax.swing.JPanel
 
@@ -38,7 +37,7 @@ object ForceInitDefaultValueWithOriginJsonValueSupport : Extension() {
                 val newP = kotlinClass.properties.map {
                     val newV = if (it.originJsonValue.isNullOrBlank()) getDefaultValue(it.type) else {
                         if (it.type == TYPE_STRING) {
-                            """"${StringEscapeUtils.escapeJava(it.originJsonValue)}""""
+                            "\"\"\"" + it.originJsonValue.replace("$", "\${\"\$\"}") + "\"\"\""
                         } else {
                             it.originJsonValue
                         }

@@ -15,7 +15,7 @@ class ForceInitDefaultValueWithOriginJsonValueSupportTest {
     var escapedCharacterJson = """{"key": "value with \"quote\""}"""
 
     val escapedCharacterExpectResult = """data class Test(
-    val key: String = "value with \"quote\"" // value with "quote"
+    val key: String = ""${'"'}value with "quote""${'"'}${'"'} // value with "quote"
 )"""
 
 
