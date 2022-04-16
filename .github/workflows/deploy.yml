@@ -35,8 +35,13 @@ jobs:
           token: ${{ secrets.JB_TOKEN }}
           
       # Runs a set of commands using the runners shell
-      - name: Deploy to JetBrains Plugin Repository
+      - name: Deploy EAP to JetBrains Plugin Repository
         run: ./gradlew publishPlugin -Dchannels=eap
+        if: contains(github.ref,'eap')
+        
+      - name: Deploy Release to JetBrains Plugin Repository
+        run: ./gradlew publishPlugin -Dchannels=eap
+        if: contains(github.ref,'eap') == false
         
       - name: Generate Changelog
         run: |
@@ -50,7 +55,7 @@ jobs:
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          prerelease: true
+          prerelease: ${{ contains(github.ref,'eap') }}
         env:
           GITHUB_REPOSITORY: wuseal/JsonToKotlinClass
           
