@@ -49,7 +49,7 @@ jobs:
           TAG: ${{ github.ref_name }}
         
       - name: Deploy Release to JetBrains Plugin Repository
-        run: ./gradlew publishPlugin -Dchannels=eap
+        run: ./gradlew publishPlugin
         if: contains(github.ref,'eap') == false
         env: # Or as an environment variable
           token: ${{ secrets.JB_TOKEN }}
