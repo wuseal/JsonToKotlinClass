@@ -25,16 +25,6 @@ class KotlinClassMaker(private val rootClassName: String, private val json: Stri
         }
     }
 
-    private fun String.isJSONSchema(): Boolean {
-        val jsonElement = Gson().fromJson(this, JsonElement::class.java)
-        return if (jsonElement.isJsonObject) {
-            with(jsonElement.asJsonObject) {
-                has("\$schema")
-            }
-        } else {
-            false
-        }
-    }
     private fun String.isJSONObject(): Boolean {
         val jsonElement = Gson().fromJson(this, JsonElement::class.java)
         return jsonElement.isJsonObject

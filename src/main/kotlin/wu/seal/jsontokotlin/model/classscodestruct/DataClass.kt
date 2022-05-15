@@ -62,7 +62,7 @@ data class DataClass(
                 return@let property.copy(
                     type = "${newTypObj.name}$typeSuffix",
                     typeObject = newTypObj,
-                    value = getDefaultValue("${newTypObj.name}$typeSuffix")
+                    value = if (property.value.isNotEmpty()) getDefaultValue("${newTypObj.name}$typeSuffix") else property.value
                 )
             }
         }

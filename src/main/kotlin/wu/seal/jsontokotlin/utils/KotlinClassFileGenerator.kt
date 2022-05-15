@@ -38,11 +38,14 @@ class KotlinClassFileGenerator {
             packageDeclare: String,
             project: Project?,
             psiFileFactory: PsiFileFactory,
-            directory: PsiDirectory
+            directory: PsiDirectory,
+            generatedFromJSONSchema: Boolean
     ) {
         val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
         val existsKotlinFileNames = IgnoreCaseStringSet().also { it.addAll(fileNamesWithoutSuffix) }
-        val splitClasses = kotlinClass.resolveNameConflicts(existsKotlinFileNames).getAllModifiableClassesRecursivelyIncludeSelf().distinctByProperties()
+        val splitClasses = kotlinClass.resolveNameConflicts(existsKotlinFileNames).getAllModifiableClassesRecursivelyIncludeSelf().run {
+            if (!generatedFromJSONSchema) distinctByProperties() else this
+        }
         splitClasses.forEach { splitDataClass ->
             generateKotlinClassFile(
                     splitDataClass.name,

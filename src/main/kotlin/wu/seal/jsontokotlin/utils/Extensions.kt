@@ -1,6 +1,8 @@
 package wu.seal.jsontokotlin.utils
 
+import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
@@ -278,5 +280,16 @@ fun List<KotlinClass>.distinctByProperties(): List<KotlinClass> {
             targetClass ?: it
         }
         it.replaceReferencedClasses(replaceMap)
+    }
+}
+
+fun String.isJSONSchema(): Boolean {
+    val jsonElement = Gson().fromJson(this, JsonElement::class.java)
+    return if (jsonElement.isJsonObject) {
+        with(jsonElement.asJsonObject) {
+            has("\$schema")
+        }
+    } else {
+        false
     }
 }
