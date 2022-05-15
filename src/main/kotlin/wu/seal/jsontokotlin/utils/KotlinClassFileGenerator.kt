@@ -42,9 +42,7 @@ class KotlinClassFileGenerator {
     ) {
         val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
         val existsKotlinFileNames = IgnoreCaseStringSet().also { it.addAll(fileNamesWithoutSuffix) }
-        val splitClasses = kotlinClass.resolveNameConflicts(existsKotlinFileNames).getAllModifiableClassesRecursivelyIncludeSelf()
-        val renameClassMap = getRenameClassMap(originNames = kotlinClass.getAllModifiableClassesRecursivelyIncludeSelf().map { it.name },
-                currentNames = splitClasses.map { it.name })
+        val splitClasses = kotlinClass.resolveNameConflicts(existsKotlinFileNames).getAllModifiableClassesRecursivelyIncludeSelf().distinctByProperties()
         splitClasses.forEach { splitDataClass ->
             generateKotlinClassFile(
                     splitDataClass.name,
@@ -56,10 +54,6 @@ class KotlinClassFileGenerator {
             )
             val notifyMessage = buildString {
                 append("${splitClasses.size} Kotlin Data Class files generated successful")
-                if (renameClassMap.isNotEmpty()) {
-                    append("\n")
-                    append("These class names has been auto renamed to new names:\n ${renameClassMap.map { it.first + " -> " + it.second }.toList()}")
-                }
             }
             showNotify(notifyMessage, project)
         }

@@ -263,3 +263,20 @@ fun StringBuilder.newLine(): StringBuilder {
 }
 
 fun<T> KotlinClass?.runWhenDataClass(block: DataClass.() -> T) = (this as? DataClass)?.run(block)
+
+
+fun List<KotlinClass>.distinctByProperties(): List<KotlinClass> {
+    val distinctClassesIgnoreClassName = distinctBy {
+        it.getOnlyCurrentCode().replaceFirst(it.name, "")
+    }
+    return distinctClassesIgnoreClassName.map {
+        val replaceMap = it.referencedClasses.filter { it.modifiable }.associateWith { curType ->
+            val targetClass = distinctClassesIgnoreClassName.firstOrNull {
+                curType.getOnlyCurrentCode().replaceFirst(curType.name, "") == it.getOnlyCurrentCode()
+                    .replaceFirst(it.name, "")
+            }
+            targetClass ?: it
+        }
+        it.replaceReferencedClasses(replaceMap)
+    }
+}

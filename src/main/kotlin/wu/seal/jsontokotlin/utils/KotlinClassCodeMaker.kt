@@ -20,9 +20,10 @@ class KotlinClassCodeMaker(private val kotlinClass: KotlinClass) {
         } else {
             val resolveNameConflicts = kotlinClassForCodeGenerate.resolveNameConflicts()
             val allModifiableClassesRecursivelyIncludeSelf = resolveNameConflicts
-                    .getAllModifiableClassesRecursivelyIncludeSelf()
-            allModifiableClassesRecursivelyIncludeSelf
-                    .joinToString("\n\n") { it.getOnlyCurrentCode() }
+                .getAllModifiableClassesRecursivelyIncludeSelf()
+            allModifiableClassesRecursivelyIncludeSelf.distinctByProperties()
+                .joinToString("\n\n") { it.getOnlyCurrentCode() }
         }
     }
+
 }

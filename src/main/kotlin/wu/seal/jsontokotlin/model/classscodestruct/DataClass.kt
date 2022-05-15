@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.model.builder.*
+import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
@@ -58,7 +59,11 @@ data class DataClass(
                 }
                 LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
                 val typeSuffix = if (property.type.endsWith("?")) "?" else ""
-                return@let property.copy(type = "${newTypObj.name}$typeSuffix", typeObject = newTypObj)
+                return@let property.copy(
+                    type = "${newTypObj.name}$typeSuffix",
+                    typeObject = newTypObj,
+                    value = getDefaultValue("${newTypObj.name}$typeSuffix")
+                )
             }
         }
 
