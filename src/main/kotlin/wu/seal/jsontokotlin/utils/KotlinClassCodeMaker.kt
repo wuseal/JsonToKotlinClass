@@ -25,7 +25,7 @@ class KotlinClassCodeMaker(private val kotlinClass: KotlinClass, private val gen
                 allModifiableClassesRecursivelyIncludeSelf
                     .joinToString("\n\n") { it.getOnlyCurrentCode() }
             } else {
-                allModifiableClassesRecursivelyIncludeSelf.distinctByProperties()
+                allModifiableClassesRecursivelyIncludeSelf.distinctByPropertiesAndSimilarClassName()
                     .joinToString("\n\n") { it.getOnlyCurrentCode() }
             }
         }

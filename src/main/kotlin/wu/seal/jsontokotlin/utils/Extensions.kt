@@ -266,8 +266,12 @@ fun StringBuilder.newLine(): StringBuilder {
 
 fun<T> KotlinClass?.runWhenDataClass(block: DataClass.() -> T) = (this as? DataClass)?.run(block)
 
-
-fun List<KotlinClass>.distinctByProperties(): List<KotlinClass> {
+/**
+ *
+ * If class name the same with XXXX append or only diff with number, then treat them as the same class to do distinct
+ * then distinct them by its properties code
+ */
+fun List<KotlinClass>.distinctByPropertiesAndSimilarClassName(): List<KotlinClass> {
     //If class name the same with XXXX append or only diff with number, then treat them as the same class to do distinct
     val distinctClassesWhenClassNameSimilar = distinctBy {
         it.getOnlyCurrentCode().replaceFirst(it.name, it.name.replace("X", "").replace("\\d".toRegex(), ""))
