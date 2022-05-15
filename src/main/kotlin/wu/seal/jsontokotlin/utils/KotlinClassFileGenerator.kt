@@ -55,11 +55,11 @@ class KotlinClassFileGenerator {
                     psiFileFactory,
                     directory
             )
-            val notifyMessage = buildString {
-                append("${splitClasses.size} Kotlin Data Class files generated successful")
-            }
-            showNotify(notifyMessage, project)
         }
+        val notifyMessage = buildString {
+            append("${splitClasses.size} Kotlin Data Class files generated successful")
+        }
+        showNotify(notifyMessage, project)
     }
 
     private fun currentDirExistsFileNamesWithoutKTSuffix(directory: PsiDirectory): List<String> {
