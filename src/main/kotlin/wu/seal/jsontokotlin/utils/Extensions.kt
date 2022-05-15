@@ -268,12 +268,13 @@ fun<T> KotlinClass?.runWhenDataClass(block: DataClass.() -> T) = (this as? DataC
 
 
 fun List<KotlinClass>.distinctByProperties(): List<KotlinClass> {
-    val distinctClassesIgnoreClassName = distinctBy {
-        it.getOnlyCurrentCode().replaceFirst(it.name, "")
+    //If class name the same with XXXX append or only diff with number, then treat them as the same class to do distinct
+    val distinctClassesWhenClassNameSimilar = distinctBy {
+        it.getOnlyCurrentCode().replaceFirst(it.name, it.name.replace("X", "").replace("\\d".toRegex(), ""))
     }
-    return distinctClassesIgnoreClassName.map {
+    return distinctClassesWhenClassNameSimilar.map {
         val replaceMap = it.referencedClasses.filter { it.modifiable }.associateWith { curType ->
-            val targetClass = distinctClassesIgnoreClassName.firstOrNull {
+            val targetClass = distinctClassesWhenClassNameSimilar.firstOrNull {
                 curType.getOnlyCurrentCode().replaceFirst(curType.name, "") == it.getOnlyCurrentCode()
                     .replaceFirst(it.name, "")
             }
