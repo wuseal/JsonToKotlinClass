@@ -36,6 +36,7 @@ data class DataClass(
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): KotlinClass {
+        if (replaceRule.all { it.key == it.value }) return this
         val propertiesReferencedModifiableKotlinClass = properties.flatMap {
             if (it.typeObject is GenericKotlinClass) {
                 it.typeObject.getAllGenericsRecursively().toMutableList().also { list -> list.add(it.typeObject) }

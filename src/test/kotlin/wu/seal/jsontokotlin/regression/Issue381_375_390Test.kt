@@ -83,4 +83,61 @@ class Issue381_375_390Test : BaseTest() {
         TestConfig.isNestedClassModel = false
         json.generateKotlinClassCode("Test").should.equal(expected)
     }
+
+    @Test
+    fun testSpecialCase() {
+        TestConfig.isNestedClassModel = false
+        val json = """
+           { "g" : {
+              "a": {
+                "glossary": {
+                  "title": "example glossary",
+                  "GlossDiv": {
+                    "title": "S"
+                  }
+                },
+                "GlossDiv": {
+                  "title": "S"
+                }
+              },
+              "a1": {
+                "glossary": {
+                  "title": "example glossary",
+                  "GlossDiv": {
+                    "title": "S"
+                  }
+                },
+                "GlossDiv": {
+                  "title": "S"
+                }
+              }
+            },
+            "g1" : {
+              "a": {
+                "glossary": {
+                  "title": "example glossary",
+                  "GlossDiv": {
+                    "title": "S"
+                  }
+                },
+                "GlossDiv": {
+                  "title": "S"
+                }
+              },
+              "a1": {
+                "glossary": {
+                  "title": "example glossary",
+                  "GlossDiv": {
+                    "title": "S"
+                  }
+                },
+                "GlossDiv": {
+                  "title": "S"
+                }
+              }
+            }
+            }
+       """.trimIndent()
+        println(json.generateKotlinClassCode("Test"))
+    }
 }
