@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin.model.classscodestruct
 
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.model.builder.*
+import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.utils.*
 
 data class DataClass(
@@ -35,6 +36,7 @@ data class DataClass(
     override fun rename(newName: String): KotlinClass = copy(name = newName)
 
     override fun replaceReferencedClasses(replaceRule: Map<KotlinClass, KotlinClass>): KotlinClass {
+        if (replaceRule.all { it.key == it.value }) return this
         val propertiesReferencedModifiableKotlinClass = properties.flatMap {
             if (it.typeObject is GenericKotlinClass) {
                 it.typeObject.getAllGenericsRecursively().toMutableList().also { list -> list.add(it.typeObject) }
@@ -58,7 +60,11 @@ data class DataClass(
                 }
                 LogUtil.i("replace type: ${property.type} to ${newTypObj.name}")
                 val typeSuffix = if (property.type.endsWith("?")) "?" else ""
-                return@let property.copy(type = "${newTypObj.name}$typeSuffix", typeObject = newTypObj)
+                return@let property.copy(
+                    type = "${newTypObj.name}$typeSuffix",
+                    typeObject = newTypObj,
+                    value = if (property.value.isNotEmpty()) getDefaultValue("${newTypObj.name}$typeSuffix") else property.value
+                )
             }
         }
 

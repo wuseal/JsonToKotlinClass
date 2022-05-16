@@ -1,6 +1,8 @@
 package wu.seal.jsontokotlin.utils
 
+import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
@@ -188,14 +190,14 @@ fun theSamePrimitiveType(first: JsonPrimitive, second: JsonPrimitive): Boolean {
 /**
  * Return the kotlin type of a JsonArray with all elements are numbers
  */
-fun getKotlinNumberClass(jsonArray: JsonArray) : KotlinClass {
-    var ans : KotlinClass =  KotlinClass.INT
+fun getKotlinNumberClass(jsonArray: JsonArray): KotlinClass {
+    var ans: KotlinClass = KotlinClass.INT
     jsonArray.forEach {
         if (it.isJsonPrimitive.not() || it.asJsonPrimitive.isNumber.not()) {
             throw IllegalArgumentException("the argument should be a json array with all elements are number type")
         }
         val kotlinType = it.asJsonPrimitive.toKotlinClass();
-        if(kotlinType.getNumLevel() > ans.getNumLevel()) {
+        if (kotlinType.getNumLevel() > ans.getNumLevel()) {
             ans = kotlinType
         }
     }
@@ -206,10 +208,10 @@ fun getKotlinNumberClass(jsonArray: JsonArray) : KotlinClass {
 /**
  * Return the level of value scope for kotlin number type
  */
-fun KotlinClass.getNumLevel() : Int {
+fun KotlinClass.getNumLevel(): Int {
     return when {
         this == KotlinClass.INT -> 0;
-        this == KotlinClass.LONG-> 1;
+        this == KotlinClass.LONG -> 1;
         this == KotlinClass.DOUBLE -> 2;
         else -> -1
     }
@@ -236,13 +238,14 @@ fun String.toAnnotationComments() = this.toAnnotationComments("")
 fun String.toAnnotationComments(indent: String): String {
     return if (this.isBlank()) "" else {
         StringBuffer().append("$indent/**\n")
-                .append("$indent * $this\n")
-                .append("$indent */\n")
-                .toString()
+            .append("$indent * $this\n")
+            .append("$indent */\n")
+            .toString()
     }
 }
 
-fun String.addIndent(indent: String): String = this.lines().joinToString("\n") { if (it.isBlank()) it else "$indent$it" }
+fun String.addIndent(indent: String): String =
+    this.lines().joinToString("\n") { if (it.isBlank()) it else "$indent$it" }
 
 operator fun String.times(count: Int): String {
     if (count < 1) return ""
@@ -262,4 +265,64 @@ fun StringBuilder.newLine(): StringBuilder {
     return this
 }
 
-fun<T> KotlinClass?.runWhenDataClass(block: DataClass.() -> T) = (this as? DataClass)?.run(block)
+fun <T> KotlinClass?.runWhenDataClass(block: DataClass.() -> T) = (this as? DataClass)?.run(block)
+
+/**
+ *
+ * If class name the same with XXXX append or only diff with number, then treat them as the same class to do distinct
+ * then distinct them by its properties code
+ */
+private fun List<KotlinClass>.distinctByPropertiesAndSimilarClassNameOneTime(): List<KotlinClass> {
+    fun KotlinClass.codeWithoutXAndNumberClassName(): String {
+        return getOnlyCurrentCode().replaceFirst(name, name.replace("X", "").replace("\\d".toRegex(), ""))
+    }
+
+    fun KotlinClass.replaceClassRefRecursive(
+        replaceRule: (curRef: KotlinClass) -> KotlinClass
+    ): KotlinClass {
+        val rule = referencedClasses.filter { it.modifiable }.associateWith {
+            replaceRule(it.replaceClassRefRecursive(replaceRule))
+        }
+        return replaceReferencedClasses(rule)
+    }
+    //If class name the same with XXXX append or only diff with number, then treat them as the same class to do distinct
+    val distinctClassesWhenClassNameSimilar = distinctBy {
+        it.codeWithoutXAndNumberClassName()
+    }
+    //obtain the class to replace other ref class, if the replace times is less then 2, then it means that no need to replace
+    val targetClass = groupBy { it.codeWithoutXAndNumberClassName() }.maxByOrNull { it.value.size }
+        ?.takeIf { it.value.size > 1 }?.value?.first() ?: return this
+
+    return distinctClassesWhenClassNameSimilar.map {
+        if (targetClass == it) return@map it
+        it.replaceClassRefRecursive {
+            if (it.codeWithoutXAndNumberClassName() == targetClass.codeWithoutXAndNumberClassName()) {
+                targetClass
+            } else it
+        }
+    }
+}
+
+fun List<KotlinClass>.distinctByPropertiesAndSimilarClassName(): List<KotlinClass> {
+    var lastSize = Int.MAX_VALUE
+    var currentSize = size
+    var currentResult: List<KotlinClass> = distinctByPropertiesAndSimilarClassNameOneTime()
+    do {
+        currentResult = currentResult.distinctByPropertiesAndSimilarClassNameOneTime()
+        lastSize = currentSize
+        currentSize = currentResult.size
+    } while (currentSize != lastSize)
+    return currentResult
+}
+
+
+fun String.isJSONSchema(): Boolean {
+    val jsonElement = Gson().fromJson(this, JsonElement::class.java)
+    return if (jsonElement.isJsonObject) {
+        with(jsonElement.asJsonObject) {
+            has("\$schema")
+        }
+    } else {
+        false
+    }
+}

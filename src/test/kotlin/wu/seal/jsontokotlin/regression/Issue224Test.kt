@@ -21,7 +21,7 @@ class Issue224Test {
     fun test() {
         val json = """
         {
-            "${"$$"}schema": "http://json-schema.org/draft-06/schema#",
+            "${"$"}schema": "http://json-schema.org/draft-06/schema#",
             "definitions": {
                 "address": {
                     "properties": {
@@ -56,53 +56,16 @@ class Issue224Test {
         """.trimIndent()
 
         val expect = """
-        data class Test(
-            val `${"$$"}schema`: String = "",
-            val definitions: Definitions = Definitions(),
-            val properties: PropertiesX = Properties(),
-            val type: String = ""
-        )
-        
-        data class Definitions(
-            val address: Address = Address()
-        )
+            data class Test(
+                val billing_address: address = address(),
+                val shipping_address: address = address()
+            )
 
-        data class PropertiesX(
-            val billing_address: BillingAddress = BillingAddress(),
-            val shipping_address: ShippingAddress = ShippingAddress()
-        )
-        
-        data class Address(
-            val properties: Properties = Properties(),
-            val required: List<String> = listOf(),
-            val type: String = ""
-        )
-        
-        data class Properties(
-            val city: City = City(),
-            val state: State = State(),
-            val street_address: StreetAddress = StreetAddress()
-        )
-        
-        data class City(
-            val type: String = ""
-        )
-        
-        data class State(
-            val type: String = ""
-        )
-        
-        data class StreetAddress(
-            val type: String = ""
-        )
-        
-        data class BillingAddress(
-            val `${"$"}ref`: String = ""
-        )
-        
-        data class ShippingAddress(
-            val `${"$"}ref`: String = ""
-        )
+            data class address(
+                val city: String = "",
+                val state: String = "",
+                val street_address: String = ""
+            )
         """.trimIndent()
         TestConfig.isNestedClassModel = false
         TestConfig.targetJsonConvertLib = TargetJsonConverter.None

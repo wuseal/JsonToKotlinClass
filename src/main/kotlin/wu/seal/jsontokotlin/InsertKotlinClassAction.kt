@@ -125,7 +125,8 @@ class InsertKotlinClassAction : AnAction("Kotlin data classes from JSON") {
         val codeMaker: KotlinClassCodeMaker
         try {
             //passing current file directory along with className and json
-            codeMaker = KotlinClassCodeMaker(KotlinClassMaker(className, jsonString).makeKotlinClass())
+            val kotlinClass = KotlinClassMaker(className, jsonString).makeKotlinClass()
+            codeMaker = KotlinClassCodeMaker(kotlinClass, jsonString.isJSONSchema())
         } catch (e: IllegalFormatFlagsException) {
             e.printStackTrace()
             Messages.showErrorDialog(e.message, "UnSupport Json")

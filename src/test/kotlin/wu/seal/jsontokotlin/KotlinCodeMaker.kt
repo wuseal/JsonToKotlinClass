@@ -2,6 +2,7 @@ package wu.seal.jsontokotlin
 
 import wu.seal.jsontokotlin.utils.KotlinClassCodeMaker
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
+import wu.seal.jsontokotlin.utils.isJSONSchema
 
 /**
  * Kotlin code maker
@@ -11,11 +12,11 @@ class KotlinCodeMaker(private val className: String, private val inputJson: Stri
 
     fun makeKotlinData(): String {
         val kotlinClass = KotlinClassMaker(
-                className,
-                inputJson
+            className,
+            inputJson
         ).makeKotlinClass()
         return KotlinClassCodeMaker(
-                kotlinClass
+            kotlinClass, inputJson.isJSONSchema()
         ).makeKotlinClassCode()
     }
 }

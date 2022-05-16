@@ -5,7 +5,7 @@ import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.interceptor.IKotlinClassInterceptor
 import wu.seal.jsontokotlin.interceptor.InterceptorManager
 
-class KotlinClassCodeMaker(private val kotlinClass: KotlinClass) {
+class KotlinClassCodeMaker(private val kotlinClass: KotlinClass, private val generatedFromJSONSchema: Boolean = false) {
 
     fun makeKotlinClassCode(): String {
         val interceptors = InterceptorManager.getEnabledKotlinDataClassInterceptors()
@@ -20,9 +20,15 @@ class KotlinClassCodeMaker(private val kotlinClass: KotlinClass) {
         } else {
             val resolveNameConflicts = kotlinClassForCodeGenerate.resolveNameConflicts()
             val allModifiableClassesRecursivelyIncludeSelf = resolveNameConflicts
-                    .getAllModifiableClassesRecursivelyIncludeSelf()
-            allModifiableClassesRecursivelyIncludeSelf
+                .getAllModifiableClassesRecursivelyIncludeSelf()
+            if (generatedFromJSONSchema) { //don't remove class when their properties are same
+                allModifiableClassesRecursivelyIncludeSelf
                     .joinToString("\n\n") { it.getOnlyCurrentCode() }
+            } else {
+                allModifiableClassesRecursivelyIncludeSelf.distinctByPropertiesAndSimilarClassName()
+                    .joinToString("\n\n") { it.getOnlyCurrentCode() }
+            }
         }
     }
+
 }

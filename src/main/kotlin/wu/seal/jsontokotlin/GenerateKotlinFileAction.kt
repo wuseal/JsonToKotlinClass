@@ -19,6 +19,7 @@ import wu.seal.jsontokotlin.model.UnSupportJsonException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.KotlinClassFileGenerator
 import wu.seal.jsontokotlin.utils.KotlinClassMaker
+import wu.seal.jsontokotlin.utils.isJSONSchema
 
 
 /**
@@ -102,7 +103,8 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
                 packageDeclare,
                 project,
                 psiFileFactory,
-                directory
+                directory,
+                json.isJSONSchema()
             )
         }
     }
