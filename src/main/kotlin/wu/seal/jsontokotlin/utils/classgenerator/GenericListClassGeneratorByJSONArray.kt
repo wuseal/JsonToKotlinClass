@@ -16,6 +16,8 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
 
     private val tag = "ListClassGeneratorByJSONArray"
     private val jsonArray: JsonArray = Gson().fromJson(jsonArrayString, JsonArray::class.java)
+    private val jsonArrayExcludeNull = jsonArray.filterOutNullElement()
+
 
     fun generate(): GenericListClass {
 
@@ -28,24 +30,24 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 LogUtil.i("$tag jsonArray allItemAreNullElement, return GenericListClass with generic type ${KotlinClass.ANY.name}")
                 return GenericListClass(generic = KotlinClass.ANY)
             }
-            jsonArray.allElementAreSamePrimitiveType() -> {
+            jsonArrayExcludeNull.allElementAreSamePrimitiveType() -> {
                 // if all elements are numbers, we need to select the larger scope of Kotlin types among the elements
                 // e.g. [1,2,3.1] should return Double as it's type
 
-                val p = jsonArray[0].asJsonPrimitive;
-                val elementKotlinClass = if(p.isNumber) getKotlinNumberClass(jsonArray) else p.toKotlinClass()
+                val p = jsonArrayExcludeNull[0].asJsonPrimitive;
+                val elementKotlinClass = if(p.isNumber) getKotlinNumberClass(jsonArrayExcludeNull) else p.toKotlinClass()
                 LogUtil.i("$tag jsonArray allElementAreSamePrimitiveType, return GenericListClass with generic type ${elementKotlinClass.name}")
                 return GenericListClass(generic = elementKotlinClass)
             }
-            jsonArray.allItemAreObjectElement() -> {
-                val fatJsonObject = getFatJsonObject(jsonArray)
+            jsonArrayExcludeNull.allItemAreObjectElement() -> {
+                val fatJsonObject = getFatJsonObject(jsonArrayExcludeNull)
                 val itemObjClassName = getRecommendItemName(jsonKey)
                 val dataClassFromJsonObj = DataClassGeneratorByJSONObject(itemObjClassName, fatJsonObject).generate()
                 LogUtil.i("$tag jsonArray allItemAreObjectElement, return GenericListClass with generic type ${dataClassFromJsonObj.name}")
                 return GenericListClass(generic = dataClassFromJsonObj)
             }
-            jsonArray.allItemAreArrayElement() -> {
-                val fatJsonArray = getFatJsonArray(jsonArray.map { it.asJsonArray })
+            jsonArrayExcludeNull.allItemAreArrayElement() -> {
+                val fatJsonArray = getFatJsonArray(jsonArrayExcludeNull.map { it.asJsonArray })
                 val genericListClassFromFatJsonArray = GenericListClassGeneratorByJSONArray(jsonKey, fatJsonArray.toString()).generate()
                 LogUtil.i("$tag jsonArray allItemAreArrayElement, return GenericListClass with generic type ${genericListClassFromFatJsonArray.name}")
                 return GenericListClass(generic = genericListClassFromFatJsonArray)
@@ -80,13 +82,18 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
         val allFields = jsonArray.flatMap { it.asJsonObject.entrySet().map { entry -> Pair(entry.key, entry.value) } }
         val fatJsonObject = JsonObject()
         allFields.forEach { (key, value) ->
-            if (value is JsonNull && fatJsonObject.has(key)) {
+            if (value is JsonNull) {
                 //if the value is null and pre added the same key into the fatJsonObject,
                 // then translate it to a new special property to indicate that the property is nullable
                 //later will consume this property (do it here[DataClassGeneratorByJSONObject#consumeBackstageProperties])
                 // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
                 // and will not be generated in final code
-                fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                if (fatJsonObject.has(key)) {
+                    fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                } else {
+                    fatJsonObject.add(key, value)
+                    fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                }
             } else if (fatJsonObject.has(key)) {
                 if (fatJsonObject[key].isJsonObject && value.isJsonObject) {//try not miss any fields of the key's related json object
                     val newValue = getFatJsonObject(JsonArray().apply { add(fatJsonObject[key]);add(value) })

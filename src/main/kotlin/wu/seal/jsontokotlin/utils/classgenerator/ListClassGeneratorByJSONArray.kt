@@ -13,6 +13,7 @@ class ListClassGeneratorByJSONArray(private val className: String, jsonArrayStri
 
     private val tag = "ListClassGeneratorByJSONArray"
     private val jsonArray: JsonArray = Gson().fromJson(jsonArrayString, JsonArray::class.java)
+    private val jsonArrayExcludeNull = jsonArray.filterOutNullElement()
 
     fun generate(): ListClass {
 
@@ -25,25 +26,25 @@ class ListClassGeneratorByJSONArray(private val className: String, jsonArrayStri
                 LogUtil.i("$tag jsonArray allItemAreNullElement, return ListClass with generic type ${KotlinClass.ANY.name}")
                 return ListClass(name = className, generic = KotlinClass.ANY)
             }
-            jsonArray.allElementAreSamePrimitiveType() -> {
+            jsonArrayExcludeNull.allElementAreSamePrimitiveType() -> {
 
                 // if all elements are numbers, we need to select the larger scope of Kotlin types among the elements
                 // e.g. [1,2,3.1] should return Double as it's type
 
-                val p = jsonArray[0].asJsonPrimitive;
-                val elementKotlinClass = if(p.isNumber) getKotlinNumberClass(jsonArray) else p.toKotlinClass()
+                val p = jsonArrayExcludeNull[0].asJsonPrimitive;
+                val elementKotlinClass = if(p.isNumber) getKotlinNumberClass(jsonArrayExcludeNull) else p.toKotlinClass()
                 LogUtil.i("$tag jsonArray allElementAreSamePrimitiveType, return ListClass with generic type ${elementKotlinClass.name}")
                 return ListClass(name = className, generic = elementKotlinClass)
             }
-            jsonArray.allItemAreObjectElement() -> {
-                val fatJsonObject = getFatJsonObject(jsonArray)
+            jsonArrayExcludeNull.allItemAreObjectElement() -> {
+                val fatJsonObject = getFatJsonObject(jsonArrayExcludeNull)
                 val itemObjClassName = "${className}Item"
                 val dataClassFromJsonObj = DataClassGeneratorByJSONObject(itemObjClassName, fatJsonObject).generate()
                 LogUtil.i("$tag jsonArray allItemAreObjectElement, return ListClass with generic type ${dataClassFromJsonObj.name}")
                 return ListClass(className, dataClassFromJsonObj)
             }
-            jsonArray.allItemAreArrayElement() -> {
-                val fatJsonArray = getFatJsonArray(jsonArray)
+            jsonArrayExcludeNull.allItemAreArrayElement() -> {
+                val fatJsonArray = getFatJsonArray(jsonArrayExcludeNull)
                 val itemArrayClassName = "${className}SubList"
                 val listClassFromFatJsonArray = ListClassGeneratorByJSONArray(itemArrayClassName, fatJsonArray.toString()).generate()
                 LogUtil.i("$tag jsonArray allItemAreArrayElement, return ListClass with generic type ${listClassFromFatJsonArray.name}")
@@ -78,13 +79,18 @@ class ListClassGeneratorByJSONArray(private val className: String, jsonArrayStri
         val allFields = jsonArray.flatMap { it.asJsonObject.entrySet().map { entry -> Pair(entry.key, entry.value) } }
         val fatJsonObject = JsonObject()
         allFields.forEach { (key, value) ->
-            if (value is JsonNull && fatJsonObject.has(key)) {
+            if (value is JsonNull ) {
                 //if the value is null and pre added the same key into the fatJsonObject,
                 // then translate it to a new special property to indicate that the property is nullable
                 //later will consume this property (do it here[DataClassGeneratorByJSONObject#consumeBackstageProperties])
                 // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
                 // and will not be generated in final code
-                fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                if (fatJsonObject.has(key)) {
+                    fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                } else {
+                    fatJsonObject.add(key, value)
+                    fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                }
             } else if (fatJsonObject.has(key) && value is JsonPrimitive && value.isNumber
                     && fatJsonObject[key].isJsonPrimitive && fatJsonObject[key].asJsonPrimitive.isNumber) {
                     //when the the field is a number type, we need to select the value with largest scope
