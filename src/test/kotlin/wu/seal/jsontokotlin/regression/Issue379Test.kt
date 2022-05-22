@@ -98,4 +98,34 @@ class Issue379Test :BaseTest() {
         TestConfig.isCommentOff = true
         json.generateKotlinClassCode("Test").should.equal(expected)
     }
+
+    @Test
+    fun testIssue307() {
+       val json = """
+           {"a": [ { "b": "", "c": "", "d": "" }, { "a": "" } ] }
+       """.trimIndent()
+
+        val expected = """
+            data class Test(
+                @SerializedName("a")
+                val a: List<A> = listOf()
+            ) {
+                data class A(
+                    @SerializedName("a")
+                    val a: String? = "",
+                    @SerializedName("b")
+                    val b: String? = "",
+                    @SerializedName("c")
+                    val c: String? = "",
+                    @SerializedName("d")
+                    val d: String? = ""
+                )
+            }
+        """.trimIndent()
+
+        TestConfig.propertyTypeStrategy = PropertyTypeStrategy.AutoDeterMineNullableOrNot
+        TestConfig.isCommentOff = true
+
+        json.generateKotlinClassCode("Test").should.equal(expected)
+    }
 }
