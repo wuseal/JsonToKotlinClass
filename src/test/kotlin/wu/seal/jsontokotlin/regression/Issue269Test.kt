@@ -1493,9 +1493,9 @@ class Issue269Test {
             ) {
                 data class Product(
                     val id: Int,
-                    val view_count: Int,
-                    val order_count: Int,
-                    val shares: Int
+                    val view_count: Int?,
+                    val order_count: Int?,
+                    val shares: Int?
                 )
             }
         }
@@ -1541,9 +1541,9 @@ class Issue269Test {
 
         data class ProductX(
             val id: Int,
-            val view_count: Int,
-            val order_count: Int,
-            val shares: Int
+            val view_count: Int?,
+            val order_count: Int?,
+            val shares: Int?
         )
     """.trimIndent()
 
