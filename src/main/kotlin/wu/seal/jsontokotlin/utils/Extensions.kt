@@ -1,9 +1,6 @@
 package wu.seal.jsontokotlin.utils
 
-import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonPrimitive
+import com.google.gson.*
 import wu.seal.jsontokotlin.model.classscodestruct.DataClass
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import java.lang.StringBuilder
@@ -325,4 +322,86 @@ fun String.isJSONSchema(): Boolean {
     } else {
         false
     }
+}
+
+/**
+ * get a Fat JsonObject whose fields contain all the objects' fields around the objects of the json array
+ */
+fun JsonArray.getFatJsonObject(): JsonObject {
+    if (size() == 0 || !allItemAreObjectElement()) {
+        throw IllegalStateException("input arg jsonArray must not be empty and all element should be json object! ")
+    }
+    val allFields = flatMap { it.asJsonObject.entrySet().map { entry -> Pair(entry.key, entry.value) } }
+    val fatJsonObject = JsonObject().apply {
+        fun JsonElement.isEmptyJsonObj(): Boolean = isJsonObject && asJsonObject.entrySet().isEmpty()
+        fun JsonElement.isEmptyJsonArray(): Boolean = isJsonArray && asJsonArray.size() == 0
+        fun JsonElement.numberLevel(): Int {
+            return if (isJsonPrimitive) {
+                asJsonPrimitive.toKotlinClass().getNumLevel()
+            } else -1
+        }
+        //create good fatJsonObject contains all fields, and try not use null or empty value
+        allFields.forEach { (key, value) ->
+            if (has(key).not()) {
+                add(key, value)
+            } else {
+                //when the the field is a number type, we need to select the value with largest scope
+                //e.g.  given [{"key":10},{"key":11.2}]
+                //we should use the object with value = 11.2 to represent the object type which will be Double
+                val newIsHigherNumber = value.numberLevel() > this[key].numberLevel()
+                val newIsNotNullOrEmpty = value !is JsonNull && !value.isEmptyJsonObj() && !value.isEmptyJsonArray()
+                val oldIsNullOrEmpty =
+                    (this[key] is JsonNull) or this[key].isEmptyJsonObj() or this[key].isEmptyJsonArray()
+                val needReplaceValue = newIsHigherNumber || (newIsNotNullOrEmpty and oldIsNullOrEmpty)
+                if (needReplaceValue) {
+                    add(key, value)
+                }
+            }
+        }
+        // add nullable type fields
+        forEach {
+            val item = it.asJsonObject
+            item.entrySet().forEach { (key, value) ->
+                //if the value is null or empty json obj or empty json array,
+                // then translate it to a new special property to indicate that the property is nullable
+                //later will consume this property (do it here[DataClassGeneratorByJSONObject#consumeBackstageProperties])
+                // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
+                // and will not be generated in final code
+                if (value is JsonNull || value.isEmptyJsonObj()) {
+                    add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
+                }
+            }
+            //if some json fields in fat json object not inside one item, then we treat them as nullable
+            entrySet().map { it.key.replace(BACKSTAGE_NULLABLE_POSTFIX, "") }
+                .filter { it !in item.entrySet().map { it.key.replace(BACKSTAGE_NULLABLE_POSTFIX, "") } }.forEach {
+                    add(it + BACKSTAGE_NULLABLE_POSTFIX, null)
+                }
+        }
+
+        //let all fields value to be fatJsonObject or fat JsonArray
+        allFields.filter { it.second !is JsonNull }.groupBy { it.first }.forEach {
+            val jsonArrayObj = JsonArray().apply {
+                it.value.map { it.second }.forEach {
+                    this.add(it)
+                }
+            }
+            if (jsonArrayObj.allItemAreObjectElement()) {
+                this.add(it.key, jsonArrayObj.getFatJsonObject())
+            } else if (jsonArrayObj.allItemAreArrayElement()) {
+                this.add(it.key, jsonArrayObj.getFatJsonArray())
+            }
+        }
+    }
+    return fatJsonObject
+}
+
+fun JsonArray.getFatJsonArray(): JsonArray {
+    if (size() == 0 || !allItemAreArrayElement()) {
+        throw IllegalStateException("input arg jsonArray must not be empty and all element should be json array! ")
+    }
+    val fatJsonArray = JsonArray()
+    forEach {
+        fatJsonArray.addAll(it.asJsonArray)
+    }
+    return fatJsonArray
 }

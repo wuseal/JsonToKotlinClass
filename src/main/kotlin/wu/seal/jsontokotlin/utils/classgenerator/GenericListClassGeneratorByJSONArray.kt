@@ -40,14 +40,14 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
                 return GenericListClass(generic = elementKotlinClass)
             }
             jsonArrayExcludeNull.allItemAreObjectElement() -> {
-                val fatJsonObject = getFatJsonObject(jsonArrayExcludeNull)
+                val fatJsonObject = jsonArrayExcludeNull.getFatJsonObject()
                 val itemObjClassName = getRecommendItemName(jsonKey)
                 val dataClassFromJsonObj = DataClassGeneratorByJSONObject(itemObjClassName, fatJsonObject).generate()
                 LogUtil.i("$tag jsonArray allItemAreObjectElement, return GenericListClass with generic type ${dataClassFromJsonObj.name}")
                 return GenericListClass(generic = dataClassFromJsonObj)
             }
             jsonArrayExcludeNull.allItemAreArrayElement() -> {
-                val fatJsonArray = getFatJsonArray(jsonArrayExcludeNull.map { it.asJsonArray })
+                val fatJsonArray = jsonArrayExcludeNull.getFatJsonArray()
                 val genericListClassFromFatJsonArray = GenericListClassGeneratorByJSONArray(jsonKey, fatJsonArray.toString()).generate()
                 LogUtil.i("$tag jsonArray allItemAreArrayElement, return GenericListClass with generic type ${genericListClassFromFatJsonArray.name}")
                 return GenericListClass(generic = genericListClassFromFatJsonArray)
@@ -62,68 +62,4 @@ class GenericListClassGeneratorByJSONArray(private val jsonKey: String, jsonArra
     private fun getRecommendItemName(jsonKey: String): String {
         return adjustPropertyNameForGettingArrayChildType(jsonKey)
     }
-
-    private fun getFatJsonArray(jsonArrayList: List<JsonArray>): JsonArray {
-        val fatJsonArray = JsonArray()
-        jsonArrayList.forEach {
-            fatJsonArray.addAll(it)
-        }
-        return fatJsonArray
-    }
-
-
-    /**
-     * get a Fat JsonObject whose fields contains all the objects' fields around the objects of the json array
-     */
-    private fun getFatJsonObject(jsonArray: JsonArray): JsonObject {
-        if (jsonArray.size() == 0 || !jsonArray.allItemAreObjectElement()) {
-            throw IllegalStateException("input arg jsonArray must not be empty and all element should be json object! ")
-        }
-        val allFields = jsonArray.flatMap { it.asJsonObject.entrySet().map { entry -> Pair(entry.key, entry.value) } }
-        val fatJsonObject = JsonObject()
-        allFields.forEach { (key, value) ->
-            if (value is JsonNull) {
-                //if the value is null and pre added the same key into the fatJsonObject,
-                // then translate it to a new special property to indicate that the property is nullable
-                //later will consume this property (do it here[DataClassGeneratorByJSONObject#consumeBackstageProperties])
-                // delete it or translate it back to normal property without [BACKSTAGE_NULLABLE_POSTFIX] when consume it
-                // and will not be generated in final code
-                if (fatJsonObject.has(key)) {
-                    fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
-                } else {
-                    fatJsonObject.add(key, value)
-                    fatJsonObject.add(key + BACKSTAGE_NULLABLE_POSTFIX, value)
-                }
-            } else if (fatJsonObject.has(key)) {
-                if (fatJsonObject[key].isJsonObject && value.isJsonObject) {//try not miss any fields of the key's related json object
-                    val newValue = getFatJsonObject(JsonArray().apply { add(fatJsonObject[key]);add(value) })
-                    fatJsonObject.add(key, newValue)
-                } else if (fatJsonObject[key].isJsonArray && value.isJsonArray) {////try not miss any elements of the key's related json array
-                    val newValue = getFatJsonArray(listOf(fatJsonObject[key].asJsonArray, value.asJsonArray))
-                    fatJsonObject.add(key, newValue)
-                } else if (fatJsonObject[key].isJsonPrimitive && value.isJsonPrimitive && theSamePrimitiveType(fatJsonObject[key].asJsonPrimitive, value.asJsonPrimitive)) {
-                        //if the value and exist value are the same primitive type then ignore it
-                        //except for the following scenario:
-                        //when the the field is a number type, we need to select the value with largest scope
-                        //e.g.  given [{"key":10},{"key":11.2}]
-                        //we should use the object with value = 11.2 to represent the object type which will be Double
-
-                        val prev = fatJsonObject[key].asJsonPrimitive
-                        val cur = value.asJsonPrimitive
-                        if(prev.isNumber && cur.isNumber && cur.toKotlinClass().getNumLevel() > prev.toKotlinClass().getNumLevel()) {
-                            fatJsonObject.add(key, value);
-                        }
-                } else if (value.isJsonNull) {
-                    //if the value is null, we ignore this value
-                } else {
-                    //others the two values of the key are not the same type, then give it a null value indicate that it's should be an Any Type in Kotlin
-                    fatJsonObject.add(key, JsonNull.INSTANCE)
-                }
-            } else {
-                fatJsonObject.add(key, value)
-            }
-        }
-        return fatJsonObject
-    }
-
 }
