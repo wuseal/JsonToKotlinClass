@@ -1,12 +1,11 @@
 # Change Log
 
-## [3.7.4\-eap](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.4-eap) (2022-05-22)
-[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.3...3.7.4-eap)
+## [3.7.4](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.4) (2022-05-22)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.3...3.7.4)
 
 **Bugfix**
 
 - Write\-access exception [\#308](https://github.com/wuseal/JsonToKotlinClass/issues/308)
-- JSONSchema生成类失败 [\#392](https://github.com/wuseal/JsonToKotlinClass/issues/392)
 - Nullable Types and Non Nullable Default Value Strategy [\#391](https://github.com/wuseal/JsonToKotlinClass/issues/391)
 - Repeating classes instead of making a relation between them\! [\#381](https://github.com/wuseal/JsonToKotlinClass/issues/381)
 
