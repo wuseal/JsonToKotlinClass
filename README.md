@@ -206,6 +206,3 @@ The development of this plugin is powerly driven by JetBrains.
 | [Join JsonToKotlinClass Telegram](https://t.me/JsonToKotlin) |
 ### Note：
 We analytics anonymous user behavior for improving plugin production, we've provided a switch case for that.
-### Stargazers over time
-
-[![Stargazers over time](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass.svg)](https://starcharts.herokuapp.com/wuseal/JsonToKotlinClass)
