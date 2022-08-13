@@ -18,7 +18,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     // Core library
-    compile files('libs/JsonToKotlinClass-3.6.1.jar')
+    compile files('libs/JsonToKotlinClass-3.7.4.jar')
 
     // Gson : Gson
     implementation 'com.google.code.gson:gson:2.8.6'

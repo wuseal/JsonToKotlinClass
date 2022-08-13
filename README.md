@@ -16,7 +16,7 @@ Hi, Welcome! This is a plugin to generate Kotlin `data class` from JSON string, 
 We also have a `Java/Kotlin` [library](doc/LIBRARY.md). With this you can generate Kotlin `data class` from JSON string **programmatically**. 
 
 ```groovy
-implementation 'com.sealwu.jsontokotlin:library:3.6.1'
+implementation 'com.sealwu.jsontokotlin:library:3.7.4'
 ```
 
 ### Overview

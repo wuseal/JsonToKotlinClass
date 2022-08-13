@@ -928,10 +928,9 @@ class JsonToKotlinBuilderTest {
 
         val expectedOutput = """
             
-                import kotlinx.android.parcel.Parcelize
+                import kotlinx.parcelize.Parcelize
                 import android.os.Parcelable
                 
-                @SuppressLint("ParcelCreator")
                 @Parcelize
                 data class User(
                     val username: String,
@@ -1029,8 +1028,8 @@ class JsonToKotlinBuilderTest {
             )
             
             data class UserX(
-                val username: String = "john",
-                val company_name: String = "ABC Ltd"
+                val username: String = ""${'"'}john""${'"'},
+                val company_name: String = ""${'"'}ABC Ltd""${'"'}
             )
         """.trimIndent()
 
