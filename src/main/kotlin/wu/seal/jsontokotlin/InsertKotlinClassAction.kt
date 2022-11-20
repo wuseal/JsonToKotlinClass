@@ -13,6 +13,7 @@ import wu.seal.jsontokotlin.feedback.StartAction
 import wu.seal.jsontokotlin.feedback.SuccessCompleteAction
 import wu.seal.jsontokotlin.feedback.dealWithException
 import wu.seal.jsontokotlin.feedback.sendActionInfo
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.UnSupportJsonException
 import wu.seal.jsontokotlin.ui.JsonInputDialog
 import wu.seal.jsontokotlin.utils.*
@@ -71,10 +72,13 @@ class InsertKotlinClassAction : AnAction("Kotlin data classes from JSON") {
                     cleanCurrentEditFile(document)
                 }
             }
-            if (insertKotlinCode(project, document, className, jsonString, caret)) {
+            val offset = calculateOffset(caret, document)
+            if (insertKotlinCode(project, document, className, jsonString, offset)) {
+                if (ConfigManager.isAppendOriginalJson) {
+                    insertJsonExample(project, document, jsonString, offset)
+                }
                 actionComplete()
             }
-
 
         } catch (e: UnSupportJsonException) {
             val advice = e.advice
@@ -118,7 +122,7 @@ class InsertKotlinClassAction : AnAction("Kotlin data classes from JSON") {
             document: Document,
             className: String,
             jsonString: String,
-            caret: Caret?
+            offset: Int
     ): Boolean {
         ClassImportDeclarationWriter.insertImportClassCode(project, document)
 
@@ -136,40 +140,65 @@ class InsertKotlinClassAction : AnAction("Kotlin data classes from JSON") {
         val generateClassesString = codeMaker.makeKotlinClassCode()
 
         executeCouldRollBackAction(project) {
-            var offset: Int
-
-            if (caret != null) {
-
-                offset = caret.offset
-                if (offset == 0) {
-                    offset = document.textLength
-                }
-                val lastPackageKeywordLineEndIndex = try {
-                    "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.last
-                } catch (e: Exception) {
-                    -1
-                }
-                val lastImportKeywordLineEndIndex = try {
-                    "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.last
-                } catch (e: Exception) {
-                    -1
-                }
-                if (offset < lastPackageKeywordLineEndIndex) {
-                    offset = lastPackageKeywordLineEndIndex + 1
-                }
-                if (offset < lastImportKeywordLineEndIndex) {
-                    offset = lastImportKeywordLineEndIndex + 1
-                }
-
-            } else {
-                offset = document.textLength
-            }
             document.insertString(
-                    max(offset, 0),
-                    ClassCodeFilter.removeDuplicateClassCode(generateClassesString)
+                max(offset, 0),
+                ClassCodeFilter.removeDuplicateClassCode(generateClassesString)
             )
         }
         return true
+    }
+
+    private fun insertJsonExample(
+        project: Project?,
+        document: Document,
+        jsonString: String,
+        offset: Int
+    ) {
+        val jsonExample = wrapJsonIntoJavaDoc(jsonString)
+        executeCouldRollBackAction(project) {
+            document.insertString(
+                max(offset, 0),
+                jsonExample
+            )
+        }
+    }
+
+    private fun wrapJsonIntoJavaDoc(jsonString: String): String {
+        return "/**\n" +
+            "$jsonString\n" +
+            "*/\n"
+    }
+
+    private fun calculateOffset(caret: Caret?, document: Document): Int {
+        var offset: Int
+        if (caret != null) {
+
+            offset = caret.offset
+            if (offset == 0) {
+                offset = document.textLength
+            }
+            val lastPackageKeywordLineEndIndex = try {
+                "^[\\s]*package\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.last
+            } catch (e: Exception) {
+                -1
+            }
+            val lastImportKeywordLineEndIndex = try {
+                "^[\\s]*import\\s.+\n$".toRegex(RegexOption.MULTILINE).findAll(document.text).last().range.last
+            } catch (e: Exception) {
+                -1
+            }
+            if (offset < lastPackageKeywordLineEndIndex) {
+                offset = lastPackageKeywordLineEndIndex + 1
+            }
+            if (offset < lastImportKeywordLineEndIndex) {
+                offset = lastImportKeywordLineEndIndex + 1
+            }
+
+        } else {
+            offset = document.textLength
+        }
+
+        return offset
     }
 
     private fun cleanCurrentEditFile(document: Document, editorText: String = document.text) {

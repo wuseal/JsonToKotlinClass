@@ -21,6 +21,9 @@ interface IConfigManager {
     private val IS_COMMENT_OFF: String
         get() = "need_comment_key"
 
+    private val IS_APPEND_ORIGINAL_JSON: String
+        get() = "is_append_original_json"
+
     private val IS_ORDER_BY_ALPHABETICAL: String
         get() = "is_order_by_alphabetical"
 
@@ -60,6 +63,16 @@ interface IConfigManager {
             PropertiesComponent.getInstance().setValue(IS_PROPERTIES_VAR_KEY, value)
         }
 
+    var isAppendOriginalJson: Boolean
+        get() = if (isTestModel) TestConfig.isAppendOriginalJson else PropertiesComponent.getInstance().getBoolean(
+            IS_APPEND_ORIGINAL_JSON,
+            false
+        )
+        set(value) = if (isTestModel) {
+            TestConfig.isAppendOriginalJson = value
+        } else {
+            PropertiesComponent.getInstance().setValue(IS_APPEND_ORIGINAL_JSON, value)
+        }
 
     var isCommentOff: Boolean
         get() = if (isTestModel) TestConfig.isCommentOff else PropertiesComponent.getInstance().getBoolean(
