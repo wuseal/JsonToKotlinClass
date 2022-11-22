@@ -95,7 +95,8 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
                 dataClassAfterApplyInterceptor,
                 project,
                 psiFileFactory,
-                directory
+                directory,
+                json
             )
         } else {
             KotlinClassFileGenerator().generateMultipleKotlinClassFiles(
@@ -104,7 +105,8 @@ class GenerateKotlinFileAction : AnAction("Kotlin data class File from JSON") {
                 project,
                 psiFileFactory,
                 directory,
-                json.isJSONSchema()
+                json.isJSONSchema(),
+                json
             )
         }
     }

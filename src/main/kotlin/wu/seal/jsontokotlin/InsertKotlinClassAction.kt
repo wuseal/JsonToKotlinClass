@@ -154,19 +154,13 @@ class InsertKotlinClassAction : AnAction("Kotlin data classes from JSON") {
         jsonString: String,
         offset: Int
     ) {
-        val jsonExample = wrapJsonIntoJavaDoc(jsonString)
+        val jsonExample = jsonString.toJavaDocMultilineComment()
         executeCouldRollBackAction(project) {
             document.insertString(
                 max(offset, 0),
                 jsonExample
             )
         }
-    }
-
-    private fun wrapJsonIntoJavaDoc(jsonString: String): String {
-        return "/**\n" +
-            "$jsonString\n" +
-            "*/\n"
     }
 
     private fun calculateOffset(caret: Caret?, document: Document): Int {

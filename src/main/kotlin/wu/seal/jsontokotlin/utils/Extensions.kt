@@ -230,14 +230,22 @@ fun JsonPrimitive.toKotlinClass(): KotlinClass {
 /**
  * convert string into annotation comments format,TODO need automatic line wrapping
  */
-fun String.toAnnotationComments() = this.toAnnotationComments("")
-
-fun String.toAnnotationComments(indent: String): String {
+fun String.toAnnotationComments(indent: String = ""): String {
     return if (this.isBlank()) "" else {
         StringBuffer().append("$indent/**\n")
             .append("$indent * $this\n")
             .append("$indent */\n")
             .toString()
+    }
+}
+
+fun String.toJavaDocMultilineComment(): String {
+    return if (this.isBlank()) {
+        ""
+    } else {
+        "/**\n" +
+            "$this\n" +
+            "*/\n"
     }
 }
 
