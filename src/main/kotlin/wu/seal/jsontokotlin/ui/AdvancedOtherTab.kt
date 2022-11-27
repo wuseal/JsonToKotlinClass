@@ -15,6 +15,8 @@ class AdvancedOtherTab(isDoubleBuffered: Boolean) : JPanel(BorderLayout(), isDou
 
             alignLeftComponent {
 
+                jCheckBox("Append original JSON", ConfigManager.isAppendOriginalJson, { isSelected -> ConfigManager.isAppendOriginalJson = isSelected })
+
                 jCheckBox("Enable Comment", ConfigManager.isCommentOff.not(), { isSelected -> ConfigManager.isCommentOff = isSelected.not() })
 
                 jCheckBox("Enable Order By Alphabetical", ConfigManager.isOrderByAlphabetical, { isSelected -> ConfigManager.isOrderByAlphabetical = isSelected })

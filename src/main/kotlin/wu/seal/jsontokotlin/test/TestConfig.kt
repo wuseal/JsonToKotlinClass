@@ -18,6 +18,7 @@ object TestConfig {
      * If it is in test model
      */
     var isTestModel = false
+    var isAppendOriginalJson = false
     var isCommentOff = false
     var isOrderByAlphabetical = false
     var isPropertiesVar = false

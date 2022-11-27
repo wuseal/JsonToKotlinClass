@@ -5,6 +5,7 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiFileFactory
 import wu.seal.jsontokotlin.model.classscodestruct.KotlinClass
 import wu.seal.jsontokotlin.filetype.KotlinFileType
+import wu.seal.jsontokotlin.model.ConfigManager
 
 class KotlinClassFileGenerator {
 
@@ -13,7 +14,8 @@ class KotlinClassFileGenerator {
             kotlinClass: KotlinClass,
             project: Project?,
             psiFileFactory: PsiFileFactory,
-            directory: PsiDirectory
+            directory: PsiDirectory,
+            jsonString: String
     ) {
         val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
         var kotlinClassForGenerateFile = kotlinClass
@@ -27,7 +29,8 @@ class KotlinClassFileGenerator {
                 kotlinClassForGenerateFile.getCode(),
                 project,
                 psiFileFactory,
-                directory
+                directory,
+                jsonString
         )
         val notifyMessage = "Kotlin Data Class file generated successful"
         showNotify(notifyMessage, project)
@@ -39,7 +42,8 @@ class KotlinClassFileGenerator {
             project: Project?,
             psiFileFactory: PsiFileFactory,
             directory: PsiDirectory,
-            generatedFromJSONSchema: Boolean
+            generatedFromJSONSchema: Boolean,
+            jsonString: String
     ) {
         val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
         val existsKotlinFileNames = IgnoreCaseStringSet().also { it.addAll(fileNamesWithoutSuffix) }
@@ -53,7 +57,8 @@ class KotlinClassFileGenerator {
                     splitDataClass.getOnlyCurrentCode(),
                     project,
                     psiFileFactory,
-                    directory
+                    directory,
+                    jsonString
             )
         }
         val notifyMessage = buildString {
@@ -87,7 +92,8 @@ class KotlinClassFileGenerator {
             classCodeContent: String,
             project: Project?,
             psiFileFactory: PsiFileFactory,
-            directory: PsiDirectory
+            directory: PsiDirectory,
+            jsonString: String
     ) {
         val kotlinFileContent = buildString {
             if (packageDeclare.isNotEmpty()) {
@@ -98,6 +104,9 @@ class KotlinClassFileGenerator {
             if (importClassDeclaration.isNotBlank()) {
                 append(importClassDeclaration)
                 append("\n\n")
+            }
+            if (ConfigManager.isAppendOriginalJson) {
+                append(jsonString.toJavaDocMultilineComment())
             }
             append(classCodeContent)
         }
