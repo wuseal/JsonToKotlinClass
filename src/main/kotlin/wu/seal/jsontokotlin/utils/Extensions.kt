@@ -219,7 +219,7 @@ fun JsonPrimitive.toKotlinClass(): KotlinClass {
         isBoolean -> KotlinClass.BOOLEAN
         isNumber -> when {
             asString.contains(".") -> KotlinClass.DOUBLE
-            asLong > Integer.MAX_VALUE -> KotlinClass.LONG
+            asLong > Integer.MAX_VALUE || asLong < Integer.MIN_VALUE -> KotlinClass.LONG
             else -> KotlinClass.INT
         }
         isString -> KotlinClass.STRING
