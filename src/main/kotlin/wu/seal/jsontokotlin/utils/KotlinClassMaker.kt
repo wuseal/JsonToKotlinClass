@@ -18,7 +18,7 @@ class KotlinClassMaker(private val rootClassName: String, private val json: Stri
             DataClassGeneratorByJSONSchema(rootClassName, jsonSchema).generate()
         } else {
             when {
-                json.isJSONObject() -> DataClassGeneratorByJSONObject(rootClassName, Gson().fromJson(json, JsonObject::class.java)).generate()
+                json.isJSONObject() -> DataClassGeneratorByJSONObject(rootClassName, Gson().fromJson(json, JsonObject::class.java)).generate(isTop = true)
                 json.isJSONArray() -> ListClassGeneratorByJSONArray(rootClassName, json).generate()
                 else -> throw IllegalStateException("Can't generate Kotlin Data Class from a no JSON Object/JSON Object Array")
             }
