@@ -37,5 +37,6 @@ object ExtensionsCollector {
         NeedNonNullableClassesSupport,
         InternalModifierSupport,
         AddGsonExposeAnnotationSupport,
+        BaseClassSupport
     )
 }

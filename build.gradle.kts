@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
     testImplementation("com.winterbe:expekt:0.5.0") {
         exclude(group = "org.jetbrains.kotlin")
     }

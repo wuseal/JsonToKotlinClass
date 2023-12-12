@@ -14,7 +14,7 @@ import wu.seal.jsontokotlin.utils.*
  */
 class DataClassGeneratorByJSONObject(private val className: String, private val jsonObject: JsonObject) {
 
-    fun generate(): DataClass {
+    fun generate(isTop:Boolean=false): DataClass {
         if (maybeJsonObjectBeMapType(jsonObject) && ConfigManager.enableMapType) {
             throw IllegalArgumentException("Can't generate data class from a Map type JSONObjcet when enable Map Type : $jsonObject")
         }
@@ -102,7 +102,7 @@ class DataClassGeneratorByJSONObject(private val className: String, private val 
         }
 
         val propertiesAfterConsumeBackStageProperties = properties.consumeBackstageProperties()
-        return DataClass(name = className, properties = propertiesAfterConsumeBackStageProperties)
+        return DataClass(name = className, properties = propertiesAfterConsumeBackStageProperties, isTop = isTop)
     }
 
     private fun mapValueIsObjectType(mapValueType: String) = (mapValueType == MAP_DEFAULT_OBJECT_VALUE_TYPE

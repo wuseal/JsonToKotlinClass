@@ -15,6 +15,7 @@ data class DataClass(
     val fromJsonSchema: Boolean = false,
     val excludedProperties: List<String> = listOf(),
     val parentClass: KotlinClass? = null,
+    val isTop:Boolean=false,
     override val codeBuilder: IKotlinDataClassCodeBuilder = KotlinDataClassCodeBuilder
 ) : ModifiableKotlinClass, NoGenericKotlinClass {
 
