@@ -290,16 +290,16 @@ private fun List<KotlinClass>.distinctByPropertiesAndSimilarClassNameOneTime(): 
         }
         return replaceReferencedClasses(rule)
     }
-    //If class name the same with XXXX append or only diff with number, then treat them as the same class to do distinct
-    val distinctClassesWhenClassNameSimilar = distinctBy {
-        it.codeWithoutXAndNumberClassName()
-    }
+    //If class name the same with XXXX append or only diff with number, then group them in the same entry
     //obtain the class to replace other ref class, if the replace times is less then 2, then it means that no need to replace
     val targetClass = groupBy { it.codeWithoutXAndNumberClassName() }.maxByOrNull { it.value.size }
         ?.takeIf { it.value.size > 1 }?.value?.first() ?: return this
 
-    return distinctClassesWhenClassNameSimilar.map {
-        if (targetClass == it) return@map it
+    return mapNotNull {
+        if (targetClass == it) return@mapNotNull it
+        if (it.codeWithoutXAndNumberClassName() == targetClass.codeWithoutXAndNumberClassName()) {
+            return@mapNotNull null // removing the classes that we are replacing
+        }
         it.replaceClassRefRecursive {
             if (it.codeWithoutXAndNumberClassName() == targetClass.codeWithoutXAndNumberClassName()) {
                 targetClass
