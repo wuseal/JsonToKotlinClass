@@ -58,7 +58,7 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
     ): Property {
         val (jsonClassName, realDef) = getRealDefinition(jsonProp)
         val typeClass = resolveTypeClass(realDef.typeString, jsonClassName, realDef, propertyName)
-        val value = if (isRequired || !jsonProp.isTypeNullable) getDefaultValue(typeClass.name) else null
+        val value = if (isRequired || !realDef.isTypeNullable) getDefaultValue(typeClass.name) else null
         return Property(
             originName = propertyName,
             originJsonValue = value,
@@ -86,7 +86,10 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
                     propertyName,
                     false
                 )
-                GenericListClass(generic = innerProperty.typeObject)
+                GenericListClass(
+                    generic = innerProperty.typeObject,
+                    nullableElements = innerProperty.originJsonValue == null,
+                )
             }
             checkEnum && realDef.enum != null -> resolveEnumClass(realDef, simpleName)
             checkSealed && realDef.anyOf != null -> resolveSealedClass(realDef, simpleName)
