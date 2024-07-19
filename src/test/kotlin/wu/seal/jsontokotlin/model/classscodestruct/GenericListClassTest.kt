@@ -16,7 +16,7 @@ class GenericListClassTest {
 
     @Test
     fun replaceReferencedClasses() {
-        val genericListClass = GenericListClass(generic = KotlinClass.ANY)
+        val genericListClass = GenericListClass(generic = KotlinClass.ANY, nullableElements = false)
         val newGenericListClass = genericListClass.replaceReferencedClasses(mapOf(KotlinClass.BOOLEAN to KotlinClass.DOUBLE, KotlinClass.ANY to KotlinClass.BOOLEAN))
         newGenericListClass.generic.should.be.equal(KotlinClass.BOOLEAN)
     }

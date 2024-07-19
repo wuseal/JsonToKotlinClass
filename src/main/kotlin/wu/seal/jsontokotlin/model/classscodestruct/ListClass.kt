@@ -10,6 +10,7 @@ import wu.seal.jsontokotlin.model.builder.*
 data class ListClass(
     override val name: String,
     override val generic: KotlinClass,
+    val nullableElements: Boolean,
     override val referencedClasses: List<KotlinClass> = listOf(generic),
     override val modifiable: Boolean = true,
     override val codeBuilder: KotlinListClassCodeBuilder =  KotlinListClassCodeBuilder.DEFAULT

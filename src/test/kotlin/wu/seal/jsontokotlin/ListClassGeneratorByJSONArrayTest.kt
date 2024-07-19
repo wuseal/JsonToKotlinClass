@@ -22,17 +22,17 @@ class ListClassGeneratorByJSONArrayTest {
     @Test
     fun generateBaseListTypeTest() {
         ListClassGeneratorByJSONArray("TestList", "[]").generate()
-                .should.be.equal(ListClass("TestList", KotlinClass.ANY))
+                .should.be.equal(ListClass("TestList", KotlinClass.ANY, nullableElements = true))
         ListClassGeneratorByJSONArray("TestList", "[1]").generate()
-                .should.be.equal(ListClass("TestList", KotlinClass.INT))
+                .should.be.equal(ListClass("TestList", KotlinClass.INT, nullableElements = false))
         ListClassGeneratorByJSONArray("TestList", "[1.0]").generate()
-                .should.be.equal(ListClass("TestList", KotlinClass.DOUBLE))
+                .should.be.equal(ListClass("TestList", KotlinClass.DOUBLE, nullableElements = false))
         ListClassGeneratorByJSONArray("TestList", "[true]").generate()
-                .should.be.equal(ListClass("TestList", KotlinClass.BOOLEAN))
+                .should.be.equal(ListClass("TestList", KotlinClass.BOOLEAN, nullableElements = false))
         ListClassGeneratorByJSONArray("TestList", "[100000000000000]").generate()
-                .should.be.equal(ListClass("TestList", KotlinClass.LONG))
+                .should.be.equal(ListClass("TestList", KotlinClass.LONG, nullableElements = false))
         ListClassGeneratorByJSONArray("TestList", "[null]").generate()
-                .should.be.equal(ListClass("TestList", KotlinClass.ANY))
+                .should.be.equal(ListClass("TestList", KotlinClass.ANY, nullableElements = true))
     }
 
     @Test
@@ -40,12 +40,18 @@ class ListClassGeneratorByJSONArrayTest {
         val result = ListClassGeneratorByJSONArray("TestList", "[{p1:1}]").generate()
         val dataClassProperty = Property(name = "p1",originName = "p1",type = "Int",comment = "1",originJsonValue = "1",typeObject = KotlinClass.INT)
         val itemClass = DataClass(name = "TestListItem",properties = listOf(dataClassProperty))
-        result.should.be.equal(ListClass("TestList", itemClass))
+        result.should.be.equal(ListClass("TestList", itemClass, nullableElements = false))
     }
 
     @Test
     fun generateListClassWithListClass() {
         val result = ListClassGeneratorByJSONArray("TestList", "[[]]").generate()
-        result.should.be.equal(ListClass("TestList", ListClass("TestListSubList", KotlinClass.ANY)))
+        result.should.be.equal(
+            ListClass(
+                "TestList",
+                ListClass("TestListSubList", KotlinClass.ANY, nullableElements = true),
+                nullableElements = false
+            )
+        )
     }
 }

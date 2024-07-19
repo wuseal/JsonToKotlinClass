@@ -147,9 +147,9 @@ class DataClassMakerTest {
 
         val glossDefP2 = glossDefDataClass.properties[1]
         glossDefP2.name.should.be.equal("GlossSeeAlso")
-        glossDefP2.type.should.be.equal(GenericListClass(KotlinClass.STRING).name)
+        glossDefP2.type.should.be.equal(GenericListClass(KotlinClass.STRING, nullableElements = false).name)
         glossDefP2.originJsonValue.should.be.empty
-        glossDefP2.typeObject.should.be.equal(GenericListClass(KotlinClass.STRING))
+        glossDefP2.typeObject.should.be.equal(GenericListClass(KotlinClass.STRING, nullableElements = false))
 
     }
 
