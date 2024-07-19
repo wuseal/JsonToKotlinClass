@@ -111,6 +111,12 @@ fun isExpectedJsonObjArrayType(jsonElementArray: JsonArray): Boolean {
     return jsonElementArray.firstOrNull()?.isJsonObject ?: false
 }
 
+internal val random = Random(0)
+
+fun resetJsonToKotlinRandom() {
+    random.setSeed(0)
+}
+
 /**
  * when get the child type in an array
  * ,we need to make the property name be legal and then modify the property name to make it's type name looks like a child type.
@@ -128,6 +134,8 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
             val firstLatterAfterListIndex = innerProperty.lastIndexOf("List") + 4
             if (innerProperty.length > firstLatterAfterListIndex && innerProperty[firstLatterAfterListIndex] in 'A'..'Z') {
                 innerProperty = innerProperty.replaceFirst("List", "", false)
+            } else if (innerProperty == "List") {
+                innerProperty = "Item${random.nextInt(10)}"
             } else if (innerProperty.length == firstLatterAfterListIndex) {
                 innerProperty = innerProperty.substring(0, innerProperty.lastIndexOf("List"))
             }
@@ -135,7 +143,7 @@ fun adjustPropertyNameForGettingArrayChildType(property: String): String {
 
         innerProperty.contains("list") -> {
             if (innerProperty == "list") {
-                innerProperty = "Item${Date().time.toString().last()}"
+                innerProperty = "Item${random.nextInt()}"
             } else if (innerProperty.indexOf("list") == 0 && innerProperty.length >= 5) {
                 val end = innerProperty.substring(5)
                 val pre = (innerProperty[4] + "").toLowerCase()

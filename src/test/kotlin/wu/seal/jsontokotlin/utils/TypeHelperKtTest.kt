@@ -70,13 +70,18 @@ class TypeHelperKtTest {
 
     @Test
     fun adjustPropertyNameForGettingArrayChildTypeTest() {
-        adjustPropertyNameForGettingArrayChildType("").should.be.equal("X")
-        adjustPropertyNameForGettingArrayChildType("List").should.be.equal("")
-        adjustPropertyNameForGettingArrayChildType("arrayList").should.be.equal("Array")
-        adjustPropertyNameForGettingArrayChildType("Apples").should.be.equal("Apple")
-        adjustPropertyNameForGettingArrayChildType("Activities").should.be.equal("Activity")
-        adjustPropertyNameForGettingArrayChildType("Book_List").should.be.equal("Book")
-        adjustPropertyNameForGettingArrayChildType("show_list").should.be.equal("Show")
+        fun testArrayPropertyName(propertyName: String, expected: String) {
+            resetJsonToKotlinRandom()
+            adjustPropertyNameForGettingArrayChildType(propertyName).should.be.equal(expected)
+        }
+
+        testArrayPropertyName("", "X")
+        testArrayPropertyName("List", "Item0")
+        testArrayPropertyName("arrayList", "Array")
+        testArrayPropertyName("Apples", "Apple")
+        testArrayPropertyName("Activities", "Activity")
+        testArrayPropertyName("Book_List", "Book")
+        testArrayPropertyName("show_list", "Show")
     }
 
     @Test
