@@ -15,13 +15,13 @@ class ListClassTest {
 
     @Test
     fun getOnlyCurrentCode() {
-        val expected = "class ListTest : ArrayList<Any>()"
-        val listClass = ListClass("ListTest", KotlinClass.ANY)
+        val expected = "class ListTest : ArrayList<Any?>()"
+        val listClass = ListClass("ListTest", KotlinClass.ANY, nullableElements = true)
         listClass.getOnlyCurrentCode().should.equal(expected)
 
         val dataClassProperty = Property(name = "p1", originName = "p1", type = "String", typeObject = KotlinClass.STRING)
         val generic = DataClass(name = "Data", properties = listOf(dataClassProperty))
-        val listClass2 = ListClass("ListTest", generic)
+        val listClass2 = ListClass("ListTest", generic, nullableElements = false)
         val expected2 = """
             class ListTest : ArrayList<Data>()
         """.trimIndent()
@@ -30,7 +30,7 @@ class ListClassTest {
 
     @Test
     fun replaceReferencedClasses() {
-        var listClass = ListClass("ListTest", KotlinClass.ANY)
+        var listClass = ListClass("ListTest", KotlinClass.ANY, nullableElements = false)
         listClass = listClass.replaceReferencedClasses(mapOf(KotlinClass.ANY to KotlinClass.DOUBLE))
         listClass.generic.should.be.equal(KotlinClass.DOUBLE)
         listClass.referencedClasses.size.should.be.equal(1)
@@ -39,7 +39,7 @@ class ListClassTest {
 
     @Test
     fun rename() {
-        val listClass = ListClass("ListTest", KotlinClass.ANY)
+        val listClass = ListClass("ListTest", KotlinClass.ANY, nullableElements = false)
         val listClassNew = listClass.rename("ListTestNew")
         listClassNew.name.should.be.equal("ListTestNew")
     }
@@ -48,7 +48,7 @@ class ListClassTest {
     fun getCode() {
         val dataClassProperty = Property(name = "p1", originName = "p1", type = "String", typeObject = KotlinClass.STRING)
         val generic = DataClass(name = "Data", properties = listOf(dataClassProperty))
-        val listClass = ListClass("ListTest", generic)
+        val listClass = ListClass("ListTest", generic, nullableElements = false)
         val expected = """
             class ListTest : ArrayList<Data>(){
                 data class Data(
@@ -62,13 +62,13 @@ class ListClassTest {
 
     @Test
     fun getReferencedClasses() {
-        val listClass = ListClass("ListTest", KotlinClass.ANY)
+        val listClass = ListClass("ListTest", KotlinClass.ANY, nullableElements = false)
         listClass.referencedClasses.size.should.be.equal(1)
         listClass.referencedClasses[0].should.be.equal(KotlinClass.ANY)
 
         val dataClassProperty = Property(name = "p1", originName = "p1", type = "String", typeObject = KotlinClass.STRING)
         val generic = DataClass(name = "Data", properties = listOf(dataClassProperty))
-        val listClass2 = ListClass("ListTest", generic)
+        val listClass2 = ListClass("ListTest", generic, nullableElements = false)
         listClass2.referencedClasses.size.should.be.equal(1)
         listClass2.referencedClasses[0].should.be.equal(generic)
     }

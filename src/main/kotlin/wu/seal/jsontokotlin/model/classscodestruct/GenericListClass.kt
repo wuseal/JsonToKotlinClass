@@ -7,9 +7,9 @@ import wu.seal.jsontokotlin.utils.LogUtil
  * Created by Seal.Wu on 2019-11-23
  *  present a list class type like List<Any>
  */
-data class GenericListClass(override val generic: KotlinClass) : UnModifiableGenericClass() {
+data class GenericListClass(override val generic: KotlinClass, val nullableElements: Boolean) : UnModifiableGenericClass() {
     override val name: String
-        get() = "List<${generic.name}>"
+        get() = if (nullableElements) "List<${generic.name}?>" else "List<${generic.name}>"
 
     override val hasGeneric: Boolean = true
 
