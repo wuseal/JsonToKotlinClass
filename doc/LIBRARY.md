@@ -29,7 +29,7 @@ val actualOutput = JsonToKotlinBuilder()
     .enableComments(true) // optional, default : false
     .enableOrderByAlphabetic(true) // optional : default : false
     .enableInnerClassModel(true) // optional, default : false
-    .enabelMapType(true)// optional, default : false
+    .enableMapType(true)// optional, default : false
     .enableCreateAnnotationOnlyWhenNeeded(true) // optional, default : false
     .setIndent(4)// optional, default : 4
     .setParentClassTemplate("android.os.Parcelable") // optional, default : ""
