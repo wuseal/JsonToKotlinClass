@@ -1,6 +1,6 @@
 ![JsonToKotlinClass](https://raw.githubusercontent.com/wuseal/JsonToKotlinClass/master/doc/title.png)
 
-[![GitHub Workflow Status](https://github.com/wuseal/JsonToKotlinClass/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/wuseal/JsonToKotlinClass/actions/workflows/build.yml)
+[![GitHub Workflow Status](https://github.com/wuseal/JsonToKotlinClass/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/wuseal/JsonToKotlinClass/actions/workflows/main.yml)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
 [![JetBrains Plugin Download](https://img.shields.io/jetbrains/plugin/d/9960-json-to-kotlin-class-jsontokotlinclass-.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
