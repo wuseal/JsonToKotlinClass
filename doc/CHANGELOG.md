@@ -1,5 +1,21 @@
 # Change Log
 
+## [3.7.5] (2024-09-12)
+
+**Bugfix**
+
+- Fix \#431: Properties named "list" result in empty names of classes [\#432](https://github.com/wuseal/JsonToKotlinClass/pull/432) ([@ark-1](https://github.com/ark-1))
+- Support nullable array elements [\#429](https://github.com/wuseal/JsonToKotlinClass/issues/429)
+- Fix \#425: Similar classes get incorrectly deduplicated [\#433](https://github.com/wuseal/JsonToKotlinClass/pull/433) ([@ark-1](https://github.com/ark-1))
+- Fixed negative numbers could not be converted to Long [\#410](https://github.com/wuseal/JsonToKotlinClass/pull/410) ([@AppleSa](https://github.com/AppleSa))
+
+**Enhancement**
+
+- Feature: Base Class Support [\#419](https://github.com/wuseal/JsonToKotlinClass/pull/419) ([@AZKZero](https://github.com/AZKZero))
+- Release library version: 3.7.4 [\#402](https://github.com/wuseal/JsonToKotlinClass/pull/402) ([@wuseal](https://github.com/wuseal))
+- jcenter will be deprecated [\#350](https://github.com/wuseal/JsonToKotlinClass/issues/350)
+- Migrate jsontokotlin library from JCenter to MavenCentral [\#398](https://github.com/wuseal/JsonToKotlinClass/pull/398) ([@wuseal](https://github.com/wuseal))
+
 ## [3.7.4](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.4) (2022-05-22)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.3...3.7.4)
 

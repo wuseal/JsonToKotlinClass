@@ -1,6 +1,6 @@
 ![JsonToKotlinClass](https://raw.githubusercontent.com/wuseal/JsonToKotlinClass/master/doc/title.png)
 
-[![Build Status](https://travis-ci.com/wuseal/JsonToKotlinClass.svg?branch=master&status=started)](https://travis-ci.com/wuseal/JsonToKotlinClass)
+[![GitHub Workflow Status](https://github.com/wuseal/JsonToKotlinClass/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/wuseal/JsonToKotlinClass/actions/workflows/build.yml)
 [![GitHub release](https://img.shields.io/github/release/wuseal/JsonToKotlinClass.svg?style=flat)](https://github.com/wuseal/JsonToKotlinClass/releases)
 [![GitHub stars](https://img.shields.io/github/stars/wuseal/JsonToKotlinClass.svg?style=social&label=Stars&style=plastic)](https://github.com/wuseal/JsonToKotlinClass/stargazers)
 [![JetBrains Plugin Download](https://img.shields.io/jetbrains/plugin/d/9960-json-to-kotlin-class-jsontokotlinclass-.svg)](https://plugins.jetbrains.com/plugin/9960-jsontokotlinclass)
@@ -22,7 +22,7 @@ implementation 'com.sealwu.jsontokotlin:library:3.7.4'
 ### Overview
 
 This is a very cool tool for Kotlin developers, it can convert a JSON string to Kotlin `data class`. The tool could not only recognize the primitive types but also auto create complex types. It's easily accessible, we provide shortcut keymap `ALT + K` for Windows and `Option + K` for Mac, have a try and you'll fall in love with it! JsonToKotlinClass just makes programming more enjoyable, enjoy coding!
-[![image](https://user-images.githubusercontent.com/9211902/124459608-e1ff5b00-ddc0-11eb-959a-d7bce50d9233.png)](https://www.youtube.com/watch?v=s8jxvORbPHQ)
+[![image](https://user-images.githubusercontent.com/9211902/124459608-e1ff5b00-ddc0-11eb-959a-d7bce50d9233.png)](https://www.youtube.com/watch?v=lSBvHOIDAjc)
 
 ### Easy Use
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18032.png)
