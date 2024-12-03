@@ -1,6 +1,7 @@
 import org.hildan.github.changelog.builder.DEFAULT_TIMEZONE
 import org.hildan.github.changelog.builder.SectionDefinition
 import org.jetbrains.changelog.closure
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -11,7 +12,7 @@ buildscript {
 
 plugins {
     id("org.jetbrains.intellij") version "0.7.3"
-    kotlin("jvm") version "1.4.20"
+    kotlin("jvm") version "1.5.20"
     id("org.jetbrains.changelog") version "1.1.1"
     id("org.hildan.github.changelog") version "1.6.0"
 }
@@ -19,7 +20,7 @@ group = "wu.seal"
 version = System.getenv("TAG") ?: "Unreleased"
 
 intellij {
-    version = "2017.1"
+    version = "2020.1"
     pluginName = "JsonToKotlinClass"
 }
 tasks.patchPluginXml {
@@ -92,4 +93,12 @@ task("createGithubReleaseNotes") {
             .substringAfter("**").substringBefore("##").trim()
         githubReleaseNoteFile.writeText(content)
     }
+}
+tasks.withType(KotlinCompile::class.java).configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8" // Set the JVM target to match the bytecode you are inlining
+    }
+}
+tasks.buildSearchableOptions {
+    enabled = false
 }
