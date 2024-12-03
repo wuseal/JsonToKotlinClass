@@ -8,6 +8,8 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
+import com.intellij.openapi.editor.event.DocumentEvent
+import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.progress.util.DispatchThreadProgressWindow
@@ -140,10 +142,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
         val editorFactory = EditorFactory.getInstance()
         val document = editorFactory.createDocument("").apply {
             setReadOnly(false)
-            addDocumentListener(object : com.intellij.openapi.editor.event.DocumentListener {
-                override fun documentChanged(event: com.intellij.openapi.editor.event.DocumentEvent?) = revalidate()
-
-                override fun beforeDocumentChange(event: com.intellij.openapi.editor.event.DocumentEvent?) = Unit
+            addDocumentListener(object : DocumentListener {
+                override fun documentChanged(event: DocumentEvent) {
+                    super.documentChanged(event)
+                    revalidate()
+                }
             })
         }
 
