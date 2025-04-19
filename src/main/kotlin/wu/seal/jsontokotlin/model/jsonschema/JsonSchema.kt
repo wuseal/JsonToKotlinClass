@@ -6,9 +6,20 @@ import com.google.gson.annotations.SerializedName
 class JsonSchema(
     @SerializedName("\$schema")
     val schema: String? = null,
-    val definitions: Map<String, PropertyDef>
+    val definitions: Map<String, PropertyDef> = emptyMap(),
+    @SerializedName("\$defs")
+    val defs: Map<String, PropertyDef>? = null
 ) : JsonObjectDef() {
 
+  // Get a combined map of both definitions and $defs
+  // This allows backward compatibility with older schema versions
+  private val allDefinitions: Map<String, PropertyDef>
+    get() {
+      val combinedMap = definitions.toMutableMap()
+      defs?.let { combinedMap.putAll(it) }
+      return combinedMap
+    }
+  
   //See: https://json-schema.org/understanding-json-schema/structuring.html
   fun resolveDefinition(ref: String): PropertyDef {
     if (ref.length < 2) throw IllegalArgumentException("Bad ref: $ref")
@@ -16,9 +27,12 @@ class JsonSchema(
 
     val path = ref.split('/')
     return when {
-      path.count() == 1 -> definitions.values.firstOrNull { it.id == path[0] }
+      path.count() == 1 -> allDefinitions.values.firstOrNull { it.id == path[0] }
           ?: throw ClassNotFoundException("Definition $ref not found")
-      path[1] == "definitions" -> definitions[path[2]] ?: throw ClassNotFoundException("Definition $ref not found")
+      path[1] == "definitions" -> definitions[path[2]] 
+          ?: throw ClassNotFoundException("Definition $ref not found")
+      path[1] == "\$defs" -> defs?.get(path[2]) 
+          ?: throw ClassNotFoundException("Definition $ref not found")
       path[1] == "properties" -> {
         var property: PropertyDef = properties?.get(path[2])
             ?: throw ClassNotFoundException("Definition $ref not found")

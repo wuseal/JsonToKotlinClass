@@ -325,7 +325,7 @@ fun String.isJSONSchema(): Boolean {
     val jsonElement = Gson().fromJson(this, JsonElement::class.java)
     return if (jsonElement.isJsonObject) {
         with(jsonElement.asJsonObject) {
-            has("\$schema")
+            has("\$schema") || has("\$defs") || has("definitions")
         }
     } else {
         false
