@@ -19,7 +19,7 @@ class KotlinClassFileGenerator {
     ) {
         val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
         var kotlinClassForGenerateFile = kotlinClass
-        while (fileNamesWithoutSuffix.contains(kotlinClass.name)) {
+        while (fileNamesWithoutSuffix.contains(kotlinClassForGenerateFile.name)) {
             kotlinClassForGenerateFile =
                     kotlinClassForGenerateFile.rename(newName = kotlinClassForGenerateFile.name + "X")
         }
@@ -110,11 +110,21 @@ class KotlinClassFileGenerator {
             }
             append(classCodeContent)
         }
+        
+        var finalFileName = fileName.trim('`')
+        var ktFileName = "$finalFileName.kt"
+        
+        // Check if file already exists and rename it by adding 'X' suffix if needed
+        val fileNamesWithoutSuffix = currentDirExistsFileNamesWithoutKTSuffix(directory)
+        while (fileNamesWithoutSuffix.contains(finalFileName)) {
+            finalFileName += "X"
+            ktFileName = "$finalFileName.kt"
+        }
+        
+        // Create the file with the potentially modified name
         executeCouldRollBackAction(project) {
-            val file =
-                    psiFileFactory.createFileFromText("${fileName.trim('`')}.kt", KotlinFileType(), kotlinFileContent)
+            val file = psiFileFactory.createFileFromText(ktFileName, KotlinFileType(), kotlinFileContent)
             directory.add(file)
         }
     }
-
 }
