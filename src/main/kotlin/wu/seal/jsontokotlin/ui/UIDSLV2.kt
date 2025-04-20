@@ -309,7 +309,7 @@ fun Any.jGridLayout(rows: Int, columns: Int, init: JPanel.() -> Unit = {}): JPan
  * generate a icon component
  */
 fun Any.jIcon(iconPath: String, init: JLabel.() -> Unit = {}): JLabel {
-    val icon = IconLoader.getIcon(iconPath)
+    val icon = IconLoader.getIcon(iconPath, javaClass)
     return JBLabel(icon).also {
         it.init()
         checkAddView(this, it)

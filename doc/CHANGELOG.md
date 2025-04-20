@@ -1,6 +1,25 @@
 # Change Log
 
-## [3.7.5] (2024-09-12)
+## [Unreleased]
+
+## [3.7.7](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.7) (2025-04-19)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.6...3.7.7)
+
+**Bugfix**
+
+- Fix bug in file duplicate name handling logic [\#447](https://github.com/wuseal/JsonToKotlinClass/pull/447) ([@wuseal](https://github.com/wuseal))
+- Fix JSON Schema  reference resolution: kotlin.NotImplementedError: Cannot resolve ref path: \#/$defs/CreditTransferTransaction39 [\#446](https://github.com/wuseal/JsonToKotlinClass/pull/446) ([@wuseal](https://github.com/wuseal))
+- Plugin does not work on Android Studio Meerkat | 2024.3.1 Canary 1 [\#440](https://github.com/wuseal/JsonToKotlinClass/issues/440)
+
+## [3.7.6](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.6) (2024-12-03)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.5...3.7.6)
+
+**Bugfix**
+
+- \[fix\] runtime error exception when run in  IntelliJ IDEA 2024.3 and also Android Studio Meerkat [\#443](https://github.com/wuseal/JsonToKotlinClass/pull/443) ([@wuseal](https://github.com/wuseal))
+
+## [3.7.5](https://github.com/wuseal/JsonToKotlinClass/tree/3.7.5) (2024-08-31)
+[View commits](https://github.com/wuseal/JsonToKotlinClass/compare/3.7.4...3.7.5)
 
 **Bugfix**
 
@@ -261,4 +280,3 @@
 
 ## [V3.0.0](https://github.com/wuseal/JsonToKotlinClass/tree/V3.0.0) (2019-01-18)
 [View commits](https://github.com/wuseal/JsonToKotlinClass/compare/V3.0-EAP-2...V3.0.0)
-
