@@ -57,13 +57,12 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
     }
 
     override fun createNorthPanel(): JComponent? {
-
         return jHorizontalLinearLayout {
             jIcon("/icons/icon_json_input_dialog.png")
             fixedSpace(5)
             jVerticalLinearLayout {
                 alignLeftComponent {
-                    jLabel(myMessage, 12f)
+                    jLabel(myMessage ?: "Please input the JSON String and class name to generate Kotlin data class", 12f)
                 }
                 jHorizontalLinearLayout {
                     jLabel("JSON Text: ", 14f)
@@ -194,9 +193,11 @@ class JsonInputDialog(classsName: String, private val project: Project) : Messag
             p.isIndeterminate = true
             p.setRunnable {
                 try {
-                    val urlContent = URL(url).readText()
-                    runWriteAction {
-                        jsonContentEditor.document.setText(urlContent.replace("\r\n", "\n"))
+                    if (url != null) {
+                        val urlContent = URL(url).readText()
+                        runWriteAction {
+                            jsonContentEditor.document.setText(urlContent.replace("\r\n", "\n"))
+                        }
                     }
                 } finally {
                     p.stop()

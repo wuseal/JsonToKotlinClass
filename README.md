@@ -22,7 +22,7 @@ implementation 'com.sealwu.jsontokotlin:library:3.7.4'
 ### Overview
 
 This is a very cool tool for Kotlin developers, it can convert a JSON string to Kotlin `data class`. The tool could not only recognize the primitive types but also auto create complex types. It's easily accessible, we provide shortcut keymap `ALT + K` for Windows and `Option + K` for Mac, have a try and you'll fall in love with it! JsonToKotlinClass just makes programming more enjoyable, enjoy coding!
-[![image](https://user-images.githubusercontent.com/9211902/124459608-e1ff5b00-ddc0-11eb-959a-d7bce50d9233.png)](https://www.youtube.com/watch?v=lSBvHOIDAjc)
+[![image](https://user-images.githubusercontent.com/9211902/124459608-e1ff5b00-ddc0-11eb-959a-d7bce50d9233.png)](https://www.youtube.com/watch?v=1Qmo-CY_OdE&t=68s)
 
 ### Easy Use
 ![alt text](https://plugins.jetbrains.com/files/9960/screenshot_18032.png)
