@@ -1,6 +1,6 @@
 package wu.seal.jsontokotlin.utils.classgenerator
 
-import wu.seal.jsontokotlin.JSON_SCHEMA_FORMAT_MAPPINGS
+import wu.seal.jsontokotlin.model.ConfigManager
 import wu.seal.jsontokotlin.model.classscodestruct.*
 import wu.seal.jsontokotlin.model.codeelements.getDefaultValue
 import wu.seal.jsontokotlin.model.jsonschema.JsonObjectDef
@@ -97,9 +97,9 @@ class DataClassGeneratorByJSONSchema(private val rootClassName: String, private 
                 realDef,
                 simpleName
             )
-            JSON_SCHEMA_FORMAT_MAPPINGS.containsKey(realDef.format) -> {
+            ConfigManager.JSON_SCHEMA_FORMAT_MAPPINGS.containsKey(realDef.format) -> {
                 object : UnModifiableNoGenericClass() {
-                    override val name: String = JSON_SCHEMA_FORMAT_MAPPINGS[realDef.format]!!
+                    override val name: String = ConfigManager.JSON_SCHEMA_FORMAT_MAPPINGS[realDef.format]!!
                 }
             }
             else -> when (realDefJsonType) {
