@@ -2,12 +2,25 @@ package wu.seal.jsontokotlin.model
 
 import com.intellij.ide.util.PropertiesComponent
 import wu.seal.jsontokotlin.test.TestConfig
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.OffsetDateTime
 
 /**
  * Config Manager
  * Created by Seal.Wu on 2018/2/7.
  */
 object ConfigManager : IConfigManager {
+
+    //https://json-schema.org/understanding-json-schema/reference/string.html#format
+    val JSON_SCHEMA_FORMAT_MAPPINGS = mapOf(
+        "date-time" to OffsetDateTime::class.java.canonicalName,
+        "date" to LocalDate::class.java.canonicalName,
+        "time" to LocalTime::class.java.canonicalName,
+        "decimal" to BigDecimal::class.java.canonicalName
+        //here can be another formats
+    )
 
     private const val INDENT_KEY = "json-to-kotlin-class-indent-space-number"
     private const val ENABLE_MAP_TYP_KEY = "json-to-kotlin-class-enable-map-type"
